@@ -9,4 +9,7 @@ public class Student {
     private String binhtest;
     private String hung;
     private String ha;
+    public static void main(String[] args) {
+        System.out.println("hello");
+    }
 }
