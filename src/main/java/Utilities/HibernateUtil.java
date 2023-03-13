@@ -1,4 +1,4 @@
-package utility;
+package Utilities;
 
 import java.util.Properties;
 import org.hibernate.SessionFactory;
