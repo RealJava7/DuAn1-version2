@@ -17,9 +17,9 @@ public class HibernateUtil {
         Properties properties = new Properties();
         properties.put(Environment.DIALECT, "org.hibernate.dialect.SQLServerDialect");
         properties.put(Environment.DRIVER, "com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        properties.put(Environment.URL, "jdbc:sqlserver://localhost:1433;databaseName=FINALASS_FPOLYSHOP_FA22_SOF205__SOF2041");
-        properties.put(Environment.USER, "test");
-        properties.put(Environment.PASS, "qwer");
+        properties.put(Environment.URL, "jdbc:sqlserver://localhost:1433;databaseName=SOF2041");
+        properties.put(Environment.USER, "sa");
+        properties.put(Environment.PASS, "123123123");
 
         conf.setProperties(properties);
 //        conf.addAnnotatedClass(ChucVu.class);
@@ -33,5 +33,7 @@ public class HibernateUtil {
     public static SessionFactory getFACTORY() {
         return FACTORY;
     }
-
+    public static void main(String[] args) {
+        System.out.println(getFACTORY());
+    }
 }
