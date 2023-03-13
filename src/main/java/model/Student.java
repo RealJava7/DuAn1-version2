@@ -8,4 +8,5 @@ public class Student {
     private String test1;
     private String binhtest;
     private String hung;
+    private String ha;
 }
