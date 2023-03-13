@@ -6,9 +6,11 @@ public class Student {
     private String alo;
     private String test;
     private String test1;
-    private String binhtest;
+
     private String hung;
     private String ha;
+    private String binh;
+
     public static void main(String[] args) {
         System.out.println("hello cac ban tre");
     }

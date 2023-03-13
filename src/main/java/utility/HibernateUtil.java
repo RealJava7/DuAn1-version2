@@ -8,7 +8,7 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
 public class HibernateUtil {
-    
+
     private static final SessionFactory FACTORY;
 
     static {
@@ -18,8 +18,8 @@ public class HibernateUtil {
         properties.put(Environment.DIALECT, "org.hibernate.dialect.SQLServerDialect");
         properties.put(Environment.DRIVER, "com.microsoft.sqlserver.jdbc.SQLServerDriver");
         properties.put(Environment.URL, "jdbc:sqlserver://localhost:1433;databaseName=SOF2041");
-        properties.put(Environment.USER, "sa");
-        properties.put(Environment.PASS, "123123123");
+        properties.put(Environment.USER, "binh");
+        properties.put(Environment.PASS, "1");
 
         conf.setProperties(properties);
 //        conf.addAnnotatedClass(ChucVu.class);
@@ -33,6 +33,7 @@ public class HibernateUtil {
     public static SessionFactory getFACTORY() {
         return FACTORY;
     }
+
     public static void main(String[] args) {
         System.out.println(getFACTORY());
     }
