@@ -7,4 +7,5 @@ public class Student {
     private String test;
     private String test1;
     private String binhtest;
+    private String hung;
 }
