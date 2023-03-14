@@ -18,8 +18,8 @@ public class HibernateUtil {
         properties.put(Environment.DIALECT, "org.hibernate.dialect.SQLServerDialect");
         properties.put(Environment.DRIVER, "com.microsoft.sqlserver.jdbc.SQLServerDriver");
         properties.put(Environment.URL, "jdbc:sqlserver://localhost:1433;databaseName=SOF2041");
-        properties.put(Environment.USER, "binh");
-        properties.put(Environment.PASS, "1");
+        properties.put(Environment.USER, "sa");
+        properties.put(Environment.PASS, "Phieu2106");
 
         conf.setProperties(properties);
 //        conf.addAnnotatedClass(ChucVu.class);
