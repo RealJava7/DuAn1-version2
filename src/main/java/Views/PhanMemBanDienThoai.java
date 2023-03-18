@@ -239,18 +239,18 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
-                .addGap(44, 44, 44))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(64, 64, 64)
-                .addComponent(lblDangXuat)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(32, 32, 32))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblDangXuat)
+                .addGap(54, 54, 54))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,7 +274,7 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 953, Short.MAX_VALUE))
+                .addGap(0, 941, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -327,51 +327,51 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
     }//GEN-LAST:event_lblDangXuatMouseClicked
 
     private void lblSanPhamMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSanPhamMouseEntered
-        // TODO add your handling code here:
+        setColor(btnSanPham);
     }//GEN-LAST:event_lblSanPhamMouseEntered
 
     private void lblSanPhamMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSanPhamMouseExited
-        // TODO add your handling code here:
+        resetColor(btnSanPham);
     }//GEN-LAST:event_lblSanPhamMouseExited
 
     private void lblBanHangMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBanHangMouseEntered
-        // TODO add your handling code here:
+        setColor(btnBanHang);
     }//GEN-LAST:event_lblBanHangMouseEntered
 
     private void lblBanHangMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBanHangMouseExited
-        // TODO add your handling code here:
+        resetColor(btnBanHang);
     }//GEN-LAST:event_lblBanHangMouseExited
 
     private void lblHoaDonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHoaDonMouseEntered
-        // TODO add your handling code here:
+        setColor(btnHoaDon);
     }//GEN-LAST:event_lblHoaDonMouseEntered
 
     private void lblHoaDonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHoaDonMouseExited
-        // TODO add your handling code here:
+        resetColor(btnHoaDon);
     }//GEN-LAST:event_lblHoaDonMouseExited
 
     private void lblGiamGiaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGiamGiaMouseEntered
-        // TODO add your handling code here:
+        setColor(btnGiamGia);
     }//GEN-LAST:event_lblGiamGiaMouseEntered
 
     private void lblGiamGiaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGiamGiaMouseExited
-        // TODO add your handling code here:
+        resetColor(btnGiamGia);
     }//GEN-LAST:event_lblGiamGiaMouseExited
 
     private void lblBaoHanhMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBaoHanhMouseEntered
-        // TODO add your handling code here:
+        setColor(btnBaoHanh);
     }//GEN-LAST:event_lblBaoHanhMouseEntered
 
     private void lblBaoHanhMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBaoHanhMouseExited
-        // TODO add your handling code here:
+        resetColor(btnBaoHanh);
     }//GEN-LAST:event_lblBaoHanhMouseExited
 
     private void lblHeThongMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHeThongMouseEntered
-        // TODO add your handling code here:
+        setColor(btnHeThong);
     }//GEN-LAST:event_lblHeThongMouseEntered
 
     private void lblHeThongMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHeThongMouseExited
-        // TODO add your handling code here:
+        resetColor(btnHeThong);
     }//GEN-LAST:event_lblHeThongMouseExited
 
     /**
