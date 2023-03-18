@@ -4,7 +4,7 @@
  */
 package Application;
 
-import Views.Login;
+import Views.PhanMemBanDienThoai;
 
 /**
  *
@@ -13,6 +13,6 @@ import Views.Login;
 public class Main {
 
     public static void main(String[] args) {
-        new Login().setVisible(true);
+        new PhanMemBanDienThoai().setVisible(true);
     }
 }
