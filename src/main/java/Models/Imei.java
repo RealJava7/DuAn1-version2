@@ -1,13 +1,12 @@
 package Models;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,25 +14,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "HangDienThoai")
+@Table(name = "IMEI")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Hang {
+public class Imei {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
     
-    @Column(name = "Ma")
-    private String maHang;
+    @Column(name = "IMEI")
+    private String imei;
     
-    @Column(name = "Ten")
-    private String tenHang;
-    
-    @OneToMany(mappedBy = "hangDienThoai")
-    private List<DongSanPham> dongSanPhams = new ArrayList<>();
-    
+    @ManyToOne
+    @JoinColumn(name = "IdDienThoai")
+    private DienThoai dienThoai;
 }
