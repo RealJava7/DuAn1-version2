@@ -45,5 +45,5 @@ public class PhieuBaoHanhReponse {
     public void setIdChiTietPhieuBH(int idChiTietPhieuBH) {
         this.idChiTietPhieuBH = idChiTietPhieuBH;
     }
-
+    //test
 }
