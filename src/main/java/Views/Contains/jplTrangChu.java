@@ -89,7 +89,7 @@ public class jplTrangChu extends javax.swing.JPanel {
         jLabel6.setText("ĐƠN HÀNG MỚI");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(50, 160, 239));
+        jLabel7.setForeground(new java.awt.Color(50, 239, 148));
         jLabel7.setText("5");
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/sanpham.png"))); // NOI18N
@@ -130,7 +130,7 @@ public class jplTrangChu extends javax.swing.JPanel {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/baohanh.png"))); // NOI18N
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(50, 160, 239));
+        jLabel10.setForeground(new java.awt.Color(239, 220, 50));
         jLabel10.setText("0");
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -176,7 +176,7 @@ public class jplTrangChu extends javax.swing.JPanel {
         jLabel12.setText("ĐƠN HỦY");
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(50, 160, 239));
+        jLabel13.setForeground(new java.awt.Color(255, 102, 102));
         jLabel13.setText("0");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
