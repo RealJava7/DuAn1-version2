@@ -5,6 +5,7 @@ import Views.Contains.jplBaoHanh;
 import Views.Contains.jplGiamGia;
 import Views.Contains.jplHeThong;
 import Views.Contains.jplHoaDon;
+import Views.Contains.jplKhachHang;
 import Views.Contains.jplSanPham;
 import Views.Contains.jplTrangChu;
 import java.awt.Color;
@@ -468,18 +469,20 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
     }//GEN-LAST:event_lblHeThongMouseClicked
 
     private void lblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKhachHangMouseClicked
-        // TODO add your handling code here:
+        panel = new jplKhachHang();
+        setPanel(panel);
     }//GEN-LAST:event_lblKhachHangMouseClicked
 
     private void lblKhachHangMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKhachHangMouseEntered
-        // TODO add your handling code here:
+        setColor(btnKhachHang);
     }//GEN-LAST:event_lblKhachHangMouseEntered
 
     private void lblKhachHangMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKhachHangMouseExited
-        // TODO add your handling code here:
+        resetColor(btnKhachHang);
     }//GEN-LAST:event_lblKhachHangMouseExited
 
     public static void main(String args[]) {
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new PhanMemBanDienThoai().setVisible(true);
