@@ -9,6 +9,7 @@ import view.Contains.jplSanPham;
 import view.Contains.jplTrangChu;
 import java.awt.Color;
 import javax.swing.JPanel;
+import view.Contains.jplKhachHang;
 
 public class PhanMemBanDienThoai extends javax.swing.JFrame {
 
@@ -468,15 +469,16 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
     }//GEN-LAST:event_lblHeThongMouseClicked
 
     private void lblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKhachHangMouseClicked
-        // TODO add your handling code here:
+        panel = new jplKhachHang();
+        setPanel(panel);
     }//GEN-LAST:event_lblKhachHangMouseClicked
 
     private void lblKhachHangMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKhachHangMouseEntered
-        // TODO add your handling code here:
+        setColor(btnKhachHang);
     }//GEN-LAST:event_lblKhachHangMouseEntered
 
     private void lblKhachHangMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKhachHangMouseExited
-        // TODO add your handling code here:
+        resetColor(btnKhachHang);
     }//GEN-LAST:event_lblKhachHangMouseExited
 
     public static void main(String args[]) {
