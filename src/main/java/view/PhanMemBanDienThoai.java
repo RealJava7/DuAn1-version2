@@ -10,6 +10,7 @@ import view.Contains.jplTrangChu;
 import java.awt.Color;
 import javax.swing.JPanel;
 import view.Contains.jplKhachHang;
+import view.Contains.jplTraGop;
 
 public class PhanMemBanDienThoai extends javax.swing.JFrame {
 
@@ -42,6 +43,8 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         lblHoaDon = new javax.swing.JLabel();
         btnGiamGia = new javax.swing.JPanel();
         lblGiamGia = new javax.swing.JLabel();
+        btnTraGop = new javax.swing.JPanel();
+        lblTraGop = new javax.swing.JLabel();
         btnBaoHanh = new javax.swing.JPanel();
         lblBaoHanh = new javax.swing.JLabel();
         btnHeThong = new javax.swing.JPanel();
@@ -62,7 +65,7 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/logo.png"))); // NOI18N
 
         jPanel3.setBackground(new java.awt.Color(38, 68, 170));
-        jPanel3.setLayout(new java.awt.GridLayout(8, 1, 0, 10));
+        jPanel3.setLayout(new java.awt.GridLayout(9, 1, 0, 10));
 
         btnTrangChu.setBackground(new java.awt.Color(38, 68, 170));
         btnTrangChu.setLayout(new java.awt.GridLayout(1, 1));
@@ -207,6 +210,30 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         btnGiamGia.add(lblGiamGia);
 
         jPanel3.add(btnGiamGia);
+
+        btnTraGop.setBackground(new java.awt.Color(38, 68, 170));
+        btnTraGop.setLayout(new java.awt.GridLayout(1, 1));
+
+        lblTraGop.setBackground(new java.awt.Color(38, 68, 170));
+        lblTraGop.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblTraGop.setForeground(new java.awt.Color(255, 255, 255));
+        lblTraGop.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTraGop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-cash-in-hand-40.png"))); // NOI18N
+        lblTraGop.setText("TRẢ GÓP");
+        lblTraGop.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblTraGopMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblTraGopMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblTraGopMouseExited(evt);
+            }
+        });
+        btnTraGop.add(lblTraGop);
+
+        jPanel3.add(btnTraGop);
 
         btnBaoHanh.setBackground(new java.awt.Color(38, 68, 170));
         btnBaoHanh.setLayout(new java.awt.GridLayout(1, 1));
@@ -481,6 +508,19 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         resetColor(btnKhachHang);
     }//GEN-LAST:event_lblKhachHangMouseExited
 
+    private void lblTraGopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTraGopMouseClicked
+        panel = new jplTraGop();
+        setPanel(panel);
+    }//GEN-LAST:event_lblTraGopMouseClicked
+
+    private void lblTraGopMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTraGopMouseEntered
+        setColor(btnTraGop);
+    }//GEN-LAST:event_lblTraGopMouseEntered
+
+    private void lblTraGopMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTraGopMouseExited
+        resetColor(btnTraGop);
+    }//GEN-LAST:event_lblTraGopMouseExited
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -497,6 +537,7 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
     private javax.swing.JPanel btnHoaDon;
     private javax.swing.JPanel btnKhachHang;
     private javax.swing.JPanel btnSanPham;
+    private javax.swing.JPanel btnTraGop;
     private javax.swing.JPanel btnTrangChu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -513,6 +554,7 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
     private javax.swing.JLabel lblHoaDon;
     private javax.swing.JLabel lblKhachHang;
     private javax.swing.JLabel lblSanPham;
+    private javax.swing.JLabel lblTraGop;
     private javax.swing.JLabel lblTrangChu;
     // End of variables declaration//GEN-END:variables
 }

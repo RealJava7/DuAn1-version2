@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.table.JTableHeader;
+import view.Contains.cell.TableActionCellEditor;
+import view.Contains.cell.TableActionCellRender;
 
 public class jplKhachHang extends javax.swing.JPanel {
 
@@ -13,14 +15,21 @@ public class jplKhachHang extends javax.swing.JPanel {
         initComponents();
 
         JTableHeader Theader = tblKhachHang.getTableHeader();
-
+        JTableHeader TheaderXoa = tblKhachHangDaXoa.getTableHeader();
         Theader.setFont(new Font("tahoma", Font.BOLD, 15));
-
         Theader.setBackground(new Color(47, 85, 212));
         Theader.setForeground(Color.white);
+
+        TheaderXoa.setFont(new Font("tahoma", Font.BOLD, 15));
+        TheaderXoa.setBackground(new Color(47, 85, 212));
+        TheaderXoa.setForeground(Color.white);
         panel = new jplThemKhachHang();
         ThemKhachHang.add(panel);
         ThemKhachHang.updateUI();
+
+        // Thêm nút khôi phục
+        tblKhachHangDaXoa.getColumnModel().getColumn(9).setCellRenderer(new TableActionCellRender());
+        tblKhachHangDaXoa.getColumnModel().getColumn(9).setCellEditor(new TableActionCellEditor());
     }
 
     @SuppressWarnings("unchecked")
@@ -33,6 +42,8 @@ public class jplKhachHang extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblKhachHang = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblKhachHangDaXoa = new javax.swing.JTable();
         ThemKhachHang = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
@@ -112,15 +123,64 @@ public class jplKhachHang extends javax.swing.JPanel {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
+        tblKhachHangDaXoa.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "HỌ VÀ TÊN", "EMAIL", "SDT", "GIỚI TÍNH", "NGÀY SINH", "ĐỊA CHỈ", "THẺ TÍCH ĐIỂM", "TRẠNG THÁI", "KHÔI PHỤC"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblKhachHangDaXoa.setFocusable(false);
+        tblKhachHangDaXoa.setGridColor(new java.awt.Color(47, 85, 212));
+        tblKhachHangDaXoa.setRowHeight(25);
+        tblKhachHangDaXoa.setShowGrid(true);
+        jScrollPane2.setViewportView(tblKhachHangDaXoa);
+        if (tblKhachHangDaXoa.getColumnModel().getColumnCount() > 0) {
+            tblKhachHangDaXoa.getColumnModel().getColumn(0).setPreferredWidth(20);
+            tblKhachHangDaXoa.getColumnModel().getColumn(1).setPreferredWidth(50);
+            tblKhachHangDaXoa.getColumnModel().getColumn(2).setPreferredWidth(50);
+            tblKhachHangDaXoa.getColumnModel().getColumn(3).setPreferredWidth(40);
+            tblKhachHangDaXoa.getColumnModel().getColumn(4).setPreferredWidth(20);
+            tblKhachHangDaXoa.getColumnModel().getColumn(5).setPreferredWidth(40);
+            tblKhachHangDaXoa.getColumnModel().getColumn(6).setPreferredWidth(30);
+            tblKhachHangDaXoa.getColumnModel().getColumn(7).setPreferredWidth(30);
+            tblKhachHangDaXoa.getColumnModel().getColumn(8).setPreferredWidth(30);
+        }
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 723, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE)
+                .addGap(11, 11, 11))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 318, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("ĐÃ XÓA", jPanel2);
@@ -243,9 +303,11 @@ public class jplKhachHang extends javax.swing.JPanel {
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tblKhachHang;
+    private javax.swing.JTable tblKhachHangDaXoa;
     // End of variables declaration//GEN-END:variables
 }
