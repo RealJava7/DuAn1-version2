@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,26 +15,31 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "HoaDonChiTiet")
+@Table(name = "LichSuTraGop")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class HoaDonChiTiet {
-
+public class LichSuTraGop {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
-
+    
+    @Column(name = "MaLichSuTraGop")
+    private String ma;
+    
+    @Column(name = "NgayThanhToan")
+    private LocalDate ngayThanhToan;
+    
+    @Column(name = "TongTien")
+    private long tongTien;
+    
+    @Column(name = "GhiChu")
+    private String ghiChu;
+    
     @ManyToOne
-    @JoinColumn(name = "IdHoaDon")
-    private HoaDon hoaDon;
-
-    @ManyToOne
-    @JoinColumn(name = "IdImei")
-    private Imei imei;
-
-    @Column(name = "DonGia")
-    private long donGiaDT;
+    @JoinColumn(name = "IdPhieuTraGop")
+    private PhieuTraGop phieuTraGop;
 }
