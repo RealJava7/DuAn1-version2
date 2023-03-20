@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -83,11 +84,11 @@ public class DienThoai {
     @JoinColumn(name = "IdMauSac")
     private MauSac mauSac;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "IdCameraChiTiet")
     private CameraChiTiet cameraChiTiet;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "IdManHinhChiTiet")
     private ManHinhChiTiet manHinhChiTiet;
 
