@@ -1,7 +1,6 @@
 package repository;
 
 import model.NhanVien;
-import model.PhieuGiamGia;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
