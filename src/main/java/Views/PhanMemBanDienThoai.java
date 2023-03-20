@@ -1,16 +1,24 @@
 package Views;
 
+import Views.Contains.jplBanHang;
+import Views.Contains.jplBaoHanh;
+import Views.Contains.jplGiamGia;
+import Views.Contains.jplHeThong;
+import Views.Contains.jplHoaDon;
+import Views.Contains.jplSanPham;
 import Views.Contains.jplTrangChu;
 import java.awt.Color;
 import javax.swing.JPanel;
 
 public class PhanMemBanDienThoai extends javax.swing.JFrame {
 
-    private JPanel panel = new JPanel();
+    private JPanel panel;
 
     public PhanMemBanDienThoai() {
         initComponents();
         setLocationRelativeTo(null);
+        panel = new jplTrangChu();
+        setPanel(panel);
     }
 
     @SuppressWarnings("unchecked")
@@ -87,6 +95,9 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         lblSanPham.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/product.png"))); // NOI18N
         lblSanPham.setText("SẢN PHẨM");
         lblSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSanPhamMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblSanPhamMouseEntered(evt);
             }
@@ -108,6 +119,9 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         lblBanHang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/cart.png"))); // NOI18N
         lblBanHang.setText("BÁN HÀNG");
         lblBanHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblBanHangMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblBanHangMouseEntered(evt);
             }
@@ -129,6 +143,9 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         lblHoaDon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/HOADON.png"))); // NOI18N
         lblHoaDon.setText("HÓA ĐƠN");
         lblHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblHoaDonMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblHoaDonMouseEntered(evt);
             }
@@ -150,6 +167,9 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         lblGiamGia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-shopping-cart-promotion-40.png"))); // NOI18N
         lblGiamGia.setText("GIẢM GIÁ");
         lblGiamGia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblGiamGiaMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblGiamGiaMouseEntered(evt);
             }
@@ -171,6 +191,9 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         lblBaoHanh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-online-maintenance-portal-40.png"))); // NOI18N
         lblBaoHanh.setText("BẢO HÀNH");
         lblBaoHanh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblBaoHanhMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblBaoHanhMouseEntered(evt);
             }
@@ -192,6 +215,9 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         lblHeThong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-settings-40.png"))); // NOI18N
         lblHeThong.setText("HỆ THỐNG");
         lblHeThong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblHeThongMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lblHeThongMouseEntered(evt);
             }
@@ -264,17 +290,7 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
 
         jplContain.setBackground(new java.awt.Color(255, 255, 255));
         jplContain.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        javax.swing.GroupLayout jplContainLayout = new javax.swing.GroupLayout(jplContain);
-        jplContain.setLayout(jplContainLayout);
-        jplContainLayout.setHorizontalGroup(
-            jplContainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 931, Short.MAX_VALUE)
-        );
-        jplContainLayout.setVerticalGroup(
-            jplContainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        jplContain.setLayout(new javax.swing.BoxLayout(jplContain, javax.swing.BoxLayout.LINE_AXIS));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -283,7 +299,7 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jplContain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jplContain, javax.swing.GroupLayout.DEFAULT_SIZE, 958, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,6 +327,12 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
 
     private void resetColor(JPanel p) {
         p.setBackground(new Color(38, 68, 170));
+    }
+
+    private void setPanel(JPanel p) {
+        jplContain.removeAll();
+        jplContain.add(p);
+        jplContain.updateUI();
     }
     private void lblTrangChuMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTrangChuMouseExited
         resetColor(btnTrangChu);
@@ -386,9 +408,38 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
 
     private void lblTrangChuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTrangChuMouseClicked
         panel = new jplTrangChu();
-        jplContain.add(panel);
-        jplContain.updateUI();
+        setPanel(panel);
     }//GEN-LAST:event_lblTrangChuMouseClicked
+
+    private void lblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSanPhamMouseClicked
+        panel = new jplSanPham();
+        setPanel(panel);
+    }//GEN-LAST:event_lblSanPhamMouseClicked
+
+    private void lblBanHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBanHangMouseClicked
+        panel = new jplBanHang();
+        setPanel(panel);
+    }//GEN-LAST:event_lblBanHangMouseClicked
+
+    private void lblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHoaDonMouseClicked
+        panel = new jplHoaDon();
+        setPanel(panel);
+    }//GEN-LAST:event_lblHoaDonMouseClicked
+
+    private void lblGiamGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGiamGiaMouseClicked
+        panel = new jplGiamGia();
+        setPanel(panel);
+    }//GEN-LAST:event_lblGiamGiaMouseClicked
+
+    private void lblBaoHanhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBaoHanhMouseClicked
+        panel = new jplBaoHanh();
+        setPanel(panel);
+    }//GEN-LAST:event_lblBaoHanhMouseClicked
+
+    private void lblHeThongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHeThongMouseClicked
+        panel = new jplHeThong();
+        setPanel(panel);
+    }//GEN-LAST:event_lblHeThongMouseClicked
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
