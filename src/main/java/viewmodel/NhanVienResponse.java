@@ -24,5 +24,11 @@ public class NhanVienResponse {
     private String hinhAnh;
     private String taiKhoan;
     private String matKhau;
+
+    @Override
+    public String toString() {
+        return "NhanVienResponse{" + "id=" + id + ", hoTen=" + hoTen + ", gioiTinh=" + gioiTinh + ", sdt=" + sdt + ", ngaySinh=" + ngaySinh + ", diaChi=" + diaChi + ", email=" + email + ", chucVu=" + chucVu + ", trangThai=" + trangThai + ", hinhAnh=" + hinhAnh + ", taiKhoan=" + taiKhoan + ", matKhau=" + matKhau + '}';
+    }
+    
     
 }
