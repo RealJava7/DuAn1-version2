@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,7 +49,7 @@ public class KhachHang {
     @Column(name = "TrangThai")
     private boolean trangThai;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "IdTheTichDiem")
     private TheTichDiem theTichDiem;
 }

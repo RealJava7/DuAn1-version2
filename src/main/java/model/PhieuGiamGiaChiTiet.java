@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,10 +26,10 @@ public class PhieuGiamGiaChiTiet {
     private int id;
     
     @Column(name = "NgayBatDau")
-    private String ngayBatDau;
+    private LocalDate ngayBatDau;
     
     @Column(name = "NgayKetThuc")
-    private String ngayKetThuc;
+    private LocalDate ngayKetThuc;
     
     @Column(name = "LuotSuDung")
     private int luotSuDung;

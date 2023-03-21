@@ -11,6 +11,7 @@ import model.ManHinhChiTiet;
 import model.MauSac;
 import model.NhanVien;
 import model.PhieuGiamGia;
+import model.PhieuGiamGiaChiTiet;
 import model.TaiKhoan;
 import model.TheTichDiem;
 import org.hibernate.SessionFactory;
@@ -35,6 +36,7 @@ public class HibernateUtil {
 
         conf.setProperties(properties);
         conf.addAnnotatedClass(PhieuGiamGia.class);
+        conf.addAnnotatedClass(PhieuGiamGiaChiTiet.class);
         conf.addAnnotatedClass(DienThoai.class);
         conf.addAnnotatedClass(CameraChiTiet.class);
         conf.addAnnotatedClass(ManHinhChiTiet.class);
