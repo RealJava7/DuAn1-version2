@@ -58,26 +58,23 @@ public class KhachHangRepository {
     }
 
     // 3. get all
-//    public static List<KhachHangResponse> getAll() {
-//        List<KhachHangResponse> khachHangResponses = new ArrayList<>();
-//
-//        try {
-//            Session session = HibernateUtil.getFACTORY().openSession();
-//            Query query = session.createQuery("""
-//                                              SELECT new viewmodel.KhachHangResponse
-//                                              (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
-//                                              FROM KhachHang kh
-//                                              INNER JOIN kh.theTichDiem ttd
-//                                               """);
-//
-//            khachHangResponses = query.getResultList();
-//        } catch (HibernateException ex) {
-//            ex.printStackTrace(System.out);
-//        }
-//        return khachHangResponses;
-//    }
-    public static List<KhachHang> getAll() {
-        List<KhachHang> lists = new ArrayList<>();
+    public static List<KhachHangResponse> getAll() {
+        List<KhachHangResponse> khachHangResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.KhachHangResponse
+                                              (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
+                                              FROM KhachHang kh
+                                              INNER JOIN kh.theTichDiem ttd
+                                               """);
+
+            khachHangResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return khachHangResponses;
     }
 
     // 4. get by id
@@ -113,6 +110,7 @@ public class KhachHangRepository {
 //        khachHangResponse.setTrangThai(false);
 //
 //        System.out.println(update(khachHangResponse));
+
         // get all
         List<KhachHangResponse> khachHangResponses = getAll();
         khachHangResponses.forEach(kh -> System.out.println(kh.toString()));

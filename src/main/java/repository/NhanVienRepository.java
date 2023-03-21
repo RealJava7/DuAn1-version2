@@ -66,9 +66,9 @@ public class NhanVienRepository {
         boolean check = false;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
-            Transaction transaction = session.beginTransaction();           
-            NhanVien nhanVien = session.get(NhanVien.class, id);           
-            nhanVien.setTrangThai(false);          
+            Transaction transaction = session.beginTransaction();
+            NhanVien nhanVien = session.get(NhanVien.class, id);
+            nhanVien.setTrangThai(false);
             session.update(nhanVien);
             transaction.commit();
             check = true;
@@ -97,10 +97,10 @@ public class NhanVienRepository {
         }
         return nhanVienResponses;
     }
-    
+
     public List<NhanVienResponse> getAllLam() {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
-        
+
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
@@ -110,17 +110,17 @@ public class NhanVienRepository {
                                               INNER JOIN nv.taiKhoan tk
                                               WHERE nv.trangThai = true
                                                """);
-            
+
             nhanVienResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
         }
         return nhanVienResponses;
     }
-    
+
     public List<NhanVienResponse> getAllNghi() {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
-        
+
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
@@ -130,17 +130,17 @@ public class NhanVienRepository {
                                               INNER JOIN nv.taiKhoan tk
                                               WHERE nv.trangThai = false
                                                """);
-            
+
             nhanVienResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
         }
         return nhanVienResponses;
     }
-    
+
     public List<NhanVienResponse> findByName(String name) {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
-        
+
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
@@ -158,18 +158,16 @@ public class NhanVienRepository {
         return nhanVienResponses;
     }
 
-    
     // Test
     //public static void main(String[] args) {
-        // getAll
-        //List<NhanVienResponse> nhanVienResponses = getAll();
-        //nhanVienResponses.forEach(nv -> System.out.println(nv.toString()));
-        //List<NhanVienResponse> nhanVienResponses = findByName("m");
-        //for (NhanVienResponse nv : nhanVienResponses) {
-            //System.out.println("check nè: " + nv.toString());
-        //}
-
-        // update
+    // getAll
+    //List<NhanVienResponse> nhanVienResponses = getAll();
+    //nhanVienResponses.forEach(nv -> System.out.println(nv.toString()));
+    //List<NhanVienResponse> nhanVienResponses = findByName("m");
+    //for (NhanVienResponse nv : nhanVienResponses) {
+    //System.out.println("check nè: " + nv.toString());
+    //}
+    // update
 //        NhanVienResponse nhanVienResponse = new NhanVienResponse();
 //
 //        nhanVienResponse.setId(1);
@@ -188,8 +186,7 @@ public class NhanVienRepository {
 //
 //        System.out.println(update(nhanVienResponse));
 //        NhanVien nhanVien = new NhanVien();
-        
-            // add
+    // add
 //        nhanVien.setHoTen("Nguyễn Khắc Thịnh");
 //        nhanVien.setGioiTinh(true);
 //        nhanVien.setSdt("09120182312");
