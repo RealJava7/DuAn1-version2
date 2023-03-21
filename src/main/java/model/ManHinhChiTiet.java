@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import model.enums.LoaiManHinh;
 
 @Entity
 @Table(name = "ManHinhChiTiet")
@@ -34,6 +35,6 @@ public class ManHinhChiTiet {
     
     @Column(name = "LoaiManHinh")
     @Enumerated(EnumType.STRING)
-    private String loaiManHinh;
+    private LoaiManHinh loaiManHinh;
     
 }

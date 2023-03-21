@@ -1,6 +1,7 @@
 package repository;
 
 import model.NhanVien;
+import model.TaiKhoan;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -9,7 +10,7 @@ import utility.HibernateUtil;
 public class NhanVienRepository {
     
     // 1. add
-    public boolean add(NhanVien nhanVien) {
+    public boolean add(NhanVien nhanVien, TaiKhoan taiKhoan) {
         boolean check = false;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
