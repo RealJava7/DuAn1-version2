@@ -2,14 +2,23 @@ package view.Contains;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import service.QuanLyKhachHangService;
+import service.impl.QuanLyKhachHangServiceImpl;
 import view.Contains.cell.TableActionCellEditor;
 import view.Contains.cell.TableActionCellRender;
+import viewmodel.KhachHangResponse;
 
 public class jplKhachHang extends javax.swing.JPanel {
 
     private JPanel panel;
+    private List<KhachHangResponse> listKhachHang = new ArrayList<>();
+    private QuanLyKhachHangService service = new QuanLyKhachHangServiceImpl();
+    private DefaultTableModel dtm = new DefaultTableModel();
 
     public jplKhachHang() {
         initComponents();
@@ -44,6 +53,13 @@ public class jplKhachHang extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblKhachHangDaXoa = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         ThemKhachHang = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
@@ -185,6 +201,76 @@ public class jplKhachHang extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("ĐÃ XÓA", jPanel2);
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel3.setText("TÌM KIẾM THEO MÃ");
+
+        jTextField2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
+
+        jButton1.setBackground(new java.awt.Color(47, 85, 212));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-trash-20.png"))); // NOI18N
+        jButton1.setText("XÓA ");
+
+        jButton2.setBackground(new java.awt.Color(47, 85, 212));
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-pencil-20 WHITE.png"))); // NOI18N
+        jButton2.setText("SỬA");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID ", "MÃ THẺ", "NGÀY KÍCH HOẠT", "SỐ ĐIỂM", "TRẠNG  THÁI"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(335, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3)
+                        .addGap(40, 40, 40)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(39, 39, 39))))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(27, 27, 27)
+                        .addComponent(jButton2))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(179, 179, 179))
+        );
+
+        jTabbedPane1.addTab("QUẢN LÝ TÍCH ĐIỂM", jPanel3);
+
         ThemKhachHang.setBackground(new java.awt.Color(255, 255, 255));
         ThemKhachHang.setLayout(new javax.swing.BoxLayout(ThemKhachHang, javax.swing.BoxLayout.LINE_AXIS));
 
@@ -295,18 +381,25 @@ public class jplKhachHang extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ThemKhachHang;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JTable tblKhachHang;
     private javax.swing.JTable tblKhachHangDaXoa;
     // End of variables declaration//GEN-END:variables
