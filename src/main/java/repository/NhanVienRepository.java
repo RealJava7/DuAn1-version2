@@ -1,7 +1,6 @@
 package repository;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import model.NhanVien;
@@ -63,8 +62,24 @@ public class NhanVienRepository {
         return check;
     }
 
+    public boolean delete(int id) {
+        boolean check = false;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
+            NhanVien nhanVien = session.get(NhanVien.class, id);
+            nhanVien.setTrangThai(false);
+            session.update(nhanVien);
+            transaction.commit();
+            check = true;
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+        return check;
+    }
+
     // 3. get all
-    public static List<NhanVienResponse> getAll() {
+    public List<NhanVienResponse> getAll() {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
 
         try {
@@ -83,34 +98,96 @@ public class NhanVienRepository {
         return nhanVienResponses;
     }
 
+    public List<NhanVienResponse> getAllLam() {
+        List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.NhanVienResponse
+                                              (nv.id, nv.hoTen, nv.gioiTinh, nv.sdt, nv.ngaySinh, nv.diaChi, nv.email, nv.chucVu, nv.trangThai, nv.hinhAnh, tk.taiKhoan, tk.matKhau)
+                                              FROM NhanVien nv
+                                              INNER JOIN nv.taiKhoan tk
+                                              WHERE nv.trangThai = true
+                                               """);
+
+            nhanVienResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return nhanVienResponses;
+    }
+
+    public List<NhanVienResponse> getAllNghi() {
+        List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.NhanVienResponse
+                                              (nv.id, nv.hoTen, nv.gioiTinh, nv.sdt, nv.ngaySinh, nv.diaChi, nv.email, nv.chucVu, nv.trangThai, nv.hinhAnh, tk.taiKhoan, tk.matKhau)
+                                              FROM NhanVien nv
+                                              INNER JOIN nv.taiKhoan tk
+                                              WHERE nv.trangThai = false
+                                               """);
+
+            nhanVienResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return nhanVienResponses;
+    }
+
+    public List<NhanVienResponse> findByName(String name) {
+        List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.NhanVienResponse
+                                              (nv.id, nv.hoTen, nv.gioiTinh, nv.sdt, nv.ngaySinh, nv.diaChi, nv.email, nv.chucVu, nv.trangThai, nv.hinhAnh, tk.taiKhoan, tk.matKhau)
+                                              FROM NhanVien nv
+                                              INNER JOIN nv.taiKhoan tk
+                                              WHERE nv.hoTen like :hoTen
+                                               """);
+            query.setParameter("hoTen", "%" + name + "%");
+            nhanVienResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return nhanVienResponses;
+    }
+
     // Test
-    public static void main(String[] args) {
-        // getAll
-//        List<NhanVienResponse> nhanVienResponses = getAll();
-//        nhanVienResponses.forEach(nv -> System.out.println(nv.toString()));
-
-        // update
-        NhanVienResponse nhanVienResponse = new NhanVienResponse();
-
-        nhanVienResponse.setId(1);
-        nhanVienResponse.setHoTen("Nguyễn Khắc Thịnh");
-        nhanVienResponse.setGioiTinh(true);
-        nhanVienResponse.setSdt("0961271232");
-        nhanVienResponse.setNgaySinh(LocalDate.of(2004, 7, 22));
-        nhanVienResponse.setDiaChi("365 Nguyễn Chí Thanh");
-        nhanVienResponse.setEmail("thinh123@gmail.com");
-        nhanVienResponse.setChucVu(false);
-        nhanVienResponse.setTrangThai(true);
-        nhanVienResponse.setHinhAnh("xyz1.png");
-
-        nhanVienResponse.setTaiKhoan("thingnguyen1234");
-        nhanVienResponse.setMatKhau("231");
-
-        System.out.println(update(nhanVienResponse));
-
-        // add
+    //public static void main(String[] args) {
+    // getAll
+    //List<NhanVienResponse> nhanVienResponses = getAll();
+    //nhanVienResponses.forEach(nv -> System.out.println(nv.toString()));
+    //List<NhanVienResponse> nhanVienResponses = findByName("m");
+    //for (NhanVienResponse nv : nhanVienResponses) {
+    //System.out.println("check nè: " + nv.toString());
+    //}
+    // update
+//        NhanVienResponse nhanVienResponse = new NhanVienResponse();
+//
+//        nhanVienResponse.setId(1);
+//        nhanVienResponse.setHoTen("Nguyễn Khắc Thịnh");
+//        nhanVienResponse.setGioiTinh(true);
+//        nhanVienResponse.setSdt("091232829112");
+//        nhanVienResponse.setNgaySinh(LocalDate.now());
+//        nhanVienResponse.setDiaChi("265 Phạm Văn Đồng");
+//        nhanVienResponse.setEmail("thinh123@gmail.com");
+//        nhanVienResponse.setChucVu(false);
+//        nhanVienResponse.setTrangThai(true);
+//        nhanVienResponse.setHinhAnh("abc.png");
+//
+//        nhanVienResponse.setTaiKhoan("thingnguyen1234");
+//        nhanVienResponse.setMatKhau("1234");
+//
+//        System.out.println(update(nhanVienResponse));
 //        NhanVien nhanVien = new NhanVien();
-//        nhanVien.setHoTen("Nguyễn Thu Thảo");
+    // add
+//        nhanVien.setHoTen("Nguyễn Khắc Thịnh");
 //        nhanVien.setGioiTinh(true);
 //        nhanVien.setSdt("09120182312");
 //        nhanVien.setNgaySinh(LocalDate.of(2003, 2, 22));
@@ -127,5 +204,5 @@ public class NhanVienRepository {
 //        nhanVien.setTaiKhoan(taiKhoan);
 //
 //        System.out.println(add(nhanVien));
-    }
+    //}
 }
