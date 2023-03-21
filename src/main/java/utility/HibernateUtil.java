@@ -30,17 +30,10 @@ public class HibernateUtil {
         Properties properties = new Properties();
         properties.put(Environment.DIALECT, "org.hibernate.dialect.SQLServerDialect");
         properties.put(Environment.DRIVER, "com.microsoft.sqlserver.jdbc.SQLServerDriver");
-<<<<<<< HEAD
         properties.put(Environment.URL, "jdbc:sqlserver://localhost:1433;databaseName=duan1_Test");
         properties.put(Environment.USER, "sa");
-        properties.put(Environment.PASS, "2");
-=======
-        properties.put(Environment.URL, "jdbc:sqlserver://localhost:1433;databaseName=duan1_spring2023");
-//        properties.put(Environment.USER, "sa");
-//        properties.put(Environment.PASS, "1");
-        properties.put(Environment.USER, "test");
-        properties.put(Environment.PASS, "qwer");
->>>>>>> 1ea0896fa5e01702f3e9b74b0939ccaf8a622592
+        properties.put(Environment.PASS, "1");
+
 
         conf.setProperties(properties);
         conf.addAnnotatedClass(PhieuGiamGia.class);
