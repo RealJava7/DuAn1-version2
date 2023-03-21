@@ -458,7 +458,7 @@ public class jplGiamGia extends javax.swing.JPanel {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        new ThemVoucher(null, true).setVisible(true);
+        new ThemPhieuGiamGia(null, true).setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
