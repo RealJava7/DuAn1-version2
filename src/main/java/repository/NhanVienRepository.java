@@ -1,5 +1,7 @@
 package repository;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import model.NhanVien;
@@ -34,9 +36,9 @@ public class NhanVienRepository {
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Transaction transaction = session.beginTransaction();
-            
+
             NhanVien nhanVien = session.get(NhanVien.class, nhanVienResponse.getId());
-            
+
             nhanVien.setHoTen(nhanVienResponse.getHoTen());
             nhanVien.setGioiTinh(nhanVienResponse.isGioiTinh());
             nhanVien.setSdt(nhanVienResponse.getSdt());
@@ -46,12 +48,12 @@ public class NhanVienRepository {
             nhanVien.setChucVu(nhanVienResponse.isChucVu());
             nhanVien.setTrangThai(nhanVienResponse.isTrangThai());
             nhanVien.setHinhAnh(nhanVienResponse.getHinhAnh());
-            
+
             TaiKhoan taiKhoan = nhanVien.getTaiKhoan();
             taiKhoan.setTaiKhoan(nhanVienResponse.getTaiKhoan());
             taiKhoan.setMatKhau(nhanVienResponse.getMatKhau());
             nhanVien.setTaiKhoan(taiKhoan);
-            
+
             session.update(nhanVien);
             transaction.commit();
             check = true;
@@ -64,7 +66,7 @@ public class NhanVienRepository {
     // 3. get all
     public static List<NhanVienResponse> getAll() {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
-        
+
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
@@ -73,7 +75,7 @@ public class NhanVienRepository {
                                               FROM NhanVien nv
                                               INNER JOIN nv.taiKhoan tk
                                                """);
-            
+
             nhanVienResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
@@ -90,40 +92,40 @@ public class NhanVienRepository {
         // update
 //        NhanVienResponse nhanVienResponse = new NhanVienResponse();
 //
-//        nhanVienResponse.setId(1);
-//        nhanVienResponse.setHoTen("Nguyễn Khắc Thịnh");
+//        nhanVienResponse.setId(2);
+//        nhanVienResponse.setHoTen("Nguyễn Thu Thảo");
 //        nhanVienResponse.setGioiTinh(true);
-//        nhanVienResponse.setSdt("091232829112");
-//        nhanVienResponse.setNgaySinh(LocalDate.now());
-//        nhanVienResponse.setDiaChi("265 Phạm Văn Đồng");
-//        nhanVienResponse.setEmail("thinh123@gmail.com");
+//        nhanVienResponse.setSdt("0912018231223");
+//        nhanVienResponse.setNgaySinh(LocalDate.of(2003, 2, 22));
+//        nhanVienResponse.setDiaChi("365 Phạm Văn Đồng");
+//        nhanVienResponse.setEmail("thao321@gmail.com");
 //        nhanVienResponse.setChucVu(false);
 //        nhanVienResponse.setTrangThai(true);
-//        nhanVienResponse.setHinhAnh("abc.png");
+//        nhanVienResponse.setHinhAnh("xyz.png");
 //
-//        nhanVienResponse.setTaiKhoan("thingnguyen1234");
-//        nhanVienResponse.setMatKhau("1234");
+//        nhanVienResponse.setTaiKhoan("thao543");
+//        nhanVienResponse.setMatKhau("1233");
 //
 //        System.out.println(update(nhanVienResponse));
+
+        // add
 //        NhanVien nhanVien = new NhanVien();
-        
-            // add
-//        nhanVien.setHoTen("Nguyễn Khắc Thịnh");
+//        nhanVien.setHoTen("Nguyễn Thu Thảo");
 //        nhanVien.setGioiTinh(true);
-//        nhanVien.setSdt("091232829112");
-//        nhanVien.setNgaySinh(LocalDate.now());
-//        nhanVien.setDiaChi("262 Phạm Văn Đồng");
-//        nhanVien.setEmail("thinh12@gmail.com");
+//        nhanVien.setSdt("09120182312");
+//        nhanVien.setNgaySinh(LocalDate.of(2003, 2, 22));
+//        nhanVien.setDiaChi("466 abc");
+//        nhanVien.setEmail("thao123@gmail.com");
 //        nhanVien.setChucVu(true);
 //        nhanVien.setTrangThai(false);
 //        nhanVien.setHinhAnh("");
-//        
+//
 //        TaiKhoan taiKhoan = new TaiKhoan();
-//        taiKhoan.setTaiKhoan("thingnguyen123");
-//        taiKhoan.setMatKhau("12312092");
-//        
+//        taiKhoan.setTaiKhoan("thao543");
+//        taiKhoan.setMatKhau("123");
+//
 //        nhanVien.setTaiKhoan(taiKhoan);
-//        
+//
 //        System.out.println(add(nhanVien));
     }
 }
