@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import model.PhieuGiamGia;
 import model.PhieuGiamGiaChiTiet;
+import repository.PhieuGiamGiaRepository;
 import service.QuanLyPhieuGiamGiaService;
 import service.impl.QuanLyPhieuGiamGiaServiceImpl;
 
@@ -22,6 +23,7 @@ public class ThemPhieuGiamGia extends javax.swing.JDialog {
     public ThemPhieuGiamGia(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
         phieuGiamGiaChiTiet = new PhieuGiamGiaChiTiet();
         phieuGiamGia = new PhieuGiamGia();
         qs = new QuanLyPhieuGiamGiaServiceImpl();
@@ -255,6 +257,8 @@ public class ThemPhieuGiamGia extends javax.swing.JDialog {
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
+      dispose();
+      
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
@@ -271,7 +275,7 @@ public class ThemPhieuGiamGia extends javax.swing.JDialog {
         phieuGiamGia.setMaPhieu(txtMaVoucher.getText());
         phieuGiamGia.setTenPhieu(txtTenPhieu.getText());
         phieuGiamGia.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
-        System.out.println(qs.add(phieuGiamGia));
+        System.out.println(PhieuGiamGiaRepository.add(phieuGiamGia));
 
 
     }//GEN-LAST:event_btnXacNhanActionPerformed
