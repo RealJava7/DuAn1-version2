@@ -1,5 +1,9 @@
 package view.Contains;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
 public class jplHeThong extends javax.swing.JPanel {
 
     public jplHeThong() {
@@ -103,6 +107,11 @@ public class jplHeThong extends javax.swing.JPanel {
         lbAnh.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         btnSua.setText("Sửa");
 
@@ -430,6 +439,13 @@ public class jplHeThong extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        Date date1 = txtNgaySinh.getDate();
+        LocalDate ld1 = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                
+        System.out.println(ld1);
+    }//GEN-LAST:event_btnThemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLamMoi;

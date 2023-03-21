@@ -21,6 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import model.enums.HeDieuHanh;
 
 @Entity
 @Table(name = "DienThoai")
@@ -58,7 +59,7 @@ public class DienThoai {
 
     @Column(name = "HeDieuHanh")
     @Enumerated(EnumType.STRING)
-    private String heDieuHanh;
+    private HeDieuHanh heDieuHanh;
 
     @Column(name = "GiaNhap")
     private long giaNhap;
