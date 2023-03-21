@@ -80,22 +80,22 @@ public class KhachHangRepository {
     // 4. get by id
     public static void main(String[] args) {
         // add
-//        TheTichDiem theTichDiem = new TheTichDiem();
-//        theTichDiem.setMaThe("9892 0232 9719");
-//        theTichDiem.setNgayKichHoat(LocalDate.now());
-//        theTichDiem.setSoDiem(0);
-//        theTichDiem.setTrangThai(true);
-//
-//        KhachHang khachHang = new KhachHang();
-//        khachHang.setHoTen("Nguyễn Văn An");
-//        khachHang.setEmail("an8123@gmail.com");
-//        khachHang.setSdt("093467288");
-//        khachHang.setGioiTinh(true);
-//        khachHang.setNgaySinh(LocalDate.of(2000, 2, 7));
-//        khachHang.setDiaChi("77 Trần Nhân Tông");
-//        khachHang.setTheTichDiem(theTichDiem);
-//
-//        System.out.println(add(khachHang));
+        TheTichDiem theTichDiem = new TheTichDiem();
+        theTichDiem.setMaThe("9082 1109 2376");
+        theTichDiem.setNgayKichHoat(LocalDate.now());
+        theTichDiem.setSoDiem(0);
+        theTichDiem.setTrangThai(true);
+
+        KhachHang khachHang = new KhachHang();
+        khachHang.setHoTen("Nguyễn Đình Hiếu");
+        khachHang.setEmail("hieupham09@gmail.com");
+        khachHang.setSdt("0934129828");
+        khachHang.setGioiTinh(true);
+        khachHang.setNgaySinh(LocalDate.of(1998, 2, 7));
+        khachHang.setDiaChi("2 Trần Nhân Tông");
+        khachHang.setTheTichDiem(theTichDiem);
+
+        System.out.println(add(khachHang));
 
         // update
 //        KhachHangResponse khachHangResponse = new KhachHangResponse();
@@ -112,7 +112,7 @@ public class KhachHangRepository {
 //        System.out.println(update(khachHangResponse));
 
         // get all
-        List<KhachHangResponse> khachHangResponses = getAll();
-        khachHangResponses.forEach(kh -> System.out.println(kh.toString()));
+//        List<KhachHangResponse> khachHangResponses = getAll();
+//        khachHangResponses.forEach(kh -> System.out.println(kh.toString()));
     }
 }
