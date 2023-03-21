@@ -11,6 +11,7 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import view.Contains.jplKhachHang;
 import view.Contains.jplTraGop;
+import view.Contains.jplTraGop;
 
 public class PhanMemBanDienThoai extends javax.swing.JFrame {
 
