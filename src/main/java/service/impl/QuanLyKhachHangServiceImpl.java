@@ -12,7 +12,20 @@ public class QuanLyKhachHangServiceImpl implements QuanLyKhachHangService {
 
     @Override
     public List<KhachHangResponse> getAll() {
-        List<KhachHang> lists = repo.
+        return repo.getAll();
+    }
+
+    @Override
+    public String add(KhachHang kh) {
+        if (repo.add(kh) == true) {
+            return "Thêm thành công";
+        }
+        return "Thêm thất bại";
+    }
+
+    @Override
+    public String edit(KhachHang kh) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
