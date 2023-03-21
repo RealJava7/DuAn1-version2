@@ -1,18 +1,14 @@
 package repository;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
-import model.PhieuBaoHanh;
 import model.PhieuGiamGia;
 import model.PhieuGiamGiaChiTiet;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import utility.HibernateUtil;
-import viewmodel.NhanVienResponse;
 import viewmodel.PhieuGiamGiaResponse;
 
 public class PhieuGiamGiaRepository {

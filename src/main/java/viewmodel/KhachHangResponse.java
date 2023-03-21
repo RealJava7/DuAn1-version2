@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class KhachHangResponse {
 
-    private int id;
+    private int id; // id KhachHang
     private String hoTen;
     private String email;
     private String sdt;
@@ -20,6 +20,7 @@ public class KhachHangResponse {
     private LocalDate ngaySinh;
     private String diaChi;
     private boolean trangThai;
+    
     private String maThe;
     private LocalDate ngayKichHoat;
     private int soDiem;
