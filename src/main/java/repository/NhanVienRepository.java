@@ -86,27 +86,27 @@ public class NhanVienRepository {
     // Test
     public static void main(String[] args) {
         // getAll
-        List<NhanVienResponse> nhanVienResponses = getAll();
-        nhanVienResponses.forEach(nv -> System.out.println(nv.toString()));
+//        List<NhanVienResponse> nhanVienResponses = getAll();
+//        nhanVienResponses.forEach(nv -> System.out.println(nv.toString()));
 
         // update
-//        NhanVienResponse nhanVienResponse = new NhanVienResponse();
-//
-//        nhanVienResponse.setId(2);
-//        nhanVienResponse.setHoTen("Nguyễn Thu Thảo");
-//        nhanVienResponse.setGioiTinh(true);
-//        nhanVienResponse.setSdt("0912018231223");
-//        nhanVienResponse.setNgaySinh(LocalDate.of(2003, 2, 22));
-//        nhanVienResponse.setDiaChi("365 Phạm Văn Đồng");
-//        nhanVienResponse.setEmail("thao321@gmail.com");
-//        nhanVienResponse.setChucVu(false);
-//        nhanVienResponse.setTrangThai(true);
-//        nhanVienResponse.setHinhAnh("xyz.png");
-//
-//        nhanVienResponse.setTaiKhoan("thao543");
-//        nhanVienResponse.setMatKhau("1233");
-//
-//        System.out.println(update(nhanVienResponse));
+        NhanVienResponse nhanVienResponse = new NhanVienResponse();
+
+        nhanVienResponse.setId(1);
+        nhanVienResponse.setHoTen("Nguyễn Khắc Thịnh");
+        nhanVienResponse.setGioiTinh(true);
+        nhanVienResponse.setSdt("0961271232");
+        nhanVienResponse.setNgaySinh(LocalDate.of(2004, 7, 22));
+        nhanVienResponse.setDiaChi("365 Nguyễn Chí Thanh");
+        nhanVienResponse.setEmail("thinh123@gmail.com");
+        nhanVienResponse.setChucVu(false);
+        nhanVienResponse.setTrangThai(true);
+        nhanVienResponse.setHinhAnh("xyz1.png");
+
+        nhanVienResponse.setTaiKhoan("thingnguyen1234");
+        nhanVienResponse.setMatKhau("231");
+
+        System.out.println(update(nhanVienResponse));
 
         // add
 //        NhanVien nhanVien = new NhanVien();

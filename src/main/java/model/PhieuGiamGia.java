@@ -1,10 +1,13 @@
 package model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,27 +21,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PhieuGiamGia {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
-    
+
     @Column(name = "MaPhieu")
     private String maPhieu;
-    
-    @Column(name = "NgayBatDau")
-    private String ngayBatDau;
-    
-    @Column(name = "NgayKetThuc")
-    private String ngayKetThuc;
-    
-    @Column(name = "LuotSuDung")
-    private int luotSuDung;
-    
-    @Column(name = "DienKien")
-    private long dieuKien; // số tiền tối thiểu của hóa đơn để được giảm giá
-    
-    @Column(name = "GiaTri")
-    private float giaTri; // Ví dụ: 5% 4.5% 8 %
+
+    @Column(name = "TenPhieu")
+    private String tenPhieu;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "IdPhieuChiTiet")
+    private PhieuGiamGiaChiTiet phieuGiamGiaChiTiet;
 }
