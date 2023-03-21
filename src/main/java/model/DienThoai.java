@@ -93,6 +93,13 @@ public class DienThoai {
     @JoinColumn(name = "IdManHinhChiTiet")
     private ManHinhChiTiet manHinhChiTiet;
 
-    @OneToMany(mappedBy = "dienThoai")
+    @OneToMany(mappedBy = "dienThoai", cascade = CascadeType.ALL)
     private Set<Imei> imeis = new HashSet<>();
+    
+    private void addImei(Imei imei) {
+        if(imei != null) {
+            this.imeis.add(imei);
+        }
+        imei.setDienThoai(this);
+    }
 }
