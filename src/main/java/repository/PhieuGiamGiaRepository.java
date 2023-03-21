@@ -1,5 +1,6 @@
 package repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
@@ -64,7 +65,6 @@ public class PhieuGiamGiaRepository {
     // 3. get all
     public static List<PhieuGiamGiaResponse> getAll() {
         List<PhieuGiamGiaResponse> phieuGiamGiaResponses = new ArrayList<>();
-
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
@@ -73,7 +73,6 @@ public class PhieuGiamGiaRepository {
                                               FROM PhieuGiamGia pgg
                                               INNER JOIN pgg.phieuGiamGiaChiTiet pct
                                                """);
-
             phieuGiamGiaResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
@@ -97,7 +96,7 @@ public class PhieuGiamGiaRepository {
         phieuGiamGia.setMaPhieu("GG002");
         phieuGiamGia.setTenPhieu("ten phieu gg 2");
         phieuGiamGia.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
-        
+
         System.out.println(add(phieuGiamGia));
 
         // update

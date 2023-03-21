@@ -1,17 +1,32 @@
 package view.Contains;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import javax.swing.JOptionPane;
+import model.PhieuGiamGia;
+import model.PhieuGiamGiaChiTiet;
+import service.QuanLyPhieuGiamGiaService;
+import service.impl.QuanLyPhieuGiamGiaServiceImpl;
+
 /**
  *
  * @author DELL
  */
 public class ThemPhieuGiamGia extends javax.swing.JDialog {
 
-    /**
-     * Creates new form Test
-     */
+    PhieuGiamGiaChiTiet phieuGiamGiaChiTiet;
+    PhieuGiamGia phieuGiamGia;
+    QuanLyPhieuGiamGiaService qs;
+
+
     public ThemPhieuGiamGia(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        phieuGiamGiaChiTiet = new PhieuGiamGiaChiTiet();
+        phieuGiamGia = new PhieuGiamGia();
+        qs = new QuanLyPhieuGiamGiaServiceImpl();
+
+
     }
 
     /**
@@ -244,6 +259,21 @@ public class ThemPhieuGiamGia extends javax.swing.JDialog {
 
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
         // TODO add your handling code here:
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String batDau = sdf.format(txtNgayBatDau.getDate());
+        String ketThuc = sdf.format(txtNgayKetThuc.getDate());
+        phieuGiamGiaChiTiet.setNgayBatDau(LocalDate.parse(batDau));
+        phieuGiamGiaChiTiet.setNgayKetThuc(LocalDate.parse(ketThuc));
+        phieuGiamGiaChiTiet.setLuotSuDung(Integer.parseInt(txtLuotDung.toString()));
+        phieuGiamGiaChiTiet.setDieuKien(Long.parseLong(txtGiaTriToiThieu.getText()));
+        phieuGiamGiaChiTiet.setGiaTri(Float.valueOf(txtMucGiam.getText()));
+        phieuGiamGiaChiTiet.setTrangThai(1);
+        phieuGiamGia.setMaPhieu(txtMaVoucher.getText());
+        phieuGiamGia.setTenPhieu(txtTenPhieu.getText());
+        phieuGiamGia.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
+        System.out.println(qs.add(phieuGiamGia));
+
+
     }//GEN-LAST:event_btnXacNhanActionPerformed
 
     /**
