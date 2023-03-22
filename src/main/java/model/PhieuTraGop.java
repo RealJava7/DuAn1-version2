@@ -60,7 +60,7 @@ public class PhieuTraGop {
     @JoinColumn(name = "IdHoaDon")
     private HoaDon hoaDon;
 
-    @OneToMany(mappedBy = "phieuTraGop", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "phieuTraGop", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<LichSuTraGop> lichSuSet = new HashSet<>();
 
     public void addLichSuTraGop(LichSuTraGop lichSuTraGop) {
@@ -69,4 +69,10 @@ public class PhieuTraGop {
         }
         lichSuTraGop.setPhieuTraGop(this);
     }
+
+    @Override
+    public String toString() {
+        return "PhieuTraGop{" + "maPhieu=" + maPhieu + ", tongPhaiTra=" + tongPhaiTra + ", laiSuat=" + laiSuat + '}';
+    }
+    
 }
