@@ -1,4 +1,5 @@
 package view.Contains.phieuGiamGia;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
@@ -11,30 +12,38 @@ import repository.PhieuGiamGiaRepository;
 import service.QuanLyPhieuGiamGiaService;
 import service.impl.QuanLyPhieuGiamGiaServiceImpl;
 import viewmodel.PhieuGiamGiaResponse;
+
 public class SuaPhieuGiamGia extends javax.swing.JFrame {
-PhieuGiamGiaChiTiet phieuGiamGiaChiTiet;
+
+    PhieuGiamGiaChiTiet phieuGiamGiaChiTiet;
     PhieuGiamGia phieuGiamGia;
     QuanLyPhieuGiamGiaService qs;
+    PhieuGiamGiaResponse phieuGiamGiaResponse;
+    int id;
+
     public SuaPhieuGiamGia(PhieuGiamGiaResponse phieu) {
         initComponents();
-         setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
         phieuGiamGiaChiTiet = new PhieuGiamGiaChiTiet();
         phieuGiamGia = new PhieuGiamGia();
+        phieuGiamGiaResponse = new PhieuGiamGiaResponse();
         qs = new QuanLyPhieuGiamGiaServiceImpl();
         loadForm(phieu);
+        id = phieu.getId();
     }
 
     public void loadForm(PhieuGiamGiaResponse phieu) {
 
-       txtTenPhieu.setText(String.valueOf(phieu.getTenPhieu()));
+        txtTenPhieu.setText(String.valueOf(phieu.getTenPhieu()));
         txtMaVoucher.setText(String.valueOf(phieu.getMaPhieu()));
         txtNgayBatDau.setDate(Date.from(phieu.getNgayBatDau().atStartOfDay().toInstant(ZoneOffset.UTC)));
-      txtNgayKetThuc.setDate(Date.from(phieu.getNgayKetThuc().atStartOfDay().toInstant(ZoneOffset.UTC)));
+        txtNgayKetThuc.setDate(Date.from(phieu.getNgayKetThuc().atStartOfDay().toInstant(ZoneOffset.UTC)));
         txtMucGiam.setText(String.valueOf(phieu.getGiaTri()));
-       txtGiaTriToiThieu.setText(String.valueOf(phieu.getDieuKien()));
-       txtLuotDung.setText(String.valueOf(phieu.getLuotSuDung()));
+        txtGiaTriToiThieu.setText(String.valueOf(phieu.getDieuKien()));
+        txtLuotDung.setText(String.valueOf(phieu.getLuotSuDung()));
 
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -87,6 +96,10 @@ PhieuGiamGiaChiTiet phieuGiamGiaChiTiet;
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Ngày kết thúc:");
+
+        txtNgayBatDau.setDateFormatString("yyyy-MM-dd");
+
+        txtNgayKetThuc.setDateFormatString("yyyy-MM-dd");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Thiết lập mã giảm giá");
@@ -243,7 +256,7 @@ PhieuGiamGiaChiTiet phieuGiamGiaChiTiet;
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
-        
+        dispose();
 
     }//GEN-LAST:event_btnHuyActionPerformed
 
@@ -252,16 +265,22 @@ PhieuGiamGiaChiTiet phieuGiamGiaChiTiet;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String batDau = sdf.format(txtNgayBatDau.getDate());
         String ketThuc = sdf.format(txtNgayKetThuc.getDate());
-        phieuGiamGiaChiTiet.setNgayBatDau(LocalDate.parse(batDau));
-        phieuGiamGiaChiTiet.setNgayKetThuc(LocalDate.parse(ketThuc));
-        phieuGiamGiaChiTiet.setLuotSuDung(Integer.parseInt(txtLuotDung.toString()));
-        phieuGiamGiaChiTiet.setDieuKien(Long.parseLong(txtGiaTriToiThieu.getText()));
-        phieuGiamGiaChiTiet.setGiaTri(Float.valueOf(txtMucGiam.getText()));
-        phieuGiamGiaChiTiet.setTrangThai(1);
-        phieuGiamGia.setMaPhieu(txtMaVoucher.getText());
-        phieuGiamGia.setTenPhieu(txtTenPhieu.getText());
+        int luot = 0;
+        String luotDung = txtLuotDung.getText();
+        luot = Integer.parseInt(luotDung);
+        phieuGiamGiaChiTiet.setNgayBatDau(phieuGiamGiaResponse.getNgayBatDau());
+        phieuGiamGiaChiTiet.setNgayKetThuc(phieuGiamGiaResponse.getNgayKetThuc());
+        phieuGiamGiaChiTiet.setLuotSuDung(phieuGiamGiaResponse.getLuotSuDung());
+        phieuGiamGiaChiTiet.setDieuKien(phieuGiamGiaResponse.getDieuKien());
+        phieuGiamGiaChiTiet.setGiaTri(phieuGiamGiaResponse.getGiaTri());
+        phieuGiamGiaChiTiet.setTrangThai(phieuGiamGiaResponse.getTrangThai());
+        phieuGiamGia.setMaPhieu(phieuGiamGiaResponse.getMaPhieu());
+        phieuGiamGia.setTenPhieu(phieuGiamGiaResponse.getTenPhieu());
+        phieuGiamGia.setId(phieuGiamGiaResponse.getId());
         phieuGiamGia.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
-        System.out.println(PhieuGiamGiaRepository.add(phieuGiamGia));
+
+        JOptionPane.showMessageDialog(this, qs.update(phieuGiamGiaResponse));
+        dispose();
 
     }//GEN-LAST:event_btnXacNhanActionPerformed
 

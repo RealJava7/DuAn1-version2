@@ -87,6 +87,10 @@ public class ThemPhieuGiamGia extends javax.swing.JDialog {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Ngày kết thúc:");
 
+        txtNgayBatDau.setDateFormatString("yyyy-MM-dd");
+
+        txtNgayKetThuc.setDateFormatString("yyyy-MM-dd");
+
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Thiết lập mã giảm giá");
 
@@ -260,33 +264,24 @@ public class ThemPhieuGiamGia extends javax.swing.JDialog {
 
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
         // TODO add your handling code here:
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//        String batDau = sdf.format(txtNgayBatDau.getDate());
-//        String ketThuc = sdf.format(txtNgayKetThuc.getDate());
-        LocalDate ldbatdau = txtNgayBatDau.getDate().toInstant().atZone(ZoneId.systemDefault())
-                .toLocalDate();
-        LocalDate ketthuc = txtNgayKetThuc.getDate().toInstant().atZone(ZoneId.systemDefault())
-                .toLocalDate();
-
-//        phieuGiamGiaChiTiet.setNgayBatDau(ldbatdau);
-//        phieuGiamGiaChiTiet.setNgayKetThuc(ketthuc);
-//        phieuGiamGiaChiTiet.setLuotSuDung(Integer.parseInt(txtLuotDung.toString()));
-//        phieuGiamGiaChiTiet.setDieuKien(Long.parseLong(txtGiaTriToiThieu.getText()));
-//        phieuGiamGiaChiTiet.setGiaTri(Float.valueOf(txtMucGiam.getText()));
-//        phieuGiamGiaChiTiet.setTrangThai(1);
-        phieuGiamGiaChiTiet.setNgayBatDau(LocalDate.of(2023, 2, 10));
-        phieuGiamGiaChiTiet.setNgayKetThuc(LocalDate.of(2023, 4, 15));
-        phieuGiamGiaChiTiet.setLuotSuDung(25);
-        phieuGiamGiaChiTiet.setDieuKien(9_000_000L);
-        phieuGiamGiaChiTiet.setGiaTri(2.6f);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String batDau = sdf.format(txtNgayBatDau.getDate());
+        String ketThuc = sdf.format(txtNgayKetThuc.getDate());
+        int luot = 0;
+        String luotDung = txtLuotDung.getText();
+        luot = Integer.parseInt(luotDung);
+        phieuGiamGiaChiTiet.setNgayBatDau(LocalDate.parse(batDau));
+        phieuGiamGiaChiTiet.setNgayKetThuc(LocalDate.parse(ketThuc));
+        phieuGiamGiaChiTiet.setLuotSuDung(luot);
+        phieuGiamGiaChiTiet.setDieuKien(Long.parseLong(txtGiaTriToiThieu.getText()));
+        phieuGiamGiaChiTiet.setGiaTri(Float.valueOf(txtMucGiam.getText()));
         phieuGiamGiaChiTiet.setTrangThai(1);
         phieuGiamGia.setMaPhieu(txtMaVoucher.getText());
         phieuGiamGia.setTenPhieu(txtTenPhieu.getText());
         phieuGiamGia.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
 
-        System.out.println(PhieuGiamGiaRepository.add(phieuGiamGia));
-
-
+        JOptionPane.showMessageDialog(this, qs.add(phieuGiamGia));
+        dispose();
     }//GEN-LAST:event_btnXacNhanActionPerformed
 
     /**

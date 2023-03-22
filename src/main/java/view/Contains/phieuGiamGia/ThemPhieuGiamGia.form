@@ -236,8 +236,14 @@
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="txtNgayBatDau">
+          <Properties>
+            <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-dd"/>
+          </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="txtNgayKetThuc">
+          <Properties>
+            <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-dd"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
