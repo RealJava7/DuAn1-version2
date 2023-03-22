@@ -268,13 +268,18 @@ public class ThemPhieuGiamGia extends javax.swing.JDialog {
         LocalDate ketthuc = txtNgayKetThuc.getDate().toInstant().atZone(ZoneId.systemDefault())
                 .toLocalDate();
 
-        phieuGiamGiaChiTiet.setNgayBatDau(ldbatdau);
-        phieuGiamGiaChiTiet.setNgayKetThuc(ketthuc);
-        phieuGiamGiaChiTiet.setLuotSuDung(Integer.parseInt(txtLuotDung.toString()));
-        phieuGiamGiaChiTiet.setDieuKien(Long.parseLong(txtGiaTriToiThieu.getText()));
-        phieuGiamGiaChiTiet.setGiaTri(Float.valueOf(txtMucGiam.getText()));
+//        phieuGiamGiaChiTiet.setNgayBatDau(ldbatdau);
+//        phieuGiamGiaChiTiet.setNgayKetThuc(ketthuc);
+//        phieuGiamGiaChiTiet.setLuotSuDung(Integer.parseInt(txtLuotDung.toString()));
+//        phieuGiamGiaChiTiet.setDieuKien(Long.parseLong(txtGiaTriToiThieu.getText()));
+//        phieuGiamGiaChiTiet.setGiaTri(Float.valueOf(txtMucGiam.getText()));
+//        phieuGiamGiaChiTiet.setTrangThai(1);
+        phieuGiamGiaChiTiet.setNgayBatDau(LocalDate.of(2023, 2, 10));
+        phieuGiamGiaChiTiet.setNgayKetThuc(LocalDate.of(2023, 4, 15));
+        phieuGiamGiaChiTiet.setLuotSuDung(25);
+        phieuGiamGiaChiTiet.setDieuKien(9_000_000L);
+        phieuGiamGiaChiTiet.setGiaTri(2.6f);
         phieuGiamGiaChiTiet.setTrangThai(1);
-
         phieuGiamGia.setMaPhieu(txtMaVoucher.getText());
         phieuGiamGia.setTenPhieu(txtTenPhieu.getText());
         phieuGiamGia.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
