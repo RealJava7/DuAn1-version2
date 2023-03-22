@@ -61,7 +61,7 @@ public class jplKhachHang extends javax.swing.JPanel {
         txtEmail.setText(kh.getEmail());
         txtSdt.setText(kh.getSdt());
         String ld = kh.getNgaySinh().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        cldNgaySinh.setDateFormatString(ld);
+        JOptionPane.showMessageDialog(this, kh.getNgaySinh().getMonth());
         txtDiaChi.setText(kh.getDiaChi());
         txtMathe.setText(kh.getMaThe());
         if (kh.isTrangThai()) {
@@ -392,10 +392,12 @@ public class jplKhachHang extends javax.swing.JPanel {
         jLabel7.setText("GIỚI TÍNH:");
 
         cboNam.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(cboNam);
         cboNam.setSelected(true);
         cboNam.setText("NAM");
 
         cboNu.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(cboNu);
         cboNu.setText("NỮ");
 
         jLabel8.setText("NGÀY SINH:");
@@ -570,7 +572,6 @@ public class jplKhachHang extends javax.swing.JPanel {
 
         jRadioButton1.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setSelected(true);
         jRadioButton1.setText("TÊN");
 
         jRadioButton2.setBackground(new java.awt.Color(255, 255, 255));
@@ -654,7 +655,7 @@ public class jplKhachHang extends javax.swing.JPanel {
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ThemKhachHang, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                .addComponent(ThemKhachHang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
