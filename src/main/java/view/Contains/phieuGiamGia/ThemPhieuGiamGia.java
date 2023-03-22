@@ -2,6 +2,7 @@ package view.Contains.phieuGiamGia;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -22,7 +23,6 @@ public class ThemPhieuGiamGia extends javax.swing.JDialog {
     PhieuGiamGia phieuGiamGia;
     QuanLyPhieuGiamGiaService qs;
 
-
     public ThemPhieuGiamGia(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -31,8 +31,8 @@ public class ThemPhieuGiamGia extends javax.swing.JDialog {
         phieuGiamGia = new PhieuGiamGia();
         qs = new QuanLyPhieuGiamGiaServiceImpl();
 
+    }
 
-    } 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -254,24 +254,31 @@ public class ThemPhieuGiamGia extends javax.swing.JDialog {
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
-      dispose();
-      
+        dispose();
+
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
         // TODO add your handling code here:
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String batDau = sdf.format(txtNgayBatDau.getDate());
-        String ketThuc = sdf.format(txtNgayKetThuc.getDate());
-        phieuGiamGiaChiTiet.setNgayBatDau(LocalDate.parse(batDau));
-        phieuGiamGiaChiTiet.setNgayKetThuc(LocalDate.parse(ketThuc));
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        String batDau = sdf.format(txtNgayBatDau.getDate());
+//        String ketThuc = sdf.format(txtNgayKetThuc.getDate());
+        LocalDate ldbatdau = txtNgayBatDau.getDate().toInstant().atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        LocalDate ketthuc = txtNgayKetThuc.getDate().toInstant().atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+        phieuGiamGiaChiTiet.setNgayBatDau(ldbatdau);
+        phieuGiamGiaChiTiet.setNgayKetThuc(ketthuc);
         phieuGiamGiaChiTiet.setLuotSuDung(Integer.parseInt(txtLuotDung.toString()));
         phieuGiamGiaChiTiet.setDieuKien(Long.parseLong(txtGiaTriToiThieu.getText()));
         phieuGiamGiaChiTiet.setGiaTri(Float.valueOf(txtMucGiam.getText()));
         phieuGiamGiaChiTiet.setTrangThai(1);
+
         phieuGiamGia.setMaPhieu(txtMaVoucher.getText());
         phieuGiamGia.setTenPhieu(txtTenPhieu.getText());
         phieuGiamGia.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
+
         System.out.println(PhieuGiamGiaRepository.add(phieuGiamGia));
 
 

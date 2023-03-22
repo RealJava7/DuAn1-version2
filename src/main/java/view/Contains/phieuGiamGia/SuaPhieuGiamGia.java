@@ -243,7 +243,7 @@ PhieuGiamGiaChiTiet phieuGiamGiaChiTiet;
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
-        dispose();
+        
 
     }//GEN-LAST:event_btnHuyActionPerformed
 
