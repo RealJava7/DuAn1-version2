@@ -5,8 +5,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +17,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import model.enums.HeDieuHanh;
 
 @Entity
 @Table(name = "DienThoai")
@@ -55,10 +52,6 @@ public class DienThoai {
     @Column(name = "Cpu")
     private String cpu;
 
-    @Column(name = "HeDieuHanh")
-    @Enumerated(EnumType.STRING)
-    private HeDieuHanh heDieuHanh;
-
     @Column(name = "GiaNhap")
     private long giaNhap;
 
@@ -82,6 +75,10 @@ public class DienThoai {
     @ManyToOne
     @JoinColumn(name = "IdMauSac")
     private MauSac mauSac;
+    
+    @ManyToOne
+    @JoinColumn(name = "IdHeDieuHanh")
+        private HeDieuHanh heDieuHanh;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "IdCameraChiTiet")

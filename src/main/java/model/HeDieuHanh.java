@@ -12,27 +12,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "MauSac")
+@Table(name = "HeDieuHanh")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class MauSac {
-
+public class HeDieuHanh {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
-
-    @Column(name = "MaMauSac")
-    private String maMauSac;
-
-    @Column(name = "TenMauSac")
-    private String tenMauSac;
+    
+    @Column(name = "Ten")
+    private String ten;
 
     @Override
     public String toString() {
-        return this.tenMauSac;
+        return this.ten;
     }
-
+    
 }

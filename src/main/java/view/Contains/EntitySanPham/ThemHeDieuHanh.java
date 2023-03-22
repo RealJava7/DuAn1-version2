@@ -1,8 +1,8 @@
 package view.Contains.EntitySanPham;
 
-public class ThemHang extends javax.swing.JFrame {
+public class ThemHeDieuHanh extends javax.swing.JFrame {
 
-    public ThemHang() {
+    public ThemHeDieuHanh() {
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -44,7 +44,7 @@ public class ThemHang extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "ID", "TÊN HÃNG"
+                "ID", "TÊN HĐH"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -92,7 +92,7 @@ public class ThemHang extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("THÔNG TIN"));
 
-        jLabel2.setText("TÊN HÃNG:");
+        jLabel2.setText("TÊN HĐH:");
 
         jTextField2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
 
@@ -203,20 +203,21 @@ public class ThemHang extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ThemHang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThemHeDieuHanh.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ThemHang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThemHeDieuHanh.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ThemHang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThemHeDieuHanh.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ThemHang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThemHeDieuHanh.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ThemHang().setVisible(true);
+                new ThemHeDieuHanh().setVisible(true);
             }
         });
     }

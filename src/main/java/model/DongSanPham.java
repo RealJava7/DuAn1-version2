@@ -20,15 +20,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DongSanPham {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
-    
+
     @Column(name = "Ten")
     private String ten;
-    
+
     @ManyToOne
     @JoinColumn(name = "IdHang")
     private Hang hangDienThoai;

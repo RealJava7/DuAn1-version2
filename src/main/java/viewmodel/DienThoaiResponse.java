@@ -1,11 +1,10 @@
 package viewmodel;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import model.enums.LoaiManHinh;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,11 +20,12 @@ public class DienThoaiResponse {
     private int rom;
     private int ram;
     private String cpu;
-    private String heDieuHanh;
     private long giaNhap;
     private long giaBan;
     private int soLuong;
     private String hinhAnh;
+
+    private String heDieuHanh;
     private String hang;
     private String dongSanPham;
     private String mauSac;
@@ -37,6 +37,11 @@ public class DienThoaiResponse {
 
     private float kichThuoc;
     private String doPhanGiai;
-    private String loaiManHinh;
+    private LoaiManHinh loaiManHinh;
+
+    @Override
+    public String toString() {
+        return "DienThoaiResponse{" + "id=" + id + ", maDT=" + maDT + ", tenDT=" + tenDT + ", moTa=" + moTa + ", dungLuongPin=" + dungLuongPin + ", rom=" + rom + ", ram=" + ram + ", cpu=" + cpu + ", giaNhap=" + giaNhap + ", giaBan=" + giaBan + ", soLuong=" + soLuong + ", hinhAnh=" + hinhAnh + ", heDieuHanh=" + heDieuHanh + ", hang=" + hang + ", dongSanPham=" + dongSanPham + ", mauSac=" + mauSac + ", cameraChinh=" + cameraChinh + ", cameraPhu=" + cameraPhu + ", cameraGocRong=" + cameraGocRong + ", cameraTele=" + cameraTele + ", kichThuoc=" + kichThuoc + ", doPhanGiai=" + doPhanGiai + ", loaiManHinh=" + loaiManHinh + '}';
+    }
 
 }
