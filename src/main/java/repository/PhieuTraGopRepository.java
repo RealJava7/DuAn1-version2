@@ -1,7 +1,9 @@
 package repository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Query;
 import model.HoaDon;
 import model.LichSuTraGop;
 import model.PhieuTraGop;
@@ -9,6 +11,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import utility.HibernateUtil;
+import viewmodel.PhieuTraGopResponse;
 
 public class PhieuTraGopRepository {
 
@@ -21,7 +24,6 @@ public class PhieuTraGopRepository {
             session.save(phieuTraGop);
             transaction.commit();
             check = true;
-            session.close();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
         }
@@ -34,7 +36,6 @@ public class PhieuTraGopRepository {
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             phieuTraGop = session.get(PhieuTraGop.class, id);
-            session.close();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
         }
@@ -46,20 +47,45 @@ public class PhieuTraGopRepository {
         return true;
     }
     
-    // 4. add LichSuTraGop
+    // 4. add new LichSuTraGop
+    public static boolean addNewLichSuTraGop() {
+        return false;
+    }
     
+    // 5. get all
+    public static List<PhieuTraGopResponse> getAll() {
+        List<PhieuTraGopResponse> phieuTraGopResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.PhieuTraGopResponse
+                                              (ptg.id, ptg.maPhieu, ptg.tongPhaiTra, ptg.laiSuat, ptg.kyHan, ptg.ngayTao, ptg.ngayDong, ptg.phaiTra, ptg.trangThai)
+                                              FROM PhieuTraGop ptg
+                                               """);
+            phieuTraGopResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return phieuTraGopResponses;
+    } 
     
     public static void main(String[] args) {
-        PhieuTraGop ptg2 = getById(2);
+        List<PhieuTraGopResponse> phieuTraGopResponses = getAll();
+        System.out.println("Size: " + phieuTraGopResponses.size());
+        phieuTraGopResponses.forEach(ptg -> System.out.println(ptg.toString()));
+        System.out.println("2");
         
-        LichSuTraGop lstg2 = new LichSuTraGop();
-        lstg2.setMa("LS002");
-        lstg2.setNgayThanhToan(LocalDate.now());
-        lstg2.setTongTien(6_000_000L);
-        lstg2.setGhiChu("ghi chu 1");
-        
-        ptg2.addLichSuTraGop(lstg2);
-        System.out.println(add(ptg2));
+//        PhieuTraGop ptg2 = getById(2);
+//        
+//        LichSuTraGop lstg2 = new LichSuTraGop();
+//        lstg2.setMa("LS002");
+//        lstg2.setNgayThanhToan(LocalDate.now());
+//        lstg2.setTongTien(6_000_000L);
+//        lstg2.setGhiChu("ghi chu 1");
+//        
+//        ptg2.addLichSuTraGop(lstg2);
+//        System.out.println(add(ptg2));
 
 //        PhieuTraGop phieuTraGop = new PhieuTraGop();
 //

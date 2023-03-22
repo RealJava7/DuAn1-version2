@@ -11,7 +11,7 @@ public class DienThoaiServiceImpl implements DienThoaiService {
 
     @Override
     public List<DienThoaiResponse> getAll() {
-        return null;
+        return dienThoaiRepository.getAll();
     }
     
 }

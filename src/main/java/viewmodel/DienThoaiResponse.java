@@ -1,5 +1,7 @@
 package viewmodel;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,6 +44,11 @@ public class DienThoaiResponse {
     @Override
     public String toString() {
         return "DienThoaiResponse{" + "id=" + id + ", maDT=" + maDT + ", tenDT=" + tenDT + ", moTa=" + moTa + ", dungLuongPin=" + dungLuongPin + ", rom=" + rom + ", ram=" + ram + ", cpu=" + cpu + ", giaNhap=" + giaNhap + ", giaBan=" + giaBan + ", soLuong=" + soLuong + ", hinhAnh=" + hinhAnh + ", heDieuHanh=" + heDieuHanh + ", hang=" + hang + ", dongSanPham=" + dongSanPham + ", mauSac=" + mauSac + ", cameraChinh=" + cameraChinh + ", cameraPhu=" + cameraPhu + ", cameraGocRong=" + cameraGocRong + ", cameraTele=" + cameraTele + ", kichThuoc=" + kichThuoc + ", doPhanGiai=" + doPhanGiai + ", loaiManHinh=" + loaiManHinh + '}';
+    }
+
+    public Object[] toDataRow() {
+        NumberFormat nf = NumberFormat.getInstance(new Locale("vn", "VN"));
+        return new Object[]{tenDT, hang, ram + " GB", rom + " GB", dungLuongPin + " mAh", soLuong, nf.format(giaBan) + " VND"};
     }
 
 }

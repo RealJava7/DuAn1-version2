@@ -38,7 +38,7 @@ public class DienThoaiRepository {
     }
 
     // 2. get all
-    public static List<DienThoaiResponse> getAll() {
+    public List<DienThoaiResponse> getAll() {
         List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
 
         try {
@@ -67,8 +67,8 @@ public class DienThoaiRepository {
     // Test
     public static void main(String[] args) {
         // get all
-        List<DienThoaiResponse> dienThoaiResponses = getAll();
-        dienThoaiResponses.forEach(dt -> System.out.println(dt.toString()));
+//        List<DienThoaiResponse> dienThoaiResponses = getAll();
+//        dienThoaiResponses.forEach(dt -> System.out.println(dt.toString()));
         
         // add
 //        CameraChiTiet cam = new CameraChiTiet();
