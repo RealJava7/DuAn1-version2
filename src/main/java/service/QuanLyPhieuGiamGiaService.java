@@ -11,4 +11,5 @@ public interface QuanLyPhieuGiamGiaService {
     String add(PhieuGiamGia phieu);
 
     String update(PhieuGiamGiaResponse phieu);
+
 }

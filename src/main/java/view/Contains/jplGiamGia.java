@@ -483,6 +483,7 @@ public class jplGiamGia extends javax.swing.JPanel {
     private void btnTaoPhieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoPhieuActionPerformed
         // TODO add your handling code here:
         new ThemPhieuGiamGia(null, true).setVisible(true);
+        loadTable(qs.getall());
     }//GEN-LAST:event_btnTaoPhieuActionPerformed
 
     private void tblMaGiamGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMaGiamGiaMouseClicked

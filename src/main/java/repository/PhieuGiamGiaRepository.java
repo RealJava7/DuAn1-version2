@@ -82,37 +82,43 @@ public class PhieuGiamGiaRepository {
 
     public static void main(String[] args) {
         // add
-        PhieuGiamGiaChiTiet phieuGiamGiaChiTiet = new PhieuGiamGiaChiTiet();
-        
-        phieuGiamGiaChiTiet.setNgayBatDau(LocalDate.of(2023, 2, 10));
-        phieuGiamGiaChiTiet.setNgayKetThuc(LocalDate.of(2023, 4, 15));
-        phieuGiamGiaChiTiet.setLuotSuDung(25);  
-        phieuGiamGiaChiTiet.setDieuKien(9_000_000L);
-        phieuGiamGiaChiTiet.setGiaTri(2.6f);
-        phieuGiamGiaChiTiet.setTrangThai(1);
-
-        PhieuGiamGia phieuGiamGia = new PhieuGiamGia();
-
-        phieuGiamGia.setMaPhieu("GG002");
-        phieuGiamGia.setTenPhieu("ten phieu gg 2");
-        phieuGiamGia.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
-
-        System.out.println(add(phieuGiamGia));
+//        PhieuGiamGiaChiTiet phieuGiamGiaChiTiet = new PhieuGiamGiaChiTiet();
+//        
+//        phieuGiamGiaChiTiet.setNgayBatDau(LocalDate.of(2023, 2, 10));
+//        phieuGiamGiaChiTiet.setNgayKetThuc(LocalDate.of(2023, 4, 15));
+//        phieuGiamGiaChiTiet.setLuotSuDung(25);  
+//        phieuGiamGiaChiTiet.setDieuKien(9_000_000L);
+//        phieuGiamGiaChiTiet.setGiaTri(2.6f);
+//        phieuGiamGiaChiTiet.setTrangThai(1);
+//
+//        PhieuGiamGia phieuGiamGia = new PhieuGiamGia();
+//
+//        phieuGiamGia.setMaPhieu("GG002");
+//        phieuGiamGia.setTenPhieu("ten phieu gg 2");
+//        phieuGiamGia.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
+//
+//        System.out.println(add(phieuGiamGia));
 
         // update
-//        PhieuGiamGiaResponse phieuGiamGiaResponse = new PhieuGiamGiaResponse();
-//        phieuGiamGiaResponse.setId(1);
-//        phieuGiamGiaResponse.setMaPhieu("GG001-2");
-//        phieuGiamGiaResponse.setTenPhieu("ten phieu gg 1-2");
+        PhieuGiamGiaResponse phieuGiamGiaResponse = new PhieuGiamGiaResponse();
+        PhieuGiamGia phieuInDB = new PhieuGiamGia();
+        // 'phieuInDB' là thằng trong db mà mình get ra bằng id của response
 //
-//        phieuGiamGiaResponse.setNgayBatDau(LocalDate.of(2023, 5, 11));
-//        phieuGiamGiaResponse.setNgayKetThuc(LocalDate.of(2023, 5, 16));
-//        phieuGiamGiaResponse.setLuotSuDung(150);
-//        phieuGiamGiaResponse.setDieuKien(15_000_000L);
-//        phieuGiamGiaResponse.setGiaTri(3.5f);
-//        phieuGiamGiaResponse.setTrangThai(1);
-//
-//        System.out.println(update(phieuGiamGiaResponse));
+//        phieuInDB.setMaPhieu("up");
+//        phieuInDB.setTenPhieu("up");
+        phieuGiamGiaResponse.setId(11);
+        phieuGiamGiaResponse.setMaPhieu("up");
+        phieuGiamGiaResponse.setTenPhieu("up");
+
+        phieuGiamGiaResponse.setNgayKetThuc(LocalDate.of(2022, 11, 13));
+        phieuGiamGiaResponse.setLuotSuDung(13);
+        phieuGiamGiaResponse.setDieuKien(13_000_000L);
+        phieuGiamGiaResponse.setGiaTri(3.5f);
+        phieuGiamGiaResponse.setTrangThai(2);
+ 
+//        phieuInDB.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
+
+        System.out.println(update(phieuGiamGiaResponse));
 
         // get all
 //        List<PhieuGiamGiaResponse> phieuGiamGiaResponses = getAll();
