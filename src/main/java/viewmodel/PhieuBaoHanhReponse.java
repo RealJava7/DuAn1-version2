@@ -11,15 +11,15 @@ package viewmodel;
 public class PhieuBaoHanhReponse {
 
     private int id;
-    private int idHoaDonCT;
-    private int idChiTietPhieuBH;
+    private int idHDCT;
+    private int idCTPBH;
 
     public PhieuBaoHanhReponse() {
     }
 
-    public PhieuBaoHanhReponse(int idHoaDonCT, int idChiTietPhieuBH) {
-        this.idHoaDonCT = idHoaDonCT;
-        this.idChiTietPhieuBH = idChiTietPhieuBH;
+    public PhieuBaoHanhReponse(int idHDCT, int idCTPBH) {
+        this.idHDCT = idHDCT;
+        this.idCTPBH = idCTPBH;
     }
 
     public int getId() {
@@ -30,20 +30,23 @@ public class PhieuBaoHanhReponse {
         this.id = id;
     }
 
-    public int getIdHoaDonCT() {
-        return idHoaDonCT;
+    public int getIdHDCT() {
+        return idHDCT;
     }
 
-    public void setIdHoaDonCT(int idHoaDonCT) {
-        this.idHoaDonCT = idHoaDonCT;
+    public void setIdHDCT(int idHDCT) {
+        this.idHDCT = idHDCT;
     }
 
-    public int getIdChiTietPhieuBH() {
-        return idChiTietPhieuBH;
+    public int getIdCTPBH() {
+        return idCTPBH;
     }
 
-    public void setIdChiTietPhieuBH(int idChiTietPhieuBH) {
-        this.idChiTietPhieuBH = idChiTietPhieuBH;
+    public void setIdCTPBH(int idCTPBH) {
+        this.idCTPBH = idCTPBH;
     }
-    //test
+
+    public Object[] toRowData() {
+        return new Object[]{this.id, this.idHDCT, this.idCTPBH};
+    }
 }

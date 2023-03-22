@@ -15,22 +15,24 @@ public class ChiTietPhieuBaoHanhReponse {
     private int id;
     private String tenKH;
     private String tenDT;
-    private String Imei;
-    private long giaSanPham;
-    private int thoiHanBaoHanh;
-    private Date ngayMuaHang;
+    private String imei;
+    private long giaDT;
+    private int thoiHan;
+    private Date ngayMua;
+    private Date ngayHetHan;
     private boolean trangThai;
 
     public ChiTietPhieuBaoHanhReponse() {
     }
 
-    public ChiTietPhieuBaoHanhReponse(String tenKH, String tenDT, String Imei, long giaSanPham, int thoiHanBaoHanh, Date ngayMuaHang, boolean trangThai) {
+    public ChiTietPhieuBaoHanhReponse(String tenKH, String tenDT, String imei, long giaDT, int thoiHan, Date ngayMua, Date ngayHetHan, boolean trangThai) {
         this.tenKH = tenKH;
         this.tenDT = tenDT;
-        this.Imei = Imei;
-        this.giaSanPham = giaSanPham;
-        this.thoiHanBaoHanh = thoiHanBaoHanh;
-        this.ngayMuaHang = ngayMuaHang;
+        this.imei = imei;
+        this.giaDT = giaDT;
+        this.thoiHan = thoiHan;
+        this.ngayMua = ngayMua;
+        this.ngayHetHan = ngayHetHan;
         this.trangThai = trangThai;
     }
 
@@ -59,35 +61,43 @@ public class ChiTietPhieuBaoHanhReponse {
     }
 
     public String getImei() {
-        return Imei;
+        return imei;
     }
 
-    public void setImei(String Imei) {
-        this.Imei = Imei;
+    public void setImei(String imei) {
+        this.imei = imei;
     }
 
-    public long getGiaSanPham() {
-        return giaSanPham;
+    public long getGiaDT() {
+        return giaDT;
     }
 
-    public void setGiaSanPham(long giaSanPham) {
-        this.giaSanPham = giaSanPham;
+    public void setGiaDT(long giaDT) {
+        this.giaDT = giaDT;
     }
 
-    public int getThoiHanBaoHanh() {
-        return thoiHanBaoHanh;
+    public int getThoiHan() {
+        return thoiHan;
     }
 
-    public void setThoiHanBaoHanh(int thoiHanBaoHanh) {
-        this.thoiHanBaoHanh = thoiHanBaoHanh;
+    public void setThoiHan(int thoiHan) {
+        this.thoiHan = thoiHan;
     }
 
-    public Date getNgayMuaHang() {
-        return ngayMuaHang;
+    public Date getNgayMua() {
+        return ngayMua;
     }
 
-    public void setNgayMuaHang(Date ngayMuaHang) {
-        this.ngayMuaHang = ngayMuaHang;
+    public void setNgayMua(Date ngayMua) {
+        this.ngayMua = ngayMua;
+    }
+
+    public Date getNgayHetHan() {
+        return ngayHetHan;
+    }
+
+    public void setNgayHetHan(Date ngayHetHan) {
+        this.ngayHetHan = ngayHetHan;
     }
 
     public boolean isTrangThai() {
@@ -98,4 +108,7 @@ public class ChiTietPhieuBaoHanhReponse {
         this.trangThai = trangThai;
     }
 
+    public Object[] toRowData() {
+        return new Object[]{this.id, this.tenKH, this.tenDT, this.imei, this.giaDT, this.thoiHan, this.ngayMua, this.ngayHetHan, this.trangThai};
+    }
 }

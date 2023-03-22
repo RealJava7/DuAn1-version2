@@ -1,15 +1,99 @@
 package view.Contains;
 
+import java.awt.Image;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
+import service.QuanLyNhanVienService;
+import service.impl.QuanLyNhanVienServiceImpl;
+import viewmodel.NhanVienResponse;
 
 public class jplHeThong extends javax.swing.JPanel {
 
+    private List<NhanVienResponse> list;
+    private DefaultTableModel dtm1;
+    private DefaultTableModel dtm2;
+    private DefaultComboBoxModel dcm1;
+    private DefaultComboBoxModel dcm2;
+    private QuanLyNhanVienService service;
+    private int rowSelected;
+    
     public jplHeThong() {
         initComponents();
+        
+        list = new ArrayList<>();
+        dtm1= (DefaultTableModel) tbLamViec.getModel();
+        dtm2 = (DefaultTableModel) tbNghiViec.getModel();
+        dcm1 = (DefaultComboBoxModel) cbLocGioiTinh.getModel();
+        dcm2 = (DefaultComboBoxModel) cbLocChucVu.getModel();
+        service = new QuanLyNhanVienServiceImpl();
+        
+        list = service.getAllLam();
+        showDataTblLam(list);
+        
+        list = service.getAllNghi();
+        showDataTblNghi(list);
     }
 
+    private void showDataTblLam(List<NhanVienResponse> lists) {
+        dtm1.setRowCount(0);
+        for (NhanVienResponse nv : lists) {
+            dtm1.addRow(new Object[]{nv.getHoTen(), nv.isGioiTinh()? "Nam" : "Nữ", nv.getSdt(), nv.getNgaySinh(), nv.getDiaChi(), 
+                                    nv.getEmail(),nv.isChucVu()? "Nhân Viên" : "Quản lý", nv.isTrangThai()? "Đang làm việc" : "Nghỉ việc", 
+                                    nv.getHinhAnh(), nv.getTaiKhoan(), nv.getMatKhau()});
+        }
+    }
+    
+    private void showDataTblNghi(List<NhanVienResponse> lists) {
+        dtm2.setRowCount(0);
+        for (NhanVienResponse nv : lists) {
+            dtm2.addRow(new Object[]{nv.getHoTen(), nv.isGioiTinh()? "Nam" : "Nữ", nv.getSdt(), nv.getNgaySinh(), nv.getDiaChi(), 
+                                    nv.getEmail(),nv.isChucVu()? "Nhân Viên" : "Quản lý", nv.isTrangThai()? "Đang làm việc" : "Nghỉ việc", 
+                                    nv.getHinhAnh(), nv.getTaiKhoan(), nv.getMatKhau()});
+        }
+    }
+    
+    private void showDataCboLocGioiTinh() {
+        String[] gt = {"", "Nam", "Nữ"};
+        for (String string : gt) {
+            dcm1.addElement(string);
+        }
+    }
+    
+    private void showDetail(int rowSelected) {
+        NhanVienResponse nv = list.get(rowSelected);
+        txtHoTen.setText(nv.getHoTen());
+        if(nv.isGioiTinh()) {
+            rdBtnNam.setSelected(true);
+        } else {
+            rdBtnNu.setSelected(true);
+        }
+        txtSdt.setText(nv.getSdt());
+        txtNgaySinh.setDate(Date.from(nv.getNgaySinh().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+        txtDiaChi.setText(nv.getDiaChi());
+        txtEmail.setText(nv.getEmail());
+        if(nv.isChucVu()) {
+            rdBtnNhanVien.setSelected(true);
+        } else {
+            rdBtnQuanLy.setSelected(true);
+        }
+        if(nv.isTrangThai()) {
+            rdBtnLamViec.setSelected(true);
+        } else {
+            rdBtnNghiViec.setSelected(true);
+        }
+        //ImageIcon icon = new ImageIcon(getClass().getResource("src/main/resources/icons/" + nv.getHinhAnh()));    
+        //Image newImage = icon.getImage().getScaledInstance(148, 184, Image.SCALE_SMOOTH);
+        //lbAnh.setIcon(new ImageIcon(newImage));
+        txtTaiKhoan.setText(nv.getTaiKhoan());
+        txtMatKhau.setText(nv.getMatKhau());
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -56,7 +140,7 @@ public class jplHeThong extends javax.swing.JPanel {
         jPanel7 = new javax.swing.JPanel();
         txtTimKiem = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbNhanVien = new javax.swing.JTable();
+        tbLamViec = new javax.swing.JTable();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbNghiViec = new javax.swing.JTable();
@@ -290,7 +374,7 @@ public class jplHeThong extends javax.swing.JPanel {
                 .addGap(0, 13, Short.MAX_VALUE))
         );
 
-        tbNhanVien.setModel(new javax.swing.table.DefaultTableModel(
+        tbLamViec.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null},
@@ -301,7 +385,7 @@ public class jplHeThong extends javax.swing.JPanel {
                 "Họ tên", "Giới tính", "Sđt", "Ngày sinh", "Địa chỉ", "Email", "Chức vụ", "Trạng thái", "Tài khoản", "Mật khẩu"
             }
         ));
-        jScrollPane1.setViewportView(tbNhanVien);
+        jScrollPane1.setViewportView(tbLamViec);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -485,8 +569,8 @@ public class jplHeThong extends javax.swing.JPanel {
     private javax.swing.JRadioButton rdBtnNhanVien;
     private javax.swing.JRadioButton rdBtnNu;
     private javax.swing.JRadioButton rdBtnQuanLy;
+    private javax.swing.JTable tbLamViec;
     private javax.swing.JTable tbNghiViec;
-    private javax.swing.JTable tbNhanVien;
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtHoTen;
