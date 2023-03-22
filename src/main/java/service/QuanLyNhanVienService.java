@@ -25,4 +25,8 @@ public interface QuanLyNhanVienService {
     List<NhanVienResponse> getAllNghi();
 
     List<NhanVienResponse> findByName(String name);
+    
+    List<NhanVienResponse> findByGioiTinh(boolean gt);
+    
+    List<NhanVienResponse> findByChucVu(boolean cv);
 }
