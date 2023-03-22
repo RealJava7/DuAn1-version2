@@ -9,7 +9,7 @@ import javax.persistence.Query;
 import model.PhieuTraGop;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import repository.PhieuTraGopRepository;
+//import repository.PhieuTraGopRepository;
 import utility.HibernateUtil;
 
 /**
@@ -18,44 +18,44 @@ import utility.HibernateUtil;
  */
 public class PhieuTraGopRepositoryImpl {
 
-//    public boolean delete(String id) {
-//        return false;
-//    }
-//
-//    public boolean update(String id, PhieuTraGop phieuTraGop) {
-//        return false;
-//    }
-//
-//    public boolean insert(PhieuTraGop phieuTraGop) {
-//        return false;
-//    }
-//
-//    public List<PhieuTraGop> getAll() {
-//        try (Session session = HibernateUtil.getFACTORY().openSession()) {
-//            String hql = "From PhieuTraGop";
-//            session.beginTransaction();
-//            Query query = session.createQuery(hql);
-//            List<PhieuTraGop> listAll = query.getResultList();
-//            session.getTransaction().commit();
-//
-//            return listAll;
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//
-//    }
-//
-//    public List<PhieuTraGop> getByString(String s) {
-//        return null;
-//    }
-//
-//    public List<PhieuTraGop> getByTime(int index) {
-//        return null;
-//    }
-//
-//    public List<PhieuTraGop> getByTrangThai(int index) {
-//        return null;
-//    }
+    public boolean delete(String id) {
+        return false;
+    }
+
+    public boolean update(String id, PhieuTraGop phieuTraGop) {
+        return false;
+    }
+
+    public boolean insert(PhieuTraGop phieuTraGop) {
+        return false;
+    }
+
+    public List<PhieuTraGop> getAll() {
+        try (Session session = HibernateUtil.getFACTORY().openSession()) {
+            String hql = "From PhieuTraGop";
+            session.beginTransaction();
+            Query query = session.createQuery(hql);
+            List<PhieuTraGop> listAll = query.getResultList();
+            session.getTransaction().commit();
+
+            return listAll;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    public List<PhieuTraGop> getByString(String s) {
+        return null;
+    }
+
+    public List<PhieuTraGop> getByTime(int index) {
+        return null;
+    }
+
+    public List<PhieuTraGop> getByTrangThai(int index) {
+        return null;
+    }
 }
