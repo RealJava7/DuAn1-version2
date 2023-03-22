@@ -4,11 +4,14 @@
  */
 package view.Contains;
 
+import view.Contains.phieuGiamGia.ThemPhieuGiamGia;
 import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import service.QuanLyPhieuGiamGiaService;
 import service.impl.QuanLyPhieuGiamGiaServiceImpl;
+import view.Contains.phieuGiamGia.SuaPhieuGiamGia;
+import view.Login;
 import viewmodel.PhieuGiamGiaResponse;
 
 /**
@@ -16,24 +19,24 @@ import viewmodel.PhieuGiamGiaResponse;
  * @author DELL
  */
 public class jplGiamGia extends javax.swing.JPanel {
-    
+
     QuanLyPhieuGiamGiaService qs;
     DefaultTableModel dtm;
-    
+
     public jplGiamGia() {
         initComponents();
         qs = new QuanLyPhieuGiamGiaServiceImpl();
         dtm = (DefaultTableModel) tblMaGiamGia.getModel();
         loadTable(qs.getall());
     }
-    
+
     private void loadTable(List<PhieuGiamGiaResponse> list) {
         dtm.setRowCount(0);
         for (PhieuGiamGiaResponse phieu : list) {
             dtm.addRow(phieu.toDataRow());
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -484,7 +487,11 @@ public class jplGiamGia extends javax.swing.JPanel {
 
     private void tblMaGiamGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMaGiamGiaMouseClicked
         // TODO add your handling code here:
-                new ThemPhieuGiamGia(null, true).setVisible(true);
+        int index = tblMaGiamGia.getSelectedRow();
+        PhieuGiamGiaResponse phieu = qs.getall().get(index);
+       new SuaPhieuGiamGia(phieu).setVisible(true);
+
+
     }//GEN-LAST:event_tblMaGiamGiaMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
