@@ -92,11 +92,11 @@ public class jplSanPham extends javax.swing.JPanel {
 
         // Ram
         List<String> ramList = List.of("4", "6", "8", "12", "16");
-        ramList.forEach(r -> cbRam.addItem(r));
+        ramList.forEach(r -> dcbmRam.addElement(r));
 
         // Rom
         List<String> romList = List.of("64", "128", "256", "512");
-        romList.forEach(r -> cbRom.addItem(r));
+        romList.forEach(r -> dcbmRom.addElement(r));
 
         // Loại màn hình
         LoaiManHinh[] loaiManHinhArr = LoaiManHinh.values();
@@ -163,8 +163,8 @@ public class jplSanPham extends javax.swing.JPanel {
         jPanel13 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        cbRom = new javax.swing.JComboBox<>();
         cbRam = new javax.swing.JComboBox<>();
+        cbRom = new javax.swing.JComboBox<>();
         jPanel14 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         txtPin = new javax.swing.JTextField();
@@ -628,21 +628,21 @@ public class jplSanPham extends javax.swing.JPanel {
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addGap(18, 18, 18)
-                        .addComponent(cbRam, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(cbRam, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addGap(18, 18, 18)
                         .addComponent(cbRom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(26, Short.MAX_VALUE)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(cbRam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -680,7 +680,7 @@ public class jplSanPham extends javax.swing.JPanel {
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addContainerGap(24, Short.MAX_VALUE)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(txtPin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -809,9 +809,12 @@ public class jplSanPham extends javax.swing.JPanel {
                                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(20, 20, 20)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(35, 35, 35)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(35, 35, 35))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -907,8 +910,8 @@ public class jplSanPham extends javax.swing.JPanel {
         txtGiaNhap.setText(String.valueOf(dienThoaiResponse.getGiaNhap()));
         txtGiaBan.setText(String.valueOf(dienThoaiResponse.getGiaBan()));
         
-        cbRam.setSelectedItem(String.valueOf(dienThoaiResponse.getRam()));
-        cbRom.setSelectedItem(String.valueOf(dienThoaiResponse.getRom()));
+        dcbmRam.setSelectedItem(dienThoaiResponse.getRam());
+        dcbmRom.setSelectedItem(dienThoaiResponse.getRom());
         
         txtPin.setText(String.valueOf(dienThoaiResponse.getDungLuongPin()));
         txtCpu.setText(dienThoaiResponse.getCpu());
@@ -920,11 +923,11 @@ public class jplSanPham extends javax.swing.JPanel {
         
         txtKichThuoc.setText(String.valueOf(dienThoaiResponse.getKichThuoc()));
         txtDoPG.setText(dienThoaiResponse.getDoPhanGiai());
-        cbLoaiManHinh.setSelectedItem(dienThoaiResponse.getLoaiManHinh());
+        dcbmLoaiMH.setSelectedItem(dienThoaiResponse.getLoaiManHinh());
         
-//        Hang hang = new Hang(dienThoaiResponse.getTenDT());
-//        cbHang.setSelectedItem(hang);
-//        System.out.println("ID: " + hang.getId());
+        System.out.println(dienThoaiResponse.getHang());
+        Hang hang = new Hang(dienThoaiResponse.getHang());
+        dcbmHang.setSelectedItem(hang);
 //        System.out.println("ID: " + hang.getTenHang());
     }//GEN-LAST:event_tbDienThoaiMouseClicked
 

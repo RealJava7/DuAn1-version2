@@ -46,7 +46,7 @@ public class DienThoaiRepository {
             Query query = session.createQuery("""
                                               SELECT new viewmodel.DienThoaiResponse
                                               (dt.id, dt.maDT, dt.tenDT, dt.moTa, dt.dungLuongPin, dt.rom, dt.ram, dt.cpu, dt.giaNhap, dt.giaBan, dt.soLuong, dt.hinhAnh,
-                                              h.tenHang, dsp.ten, ms.tenMauSac, hdh.ten,
+                                              hdh.ten, h.tenHang, dsp.ten, ms.tenMauSac,
                                               c.cameraChinh, c.cameraPhu, c.cameraGocRong, c.cameraTele,
                                               mh.kichThuoc, mh.doPhanGiai, mh.loaiManHinh)
                                               FROM DienThoai dt
