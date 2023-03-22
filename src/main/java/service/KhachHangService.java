@@ -10,5 +10,5 @@ public interface KhachHangService {
 
     String add(KhachHang kh);
 
-    String edit(KhachHangResponse kh);
+    String update(KhachHangResponse kh);
 }
