@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,38 +28,38 @@ public class PhieuTraGop {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MaPhieu")
+    @Column(name = "ID")
     private int id;
 
-    @Column(name = "ID")
+    @Column(name = "MaPhieu")
     private String maPhieu;
-    
+
     @Column(name = "TongPhaiTra")
     private long tongPhaiTra;
-    
+
     @Column(name = "LaiSuat")
     private float laiSuat;
-    
+
     @Column(name = "KyHan")
     private int kyHan;
-    
+
     @Column(name = "NgayTao")
     private LocalDate ngayTao;
-    
+
     @Column(name = "NgayDong")
     private int ngayDong;
-    
+
     @Column(name = "PhaiTra")
     private long phaiTra;
-    
+
     @Column(name = "TrangThai")
     private boolean trangThai;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "IdHoaDon")
     private HoaDon hoaDon;
 
-    @OneToMany(mappedBy = "phieuTraGop")
+    @OneToMany(mappedBy = "phieuTraGop", fetch = FetchType.EAGER)
     private Set<LichSuTraGop> lichSuSet = new HashSet<>();
 
 }

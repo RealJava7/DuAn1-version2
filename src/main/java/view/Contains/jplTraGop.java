@@ -4,8 +4,13 @@
  */
 package view.Contains;
 
+import java.util.List;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import service.PhieuTraGopService;
+import service.impl.PhieuTraGopServiceImpl;
 import view.Contains.tragop.ViewTraGopDetail;
+import viewmodel.PhieuTraGopViewModel;
 
 /**
  *
@@ -13,11 +18,27 @@ import view.Contains.tragop.ViewTraGopDetail;
  */
 public class jplTraGop extends javax.swing.JPanel {
 
+    private DefaultTableModel dtm;
+    private List<PhieuTraGopViewModel> listView;
+    private PhieuTraGopService service;
+
     /**
      * Creates new form ViewTraGop
      */
     public jplTraGop() {
         initComponents();
+        dtm = (DefaultTableModel) this.tblDanhSachTraGop.getModel();
+        service = new PhieuTraGopServiceImpl();
+        listView = service.getAll();
+        showDataTable(listView);
+    }
+
+    private void showDataTable(List<PhieuTraGopViewModel> list) {
+        dtm.setRowCount(0);
+        for (PhieuTraGopViewModel phieuTraGopViewModel : list) {
+            dtm.addRow(phieuTraGopViewModel.toDataRow());
+        }
+
     }
 
     /**

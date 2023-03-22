@@ -5,13 +5,17 @@ import model.CameraChiTiet;
 import model.DienThoai;
 import model.DongSanPham;
 import model.Hang;
+import model.HoaDon;
+import model.HoaDonChiTiet;
 import model.Imei;
 import model.KhachHang;
+import model.LichSuTraGop;
 import model.ManHinhChiTiet;
 import model.MauSac;
 import model.NhanVien;
 import model.PhieuGiamGia;
 import model.PhieuGiamGiaChiTiet;
+import model.PhieuTraGop;
 import model.TaiKhoan;
 import model.TheTichDiem;
 import org.hibernate.SessionFactory;
@@ -52,6 +56,10 @@ public class HibernateUtil {
         conf.addAnnotatedClass(TheTichDiem.class);
         conf.addAnnotatedClass(NhanVien.class);
         conf.addAnnotatedClass(TaiKhoan.class);
+        conf.addAnnotatedClass(PhieuTraGop.class);
+        conf.addAnnotatedClass(LichSuTraGop.class);
+        conf.addAnnotatedClass(HoaDon.class);
+        conf.addAnnotatedClass(HoaDonChiTiet.class);
 
         ServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .applySettings(conf.getProperties()).build();
