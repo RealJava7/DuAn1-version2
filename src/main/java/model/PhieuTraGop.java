@@ -3,6 +3,7 @@ package model;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -59,7 +60,13 @@ public class PhieuTraGop {
     @JoinColumn(name = "IdHoaDon")
     private HoaDon hoaDon;
 
-    @OneToMany(mappedBy = "phieuTraGop", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "phieuTraGop", cascade = CascadeType.ALL)
     private Set<LichSuTraGop> lichSuSet = new HashSet<>();
 
+    public void addLichSuTraGop(LichSuTraGop lichSuTraGop) {
+        if (lichSuTraGop != null) {
+            this.lichSuSet.add(lichSuTraGop);
+        }
+        lichSuTraGop.setPhieuTraGop(this);
+    }
 }
