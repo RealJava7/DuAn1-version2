@@ -27,13 +27,20 @@ public class Hang {
     @Column(name = "ID")
     private int id;
     
-    @Column(name = "Ma")
-    private String maHang;
-    
     @Column(name = "Ten")
     private String tenHang;
     
     @OneToMany(mappedBy = "hangDienThoai")
     private List<DongSanPham> dongSanPhams = new ArrayList<>();
+
+    public Hang(int id, String tenHang) {
+        this.id = id;
+        this.tenHang = tenHang;
+    }
     
+    @Override
+    public String toString() {
+        return this.tenHang;
+    }
+
 }

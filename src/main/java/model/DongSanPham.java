@@ -32,5 +32,15 @@ public class DongSanPham {
     @ManyToOne
     @JoinColumn(name = "IdHang")
     private Hang hangDienThoai;
-    
+
+    public DongSanPham(int id, String ten) {
+        this.id = id;
+        this.ten = ten;
+    }
+
+    @Override
+    public String toString() {
+        return this.ten;
+    }
+
 }

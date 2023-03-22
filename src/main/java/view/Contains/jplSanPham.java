@@ -1,10 +1,19 @@
 package view.Contains;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import model.DongSanPham;
+import model.Hang;
+import service.DongSanPhamService;
+import service.HangService;
+import service.impl.DongSanPhamServiceImpl;
+import service.impl.HangServiceImpl;
 import view.Contains.EntitySanPham.ThemDongSP;
 import view.Contains.EntitySanPham.ThemHang;
 import view.Contains.EntitySanPham.ThemImei;
 import view.Contains.EntitySanPham.ThemMauSac;
+import viewmodel.HangResponse;
 
 public class jplSanPham extends javax.swing.JPanel {
     
@@ -17,6 +26,9 @@ public class jplSanPham extends javax.swing.JPanel {
     private DefaultComboBoxModel dcbmRam;
     private DefaultComboBoxModel dcbmRom;
     private DefaultComboBoxModel dcbmLoaiMH;
+    
+    private HangService hangService;
+    private DongSanPhamService dongSanPhamService;
 
     public jplSanPham() {
         initComponents();
@@ -31,6 +43,21 @@ public class jplSanPham extends javax.swing.JPanel {
         dcbmRom = (DefaultComboBoxModel) cbRom.getModel();
         dcbmLoaiMH = (DefaultComboBoxModel) cbLoaiManHinh.getModel();
         
+        hangService = new HangServiceImpl();
+        dongSanPhamService = new DongSanPhamServiceImpl();
+        
+        getDataForCbHang();
+//        getDataForCbDongSP();
+    }
+    
+    private void getDataForCbHang() {
+        List<Hang> hangList = hangService.getAll();
+        hangList.forEach(h -> cbHang.addItem(h));
+    }
+    
+    private void getDataForCbDongSP() {
+        List<DongSanPham> dongSanPhamList = dongSanPhamService.getAll(1);
+        dongSanPhamList.forEach(dsp -> cbDongSanPham.addItem(dsp));
     }
 
     @SuppressWarnings("unchecked")
@@ -396,7 +423,12 @@ public class jplSanPham extends javax.swing.JPanel {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("HÃNG"));
 
-        cbHang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbHang.setModel(new javax.swing.DefaultComboBoxModel<>(new Hang[]{}));
+        cbHang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbHangActionPerformed(evt);
+            }
+        });
 
         btnHang.setBackground(new java.awt.Color(47, 85, 212));
         btnHang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-pencil-20 WHITE.png"))); // NOI18N
@@ -430,7 +462,7 @@ public class jplSanPham extends javax.swing.JPanel {
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("DÒNG SP"));
 
-        cbDongSanPham.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbDongSanPham.setModel(new javax.swing.DefaultComboBoxModel<>(new DongSanPham[]{}));
 
         btnDongSanPham.setBackground(new java.awt.Color(47, 85, 212));
         btnDongSanPham.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-pencil-20 WHITE.png"))); // NOI18N
@@ -789,6 +821,15 @@ public class jplSanPham extends javax.swing.JPanel {
         new ThemImei().setVisible(true);
     }//GEN-LAST:event_btnThemImeiMouseClicked
 
+    private void cbHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbHangActionPerformed
+        Hang hang = (Hang) cbHang.getSelectedItem();
+        int hangId = hang.getId();
+        
+        List<DongSanPham> dongSanPhamList = dongSanPhamService.getAll(hangId);
+        cbDongSanPham.removeAllItems();
+        dongSanPhamList.forEach(dsp -> cbDongSanPham.addItem(dsp));
+    }//GEN-LAST:event_cbHangActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDongSanPham;
     private javax.swing.JButton btnHang;
@@ -798,8 +839,8 @@ public class jplSanPham extends javax.swing.JPanel {
     private javax.swing.JButton btnThem;
     private javax.swing.JLabel btnThemImei;
     private javax.swing.JButton btnXoa;
-    private javax.swing.JComboBox<String> cbDongSanPham;
-    private javax.swing.JComboBox<String> cbHang;
+    private javax.swing.JComboBox<DongSanPham> cbDongSanPham;
+    private javax.swing.JComboBox<Hang> cbHang;
     private javax.swing.JComboBox<String> cbHeDieuHanh;
     private javax.swing.JComboBox<String> cbImei;
     private javax.swing.JComboBox<String> cbLoaiManHinh;
