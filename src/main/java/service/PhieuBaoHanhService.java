@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author virus
  */
-public interface QuanLyPhieuBaoHanhService {
+public interface PhieuBaoHanhService {
 
     List<PhieuBaoHanhReponse> getAllPhieuBaoHanh();
 
