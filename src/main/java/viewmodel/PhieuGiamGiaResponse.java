@@ -26,5 +26,9 @@ public class PhieuGiamGiaResponse {
     public String toString() {
         return "PhieuGiamGiaResponse{" + "id=" + id + ", maPhieu=" + maPhieu + ", tenPhieu=" + tenPhieu + ", ngayBatDau=" + ngayBatDau + ", ngayKetThuc=" + ngayKetThuc + ", luotSuDung=" + luotSuDung + ", dieuKien=" + dieuKien + ", giaTri=" + giaTri + ", trangThai=" + trangThai + '}';
     }
-    
+    public Object[] toDataRow(){
+        return new Object[]{
+            tenPhieu,maPhieu,giaTri,dieuKien,luotSuDung,trangThai
+        };
+    }
 }

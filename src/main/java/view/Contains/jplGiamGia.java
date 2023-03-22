@@ -4,7 +4,15 @@
  */
 package view.Contains;
 
+import view.Contains.phieuGiamGia.ThemPhieuGiamGia;
+import java.util.List;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+import service.QuanLyPhieuGiamGiaService;
+import service.impl.QuanLyPhieuGiamGiaServiceImpl;
+import view.Contains.phieuGiamGia.SuaPhieuGiamGia;
+import view.Login;
+import viewmodel.PhieuGiamGiaResponse;
 
 /**
  *
@@ -12,8 +20,21 @@ import javax.swing.JPanel;
  */
 public class jplGiamGia extends javax.swing.JPanel {
 
+    QuanLyPhieuGiamGiaService qs;
+    DefaultTableModel dtm;
+
     public jplGiamGia() {
         initComponents();
+        qs = new QuanLyPhieuGiamGiaServiceImpl();
+        dtm = (DefaultTableModel) tblMaGiamGia.getModel();
+        loadTable(qs.getall());
+    }
+
+    private void loadTable(List<PhieuGiamGiaResponse> list) {
+        dtm.setRowCount(0);
+        for (PhieuGiamGiaResponse phieu : list) {
+            dtm.addRow(phieu.toDataRow());
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -54,7 +75,7 @@ public class jplGiamGia extends javax.swing.JPanel {
         txtTimKiem = new javax.swing.JTextField();
         cbbTimKiem = new javax.swing.JComboBox<>();
         btnTimVoucher = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnTaoPhieu = new javax.swing.JButton();
 
         jButton2.setBackground(new java.awt.Color(47, 85, 212));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -312,6 +333,11 @@ public class jplGiamGia extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tblMaGiamGia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMaGiamGiaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblMaGiamGia);
 
         txtTimKiem.addActionListener(new java.awt.event.ActionListener() {
@@ -350,16 +376,16 @@ public class jplGiamGia extends javax.swing.JPanel {
 
         jPanel9Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cbbTimKiem, txtTimKiem});
 
-        jButton5.setBackground(new java.awt.Color(47, 85, 212));
-        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/add.png"))); // NOI18N
-        jButton5.setText("TẠO");
-        jButton5.setBorderPainted(false);
-        jButton5.setFocusable(false);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnTaoPhieu.setBackground(new java.awt.Color(47, 85, 212));
+        btnTaoPhieu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTaoPhieu.setForeground(new java.awt.Color(255, 255, 255));
+        btnTaoPhieu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/add.png"))); // NOI18N
+        btnTaoPhieu.setText("TẠO");
+        btnTaoPhieu.setBorderPainted(false);
+        btnTaoPhieu.setFocusable(false);
+        btnTaoPhieu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnTaoPhieuActionPerformed(evt);
             }
         });
 
@@ -393,7 +419,7 @@ public class jplGiamGia extends javax.swing.JPanel {
                                         .addGap(39, 39, 39)
                                         .addComponent(rdbDaKetThuc)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(jButton5)
+                        .addComponent(btnTaoPhieu)
                         .addGap(24, 24, 24))))
         );
         jPanel7Layout.setVerticalGroup(
@@ -416,7 +442,7 @@ public class jplGiamGia extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton5)
+                        .addComponent(btnTaoPhieu)
                         .addGap(18, 18, 18)))
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -452,21 +478,28 @@ public class jplGiamGia extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        
-
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void btnTaoPhieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoPhieuActionPerformed
         // TODO add your handling code here:
-        new ThemVoucher(null, true).setVisible(true);
-    }//GEN-LAST:event_jButton5ActionPerformed
+        new ThemPhieuGiamGia(null, true).setVisible(true);
+    }//GEN-LAST:event_btnTaoPhieuActionPerformed
+
+    private void tblMaGiamGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMaGiamGiaMouseClicked
+        // TODO add your handling code here:
+        int index = tblMaGiamGia.getSelectedRow();
+        PhieuGiamGiaResponse phieu = qs.getall().get(index);
+       new SuaPhieuGiamGia(phieu).setVisible(true);
+
+
+    }//GEN-LAST:event_tblMaGiamGiaMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnTaoPhieu;
     private javax.swing.JButton btnTimVoucher;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbbTimKiem;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

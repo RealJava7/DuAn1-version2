@@ -1,5 +1,6 @@
 package repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
@@ -64,7 +65,6 @@ public class PhieuGiamGiaRepository {
     // 3. get all
     public static List<PhieuGiamGiaResponse> getAll() {
         List<PhieuGiamGiaResponse> phieuGiamGiaResponses = new ArrayList<>();
-
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
@@ -73,7 +73,6 @@ public class PhieuGiamGiaRepository {
                                               FROM PhieuGiamGia pgg
                                               INNER JOIN pgg.phieuGiamGiaChiTiet pct
                                                """);
-
             phieuGiamGiaResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
@@ -83,22 +82,22 @@ public class PhieuGiamGiaRepository {
 
     public static void main(String[] args) {
         // add
-//        PhieuGiamGiaChiTiet phieuGiamGiaChiTiet = new PhieuGiamGiaChiTiet();
-//        
-//        phieuGiamGiaChiTiet.setNgayBatDau(LocalDate.of(2023, 2, 10));
-//        phieuGiamGiaChiTiet.setNgayKetThuc(LocalDate.of(2023, 4, 15));
-//        phieuGiamGiaChiTiet.setLuotSuDung(25);
-//        phieuGiamGiaChiTiet.setDieuKien(9_000_000L);
-//        phieuGiamGiaChiTiet.setGiaTri(2.6f);
-//        phieuGiamGiaChiTiet.setTrangThai(1);
-//
-//        PhieuGiamGia phieuGiamGia = new PhieuGiamGia();
-//
-//        phieuGiamGia.setMaPhieu("GG002");
-//        phieuGiamGia.setTenPhieu("ten phieu gg 2");
-//        phieuGiamGia.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
-//        
-//        System.out.println(add(phieuGiamGia));
+        PhieuGiamGiaChiTiet phieuGiamGiaChiTiet = new PhieuGiamGiaChiTiet();
+        
+        phieuGiamGiaChiTiet.setNgayBatDau(LocalDate.of(2023, 2, 10));
+        phieuGiamGiaChiTiet.setNgayKetThuc(LocalDate.of(2023, 4, 15));
+        phieuGiamGiaChiTiet.setLuotSuDung(25);  
+        phieuGiamGiaChiTiet.setDieuKien(9_000_000L);
+        phieuGiamGiaChiTiet.setGiaTri(2.6f);
+        phieuGiamGiaChiTiet.setTrangThai(1);
+
+        PhieuGiamGia phieuGiamGia = new PhieuGiamGia();
+
+        phieuGiamGia.setMaPhieu("GG002");
+        phieuGiamGia.setTenPhieu("ten phieu gg 2");
+        phieuGiamGia.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
+
+        System.out.println(add(phieuGiamGia));
 
         // update
 //        PhieuGiamGiaResponse phieuGiamGiaResponse = new PhieuGiamGiaResponse();
@@ -116,8 +115,8 @@ public class PhieuGiamGiaRepository {
 //        System.out.println(update(phieuGiamGiaResponse));
 
         // get all
-        List<PhieuGiamGiaResponse> phieuGiamGiaResponses = getAll();
-        phieuGiamGiaResponses.forEach(p -> System.out.println(p.toString()));
+//        List<PhieuGiamGiaResponse> phieuGiamGiaResponses = getAll();
+//        phieuGiamGiaResponses.forEach(p -> System.out.println(p.toString()));
     }
 
 }
