@@ -900,35 +900,42 @@ public class jplSanPham extends javax.swing.JPanel {
 
     private void tbDienThoaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDienThoaiMouseClicked
         int clickedRow = tbDienThoai.getSelectedRow();
-        if(clickedRow < 0) {
+        if (clickedRow < 0) {
             return;
         }
         DienThoaiResponse dienThoaiResponse = dienThoaiResponseList.get(clickedRow);
-        
+
         txtMaSanPham.setText(dienThoaiResponse.getMaDT());
         txtTenSanPham.setText(dienThoaiResponse.getTenDT());
         txtGiaNhap.setText(String.valueOf(dienThoaiResponse.getGiaNhap()));
         txtGiaBan.setText(String.valueOf(dienThoaiResponse.getGiaBan()));
-        
+
         dcbmRam.setSelectedItem(dienThoaiResponse.getRam());
         dcbmRom.setSelectedItem(dienThoaiResponse.getRom());
-        
+
         txtPin.setText(String.valueOf(dienThoaiResponse.getDungLuongPin()));
         txtCpu.setText(dienThoaiResponse.getCpu());
-        
+
         txtCamChinh.setText(String.valueOf(dienThoaiResponse.getCameraChinh()));
         txtCamPhu.setText(String.valueOf(dienThoaiResponse.getCameraPhu()));
         txtCamGocRong.setText(String.valueOf(dienThoaiResponse.getCameraGocRong()));
         txtCamTele.setText(String.valueOf(dienThoaiResponse.getCameraTele()));
-        
+
         txtKichThuoc.setText(String.valueOf(dienThoaiResponse.getKichThuoc()));
         txtDoPG.setText(dienThoaiResponse.getDoPhanGiai());
         dcbmLoaiMH.setSelectedItem(dienThoaiResponse.getLoaiManHinh());
-        
-        System.out.println(dienThoaiResponse.getHang());
+
         Hang hang = new Hang(dienThoaiResponse.getHang());
         dcbmHang.setSelectedItem(hang);
-//        System.out.println("ID: " + hang.getTenHang());
+
+        DongSanPham dsp = new DongSanPham(dienThoaiResponse.getDongSanPham());
+        dcbmDongSP.setSelectedItem(dsp);
+
+        MauSac ms = new MauSac(dienThoaiResponse.getMauSac());
+        dcbmMauSac.setSelectedItem(ms);
+
+        HeDieuHanh hdh = new HeDieuHanh(dienThoaiResponse.getHeDieuHanh());
+        dcbmHDH.setSelectedItem(hdh);
     }//GEN-LAST:event_tbDienThoaiMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
