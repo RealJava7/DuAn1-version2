@@ -3,35 +3,36 @@ package service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import model.PhieuTraGop;
-import repository.PhieuTraGopRepository;
+//import repository.PhieuTraGopRepository;
 import repository.impl.PhieuTraGopRepositoryImpl;
 import service.PhieuTraGopService;
 import viewmodel.PhieuTraGopViewModel;
 
 public class PhieuTraGopServiceImpl implements PhieuTraGopService {
 
-    private PhieuTraGopRepository repository = new PhieuTraGopRepository();
+    private PhieuTraGopRepositoryImpl repository = new PhieuTraGopRepositoryImpl();
 
     @Override
 
     public List<PhieuTraGopViewModel> getAll() {
-//        List<PhieuTraGop> listRepo = repository.getAll();
-//        List<PhieuTraGopViewModel> listView = new ArrayList<>();
-//
-//        for (PhieuTraGop phieuTraGop : listRepo) {
-//            PhieuTraGopViewModel traGopViewModel = new PhieuTraGopViewModel();
-//            traGopViewModel.setNgayDong(phieuTraGop.getNgayTao());
-//            traGopViewModel.setMaPhieu(phieuTraGop.getMaPhieu());
-//            traGopViewModel.setKhachHang(phieuTraGop.getHoaDon().getKhachHang().getHoTen());
-////            traGopViewModel.setMaDon(phieuTraGop.getHoaDon().get);
-//            traGopViewModel.setTongTien(phieuTraGop.getHoaDon().getTongTien() - phieuTraGop.getHoaDon().getTienGiam()); // tổng tiền - tiền giảm
-////            traGopViewModel.setDaTra(phieuTraGop.getNgayTao()); làm sau
-//
-//            traGopViewModel.setConNo(0);
-//            traGopViewModel.setTrangThai(false);
-//        }
-//        return listView;
-return null;
+        List<PhieuTraGop> listRepo = repository.getAll();
+        List<PhieuTraGopViewModel> listView = new ArrayList<>();
+
+        for (PhieuTraGop phieuTraGop : listRepo) {
+            PhieuTraGopViewModel traGopViewModel = new PhieuTraGopViewModel();
+            traGopViewModel.setNgayDong(phieuTraGop.getNgayTao());
+            traGopViewModel.setMaPhieu(phieuTraGop.getMaPhieu());
+            traGopViewModel.setKhachHang(phieuTraGop.getHoaDon().getKhachHang().getHoTen());
+//            traGopViewModel.setMaDon(phieuTraGop.getHoaDon().get);
+            traGopViewModel.setTongTien(phieuTraGop.getHoaDon().getTongTien() - phieuTraGop.getHoaDon().getTienGiam()); // tổng tiền - tiền giảm
+//            traGopViewModel.setDaTra(phieuTraGop.getNgayTao()); làm sau
+
+            traGopViewModel.setConNo(0);
+            traGopViewModel.setTrangThai(false);
+            listView.add(traGopViewModel);
+        }
+        return listView;
+//        return null;
     }
 
     @Override
