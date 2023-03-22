@@ -37,10 +37,8 @@ public class HibernateUtil {
         properties.put(Environment.URL, "jdbc:sqlserver://localhost:1433;databaseName=duan1_spring2023");
         properties.put(Environment.USER, "sa");
         properties.put(Environment.PASS, "1");
-        properties.put(Environment.USER, "test");
-        properties.put(Environment.PASS, "qwer");
-//        properties.put(Environment.USER, "sa");
-//        properties.put(Environment.PASS, "1");
+//        properties.put(Environment.USER, "test");
+//        properties.put(Environment.PASS, "qwer");
 
         conf.setProperties(properties);
         conf.addAnnotatedClass(PhieuGiamGia.class);
