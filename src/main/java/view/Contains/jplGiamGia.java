@@ -6,12 +6,10 @@ package view.Contains;
 
 import view.Contains.phieuGiamGia.ThemPhieuGiamGia;
 import java.util.List;
-import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import service.QuanLyPhieuGiamGiaService;
 import service.impl.QuanLyPhieuGiamGiaServiceImpl;
 import view.Contains.phieuGiamGia.SuaPhieuGiamGia;
-import view.Login;
 import viewmodel.PhieuGiamGiaResponse;
 
 /**
@@ -28,7 +26,7 @@ public class jplGiamGia extends javax.swing.JPanel {
         qs = new QuanLyPhieuGiamGiaServiceImpl();
         dtm = (DefaultTableModel) tblMaGiamGia.getModel();
         loadTable(qs.getall());
-        System.out.println("long");
+        System.out.println("long xau zai");
     }
 
     private void loadTable(List<PhieuGiamGiaResponse> list) {
