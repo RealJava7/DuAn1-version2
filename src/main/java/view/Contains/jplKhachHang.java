@@ -66,7 +66,7 @@ public class jplKhachHang extends javax.swing.JPanel {
         cldNgaySinh.setDate(Date.from(kh.getNgaySinh().atStartOfDay().toInstant(ZoneOffset.UTC)));
         txtDiaChi.setText(kh.getDiaChi());
         txtMathe.setText(kh.getMaThe());
-        if (kh.isTrangThai()) {
+        if (kh.isTrangThai() == true) {
             chkTrangThai.setSelected(true);
         } else {
             chkTrangThai.setSelected(false);
@@ -702,11 +702,14 @@ public class jplKhachHang extends javax.swing.JPanel {
             return;
         }
         KhachHangResponse kh = listKhachHang.get(rowIndex);
+
         if (kiemTra()) {
             int choose = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn sửa khách hàng này không?", "UPDATE", JOptionPane.YES_NO_CANCEL_OPTION);
             if (choose == 0) {
                 KhachHang s = getData();
-
+                JOptionPane.showMessageDialog(this, service.update(new KhachHangResponse(kh.getId(), s.getHoTen(), s.getEmail(), s.getSdt(), s.isGioiTinh(), s.getNgaySinh(), s.getDiaChi(), s.isTrangThai())));
+                listKhachHang = service.getAll();
+                showData(listKhachHang);
             }
         }
     }//GEN-LAST:event_btnSuaActionPerformed

@@ -26,9 +26,9 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Override
     public String update(KhachHangResponse kh) {
         if (repo.update(kh) == true) {
-            return "Thêm thành công";
+            return "Sửa thành công";
         }
-        return "Thêm thất bại";
+        return "Sửa thất bại";
     }
 
 }

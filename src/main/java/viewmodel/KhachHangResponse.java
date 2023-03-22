@@ -21,6 +21,17 @@ public class KhachHangResponse {
     private String diaChi;
     private boolean trangThai;
 
+    public KhachHangResponse(int id, String hoTen, String email, String sdt, boolean gioiTinh, LocalDate ngaySinh, String diaChi, boolean trangThai) {
+        this.id = id;
+        this.hoTen = hoTen;
+        this.email = email;
+        this.sdt = sdt;
+        this.gioiTinh = gioiTinh;
+        this.ngaySinh = ngaySinh;
+        this.diaChi = diaChi;
+        this.trangThai = trangThai;
+    }
+
     private String maThe;
     private LocalDate ngayKichHoat;
     private int soDiem;
