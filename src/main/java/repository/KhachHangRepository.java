@@ -25,6 +25,7 @@ public class KhachHangRepository {
             Transaction transaction = session.beginTransaction();
             session.save(khachHang);
             transaction.commit();
+            session.close();
             check = true;
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);

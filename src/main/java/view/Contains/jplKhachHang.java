@@ -5,8 +5,10 @@ import java.awt.Font;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -14,16 +16,16 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import model.KhachHang;
 import model.TheTichDiem;
-import service.QuanLyKhachHangService;
-import service.impl.QuanLyKhachHangServiceImpl;
+import service.impl.KhachHangServiceImpl;
 import view.Contains.cell.TableActionCellEditor;
 import view.Contains.cell.TableActionCellRender;
 import viewmodel.KhachHangResponse;
+import service.KhachHangService;
 
 public class jplKhachHang extends javax.swing.JPanel {
 
     private List<KhachHangResponse> listKhachHang = new ArrayList<>();
-    private QuanLyKhachHangService service = new QuanLyKhachHangServiceImpl();
+    private KhachHangService service = new KhachHangServiceImpl();
     private DefaultTableModel dtm = new DefaultTableModel();
 
     public jplKhachHang() {
@@ -60,8 +62,8 @@ public class jplKhachHang extends javax.swing.JPanel {
         txtHoTen.setText(kh.getHoTen());
         txtEmail.setText(kh.getEmail());
         txtSdt.setText(kh.getSdt());
-        String ld = kh.getNgaySinh().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        JOptionPane.showMessageDialog(this, kh.getNgaySinh().getMonth());
+
+        cldNgaySinh.setDate(Date.from(kh.getNgaySinh().atStartOfDay().toInstant(ZoneOffset.UTC)));
         txtDiaChi.setText(kh.getDiaChi());
         txtMathe.setText(kh.getMaThe());
         if (kh.isTrangThai()) {
@@ -100,7 +102,16 @@ public class jplKhachHang extends javax.swing.JPanel {
             sb.append("Không để trống họ và tên\n");
 
         }
-
+        Boolean check = false;
+        for (KhachHangResponse s : listKhachHang) {
+            if (s.getEmail().equalsIgnoreCase(txtEmail.getText().trim().toLowerCase())) {
+                check = true;
+                break;
+            }
+        }
+        if (check == true) {
+            sb.append("Email bị trùng\n");
+        }
         if (sb.length() > 0) {
             JOptionPane.showMessageDialog(this, sb);
             return false;
@@ -441,6 +452,11 @@ public class jplKhachHang extends javax.swing.JPanel {
         btnSua.setText("SỬA");
         btnSua.setBorderPainted(false);
         btnSua.setFocusable(false);
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         btnXoa.setBackground(new java.awt.Color(47, 85, 212));
         btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -451,6 +467,7 @@ public class jplKhachHang extends javax.swing.JPanel {
         btnXoa.setFocusable(false);
 
         cldNgaySinh.setDateFormatString("yyyy-MM-dd");
+        cldNgaySinh.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -677,6 +694,22 @@ public class jplKhachHang extends javax.swing.JPanel {
             showData(listKhachHang);
         }
     }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        int rowIndex = tblKhachHang.getSelectedRow();
+        if (rowIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng muốn sửa");
+            return;
+        }
+        KhachHangResponse kh = listKhachHang.get(rowIndex);
+        if (kiemTra()) {
+            int choose = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn sửa khách hàng này không?", "UPDATE", JOptionPane.YES_NO_CANCEL_OPTION);
+            if (choose == 0) {
+                KhachHang s = getData();
+
+            }
+        }
+    }//GEN-LAST:event_btnSuaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ThemKhachHang;

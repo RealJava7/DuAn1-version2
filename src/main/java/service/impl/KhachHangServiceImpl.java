@@ -3,10 +3,10 @@ package service.impl;
 import java.util.List;
 import model.KhachHang;
 import repository.KhachHangRepository;
-import service.QuanLyKhachHangService;
 import viewmodel.KhachHangResponse;
+import service.KhachHangService;
 
-public class QuanLyKhachHangServiceImpl implements QuanLyKhachHangService {
+public class KhachHangServiceImpl implements KhachHangService {
 
     KhachHangRepository repo = new KhachHangRepository();
 
@@ -24,8 +24,11 @@ public class QuanLyKhachHangServiceImpl implements QuanLyKhachHangService {
     }
 
     @Override
-    public String edit(KhachHang kh) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String update(KhachHangResponse kh) {
+        if (repo.update(kh) == true) {
+            return "Thêm thành công";
+        }
+        return "Thêm thất bại";
     }
 
 }

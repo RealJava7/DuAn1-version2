@@ -4,11 +4,11 @@ import java.util.List;
 import model.KhachHang;
 import viewmodel.KhachHangResponse;
 
-public interface QuanLyKhachHangService {
+public interface KhachHangService {
 
     List<KhachHangResponse> getAll();
 
     String add(KhachHang kh);
 
-    String edit(KhachHang kh);
+    String edit(KhachHangResponse kh);
 }
