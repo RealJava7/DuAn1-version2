@@ -26,7 +26,7 @@ public class jplGiamGia extends javax.swing.JPanel {
         qs = new QuanLyPhieuGiamGiaServiceImpl();
         dtm = (DefaultTableModel) tblMaGiamGia.getModel();
         loadTable(qs.getall());
-        System.out.println("long xau zai");
+        System.out.println("long dep zai");
     }
 
     private void loadTable(List<PhieuGiamGiaResponse> list) {
