@@ -21,25 +21,31 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LichSuTraGop {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
-    
+
     @Column(name = "MaLichSuTraGop")
     private String ma;
-    
+
     @Column(name = "NgayThanhToan")
     private LocalDate ngayThanhToan;
-    
+
     @Column(name = "TongTien")
     private long tongTien;
-    
+
     @Column(name = "GhiChu")
     private String ghiChu;
-    
+
     @ManyToOne
     @JoinColumn(name = "IdPhieuTraGop")
     private PhieuTraGop phieuTraGop;
+
+    @Override
+    public String toString() {
+        return "LichSuTraGop{" + "ma=" + ma + ", ngayThanhToan=" + ngayThanhToan + ", tongTien=" + tongTien + ", ghiChu=" + ghiChu + ", phieuTraGop=" + phieuTraGop + '}';
+    }
+
 }

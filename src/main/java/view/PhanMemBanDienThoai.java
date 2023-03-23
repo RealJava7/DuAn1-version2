@@ -11,6 +11,7 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import view.Contains.jplKhachHang;
 import view.Contains.jplTraGop;
+import view.Contains.tragop.ViewTraGopForm;
 
 public class PhanMemBanDienThoai extends javax.swing.JFrame {
 
@@ -471,7 +472,8 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
     }//GEN-LAST:event_lblSanPhamMouseClicked
 
     private void lblBanHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBanHangMouseClicked
-        panel = new jplBanHang();
+//        panel = new jplBanHang();
+        panel = new ViewTraGopForm();
         setPanel(panel);
     }//GEN-LAST:event_lblBanHangMouseClicked
 

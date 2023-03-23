@@ -19,9 +19,9 @@ public class KhachHangResponse {
     private boolean gioiTinh;
     private LocalDate ngaySinh;
     private String diaChi;
-    private boolean trangThai;
+    private int trangThai;
 
-    public KhachHangResponse(int id, String hoTen, String email, String sdt, boolean gioiTinh, LocalDate ngaySinh, String diaChi, boolean trangThai) {
+    public KhachHangResponse(int id, String hoTen, String email, String sdt, boolean gioiTinh, LocalDate ngaySinh, String diaChi, int trangThai) {
         this.id = id;
         this.hoTen = hoTen;
         this.email = email;
@@ -44,7 +44,7 @@ public class KhachHangResponse {
 
     public Object[] toDataRow() {
         return new Object[]{
-            id, hoTen, email, sdt, gioiTinh == true ? "Nam" : "Nữ", ngaySinh, diaChi, soDiem, trangThai
+            id, hoTen, email, sdt, gioiTinh == true ? "Nam" : "Nữ", ngaySinh, diaChi, soDiem, trangThai == 1 ? true : false
         };
     }
 

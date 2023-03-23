@@ -13,9 +13,14 @@ public class HangResponse {
     
     private int id;
     private String tenHang;
-    
+    private boolean trangThai;
+
     @Override
     public String toString() {
-        return "Hang{" + "id=" + id + ", tenHang=" + tenHang + '}';
+        return "HangResponse{" + "id=" + id + ", tenHang=" + tenHang + ", trangThai=" + trangThai + '}';
+    }
+    
+    public Object[] toDataRow() {
+        return new Object[]{id, tenHang};
     }
 }

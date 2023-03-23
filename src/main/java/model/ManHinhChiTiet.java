@@ -36,5 +36,10 @@ public class ManHinhChiTiet {
     @Column(name = "LoaiManHinh")
     @Enumerated(EnumType.STRING)
     private LoaiManHinh loaiManHinh;
+
+    @Override
+    public String toString() {
+        return "ManHinhChiTiet{" + "id=" + id + ", kichThuoc=" + kichThuoc + ", doPhanGiai=" + doPhanGiai + ", loaiManHinh=" + loaiManHinh + '}';
+    }
     
 }

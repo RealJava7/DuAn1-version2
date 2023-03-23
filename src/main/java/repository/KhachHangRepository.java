@@ -47,7 +47,7 @@ public class KhachHangRepository {
             khachHangInDB.setGioiTinh(khachHangResponse.isGioiTinh());
             khachHangInDB.setNgaySinh(khachHangResponse.getNgaySinh());
             khachHangInDB.setDiaChi(khachHangResponse.getDiaChi());
-            khachHangInDB.setTrangThai(khachHangResponse.isTrangThai());
+            khachHangInDB.setTrangThai(khachHangResponse.getTrangThai());
 
             Transaction transaction = session.beginTransaction();
             session.update(khachHangInDB);
@@ -59,8 +59,25 @@ public class KhachHangRepository {
         return check;
     }
 
+    public static boolean updateKhoiPhuc(KhachHangResponse kh, int trangThai) {
+        boolean check = false;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+
+            KhachHang khachHangInDB = session.get(KhachHang.class, kh.getId());
+            khachHangInDB.setTrangThai(trangThai);
+            Transaction transaction = session.beginTransaction();
+            session.update(khachHangInDB);
+            transaction.commit();
+            check = true;
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return check;
+    }
+
     // 3. get all
-    public static List<KhachHangResponse> getAll() {
+    public static List<KhachHangResponse> getAll(int trangThai) {
         List<KhachHangResponse> khachHangResponses = new ArrayList<>();
 
         try {
@@ -69,9 +86,9 @@ public class KhachHangRepository {
                                               SELECT new viewmodel.KhachHangResponse
                                               (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
                                               FROM KhachHang kh
-                                              INNER JOIN kh.theTichDiem ttd
+                                              INNER JOIN kh.theTichDiem ttd WHERE kh.trangThai = :trangThai
                                                """);
-
+            query.setParameter("trangThai", trangThai);
             khachHangResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
@@ -79,7 +96,27 @@ public class KhachHangRepository {
         return khachHangResponses;
     }
 
-    // 4. get by id
+    // 4. get by SDT và trạng thái
+    public static List<KhachHangResponse> findBySDT(String sdt, int trangThai) {
+        List<KhachHangResponse> khachHangResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.KhachHangResponse
+                                              (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
+                                              FROM KhachHang kh
+                                              INNER JOIN kh.theTichDiem ttd WHERE kh.trangThai = :trangThai AND kh.sdt LIKE :sdt
+                                               """);
+            query.setParameter("trangThai", trangThai);
+            query.setParameter("sdt", "%" + sdt + "%");
+            khachHangResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return khachHangResponses;
+    }
+
     public static void main(String[] args) {
         // add
 
@@ -99,23 +136,22 @@ public class KhachHangRepository {
 //        khachHang.setTheTichDiem(theTichDiem);
 //
 //        System.out.println(add(khachHang));
-        TheTichDiem theTichDiem = new TheTichDiem();
-        theTichDiem.setMaThe("9082 1109 2376");
-        theTichDiem.setNgayKichHoat(LocalDate.now());
-        theTichDiem.setSoDiem(0);
-        theTichDiem.setTrangThai(true);
-
-        KhachHang khachHang = new KhachHang();
-        khachHang.setHoTen("Nguyễn Đình Hiếu");
-        khachHang.setEmail("hieupham09@gmail.com");
-        khachHang.setSdt("0934129828");
-        khachHang.setGioiTinh(true);
-        khachHang.setNgaySinh(LocalDate.of(1998, 2, 7));
-        khachHang.setDiaChi("2 Trần Nhân Tông");
-        khachHang.setTheTichDiem(theTichDiem);
-
-        System.out.println(add(khachHang));
-
+//        TheTichDiem theTichDiem = new TheTichDiem();
+//        theTichDiem.setMaThe("9082 1109 2376");
+//        theTichDiem.setNgayKichHoat(LocalDate.now());
+//        theTichDiem.setSoDiem(0);
+//        theTichDiem.setTrangThai(true);
+//
+//        KhachHang khachHang = new KhachHang();
+//        khachHang.setHoTen("Nguyễn Đình Hiếu");
+//        khachHang.setEmail("hieupham09@gmail.com");
+//        khachHang.setSdt("0934129828");
+//        khachHang.setGioiTinh(true);
+//        khachHang.setNgaySinh(LocalDate.of(1998, 2, 7));
+//        khachHang.setDiaChi("2 Trần Nhân Tông");
+//        khachHang.setTheTichDiem(theTichDiem);
+//
+//        System.out.println(add(khachHang));
         // update
 //        KhachHangResponse khachHangResponse = new KhachHangResponse();
 //

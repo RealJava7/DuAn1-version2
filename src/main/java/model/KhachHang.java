@@ -22,33 +22,33 @@ import lombok.Setter;
 @Getter
 @Setter
 public class KhachHang {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
-    
+
     @Column(name = "HoTen")
     private String hoTen;
-    
+
     @Column(name = "Email")
     private String email;
-    
+
     @Column(name = "Sdt")
     private String sdt;
-    
+
     @Column(name = "GioiTinh")
     private boolean gioiTinh;
-    
+
     @Column(name = "NgaySinh")
     private LocalDate ngaySinh;
-    
+
     @Column(name = "DiaChi")
     private String diaChi;
-    
+
     @Column(name = "TrangThai")
-    private boolean trangThai;
-    
+    private int trangThai;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "IdTheTichDiem")
     private TheTichDiem theTichDiem;

@@ -11,8 +11,8 @@ public class KhachHangServiceImpl implements KhachHangService {
     KhachHangRepository repo = new KhachHangRepository();
 
     @Override
-    public List<KhachHangResponse> getAll() {
-        return repo.getAll();
+    public List<KhachHangResponse> getAll(int trangThai) {
+        return repo.getAll(trangThai);
     }
 
     @Override
@@ -29,6 +29,16 @@ public class KhachHangServiceImpl implements KhachHangService {
             return "Sửa thành công";
         }
         return "Sửa thất bại";
+    }
+
+    @Override
+    public void updateKhoiPhuc(KhachHangResponse kh, int trangThai) {
+        repo.updateKhoiPhuc(kh, trangThai);
+    }
+
+    @Override
+    public List<KhachHangResponse> findBySdt(String sdt, int trangThai) {
+        return repo.findBySDT(sdt, trangThai);
     }
 
 }

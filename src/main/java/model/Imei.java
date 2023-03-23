@@ -32,5 +32,9 @@ public class Imei {
     @ManyToOne
     @JoinColumn(name = "IdDienThoai")
     private DienThoai dienThoai;
+
+    public Imei(String imei) {
+        this.imei = imei;
+    }
     
 }
