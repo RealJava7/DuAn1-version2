@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 import model.LichSuTraGop;
 import model.PhieuTraGop;
+import repository.LichSuTraGopRepository;
+import repository.impl.LichSuTraGopRepositoryImpl;
 import service.PhieuTraGopService;
 import service.impl.PhieuTraGopServiceImpl;
 
@@ -19,6 +21,7 @@ import service.impl.PhieuTraGopServiceImpl;
 public class ViewTraGopForm extends javax.swing.JPanel {
 
     private PhieuTraGopService phieuTraGopService = new PhieuTraGopServiceImpl();
+    private LichSuTraGopRepository lstgRepository = new LichSuTraGopRepositoryImpl();
 
     /**
      * Creates new form ViewTraGopForm
@@ -31,7 +34,7 @@ public class ViewTraGopForm extends javax.swing.JPanel {
 
     private void tinhLaiSuat() {
         long tongTien = getTongTien();
-        long laiSuat = getLaiSuat();
+        float laiSuat = getLaiSuat();
         int kyHan = getKyHan();
 
 //        System.out.println(tongTien);
@@ -53,19 +56,17 @@ public class ViewTraGopForm extends javax.swing.JPanel {
         //tạo lich su tra gop
         LichSuTraGop lstg = new LichSuTraGop();
         //set lich sử trả góp
-        lstg.setId(10);
+        lstg.setMa(lstgRepository.generateMaLSTG());
         lstg.setGhiChu("");
-        lstg.setMa("LSTG10");
         lstg.setNgayThanhToan(LocalDate.now());
         lstg.setPhieuTraGop(ptg);
         lstg.setTongTien(getTraTruoc());
         //set Phiếu trả góp
 //        ptg.setHoaDon(null); // chưa có hóa đơn làm sau
-        ptg.setId(10);
         ptg.setKyHan(getKyHan());
         ptg.setLaiSuat(getLaiSuat());
         ptg.addLichSuTraGop(lstg);
-        ptg.setMaPhieu("PTG10");
+        ptg.setMaPhieu("");
         ptg.setNgayDong(LocalDate.now().getDayOfMonth());
         ptg.setNgayTao(LocalDate.now());
         ptg.setPhaiTra(getPhaiTra());
@@ -80,16 +81,12 @@ public class ViewTraGopForm extends javax.swing.JPanel {
         return Long.parseLong(lblTongTien.getText());
     }
 
-    private long getLaiSuat() {
-        return Long.parseLong(txtLaiSuat.getText());
+    private float getLaiSuat() {
+        return Float.parseFloat(txtLaiSuat.getText());
     }
 
     private int getKyHan() {
         return Integer.parseInt(cbxKiHan.getSelectedItem().toString().substring(0, 2).trim());
-    }
-
-    private long getNgayDong() {
-        return Integer.parseInt(txtNgayDong.getText().trim());
     }
 
     private long getPhaiTra() {
@@ -122,8 +119,6 @@ public class ViewTraGopForm extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         cbxKiHan = new javax.swing.JComboBox<>();
-        jLabel8 = new javax.swing.JLabel();
-        txtNgayDong = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         lblTraTruoc = new javax.swing.JLabel();
         lblPhaiTra = new javax.swing.JLabel();
@@ -188,14 +183,11 @@ public class ViewTraGopForm extends javax.swing.JPanel {
 
         cbxKiHan.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         cbxKiHan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "3 Tháng", "6 Tháng", "9 Tháng", "12 Tháng" }));
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel8.setText("Ngày Đóng :");
-
-        txtNgayDong.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtNgayDong.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtNgayDong.setText("0");
-        txtNgayDong.setToolTipText("");
+        cbxKiHan.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxKiHanItemStateChanged(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setText("Phải trả / Tháng :");
@@ -237,10 +229,6 @@ public class ViewTraGopForm extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cbxKiHan, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jpnThanhToanLayout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtNgayDong, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpnThanhToanLayout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(lblPhaiTra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -273,10 +261,6 @@ public class ViewTraGopForm extends javax.swing.JPanel {
                 .addGroup(jpnThanhToanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(cbxKiHan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addGroup(jpnThanhToanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtNgayDong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(jpnThanhToanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -343,6 +327,16 @@ public class ViewTraGopForm extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtLaiSuatKeyReleased
 
+    private void cbxKiHanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxKiHanItemStateChanged
+        // TODO add your handling code here:
+        try {
+            tinhLaiSuat();
+        } catch (Exception e) {
+//            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lãi suất không hơp lệ");
+        }
+    }//GEN-LAST:event_cbxKiHanItemStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnThanhToan;
     private javax.swing.JButton btnThemKhachHang;
@@ -353,7 +347,6 @@ public class ViewTraGopForm extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jpnThanhToan;
     private javax.swing.JLabel lblPhaiTra;
@@ -361,6 +354,5 @@ public class ViewTraGopForm extends javax.swing.JPanel {
     private javax.swing.JLabel lblTraTruoc;
     private javax.swing.JTextField txtKhachHang;
     private javax.swing.JTextField txtLaiSuat;
-    private javax.swing.JTextField txtNgayDong;
     // End of variables declaration//GEN-END:variables
 }
