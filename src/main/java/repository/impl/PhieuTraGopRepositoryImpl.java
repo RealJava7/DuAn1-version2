@@ -117,35 +117,35 @@ public class PhieuTraGopRepositoryImpl {
         }
     }
 
-    public static void main(String[] args) {
-        PhieuTraGopRepositoryImpl repositoryImpl = new PhieuTraGopRepositoryImpl();
+//    public static void main(String[] args) {
+//        PhieuTraGopRepositoryImpl repositoryImpl = new PhieuTraGopRepositoryImpl();
+////
+////        //tạo Phieu Tra Gop
+////        PhieuTraGop ptg = new PhieuTraGop();
+////        //tạo lich su tra gop
+////        LichSuTraGop lstg = new LichSuTraGop();
+////        //set lich sử trả góp
+//////        lstg.setId(10);
+////        lstg.setGhiChu("Ghi chú");
+////        lstg.setMa("LSTG10");
+////        lstg.setNgayThanhToan(LocalDate.now());
+////        lstg.setPhieuTraGop(ptg);
+////        lstg.setTongTien(703703);
+////        //set Phiếu trả góp
+//////        ptg.setHoaDon(null);
+//////        ptg.setId(5);
+////        ptg.setKyHan(3);
+////        ptg.setLaiSuat(7);
+////        ptg.addLichSuTraGop(lstg);
+////        ptg.setMaPhieu("PTG10");
+////        ptg.setNgayDong(LocalDate.now().getDayOfMonth());
+////        ptg.setNgayTao(LocalDate.now());
+////        ptg.setPhaiTra(547325);
+////        ptg.setTongPhaiTra(2345678);
+////
+////        System.out.println(ptg.toString());
+////        System.out.println(lstg.toString());
 //
-//        //tạo Phieu Tra Gop
-//        PhieuTraGop ptg = new PhieuTraGop();
-//        //tạo lich su tra gop
-//        LichSuTraGop lstg = new LichSuTraGop();
-//        //set lich sử trả góp
-////        lstg.setId(10);
-//        lstg.setGhiChu("Ghi chú");
-//        lstg.setMa("LSTG10");
-//        lstg.setNgayThanhToan(LocalDate.now());
-//        lstg.setPhieuTraGop(ptg);
-//        lstg.setTongTien(703703);
-//        //set Phiếu trả góp
-////        ptg.setHoaDon(null);
-////        ptg.setId(5);
-//        ptg.setKyHan(3);
-//        ptg.setLaiSuat(7);
-//        ptg.addLichSuTraGop(lstg);
-//        ptg.setMaPhieu("PTG10");
-//        ptg.setNgayDong(LocalDate.now().getDayOfMonth());
-//        ptg.setNgayTao(LocalDate.now());
-//        ptg.setPhaiTra(547325);
-//        ptg.setTongPhaiTra(2345678);
-//
-//        System.out.println(ptg.toString());
-//        System.out.println(lstg.toString());
-
-        System.out.println(repositoryImpl.getByID(1).toString());
-    }
+//        System.out.println(repositoryImpl.getByID(1).toString());
+//    }
 }
