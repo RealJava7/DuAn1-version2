@@ -10,14 +10,22 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LoaiBaoHanhResponse {
-    
+
     private int id;
     private String ten;
     private String dieuKien;
+
+    public LoaiBaoHanhResponse(String ten, String dieuKien) {
+        this.ten = ten;
+        this.dieuKien = dieuKien;
+    }
 
     @Override
     public String toString() {
         return "LoaiBaoHanhResponse{" + "id=" + id + ", ten=" + ten + ", dieuKien=" + dieuKien + '}';
     }
-    
+
+    public Object[] toRowData() {
+        return new Object[]{this.id, this.ten, this.dieuKien};
+    }
 }

@@ -69,7 +69,7 @@ public class LoaiBaoHanhRepository {
     }
 
     // 4. get by id
-    public static LoaiBaoHanh getById(int id) {
+    public LoaiBaoHanh getById(int id) {
         LoaiBaoHanh loaiBaoHanh = null;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();

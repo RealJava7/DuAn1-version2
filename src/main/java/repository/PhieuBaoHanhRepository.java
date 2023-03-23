@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
-import model.ChiTietPhieuBaoHanh;
-import model.LoaiBaoHanh;
 import model.PhieuBaoHanh;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -32,7 +30,7 @@ public class PhieuBaoHanhRepository {
     }
 
     // 2. get all
-    public static List<PhieuBaoHanhResponse> getAll() {
+    public List<PhieuBaoHanhResponse> getAll() {
         List<PhieuBaoHanhResponse> phieuBaoHanhResponses = new ArrayList<>();
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
@@ -51,14 +49,58 @@ public class PhieuBaoHanhRepository {
         }
         return phieuBaoHanhResponses;
     }
-    
+
     // 3. update
-    
+    //4. lọc
+//    public List<PhieuBaoHanhResponse> getList(PhieuBaoHanhResponse pbh) {
+//        List<PhieuBaoHanhResponse> phieuBaoHanhResponses = new ArrayList<>();
+//        try {
+//            Session session = HibernateUtil.getFACTORY().openSession();
+//            Query query = session.createQuery("""
+//                                              SELECT new viewmodel.PhieuBaoHanhResponse
+//                                              (pbh.id, lbh.ten, lbh.dieuKien,
+//                                              ct.tenKhachHang, ct.tenDienThoai, ct.imei, ct.giaSanPham, ct.thoiHanBaoHanh, ct.ngayMuaHang, ct.ngayHetHan, ct.moTa, ct.trangThai)
+//                                              FROM PhieuBaoHanh pbh
+//                                              INNER JOIN pbh.loaiBaoHanh lbh
+//                                              INNER JOIN pbh.chiTietPhieuBaoHanh ct
+//                                              WHERE ct.trangThai = :?
+//                                              """);
+////            query.getParameter("?", pbh.isTrangThai());
+////            query.set
+////            phieuBaoHanhResponses = query.getResultList();
+//            session.close();
+//        } catch (HibernateException ex) {
+//            ex.printStackTrace(System.out);
+//        }
+//        return phieuBaoHanhResponses;
+//    }
+
+    //5. tìm kiếm
+//    public List<PhieuBaoHanhResponse> getListSearch() {
+//        List<PhieuBaoHanhResponse> phieuBaoHanhResponses = new ArrayList<>();
+//        try {
+//            Session session = HibernateUtil.getFACTORY().openSession();
+//            Query query = session.createQuery("""
+//                                              SELECT new viewmodel.PhieuBaoHanhResponse
+//                                              (pbh.id, lbh.ten, lbh.dieuKien,
+//                                              ct.tenKhachHang, ct.tenDienThoai, ct.imei, ct.giaSanPham, ct.thoiHanBaoHanh, ct.ngayMuaHang, ct.ngayHetHan, ct.moTa, ct.trangThai)
+//                                              FROM PhieuBaoHanh pbh
+//                                              INNER JOIN pbh.loaiBaoHanh lbh
+//                                              INNER JOIN pbh.chiTietPhieuBaoHanh ct
+//                                              WHERE pbh idhdct = :?
+//                                              """);
+//            phieuBaoHanhResponses = query.getResultList();
+//            session.close();
+//        } catch (HibernateException ex) {
+//            ex.printStackTrace(System.out);
+//        }
+//        return phieuBaoHanhResponses;
+//    }
 
     public static void main(String[] args) {
 //        List<PhieuBaoHanhResponse> phieuBaoHanhReponses = getAll();
 //        phieuBaoHanhReponses.forEach(p -> System.out.println(p.toString()));
-        
+
 //        LoaiBaoHanh lbh1 = LoaiBaoHanhRepository.getById(1);
 //
 //        ChiTietPhieuBaoHanh ctpbh = new ChiTietPhieuBaoHanh();
