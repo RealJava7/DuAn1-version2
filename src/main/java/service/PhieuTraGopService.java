@@ -16,7 +16,9 @@ public interface PhieuTraGopService {
 
     String insert(PhieuTraGop phieuTraGop);
 
-    String update(String id, PhieuTraGop phieuTraGop);
+    PhieuTraGop getByID(int id);
+
+    String update(int id, PhieuTraGop phieuTraGop);
 
     List<PhieuTraGopViewModel> getAll();
 
