@@ -46,4 +46,9 @@ public class KhachHangServiceImpl implements KhachHangService {
         return repo.sortByName(c, trangThai);
     }
 
+    @Override
+    public List<KhachHangResponse> getAllTheTichDiem() {
+        return repo.getAllTheTichDiem();
+    }
+
 }

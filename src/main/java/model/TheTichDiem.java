@@ -19,21 +19,21 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TheTichDiem {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
-    
+
     @Column(name = "MaThe")
     private String maThe;
-    
+
     @Column(name = "NgayKichHoat")
     private LocalDate ngayKichHoat;
-    
+
     @Column(name = "SoDiem")
     private int soDiem;
-    
+
     @Column(name = "TrangThai")
     private boolean trangThai;
 }

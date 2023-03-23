@@ -1,5 +1,6 @@
 package repository;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -59,6 +60,7 @@ public class KhachHangRepository {
         return check;
     }
 
+    //update trạng thái thẻ tích điểm
     public static boolean updateKhoiPhuc(KhachHangResponse kh, int trangThai) {
         boolean check = false;
         try {
@@ -67,6 +69,7 @@ public class KhachHangRepository {
             KhachHang khachHangInDB = session.get(KhachHang.class, kh.getId());
             khachHangInDB.setTrangThai(trangThai);
             Transaction transaction = session.beginTransaction();
+
             session.update(khachHangInDB);
             transaction.commit();
             check = true;
@@ -147,6 +150,19 @@ public class KhachHangRepository {
             ex.printStackTrace(System.out);
         }
         return khachHangResponses;
+    }
+
+    //6. getAll thẻ tích điểm
+    public List<KhachHangResponse> getAllTheTichDiem() {
+        List<KhachHangResponse> lists = new ArrayList<>();
+        try ( Session session = HibernateUtil.getFACTORY().openSession()) {
+            String hql = """
+                         SELECT new viewmodel.KhachHangResponse(kh.maThe,kh.ngayKichHoat,kh.soDiem,kh.trangThai) FROM TheTichDiem kh
+                         """;
+            Query query = session.createQuery(hql);
+            lists = query.getResultList();
+        }
+        return lists;
     }
 
     public static void main(String[] args) {

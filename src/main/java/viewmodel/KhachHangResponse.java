@@ -32,6 +32,13 @@ public class KhachHangResponse {
         this.trangThai = trangThai;
     }
 
+    public KhachHangResponse(String maThe, LocalDate ngayKichHoat, int soDiem, boolean trangThaiThe) {
+        this.maThe = maThe;
+        this.ngayKichHoat = ngayKichHoat;
+        this.soDiem = soDiem;
+        this.trangThaiThe = trangThaiThe;
+    }
+
     private String maThe;
     private LocalDate ngayKichHoat;
     private int soDiem;
@@ -45,6 +52,12 @@ public class KhachHangResponse {
     public Object[] toDataRow() {
         return new Object[]{
             id, hoTen, email, sdt, gioiTinh == true ? "Nam" : "Nữ", ngaySinh, diaChi, soDiem, trangThai == 1 ? true : false
+        };
+    }
+
+    public Object[] toDataRowTheTichDiem() {
+        return new Object[]{
+            maThe, ngayKichHoat, soDiem, trangThaiThe == true ? "Hoạt Động" : "Ngừng Hoạt Động"
         };
     }
 
