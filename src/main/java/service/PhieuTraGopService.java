@@ -5,6 +5,7 @@
 package service;
 
 import java.util.List;
+import model.PhieuTraGop;
 import viewmodel.PhieuTraGopViewModel;
 
 /**
@@ -12,6 +13,10 @@ import viewmodel.PhieuTraGopViewModel;
  * @author Administrator
  */
 public interface PhieuTraGopService {
+
+    String insert(PhieuTraGop phieuTraGop);
+
+    String update(String id, PhieuTraGop phieuTraGop);
 
     List<PhieuTraGopViewModel> getAll();
 

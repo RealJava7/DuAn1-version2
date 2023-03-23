@@ -63,6 +63,18 @@ public class PhieuTraGop {
     @OneToMany(mappedBy = "phieuTraGop", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<LichSuTraGop> lichSuSet = new HashSet<>();
 
+    public PhieuTraGop(String maPhieu, long tongPhaiTra, float laiSuat, int kyHan, LocalDate ngayTao, int ngayDong, long phaiTra, boolean trangThai, HoaDon hoaDon) {
+        this.maPhieu = maPhieu;
+        this.tongPhaiTra = tongPhaiTra;
+        this.laiSuat = laiSuat;
+        this.kyHan = kyHan;
+        this.ngayTao = ngayTao;
+        this.ngayDong = ngayDong;
+        this.phaiTra = phaiTra;
+        this.trangThai = trangThai;
+        this.hoaDon = hoaDon;
+    }
+
     public void addLichSuTraGop(LichSuTraGop lichSuTraGop) {
         if (lichSuTraGop != null) {
             this.lichSuSet.add(lichSuTraGop);
@@ -72,7 +84,7 @@ public class PhieuTraGop {
 
     @Override
     public String toString() {
-        return "PhieuTraGop{" + "maPhieu=" + maPhieu + ", tongPhaiTra=" + tongPhaiTra + ", laiSuat=" + laiSuat + '}';
+        return "PhieuTraGop{" + "id=" + id + ", maPhieu=" + maPhieu + ", tongPhaiTra=" + tongPhaiTra + ", laiSuat=" + laiSuat + ", kyHan=" + kyHan + ", ngayTao=" + ngayTao + ", ngayDong=" + ngayDong + ", phaiTra=" + phaiTra + ", trangThai=" + trangThai + ", hoaDon=" + hoaDon + '}';
     }
-    
+
 }

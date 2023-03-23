@@ -4,17 +4,100 @@
  */
 package view.Contains.tragop;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import javax.swing.JOptionPane;
+import model.LichSuTraGop;
+import model.PhieuTraGop;
+import service.PhieuTraGopService;
+import service.impl.PhieuTraGopServiceImpl;
+
 /**
  *
  * @author Administrator
  */
 public class ViewTraGopForm extends javax.swing.JPanel {
 
+    private PhieuTraGopService phieuTraGopService = new PhieuTraGopServiceImpl();
+
     /**
      * Creates new form ViewTraGopForm
      */
     public ViewTraGopForm() {
         initComponents();
+        tinhLaiSuat();
+        getPhieuTraGopForm();
+    }
+
+    private void tinhLaiSuat() {
+        long tongTien = getTongTien();
+        long laiSuat = getLaiSuat();
+        int kyHan = getKyHan();
+
+//        System.out.println(tongTien);
+//        System.out.println(laiSuat);
+//        System.out.println(kyHan);
+        long traTruoc = (long) (tongTien * 0.3);
+        long conLai = tongTien - traTruoc;
+        long traHangThang = (long) ((conLai / kyHan) + ((conLai * laiSuat / 100) / kyHan));
+
+//        System.out.println(traTruoc);
+//        System.out.println(traHangThang);
+        lblPhaiTra.setText(String.valueOf(traHangThang));
+        lblTraTruoc.setText(String.valueOf(traTruoc));
+    }
+
+    private PhieuTraGop getPhieuTraGopForm() {
+        //tạo Phieu Tra Gop
+        PhieuTraGop ptg = new PhieuTraGop();
+        //tạo lich su tra gop
+        LichSuTraGop lstg = new LichSuTraGop();
+        //set lich sử trả góp
+        lstg.setId(10);
+        lstg.setGhiChu("");
+        lstg.setMa("LSTG10");
+        lstg.setNgayThanhToan(LocalDate.now());
+        lstg.setPhieuTraGop(ptg);
+        lstg.setTongTien(getTraTruoc());
+        //set Phiếu trả góp
+//        ptg.setHoaDon(null); // chưa có hóa đơn làm sau
+        ptg.setId(10);
+        ptg.setKyHan(getKyHan());
+        ptg.setLaiSuat(getLaiSuat());
+        ptg.addLichSuTraGop(lstg);
+        ptg.setMaPhieu("PTG10");
+        ptg.setNgayDong(LocalDate.now().getDayOfMonth());
+        ptg.setNgayTao(LocalDate.now());
+        ptg.setPhaiTra(getPhaiTra());
+        ptg.setTongPhaiTra(getTongTien());
+
+        System.out.println(ptg.toString());
+        System.out.println(lstg.toString());
+        return ptg;
+    }
+
+    private long getTongTien() {
+        return Long.parseLong(lblTongTien.getText());
+    }
+
+    private long getLaiSuat() {
+        return Long.parseLong(txtLaiSuat.getText());
+    }
+
+    private int getKyHan() {
+        return Integer.parseInt(cbxKiHan.getSelectedItem().toString().substring(0, 2).trim());
+    }
+
+    private long getNgayDong() {
+        return Integer.parseInt(txtNgayDong.getText().trim());
+    }
+
+    private long getPhaiTra() {
+        return Long.parseLong(lblPhaiTra.getText().trim());
+    }
+
+    private long getTraTruoc() {
+        return Long.parseLong(lblTraTruoc.getText().trim());
     }
 
     /**
@@ -71,7 +154,7 @@ public class ViewTraGopForm extends javax.swing.JPanel {
         lblTongTien.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblTongTien.setForeground(new java.awt.Color(233, 83, 83));
         lblTongTien.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblTongTien.setText("0");
+        lblTongTien.setText("2345678");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Lãi Suất :");
@@ -91,6 +174,11 @@ public class ViewTraGopForm extends javax.swing.JPanel {
         txtLaiSuat.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtLaiSuat.setText("0");
         txtLaiSuat.setToolTipText("");
+        txtLaiSuat.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtLaiSuatKeyReleased(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("%");
@@ -240,9 +328,20 @@ public class ViewTraGopForm extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThemKhachHangActionPerformed
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
+        JOptionPane.showMessageDialog(this, phieuTraGopService.insert(getPhieuTraGopForm()));
 
         //thanhToan();
     }//GEN-LAST:event_btnThanhToanActionPerformed
+
+    private void txtLaiSuatKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLaiSuatKeyReleased
+        // TODO add your handling code here:
+        try {
+            tinhLaiSuat();
+        } catch (Exception e) {
+//            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lãi suất không hơp lệ");
+        }
+    }//GEN-LAST:event_txtLaiSuatKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnThanhToan;
