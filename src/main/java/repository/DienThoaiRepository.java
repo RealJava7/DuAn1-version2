@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import model.CameraChiTiet;
 import model.DienThoai;
@@ -36,8 +37,6 @@ public class DienThoaiRepository {
         }
         return check;
     }
-    
-    
 
     // 2. get all
     public List<DienThoaiResponse> getAll() {
@@ -66,12 +65,46 @@ public class DienThoaiRepository {
         return dienThoaiResponses;
     }
 
-    // Test
+    // 3. get by id
+    public static DienThoai getById(int id) {
+        DienThoai dienThoai = null;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            dienThoai = session.get(DienThoai.class, id);
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+        return dienThoai;
+    }
+    
+    // 4. get by maDienThoai
+    public DienThoai getByMaDT(String maDT) {
+        DienThoai dienThoai = null;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT dt
+                                              FROM DienThoai dt
+                                              WHERE dt.maDT = :maDT
+                                               """);
+            query.setParameter("maDT", maDT);
+            dienThoai = (DienThoai) query.getSingleResult();
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        } catch (NoResultException e) {
+            dienThoai = null;
+        }
+        return dienThoai;
+    }
+
     public static void main(String[] args) {
+//        DienThoai dt = getById(1);
+//        System.out.println(dt.toString());
+        
         // get all
 //        List<DienThoaiResponse> dienThoaiResponses = getAll();
 //        dienThoaiResponses.forEach(dt -> System.out.println(dt.toString()));
-        
+
         // add
 //        CameraChiTiet cam = new CameraChiTiet();
 //        cam.setCameraChinh(48);

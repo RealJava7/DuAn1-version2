@@ -88,7 +88,7 @@ public class DienThoai {
     @JoinColumn(name = "IdManHinhChiTiet")
     private ManHinhChiTiet manHinhChiTiet;
 
-    @OneToMany(mappedBy = "dienThoai", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "dienThoai")
     private Set<Imei> imeis = new HashSet<>();
     
     public void addImei(Imei imei) {

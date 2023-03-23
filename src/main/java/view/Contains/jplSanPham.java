@@ -16,15 +16,18 @@ import model.Imei;
 import model.ManHinhChiTiet;
 import model.MauSac;
 import model.enums.LoaiManHinh;
+import repository.DienThoaiRepository;
 import service.DienThoaiService;
 import service.DongSanPhamService;
 import service.HangService;
 import service.HeDieuHanhService;
+import service.ImeiService;
 import service.MauSacService;
 import service.impl.DienThoaiServiceImpl;
 import service.impl.DongSanPhamServiceImpl;
 import service.impl.HangServiceImpl;
 import service.impl.HeDieuHanhServiceImpl;
+import service.impl.ImeiServiceImpl;
 import service.impl.MauSacServiceImpl;
 import view.Contains.EntitySanPham.ThemDongSP;
 import view.Contains.EntitySanPham.ThemHang;
@@ -32,15 +35,17 @@ import view.Contains.EntitySanPham.ThemImei;
 import view.Contains.EntitySanPham.ThemMauSac;
 import view.Contains.EntitySanPham.ThemHeDieuHanh;
 import viewmodel.DienThoaiResponse;
+import viewmodel.ImeiResponse;
 
 public class jplSanPham extends javax.swing.JPanel {
+
+    public static int numberOfImei = 0;
 
     private DefaultTableModel dtmDienThoai;
 
     private DefaultComboBoxModel dcbmHang;
     private DefaultComboBoxModel dcbmDongSP;
     private DefaultComboBoxModel dcbmMauSac;
-    private DefaultComboBoxModel dcbmImei;
 
     private DefaultComboBoxModel dcbmHDH;
     private DefaultComboBoxModel dcbmRam;
@@ -55,6 +60,10 @@ public class jplSanPham extends javax.swing.JPanel {
 
     private List<DienThoaiResponse> dienThoaiResponseList;
 
+    private static ImeiService imeiService;
+    private static DefaultComboBoxModel dcbmImei;
+    private static List<ImeiResponse> imeiResponseList;
+
     public jplSanPham() {
         initComponents();
 
@@ -64,7 +73,6 @@ public class jplSanPham extends javax.swing.JPanel {
         dcbmDongSP = (DefaultComboBoxModel) cbDongSanPham.getModel();
         dcbmMauSac = (DefaultComboBoxModel) cbMauSac.getModel();
         dcbmHDH = (DefaultComboBoxModel) cbHeDieuHanh.getModel();
-        dcbmImei = (DefaultComboBoxModel) cbImei.getModel();
 
         dcbmRam = (DefaultComboBoxModel) cbRam.getModel();
         dcbmRom = (DefaultComboBoxModel) cbRom.getModel();
@@ -78,6 +86,10 @@ public class jplSanPham extends javax.swing.JPanel {
 
         dienThoaiResponseList = new ArrayList<>();
         dienThoaiResponseList = dienThoaiService.getAll();
+
+        dcbmImei = (DefaultComboBoxModel) cbImei.getModel();
+        imeiService = new ImeiServiceImpl();
+        imeiResponseList = new ArrayList<>();
 
         setDataToDienThoaiTable(dienThoaiResponseList);
         getDataForComboBox();
@@ -118,6 +130,13 @@ public class jplSanPham extends javax.swing.JPanel {
         dienThoaiResponses.forEach(dt -> dtmDienThoai.addRow(dt.toDataRow()));
     }
 
+    // 3
+    public static void showImeis() {
+        dcbmImei.removeAllElements();
+        imeiResponseList = imeiService.getAllNoneDienThoaiImei();
+        imeiResponseList.forEach(i -> dcbmImei.addElement(i.getImei()));
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -145,8 +164,6 @@ public class jplSanPham extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         txtGiaBan = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
         btnThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
@@ -356,10 +373,6 @@ public class jplSanPham extends javax.swing.JPanel {
 
         jLabel6.setText("IMEI:");
 
-        jLabel7.setText("SỐ LƯỢNG:");
-
-        jTextField6.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(47, 85, 212)));
-
         btnThem.setBackground(new java.awt.Color(47, 85, 212));
         btnThem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnThem.setForeground(new java.awt.Color(255, 255, 255));
@@ -376,6 +389,11 @@ public class jplSanPham extends javax.swing.JPanel {
         btnSua.setForeground(new java.awt.Color(255, 255, 255));
         btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-pencil-20 WHITE.png"))); // NOI18N
         btnSua.setText("SỬA");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         btnXoa.setBackground(new java.awt.Color(47, 85, 212));
         btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -389,8 +407,6 @@ public class jplSanPham extends javax.swing.JPanel {
                 btnThemImeiMouseClicked(evt);
             }
         });
-
-        cbImei.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnLamMoi.setBackground(new java.awt.Color(47, 85, 212));
         btnLamMoi.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -411,25 +427,6 @@ public class jplSanPham extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2)
-                    .addComponent(txtMaSanPham)
-                    .addComponent(txtTenSanPham)
-                    .addComponent(txtGiaNhap)
-                    .addComponent(txtGiaBan)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(cbImei, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnThemImei))
-                    .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -440,6 +437,23 @@ public class jplSanPham extends javax.swing.JPanel {
                     .addComponent(btnXoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(41, 41, 41))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(txtMaSanPham, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                    .addComponent(txtTenSanPham)
+                    .addComponent(txtGiaNhap)
+                    .addComponent(txtGiaBan)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(cbImei, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnThemImei)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -471,11 +485,7 @@ public class jplSanPham extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbImei, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(8, 8, 8)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(79, 79, 79)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -483,7 +493,7 @@ public class jplSanPham extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -947,13 +957,24 @@ public class jplSanPham extends javax.swing.JPanel {
         dcbmMauSac.setSelectedItem(ms);
         HeDieuHanh hdh = new HeDieuHanh(dienThoaiResponse.getHeDieuHanh());
         dcbmHDH.setSelectedItem(hdh);
+
+        DienThoai dienThoai = DienThoaiRepository.getById(dienThoaiResponse.getId());
+        Set<Imei> imeiSet = dienThoai.getImeis();
+
+        dcbmImei.removeAllElements();
+        imeiSet.forEach(i -> cbImei.addItem(i.getImei()));
     }//GEN-LAST:event_tbDienThoaiMouseClicked
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
+        lamMoiForm();
+    }//GEN-LAST:event_btnLamMoiActionPerformed
+
+    private void lamMoiForm() {
         txtMaSanPham.setText("");
         txtTenSanPham.setText("");
         txtGiaNhap.setText("");
         txtGiaBan.setText("");
+        dcbmImei.removeAllElements();
 
         cbRam.setSelectedIndex(0);
         cbRom.setSelectedIndex(0);
@@ -969,7 +990,7 @@ public class jplSanPham extends javax.swing.JPanel {
         txtKichThuoc.setText("");
         txtDoPG.setText("");
         cbLoaiManHinh.setSelectedIndex(0);
-    }//GEN-LAST:event_btnLamMoiActionPerformed
+    }
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // Camera
@@ -1029,17 +1050,32 @@ public class jplSanPham extends javax.swing.JPanel {
         dienThoai.setManHinhChiTiet(man);
 
         Set<String> imeiStrSet = new HashSet<>();
-        imeiStrSet.add("209312301239123");
-        imeiStrSet.add("091291239123992");
 
-        for (String i : imeiStrSet) {
-            Imei imei = new Imei(i);
+        for (ImeiResponse imeiResponse : jplSanPham.imeiResponseList) {
+            Imei imei = new Imei(imeiResponse.getImei());
             dienThoai.addImei(imei);
         }
 
         String addResult = dienThoaiService.add(dienThoai);
         JOptionPane.showMessageDialog(this, addResult);
+
+        // update idDienThoai cua Imei
+        DienThoai dtByMa = dienThoaiService.getByMaDT(dienThoai.getMaDT());
+        for (ImeiResponse imeiResponse : jplSanPham.imeiResponseList) {
+            imeiResponse.setIdDienThoai(dtByMa.getId());
+            imeiService.update(imeiResponse);
+        }
+        
+        // after add
+        lamMoiForm();
+        dienThoaiResponseList = dienThoaiService.getAll();
+        setDataToDienThoaiTable(dienThoaiResponseList);
     }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_btnSuaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDongSanPham;
@@ -1080,7 +1116,6 @@ public class jplSanPham extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel13;
@@ -1097,7 +1132,6 @@ public class jplSanPham extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JTable tbDienThoai;
     private javax.swing.JTable tblKhachHangDaXoa;
     private javax.swing.JTextField txtCamChinh;

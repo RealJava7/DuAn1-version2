@@ -10,4 +10,6 @@ public interface DienThoaiService {
     
     String add(DienThoai dienThoai);
     
+    DienThoai getByMaDT(String maDT);
+    
 }

@@ -315,7 +315,6 @@ public class ThemHang extends javax.swing.JFrame {
         }
 
         String tenHang = txtTenHang.getText().trim();
-
         String checkResult = checkInput(0, tenHang);
         if (!checkResult.equals("")) {
             JOptionPane.showMessageDialog(this, checkResult);
