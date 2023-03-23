@@ -31,4 +31,14 @@ public class KhachHangServiceImpl implements KhachHangService {
         return "Sửa thất bại";
     }
 
+    @Override
+    public List<KhachHangResponse> getRemove() {
+        return repo.getRemove();
+    }
+
+    @Override
+    public void updateKhoiPhuc(KhachHangResponse kh, int trangThai) {
+        repo.updateKhoiPhuc(kh, trangThai);
+    }
+
 }

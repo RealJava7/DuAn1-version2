@@ -47,8 +47,25 @@ public class KhachHangRepository {
             khachHangInDB.setGioiTinh(khachHangResponse.isGioiTinh());
             khachHangInDB.setNgaySinh(khachHangResponse.getNgaySinh());
             khachHangInDB.setDiaChi(khachHangResponse.getDiaChi());
-            khachHangInDB.setTrangThai(khachHangResponse.isTrangThai());
+            khachHangInDB.setTrangThai(khachHangResponse.getTrangThai());
 
+            Transaction transaction = session.beginTransaction();
+            session.update(khachHangInDB);
+            transaction.commit();
+            check = true;
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return check;
+    }
+
+    public static boolean updateKhoiPhuc(KhachHangResponse kh, int trangThai) {
+        boolean check = false;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+
+            KhachHang khachHangInDB = session.get(KhachHang.class, kh.getId());
+            khachHangInDB.setTrangThai(trangThai);
             Transaction transaction = session.beginTransaction();
             session.update(khachHangInDB);
             transaction.commit();
@@ -69,7 +86,27 @@ public class KhachHangRepository {
                                               SELECT new viewmodel.KhachHangResponse
                                               (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
                                               FROM KhachHang kh
-                                              INNER JOIN kh.theTichDiem ttd
+                                              INNER JOIN kh.theTichDiem ttd WHERE kh.trangThai = 1
+                                               """);
+
+            khachHangResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return khachHangResponses;
+    }
+
+    //3.1 get daxoa
+    public static List<KhachHangResponse> getRemove() {
+        List<KhachHangResponse> khachHangResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.KhachHangResponse
+                                              (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
+                                              FROM KhachHang kh
+                                              INNER JOIN kh.theTichDiem ttd WHERE kh.trangThai = 0
                                                """);
 
             khachHangResponses = query.getResultList();
