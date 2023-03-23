@@ -29,5 +29,10 @@ public class TaiKhoan {
     
     @Column(name = "MatKhau")
     private String matKhau;
+
+    public TaiKhoan(String taiKhoan, String matKhau) {
+        this.taiKhoan = taiKhoan;
+        this.matKhau = matKhau;
+    }
     
 }

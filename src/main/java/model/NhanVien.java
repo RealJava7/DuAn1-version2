@@ -32,7 +32,7 @@ public class NhanVien {
     private String hoTen;
     
     @Column(name = "GioiTinh")
-    private boolean gioiTinh;
+    private boolean gioiTinh; // 0-false-nu, 1-true-nam
     
     @Column(name = "Sdt")
     private String sdt;
@@ -47,10 +47,10 @@ public class NhanVien {
     private String email;
     
     @Column(name = "ChucVu")
-    private boolean chucVu; // 0-Nhan vien, 1-Quan ly
+    private boolean chucVu; // 0-false-quản lý, 1-true-nhân viên
     
     @Column(name = "TrangThai")
-    private boolean trangThai;
+    private boolean trangThai; // 0-false-nghỉ, 1-true-làm
     
     @Column(name = "HinhAnh")
     private String hinhAnh;
