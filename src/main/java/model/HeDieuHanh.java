@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,18 +19,44 @@ import lombok.Setter;
 @Getter
 @Setter
 public class HeDieuHanh {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
-    
+
     @Column(name = "Ten")
     private String ten;
+
+    public HeDieuHanh(String ten) {
+        this.ten = ten;
+    }
 
     @Override
     public String toString() {
         return this.ten;
     }
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 79 * hash + Objects.hashCode(this.ten);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final HeDieuHanh other = (HeDieuHanh) obj;
+        return Objects.equals(this.ten, other.ten);
+    }
+
 }

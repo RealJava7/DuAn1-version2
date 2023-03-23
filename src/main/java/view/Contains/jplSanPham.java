@@ -1,16 +1,20 @@
 package view.Contains;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 import model.DongSanPham;
 import model.Hang;
 import model.HeDieuHanh;
 import model.MauSac;
 import model.enums.LoaiManHinh;
+import service.DienThoaiService;
 import service.DongSanPhamService;
 import service.HangService;
 import service.HeDieuHanhService;
 import service.MauSacService;
+import service.impl.DienThoaiServiceImpl;
 import service.impl.DongSanPhamServiceImpl;
 import service.impl.HangServiceImpl;
 import service.impl.HeDieuHanhServiceImpl;
@@ -20,73 +24,93 @@ import view.Contains.EntitySanPham.ThemHang;
 import view.Contains.EntitySanPham.ThemImei;
 import view.Contains.EntitySanPham.ThemMauSac;
 import view.Contains.EntitySanPham.ThemHeDieuHanh;
+import viewmodel.DienThoaiResponse;
 
 public class jplSanPham extends javax.swing.JPanel {
-    
+
+    private DefaultTableModel dtmDienThoai;
+
     private DefaultComboBoxModel dcbmHang;
     private DefaultComboBoxModel dcbmDongSP;
     private DefaultComboBoxModel dcbmMauSac;
     private DefaultComboBoxModel dcbmImei;
-    
+
     private DefaultComboBoxModel dcbmHDH;
     private DefaultComboBoxModel dcbmRam;
     private DefaultComboBoxModel dcbmRom;
     private DefaultComboBoxModel dcbmLoaiMH;
-    
+
     private HangService hangService;
     private DongSanPhamService dongSanPhamService;
     private MauSacService mauSacService;
     private HeDieuHanhService heDieuHanhService;
-    
+    private DienThoaiService dienThoaiService;
+
+    private List<DienThoaiResponse> dienThoaiResponseList;
+
     public jplSanPham() {
         initComponents();
-        
+
+        dtmDienThoai = (DefaultTableModel) tbDienThoai.getModel();
+
         dcbmHang = (DefaultComboBoxModel) cbHang.getModel();
         dcbmDongSP = (DefaultComboBoxModel) cbDongSanPham.getModel();
         dcbmMauSac = (DefaultComboBoxModel) cbMauSac.getModel();
         dcbmHDH = (DefaultComboBoxModel) cbHeDieuHanh.getModel();
         dcbmImei = (DefaultComboBoxModel) cbImei.getModel();
-        
+
         dcbmRam = (DefaultComboBoxModel) cbRam.getModel();
         dcbmRom = (DefaultComboBoxModel) cbRom.getModel();
         dcbmLoaiMH = (DefaultComboBoxModel) cbLoaiManHinh.getModel();
-        
+
         hangService = new HangServiceImpl();
         dongSanPhamService = new DongSanPhamServiceImpl();
         mauSacService = new MauSacServiceImpl();
         heDieuHanhService = new HeDieuHanhServiceImpl();
-        
+        dienThoaiService = new DienThoaiServiceImpl();
+
+        dienThoaiResponseList = new ArrayList<>();
+        dienThoaiResponseList = dienThoaiService.getAll();
+
+        setDataToDienThoaiTable(dienThoaiResponseList);
         getDataForComboBox();
     }
-    
+
+    // 1
     private void getDataForComboBox() {
         // Hãng
         List<Hang> hangList = hangService.getAll();
         hangList.forEach(h -> cbHang.addItem(h));
-        
+
         // Màu sắc
         List<MauSac> mauSacList = mauSacService.getAll();
         mauSacList.forEach(ms -> cbMauSac.addItem(ms));
-        
+
         // Hệ điều hành
         List<HeDieuHanh> heDieuHanhList = heDieuHanhService.getAll();
         heDieuHanhList.forEach(hdh -> cbHeDieuHanh.addItem(hdh));
-        
+
         // Ram
-        List<Integer> ramList = List.of(4, 6, 8, 12, 16);
-        ramList.forEach(r -> cbRam.addItem(r));
-        
+        List<String> ramList = List.of("4", "6", "8", "12", "16");
+        ramList.forEach(r -> dcbmRam.addElement(r));
+
         // Rom
-        List<Integer> romList = List.of(64, 128, 256, 512);
-        romList.forEach(r -> cbRom.addItem(r));
-        
+        List<String> romList = List.of("64", "128", "256", "512");
+        romList.forEach(r -> dcbmRom.addElement(r));
+
         // Loại màn hình
         LoaiManHinh[] loaiManHinhArr = LoaiManHinh.values();
-        for(LoaiManHinh lmh : loaiManHinhArr) {
+        for (LoaiManHinh lmh : loaiManHinhArr) {
             cbLoaiManHinh.addItem(lmh);
         }
     }
-    
+
+    // 2
+    private void setDataToDienThoaiTable(List<DienThoaiResponse> dienThoaiResponses) {
+        dtmDienThoai.setRowCount(0);
+        dienThoaiResponses.forEach(dt -> dtmDienThoai.addRow(dt.toDataRow()));
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -139,8 +163,8 @@ public class jplSanPham extends javax.swing.JPanel {
         jPanel13 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        cbRom = new javax.swing.JComboBox<>();
         cbRam = new javax.swing.JComboBox<>();
+        cbRom = new javax.swing.JComboBox<>();
         jPanel14 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         txtPin = new javax.swing.JTextField();
@@ -160,7 +184,7 @@ public class jplSanPham extends javax.swing.JPanel {
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         txtKichThuoc = new javax.swing.JTextField();
-        txtManHinh = new javax.swing.JTextField();
+        txtDoPG = new javax.swing.JTextField();
         cbLoaiManHinh = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -189,6 +213,11 @@ public class jplSanPham extends javax.swing.JPanel {
         tbDienThoai.setGridColor(new java.awt.Color(47, 85, 212));
         tbDienThoai.setRowHeight(25);
         tbDienThoai.setShowGrid(true);
+        tbDienThoai.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbDienThoaiMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbDienThoai);
 
         jLabel9.setText("TÌM KIẾM THEO TÊN:");
@@ -599,21 +628,21 @@ public class jplSanPham extends javax.swing.JPanel {
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addGap(18, 18, 18)
-                        .addComponent(cbRam, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(cbRam, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addGap(18, 18, 18)
                         .addComponent(cbRom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(26, Short.MAX_VALUE)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(cbRam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -651,7 +680,7 @@ public class jplSanPham extends javax.swing.JPanel {
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addContainerGap(24, Short.MAX_VALUE)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(txtPin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -736,7 +765,7 @@ public class jplSanPham extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtKichThuoc)
-                    .addComponent(txtManHinh)
+                    .addComponent(txtDoPG)
                     .addComponent(cbLoaiManHinh, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -750,7 +779,7 @@ public class jplSanPham extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
-                    .addComponent(txtManHinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDoPG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel22)
@@ -780,9 +809,12 @@ public class jplSanPham extends javax.swing.JPanel {
                                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(20, 20, 20)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(35, 35, 35)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(35, 35, 35))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -856,7 +888,7 @@ public class jplSanPham extends javax.swing.JPanel {
     private void cbHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbHangActionPerformed
         Hang hang = (Hang) cbHang.getSelectedItem();
         int hangId = hang.getId();
-        
+
         List<DongSanPham> dongSanPhamList = dongSanPhamService.getAll(hangId);
         cbDongSanPham.removeAllItems();
         dongSanPhamList.forEach(dsp -> cbDongSanPham.addItem(dsp));
@@ -865,6 +897,46 @@ public class jplSanPham extends javax.swing.JPanel {
     private void btnHeDieuHanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHeDieuHanhActionPerformed
         new ThemHeDieuHanh().setVisible(true);
     }//GEN-LAST:event_btnHeDieuHanhActionPerformed
+
+    private void tbDienThoaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDienThoaiMouseClicked
+        int clickedRow = tbDienThoai.getSelectedRow();
+        if (clickedRow < 0) {
+            return;
+        }
+        DienThoaiResponse dienThoaiResponse = dienThoaiResponseList.get(clickedRow);
+
+        txtMaSanPham.setText(dienThoaiResponse.getMaDT());
+        txtTenSanPham.setText(dienThoaiResponse.getTenDT());
+        txtGiaNhap.setText(String.valueOf(dienThoaiResponse.getGiaNhap()));
+        txtGiaBan.setText(String.valueOf(dienThoaiResponse.getGiaBan()));
+
+        dcbmRam.setSelectedItem(dienThoaiResponse.getRam());
+        dcbmRom.setSelectedItem(dienThoaiResponse.getRom());
+
+        txtPin.setText(String.valueOf(dienThoaiResponse.getDungLuongPin()));
+        txtCpu.setText(dienThoaiResponse.getCpu());
+
+        txtCamChinh.setText(String.valueOf(dienThoaiResponse.getCameraChinh()));
+        txtCamPhu.setText(String.valueOf(dienThoaiResponse.getCameraPhu()));
+        txtCamGocRong.setText(String.valueOf(dienThoaiResponse.getCameraGocRong()));
+        txtCamTele.setText(String.valueOf(dienThoaiResponse.getCameraTele()));
+
+        txtKichThuoc.setText(String.valueOf(dienThoaiResponse.getKichThuoc()));
+        txtDoPG.setText(dienThoaiResponse.getDoPhanGiai());
+        dcbmLoaiMH.setSelectedItem(dienThoaiResponse.getLoaiManHinh());
+
+        Hang hang = new Hang(dienThoaiResponse.getHang());
+        dcbmHang.setSelectedItem(hang);
+
+        DongSanPham dsp = new DongSanPham(dienThoaiResponse.getDongSanPham());
+        dcbmDongSP.setSelectedItem(dsp);
+
+        MauSac ms = new MauSac(dienThoaiResponse.getMauSac());
+        dcbmMauSac.setSelectedItem(ms);
+
+        HeDieuHanh hdh = new HeDieuHanh(dienThoaiResponse.getHeDieuHanh());
+        dcbmHDH.setSelectedItem(hdh);
+    }//GEN-LAST:event_tbDienThoaiMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDongSanPham;
@@ -882,8 +954,8 @@ public class jplSanPham extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cbImei;
     private javax.swing.JComboBox<LoaiManHinh> cbLoaiManHinh;
     private javax.swing.JComboBox<MauSac> cbMauSac;
-    private javax.swing.JComboBox<Integer> cbRam;
-    private javax.swing.JComboBox<Integer> cbRom;
+    private javax.swing.JComboBox<String> cbRam;
+    private javax.swing.JComboBox<String> cbRom;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
@@ -930,11 +1002,11 @@ public class jplSanPham extends javax.swing.JPanel {
     private javax.swing.JTextField txtCamPhu;
     private javax.swing.JTextField txtCamTele;
     private javax.swing.JTextField txtCpu;
+    private javax.swing.JTextField txtDoPG;
     private javax.swing.JTextField txtGiaBan;
     private javax.swing.JTextField txtGiaNhap;
     private javax.swing.JTextField txtKichThuoc;
     private javax.swing.JTextField txtMaSanPham;
-    private javax.swing.JTextField txtManHinh;
     private javax.swing.JTextField txtPin;
     private javax.swing.JTextField txtTenSanPham;
     private javax.swing.JPanel txtTimKiemTen;

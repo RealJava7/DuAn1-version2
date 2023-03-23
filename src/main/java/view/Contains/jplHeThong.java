@@ -33,11 +33,19 @@ public class jplHeThong extends javax.swing.JPanel {
         dcm2 = (DefaultComboBoxModel) cbLocChucVu.getModel();
         service = new QuanLyNhanVienServiceImpl();
         
+        showDataCboLocChucVu();
+        showDataCboLocGioiTinh();
+        
         list = service.getAllLam();
         showDataTblLam(list);
         
+        System.out.println(list.get(0));
+        System.out.println(list.get(1));
+        
         list = service.getAllNghi();
         showDataTblNghi(list);
+        
+        
     }
 
     private void showDataTblLam(List<NhanVienResponse> lists) {
@@ -65,8 +73,15 @@ public class jplHeThong extends javax.swing.JPanel {
         }
     }
     
-    private void showDetail(int rowSelected) {
-        NhanVienResponse nv = list.get(rowSelected);
+    private void showDataCboLocChucVu() {
+        String[] gt = {"", "Nhân viên", "Quản lý"};
+        for (String string : gt) {
+            dcm2.addElement(string);
+        }
+    }
+    
+    private void showDetail(int rowSelected, List<NhanVienResponse> lists) {
+        NhanVienResponse nv = lists.get(rowSelected);
         txtHoTen.setText(nv.getHoTen());
         if(nv.isGioiTinh()) {
             rdBtnNam.setSelected(true);
@@ -87,9 +102,9 @@ public class jplHeThong extends javax.swing.JPanel {
         } else {
             rdBtnNghiViec.setSelected(true);
         }
-        //ImageIcon icon = new ImageIcon(getClass().getResource("src/main/resources/icons/" + nv.getHinhAnh()));    
-        //Image newImage = icon.getImage().getScaledInstance(148, 184, Image.SCALE_SMOOTH);
-        //lbAnh.setIcon(new ImageIcon(newImage));
+        ImageIcon icon = new ImageIcon(getClass().getResource("/Icon/" + nv.getHinhAnh()));    
+        Image newImage = icon.getImage().getScaledInstance(148, 184, Image.SCALE_SMOOTH);
+        lbAnh.setIcon(new ImageIcon(newImage));
         txtTaiKhoan.setText(nv.getTaiKhoan());
         txtMatKhau.setText(nv.getMatKhau());
     }
@@ -98,6 +113,9 @@ public class jplHeThong extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        grpGioiTinh = new javax.swing.ButtonGroup();
+        grpChucVu = new javax.swing.ButtonGroup();
+        grpTrangThai = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -158,8 +176,10 @@ public class jplHeThong extends javax.swing.JPanel {
 
         jLabel2.setText("Họ tên");
 
+        grpGioiTinh.add(rdBtnNam);
         rdBtnNam.setText("Nam");
 
+        grpGioiTinh.add(rdBtnNu);
         rdBtnNu.setText("Nữ");
 
         jLabel6.setText("Địa chỉ");
@@ -180,12 +200,16 @@ public class jplHeThong extends javax.swing.JPanel {
 
         jLabel11.setText("Mật khẩu");
 
+        grpTrangThai.add(rdBtnLamViec);
         rdBtnLamViec.setText("Đang làm việc");
 
+        grpTrangThai.add(rdBtnNghiViec);
         rdBtnNghiViec.setText("Nghỉ việc");
 
+        grpChucVu.add(rdBtnQuanLy);
         rdBtnQuanLy.setText("Quản lý");
 
+        grpChucVu.add(rdBtnNhanVien);
         rdBtnNhanVien.setText("Nhân viên");
 
         lbAnh.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -322,13 +346,15 @@ public class jplHeThong extends javax.swing.JPanel {
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Lọc"));
 
-        cbLocGioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbLocGioiTinh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbLocGioiTinhActionPerformed(evt);
+            }
+        });
 
         jLabel12.setText("Giới tính");
 
         jLabel13.setText("Chức vụ");
-
-        cbLocChucVu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -358,6 +384,12 @@ public class jplHeThong extends javax.swing.JPanel {
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Tìm kiếm"));
 
+        txtTimKiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTimKiemKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -385,6 +417,11 @@ public class jplHeThong extends javax.swing.JPanel {
                 "Họ tên", "Giới tính", "Sđt", "Ngày sinh", "Địa chỉ", "Email", "Chức vụ", "Trạng thái", "Tài khoản", "Mật khẩu"
             }
         ));
+        tbLamViec.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbLamViecMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbLamViec);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -426,6 +463,11 @@ public class jplHeThong extends javax.swing.JPanel {
                 "Họ tên", "Giới tính", "Sđt", "Ngày sinh", "Địa chỉ", "Email", "Chức vụ", "Trạng thái", "Tài khoản", "Mật khẩu"
             }
         ));
+        tbNghiViec.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbNghiViecMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tbNghiViec);
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -531,6 +573,43 @@ public class jplHeThong extends javax.swing.JPanel {
         System.out.println(ld1);
     }//GEN-LAST:event_btnThemActionPerformed
 
+    private void tbLamViecMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbLamViecMouseClicked
+        // TODO add your handling code here:
+        rowSelected = tbLamViec.getSelectedRow();
+        System.out.println("check " + rowSelected);
+        list = service.getAllLam();
+        showDetail(rowSelected, list);
+    }//GEN-LAST:event_tbLamViecMouseClicked
+
+    private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
+        // TODO add your handling code here:
+        list = service.findByName(txtTimKiem.getText());
+        showDataTblLam(list);
+    }//GEN-LAST:event_txtTimKiemKeyReleased
+
+    private void tbNghiViecMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbNghiViecMouseClicked
+        // TODO add your handling code here:
+        rowSelected = tbNghiViec.getSelectedRow();
+        System.out.println("check " + rowSelected);
+        list = service.getAllNghi();
+        showDetail(rowSelected, list);
+    }//GEN-LAST:event_tbNghiViecMouseClicked
+
+    private void cbLocGioiTinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbLocGioiTinhActionPerformed
+        // TODO add your handling code here:
+        if(cbLocGioiTinh.getSelectedItem().toString().equals("")) {
+            System.out.println(cbLocGioiTinh.getSelectedItem().toString());
+            list = service.getAllLam();
+            showDataTblLam(list);
+        }
+        boolean gt = false;
+        if(cbLocGioiTinh.getSelectedItem().toString().equalsIgnoreCase("Nam")) {
+            gt = true;
+        }
+        list = service.findByGioiTinh(gt);
+        showDataTblLam(list);
+    }//GEN-LAST:event_cbLocGioiTinhActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLamMoi;
     private javax.swing.JButton btnSua;
@@ -538,6 +617,9 @@ public class jplHeThong extends javax.swing.JPanel {
     private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox<String> cbLocChucVu;
     private javax.swing.JComboBox<String> cbLocGioiTinh;
+    private javax.swing.ButtonGroup grpChucVu;
+    private javax.swing.ButtonGroup grpGioiTinh;
+    private javax.swing.ButtonGroup grpTrangThai;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

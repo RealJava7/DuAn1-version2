@@ -57,4 +57,14 @@ public class QuanLyNhanVienServiceImpl implements QuanLyNhanVienService{
     public List<NhanVienResponse> findByName(String name) {
         return repo.findByName(name);
     }
+
+    @Override
+    public List<NhanVienResponse> findByGioiTinh(boolean gt) {
+        return repo.findByGioiTinh(gt);
+    }
+
+    @Override
+    public List<NhanVienResponse> findByChucVu(boolean cv) {
+        return repo.findByChucVu(cv);
+    }
 }

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.ButtonGroup" name="grpGioiTinh">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="grpChucVu">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="grpTrangThai">
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -286,11 +294,17 @@
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="rdBtnNam">
                       <Properties>
+                        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                          <ComponentRef name="grpGioiTinh"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Nam"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="rdBtnNu">
                       <Properties>
+                        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                          <ComponentRef name="grpGioiTinh"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="N&#x1eef;"/>
                       </Properties>
                     </Component>
@@ -351,21 +365,33 @@
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="rdBtnLamViec">
                       <Properties>
+                        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                          <ComponentRef name="grpTrangThai"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="&#x110;ang l&#xe0;m vi&#x1ec7;c"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="rdBtnNghiViec">
                       <Properties>
+                        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                          <ComponentRef name="grpTrangThai"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Ngh&#x1ec9; vi&#x1ec7;c"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="rdBtnQuanLy">
                       <Properties>
+                        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                          <ComponentRef name="grpChucVu"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd;"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="rdBtnNhanVien">
                       <Properties>
+                        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                          <ComponentRef name="grpChucVu"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Nh&#xe2;n vi&#xea;n"/>
                       </Properties>
                     </Component>
@@ -494,14 +520,12 @@
                             <Component class="javax.swing.JComboBox" name="cbLocGioiTinh">
                               <Properties>
                                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                                  <StringArray count="4">
-                                    <StringItem index="0" value="Item 1"/>
-                                    <StringItem index="1" value="Item 2"/>
-                                    <StringItem index="2" value="Item 3"/>
-                                    <StringItem index="3" value="Item 4"/>
-                                  </StringArray>
+                                  <StringArray count="0"/>
                                 </Property>
                               </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbLocGioiTinhActionPerformed"/>
+                              </Events>
                               <AuxValues>
                                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                               </AuxValues>
@@ -519,12 +543,7 @@
                             <Component class="javax.swing.JComboBox" name="cbLocChucVu">
                               <Properties>
                                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                                  <StringArray count="4">
-                                    <StringItem index="0" value="Item 1"/>
-                                    <StringItem index="1" value="Item 2"/>
-                                    <StringItem index="2" value="Item 3"/>
-                                    <StringItem index="3" value="Item 4"/>
-                                  </StringArray>
+                                  <StringArray count="0"/>
                                 </Property>
                               </Properties>
                               <AuxValues>
@@ -563,6 +582,9 @@
                           </Layout>
                           <SubComponents>
                             <Component class="javax.swing.JTextField" name="txtTimKiem">
+                              <Events>
+                                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTimKiemKeyReleased"/>
+                              </Events>
                             </Component>
                           </SubComponents>
                         </Container>
@@ -590,6 +612,9 @@
                                   </Table>
                                 </Property>
                               </Properties>
+                              <Events>
+                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbLamViecMouseClicked"/>
+                              </Events>
                             </Component>
                           </SubComponents>
                         </Container>
@@ -649,6 +674,9 @@
                                   </Table>
                                 </Property>
                               </Properties>
+                              <Events>
+                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbNghiViecMouseClicked"/>
+                              </Events>
                             </Component>
                           </SubComponents>
                         </Container>
