@@ -22,15 +22,18 @@ public class jplKhachHang extends javax.swing.JPanel {
 
     private List<KhachHangResponse> listKhachHang = new ArrayList<>();
     private List<KhachHangResponse> listKhachHangDaXoa = new ArrayList<>();
+    private List<KhachHangResponse> listTheTichDiem = new ArrayList<>();
     private KhachHangService service = new KhachHangServiceImpl();
     private DefaultTableModel dtm = new DefaultTableModel();
     private DefaultTableModel dtmDaXoa = new DefaultTableModel();
+    private DefaultTableModel dtmTichDiem = new DefaultTableModel();
 
     public jplKhachHang() {
         initComponents();
 
         JTableHeader Theader = tblKhachHang.getTableHeader();
         JTableHeader TheaderXoa = tblKhachHangDaXoa.getTableHeader();
+        JTableHeader TheaderTichDiem = tblTheTichDiem.getTableHeader();
         Theader.setFont(new Font("tahoma", Font.BOLD, 15));
         Theader.setBackground(new Color(47, 85, 212));
         Theader.setForeground(Color.white);
@@ -39,12 +42,19 @@ public class jplKhachHang extends javax.swing.JPanel {
         TheaderXoa.setBackground(new Color(47, 85, 212));
         TheaderXoa.setForeground(Color.white);
 
+        TheaderTichDiem.setFont(new Font("tahoma", Font.BOLD, 15));
+        TheaderTichDiem.setBackground(new Color(47, 85, 212));
+        TheaderTichDiem.setForeground(Color.white);
+
         dtm = (DefaultTableModel) tblKhachHang.getModel();
         dtmDaXoa = (DefaultTableModel) tblKhachHangDaXoa.getModel();
+        dtmTichDiem = (DefaultTableModel) tblTheTichDiem.getModel();
         listKhachHang = service.getAll(1);
         showData(listKhachHang);
         listKhachHangDaXoa = service.getAll(0);
         showDataRemove(listKhachHangDaXoa);
+        listTheTichDiem = service.getAllTheTichDiem();
+        showDataTichDiem(listTheTichDiem);
 
     }
 
@@ -59,6 +69,13 @@ public class jplKhachHang extends javax.swing.JPanel {
         dtmDaXoa.setRowCount(0);
         for (KhachHangResponse s : list) {
             dtmDaXoa.addRow(s.toDataRow());
+        }
+    }
+
+    private void showDataTichDiem(List<KhachHangResponse> list) {
+        dtmTichDiem.setRowCount(0);
+        for (KhachHangResponse s : list) {
+            dtmTichDiem.addRow(s.toDataRowTheTichDiem());
         }
     }
 
@@ -159,7 +176,7 @@ public class jplKhachHang extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblTheTichDiem = new javax.swing.JTable();
         ThemKhachHang = new javax.swing.JPanel();
         jplThongTin = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -466,7 +483,8 @@ public class jplKhachHang extends javax.swing.JPanel {
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-pencil-20 WHITE.png"))); // NOI18N
         jButton2.setText("SỬA");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblTheTichDiem.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        tblTheTichDiem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -474,10 +492,19 @@ public class jplKhachHang extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "ID ", "MÃ THẺ", "NGÀY KÍCH HOẠT", "SỐ ĐIỂM", "TRẠNG  THÁI"
+                "ID", "MÃ THẺ", "NGÀY KÍCH HOẠT", "SỐ ĐIỂM", "TRẠNG  THÁI"
             }
-        ));
-        jScrollPane3.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblTheTichDiem.setRowHeight(25);
+        jScrollPane3.setViewportView(tblTheTichDiem);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -955,11 +982,11 @@ public class jplKhachHang extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel jplThongTin;
     private javax.swing.JTable tblKhachHang;
     private javax.swing.JTable tblKhachHangDaXoa;
+    private javax.swing.JTable tblTheTichDiem;
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtHoTen;

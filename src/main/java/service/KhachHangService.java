@@ -18,4 +18,6 @@ public interface KhachHangService {
 
     void updateKhoiPhuc(KhachHangResponse kh, int trangThai);
 
+    List<KhachHangResponse> getAllTheTichDiem();
+
 }

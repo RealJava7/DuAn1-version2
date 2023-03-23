@@ -34,4 +34,10 @@ public class PhieuBaoHanhResponse {
                 + ngayMuaHang + ", ngayHetHan=" + ngayHetHan + ", moTa=" + moTa + ", trangThai=" + trangThai + '}';
     }
 
+    public Object[] toRowData() {
+        return new Object[]{this.id, this.tenLoaiBH, this.dieuKienBH, this.tenKhachHang,
+            this.tenDienThoai, this.imei, this.giaSanPham, this.thoiHanBaoHanh,
+            this.ngayMuaHang, this.ngayHetHan, this.moTa, this.trangThai};
+    }
+
 }

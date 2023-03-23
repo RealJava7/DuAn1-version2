@@ -616,17 +616,21 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable1">
+                <Component class="javax.swing.JTable" name="tblTheTichDiem">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="16" style="0"/>
+                    </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="5" rowCount="4">
-                        <Column editable="true" title="ID " type="java.lang.Object"/>
-                        <Column editable="true" title="M&#xc3; TH&#x1eba;" type="java.lang.Object"/>
-                        <Column editable="true" title="NG&#xc0;Y K&#xcd;CH HO&#x1ea0;T" type="java.lang.Object"/>
-                        <Column editable="true" title="S&#x1ed0; &#x110;I&#x1ec2;M" type="java.lang.Object"/>
-                        <Column editable="true" title="TR&#x1ea0;NG  TH&#xc1;I" type="java.lang.Object"/>
+                        <Column editable="true" title="ID" type="java.lang.Object"/>
+                        <Column editable="false" title="M&#xc3; TH&#x1eba;" type="java.lang.Object"/>
+                        <Column editable="false" title="NG&#xc0;Y K&#xcd;CH HO&#x1ea0;T" type="java.lang.Object"/>
+                        <Column editable="false" title="S&#x1ed0; &#x110;I&#x1ec2;M" type="java.lang.Object"/>
+                        <Column editable="false" title="TR&#x1ea0;NG  TH&#xc1;I" type="java.lang.Object"/>
                       </Table>
                     </Property>
+                    <Property name="rowHeight" type="int" value="25"/>
                   </Properties>
                 </Component>
               </SubComponents>
