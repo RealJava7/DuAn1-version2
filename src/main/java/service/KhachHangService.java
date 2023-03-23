@@ -6,9 +6,9 @@ import viewmodel.KhachHangResponse;
 
 public interface KhachHangService {
 
-    List<KhachHangResponse> getAll();
+    List<KhachHangResponse> getAll(int trangThai);
 
-    List<KhachHangResponse> getRemove();
+    List<KhachHangResponse> findBySdt(String sdt, int trangThai);
 
     String add(KhachHang kh);
 
