@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import model.PhieuTraGop;
 import service.PhieuTraGopService;
 import service.impl.PhieuTraGopServiceImpl;
 import view.Contains.tragop.ViewTraGopDetail;
@@ -266,7 +267,8 @@ public class jplTraGop extends javax.swing.JPanel {
 
     private void mnuChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuChiTietActionPerformed
         // TODO add your handling code here:
-        new ViewTraGopDetail().setVisible(true);
+        int id = listView.get(tblDanhSachTraGop.getSelectedRow()).getId();
+        new ViewTraGopDetail(id).setVisible(true);
     }//GEN-LAST:event_mnuChiTietActionPerformed
 
     private void mnuKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuKhachHangActionPerformed

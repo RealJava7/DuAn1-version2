@@ -19,13 +19,15 @@ public class PhieuTraGopServiceImpl implements PhieuTraGopService {
         List<PhieuTraGopViewModel> listView = new ArrayList<>();
 
         for (PhieuTraGop phieuTraGop : listRepo) {
+
             PhieuTraGopViewModel traGopViewModel = new PhieuTraGopViewModel();
+            traGopViewModel.setId(phieuTraGop.getId());
             traGopViewModel.setNgayDong(phieuTraGop.getNgayTao());
             traGopViewModel.setMaPhieu(phieuTraGop.getMaPhieu());
 //            traGopViewModel.setKhachHang(phieuTraGop.getHoaDon().getKhachHang().getHoTen());
 //            traGopViewModel.setMaDon(phieuTraGop.getHoaDon().get);
 //            traGopViewModel.setTongTien(phieuTraGop.getHoaDon().getTongTien() - phieuTraGop.getHoaDon().getTienGiam()); // tổng tiền - tiền giảm
-//            traGopViewModel.setDaTra(phieuTraGop.getNgayTao()); làm sau
+            traGopViewModel.setDaTra(phieuTraGop.getTongTienDaTra());
 
             traGopViewModel.setConNo(0);
             traGopViewModel.setTrangThai(false);
@@ -61,8 +63,18 @@ public class PhieuTraGopServiceImpl implements PhieuTraGopService {
     }
 
     @Override
-    public String update(String id, PhieuTraGop phieuTraGop) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String update(int id, PhieuTraGop phieuTraGop) {
+        boolean check = repository.update(id, phieuTraGop);
+        if (check) {
+            return "Sửa thành công";
+        } else {
+            return "Sửa thất bại";
+        }
+    }
+
+    @Override
+    public PhieuTraGop getByID(int i) {
+        return repository.getByID(i);
     }
 
 }

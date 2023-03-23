@@ -37,4 +37,15 @@ public class HangServiceImpl implements HangService {
         return updateResult ? "Sửa thành công!" : "Sửa thất bại!";
     }
 
+    @Override
+    public List<HangResponse> getAllDaXoa() {
+        return hangRepository.getAllDaXoa();
+    }
+
+    @Override
+    public String delete(HangResponse hangResponse) {
+        boolean deleteResult = hangRepository.delete(hangResponse);
+        return deleteResult ? "Xóa thành công!" : "Xóa thất bại!";
+    }
+
 }

@@ -87,4 +87,11 @@ public class PhieuTraGop {
         return "PhieuTraGop{" + "id=" + id + ", maPhieu=" + maPhieu + ", tongPhaiTra=" + tongPhaiTra + ", laiSuat=" + laiSuat + ", kyHan=" + kyHan + ", ngayTao=" + ngayTao + ", ngayDong=" + ngayDong + ", phaiTra=" + phaiTra + ", trangThai=" + trangThai + ", hoaDon=" + hoaDon + '}';
     }
 
+    public long getTongTienDaTra() {
+        long tongTien = 0;
+        for (LichSuTraGop lichSuTraGop : lichSuSet) {
+            tongTien += lichSuTraGop.getTongTien();
+        }
+        return tongTien;
+    }
 }

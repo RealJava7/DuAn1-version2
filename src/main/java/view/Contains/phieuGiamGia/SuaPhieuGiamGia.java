@@ -9,17 +9,18 @@ import javax.swing.JOptionPane;
 import model.PhieuGiamGia;
 import model.PhieuGiamGiaChiTiet;
 import repository.PhieuGiamGiaRepository;
-import service.QuanLyPhieuGiamGiaService;
-import service.impl.QuanLyPhieuGiamGiaServiceImpl;
+import service.impl.PhieuGiamGiaServiceImpl;
 import viewmodel.PhieuGiamGiaResponse;
+import service.PhieuGiamGiaService;
 
 public class SuaPhieuGiamGia extends javax.swing.JFrame {
 
     PhieuGiamGiaChiTiet phieuGiamGiaChiTiet;
     PhieuGiamGia phieuGiamGia;
-    QuanLyPhieuGiamGiaService qs;
+    PhieuGiamGiaService qs;
     PhieuGiamGiaResponse phieuGiamGiaResponse;
     int id;
+    int vali;
 
     public SuaPhieuGiamGia(PhieuGiamGiaResponse phieu) {
         initComponents();
@@ -27,9 +28,10 @@ public class SuaPhieuGiamGia extends javax.swing.JFrame {
         phieuGiamGiaChiTiet = new PhieuGiamGiaChiTiet();
         phieuGiamGia = new PhieuGiamGia();
         phieuGiamGiaResponse = new PhieuGiamGiaResponse();
-        qs = new QuanLyPhieuGiamGiaServiceImpl();
+        qs = new PhieuGiamGiaServiceImpl();
         loadForm(phieu);
         id = phieu.getId();
+        vali = 0;
     }
 
     public void loadForm(PhieuGiamGiaResponse phieu) {
@@ -42,6 +44,59 @@ public class SuaPhieuGiamGia extends javax.swing.JFrame {
         txtGiaTriToiThieu.setText(String.valueOf(phieu.getDieuKien()));
         txtLuotDung.setText(String.valueOf(phieu.getLuotSuDung()));
 
+    }
+
+    public int getStatus(LocalDate ngayBatDau, LocalDate ngayKetThuc) {
+        LocalDate homNay = LocalDate.now();
+
+        if (homNay.compareTo(ngayBatDau) >= 0 && homNay.compareTo(ngayKetThuc) < 0) {
+            return 0;
+        } else if (homNay.compareTo(ngayBatDau) < 0) {
+            return 2;
+        } else if (homNay.compareTo(ngayBatDau) > 0 && homNay.compareTo(ngayKetThuc) >= 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public void validates() {
+        String tenPhieu = txtTenPhieu.getText();
+        String MaPhieu = txtMaVoucher.getText();
+        String mucGiam = txtMucGiam.getText();
+        String toiThieu = txtGiaTriToiThieu.getText();
+        String luotDung = txtLuotDung.getText();
+        if (tenPhieu.trim().equals("") || MaPhieu.trim().equals("")
+                || mucGiam.trim().equals("") || toiThieu.trim().equals("")
+                || luotDung.trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Bạn cần nhập tất cả thông tin");
+            vali = 1;
+            return;
+        }
+        if (!MaPhieu.matches("\\w+")) {
+            JOptionPane.showMessageDialog(this, "Mã không hợp lệ");
+            vali = 1;
+            return;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date bd;
+        bd = txtNgayBatDau.getDate();
+        Date kt;
+        kt = txtNgayKetThuc.getDate();
+        if (bd == null || kt == null) {
+            JOptionPane.showMessageDialog(this, "Bạn cần chọn ngày bắt đầu và ngày kết thúc");
+            vali = 1;
+            return;
+        }
+        long millis = System.currentTimeMillis();
+        Date now = new Date(millis);
+        System.out.println(now);
+        if (bd.compareTo(kt) >= 0) {
+            JOptionPane.showMessageDialog(this, "Chương trình giảm giá phải kéo dài ít nhất 1 ngày");
+            vali = 1;
+            return;
+        }
+        vali = 0;
     }
 
     @SuppressWarnings("unchecked")
@@ -262,63 +317,77 @@ public class SuaPhieuGiamGia extends javax.swing.JFrame {
 
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
         // TODO add your handling code here:
+        validates();
+        if(vali==1){
+            return;
+        }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String batDau = sdf.format(txtNgayBatDau.getDate());
         String ketThuc = sdf.format(txtNgayKetThuc.getDate());
         int luot = 0;
+        int trangThai = 0;
+        float mucGiam = 0;
+        long dieuKien = 0;
         String luotDung = txtLuotDung.getText();
-        luot = Integer.parseInt(luotDung);
-        phieuGiamGiaChiTiet.setNgayBatDau(phieuGiamGiaResponse.getNgayBatDau());
-        phieuGiamGiaChiTiet.setNgayKetThuc(phieuGiamGiaResponse.getNgayKetThuc());
-        phieuGiamGiaChiTiet.setLuotSuDung(phieuGiamGiaResponse.getLuotSuDung());
-        phieuGiamGiaChiTiet.setDieuKien(phieuGiamGiaResponse.getDieuKien());
-        phieuGiamGiaChiTiet.setGiaTri(phieuGiamGiaResponse.getGiaTri());
-        phieuGiamGiaChiTiet.setTrangThai(phieuGiamGiaResponse.getTrangThai());
-        phieuGiamGia.setMaPhieu(phieuGiamGiaResponse.getMaPhieu());
-        phieuGiamGia.setTenPhieu(phieuGiamGiaResponse.getTenPhieu());
-        phieuGiamGia.setId(phieuGiamGiaResponse.getId());
-        phieuGiamGia.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
-
+        try {
+            mucGiam = Float.valueOf(txtMucGiam.getText());
+            if (mucGiam < 0) {
+                JOptionPane.showMessageDialog(this, "Mức giảm phải lớn hơn 0");
+                return;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Mức giảm phải là số");
+            return;
+        }
+        try {
+            dieuKien = Long.parseLong(txtGiaTriToiThieu.getText());
+            if (dieuKien < 0) {
+                JOptionPane.showMessageDialog(this, "Giá trị đơn hàng phải lớn hơn hoặc bằng 0");
+                return;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Giá trị đơn hàng phải là số");
+            return;
+        }
+        try {
+            luot = Integer.parseInt(luotDung);
+            if (luot < 0) {
+                JOptionPane.showMessageDialog(this, "Lượt sử dụng phải lớn hơn hoặc bằng 0");
+                return;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lượt Sử dụng phải là số");
+            return;
+        }
+        phieuGiamGiaResponse.setNgayBatDau(LocalDate.parse(batDau));
+        phieuGiamGiaResponse.setNgayKetThuc(LocalDate.parse(ketThuc));
+        trangThai = getStatus(LocalDate.parse(batDau), LocalDate.parse(ketThuc));
+        if(luot==0){
+            trangThai=1;
+        }
+        phieuGiamGiaResponse.setLuotSuDung(luot);
+        phieuGiamGiaResponse.setDieuKien(dieuKien);
+        phieuGiamGiaResponse.setGiaTri(mucGiam);
+        phieuGiamGiaResponse.setTrangThai(trangThai);
+        phieuGiamGiaResponse.setMaPhieu(txtMaVoucher.getText());
+        phieuGiamGiaResponse.setTenPhieu(txtTenPhieu.getText());
+        phieuGiamGiaResponse.setId(id);
+        System.out.println(phieuGiamGiaResponse);
+//        phieuGiamGiaChiTiet.setNgayKetThuc(phieuGiamGiaResponse.getNgayKetThuc());
+//        phieuGiamGiaChiTiet.setLuotSuDung(phieuGiamGiaResponse.getLuotSuDung());
+//        phieuGiamGiaChiTiet.setDieuKien(phieuGiamGiaResponse.getDieuKien());
+//        phieuGiamGiaChiTiet.setGiaTri(phieuGiamGiaResponse.getGiaTri());
+//        phieuGiamGiaChiTiet.setTrangThai(phieuGiamGiaResponse.getTrangThai());
+//        phieuGiamGia.setMaPhieu(phieuGiamGiaResponse.getMaPhieu());
+//        phieuGiamGia.setTenPhieu(phieuGiamGiaResponse.getTenPhieu());
+//        phieuGiamGia.setId(phieuGiamGiaResponse.getId());
+//        phieuGiamGia.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
+//
         JOptionPane.showMessageDialog(this, qs.update(phieuGiamGiaResponse));
         dispose();
 
     }//GEN-LAST:event_btnXacNhanActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(SuaPhieuGiamGia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(SuaPhieuGiamGia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(SuaPhieuGiamGia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(SuaPhieuGiamGia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new SuaPhieuGiamGia().setVisible(true);
-//            }
-//        });
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;

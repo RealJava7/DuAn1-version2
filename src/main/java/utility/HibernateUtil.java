@@ -2,6 +2,7 @@ package utility;
 
 import java.util.Properties;
 import model.CameraChiTiet;
+import model.ChiTietPhieuBaoHanh;
 import model.DienThoai;
 import model.DongSanPham;
 import model.Hang;
@@ -11,9 +12,11 @@ import model.HoaDonChiTiet;
 import model.Imei;
 import model.KhachHang;
 import model.LichSuTraGop;
+import model.LoaiBaoHanh;
 import model.ManHinhChiTiet;
 import model.MauSac;
 import model.NhanVien;
+import model.PhieuBaoHanh;
 import model.PhieuGiamGia;
 import model.PhieuGiamGiaChiTiet;
 import model.PhieuTraGop;
@@ -36,14 +39,18 @@ public class HibernateUtil {
         properties.put(Environment.DIALECT, "org.hibernate.dialect.SQLServerDialect");
         properties.put(Environment.DRIVER, "com.microsoft.sqlserver.jdbc.SQLServerDriver");
         properties.put(Environment.URL, "jdbc:sqlserver://localhost:1433;databaseName=duan1_spring2023");
-        properties.put(Environment.USER, "sa");
-        properties.put(Environment.PASS, "1");
-//        properties.put(Environment.USER, "test");
-//        properties.put(Environment.PASS, "qwer");
+//        properties.put(Environment.USER, "sa");
+//        properties.put(Environment.PASS, "1");
+        properties.put(Environment.USER, "test");
+        properties.put(Environment.PASS, "qwer");
 
         conf.setProperties(properties);
         conf.addAnnotatedClass(PhieuGiamGia.class);
         conf.addAnnotatedClass(PhieuGiamGiaChiTiet.class);
+        
+        conf.addAnnotatedClass(PhieuBaoHanh.class);
+        conf.addAnnotatedClass(LoaiBaoHanh.class);
+        conf.addAnnotatedClass(ChiTietPhieuBaoHanh.class);
 
         conf.addAnnotatedClass(DienThoai.class);
         conf.addAnnotatedClass(CameraChiTiet.class);

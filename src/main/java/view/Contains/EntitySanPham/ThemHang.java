@@ -13,7 +13,9 @@ public class ThemHang extends javax.swing.JFrame {
 
     private HangService hangService;
     private List<HangResponse> hangResponseList;
+    private List<HangResponse> hangDaXoaList;
     private DefaultTableModel dtmHang;
+    private DefaultTableModel dtmHangDaXoa;
 
     public ThemHang() {
         initComponents();
@@ -21,15 +23,25 @@ public class ThemHang extends javax.swing.JFrame {
 
         hangService = new HangServiceImpl();
         hangResponseList = new ArrayList<>();
+        hangDaXoaList = new ArrayList<>();
         dtmHang = (DefaultTableModel) tbHang.getModel();
+        dtmHangDaXoa = (DefaultTableModel) tbDaXoa.getModel();
 
         hangResponseList = hangService.getAllResponse();
         showDataTable(hangResponseList);
+
+        hangDaXoaList = hangService.getAllDaXoa();
+        showDataTableDaXoa(hangDaXoaList);
     }
 
     private void showDataTable(List<HangResponse> hangs) {
         dtmHang.setRowCount(0);
         hangs.forEach(h -> dtmHang.addRow(h.toDataRow()));
+    }
+
+    private void showDataTableDaXoa(List<HangResponse> hangs) {
+        dtmHangDaXoa.setRowCount(0);
+        hangs.forEach(h -> dtmHangDaXoa.addRow(h.toDataRow()));
     }
 
     @SuppressWarnings("unchecked")
@@ -43,7 +55,7 @@ public class ThemHang extends javax.swing.JFrame {
         tbHang = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tbHang1 = new javax.swing.JTable();
+        tbDaXoa = new javax.swing.JTable();
         btnKhoiPhuc = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -106,7 +118,7 @@ public class ThemHang extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        tbHang1.setModel(new javax.swing.table.DefaultTableModel(
+        tbDaXoa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -122,12 +134,12 @@ public class ThemHang extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbHang1.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbDaXoa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbHang1MouseClicked(evt);
+                tbDaXoaMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(tbHang1);
+        jScrollPane2.setViewportView(tbDaXoa);
 
         btnKhoiPhuc.setBackground(new java.awt.Color(47, 85, 212));
         btnKhoiPhuc.setForeground(new java.awt.Color(255, 255, 255));
@@ -142,22 +154,22 @@ public class ThemHang extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 1, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnKhoiPhuc, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(19, 19, 19))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addComponent(btnKhoiPhuc, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnKhoiPhuc, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("ĐÃ XÓA", jPanel2);
@@ -324,6 +336,11 @@ public class ThemHang extends javax.swing.JFrame {
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Sửa hãng?", "Xác nhận sửa hãng", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+
         int clickedRow = tbHang.getSelectedRow();
         if (clickedRow < 0) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn hãng trước khi sửa!");
@@ -350,16 +367,32 @@ public class ThemHang extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Xóa hãng?", "Xác nhận xóa hãng", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+
         int clickedRow = tbHang.getSelectedRow();
         if (clickedRow < 0) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn hãng trước khi xóa!");
             return;
         }
+        HangResponse selectedHang = hangResponseList.get(clickedRow);
+        String deleteResult = hangService.delete(selectedHang);
+        JOptionPane.showMessageDialog(this, deleteResult);
+
+        // reset table
+        hangResponseList = hangService.getAllResponse();
+        showDataTable(hangResponseList);
+
+        hangDaXoaList = hangService.getAllDaXoa();
+        showDataTableDaXoa(hangDaXoaList);
+        txtTenHang.setText("");
     }//GEN-LAST:event_btnXoaActionPerformed
 
-    private void tbHang1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHang1MouseClicked
+    private void tbDaXoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDaXoaMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_tbHang1MouseClicked
+    }//GEN-LAST:event_tbDaXoaMouseClicked
 
     private void btnKhoiPhucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhoiPhucActionPerformed
 
@@ -442,8 +475,8 @@ public class ThemHang extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable tbDaXoa;
     private javax.swing.JTable tbHang;
-    private javax.swing.JTable tbHang1;
     private javax.swing.JTextField txtTenHang;
     // End of variables declaration//GEN-END:variables
 }

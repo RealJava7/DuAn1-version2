@@ -189,7 +189,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        btnImportExcel.setText("Import (Excel)");
+        btnImportExcel.setText("Export (Excel)");
         btnImportExcel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnImportExcelActionPerformed(evt);

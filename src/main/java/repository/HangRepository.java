@@ -42,6 +42,7 @@ public class HangRepository {
                                               SELECT new viewmodel.HangResponse
                                               (h.id, h.tenHang, h.trangThai)
                                               FROM Hang h
+                                              WHERE h.trangThai = true
                                                """);
 
             hangResponses = query.getResultList();
@@ -78,7 +79,7 @@ public class HangRepository {
         }
         return check;
     }
-    
+
     // 5. update
     public static boolean update(HangResponse hangResponse) {
         boolean check = false;
@@ -91,7 +92,7 @@ public class HangRepository {
 
             session.update(hang);
             transaction.commit();
-            
+
             check = true;
             session.close();
         } catch (HibernateException e) {
@@ -120,22 +121,64 @@ public class HangRepository {
         return hang;
     }
 
+    // 7. get all hangDaXoa
+    public List<HangResponse> getAllDaXoa() {
+        List<HangResponse> hangResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.HangResponse
+                                              (h.id, h.tenHang, h.trangThai)
+                                              FROM Hang h
+                                              WHERE h.trangThai = false
+                                               """);
+
+            hangResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return hangResponses;
+    }
+
+    // 8
+    public static boolean delete(HangResponse hangResponse) {
+        boolean check = false;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            Hang hang = session.get(Hang.class, hangResponse.getId());
+            hang.setTrangThai(false);
+
+            session.update(hang);
+            transaction.commit();
+
+            check = true;
+            session.close();
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+        return check;
+    }
+
     public static void main(String[] args) {
+        HangResponse hangResponse = new HangResponse();
+        hangResponse.setId(6);
+        System.out.println(delete(hangResponse));
+
 //        HangResponse hangResponse = new HangResponse();
 //        hangResponse.setId(1);
 //        hangResponse.setTenHang("Applee");
 //        System.out.println(update(hangResponse));
-        
 //        List<HangResponse> hangResponses = getAllResponse();
 //        hangResponses.forEach(h -> System.out.println(h.toString()));
-
 //        List<Hang> hangs = getAllEntity();
 //        hangs.forEach(h -> System.out.println(h.toString()));
 //        Hang apple = getByTenHang("Apple1");
 //        System.out.println(apple == null);
 //        System.out.println(apple.getId());
 //        System.out.println(apple.getTenHang());
-
 //        Hang hang = new Hang();
 //        hang.setTenHang("Nokia");
 //        System.out.println(add(hang));
