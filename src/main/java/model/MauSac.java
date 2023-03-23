@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,9 +31,35 @@ public class MauSac {
     @Column(name = "TenMauSac")
     private String tenMauSac;
 
+    public MauSac(String tenMauSac) {
+        this.tenMauSac = tenMauSac;
+    }
+
     @Override
     public String toString() {
         return this.tenMauSac;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + Objects.hashCode(this.tenMauSac);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final MauSac other = (MauSac) obj;
+        return Objects.equals(this.tenMauSac, other.tenMauSac);
     }
 
 }

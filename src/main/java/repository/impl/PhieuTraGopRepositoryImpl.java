@@ -9,14 +9,14 @@ import javax.persistence.Query;
 import model.PhieuTraGop;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import repository.PhieuTraGopRepository;
+//import repository.PhieuTraGopRepository;
 import utility.HibernateUtil;
 
 /**
  *
  * @author Administrator
  */
-public class PhieuTraGopRepositoryImpl implements PhieuTraGopRepository {
+public class PhieuTraGopRepositoryImpl {
 
     public boolean delete(String id) {
         return false;

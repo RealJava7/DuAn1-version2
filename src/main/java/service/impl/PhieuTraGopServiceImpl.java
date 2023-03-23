@@ -1,24 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import model.PhieuTraGop;
-import repository.PhieuTraGopRepository;
+//import repository.PhieuTraGopRepository;
 import repository.impl.PhieuTraGopRepositoryImpl;
 import service.PhieuTraGopService;
 import viewmodel.PhieuTraGopViewModel;
 
-/**
- *
- * @author Administrator
- */
 public class PhieuTraGopServiceImpl implements PhieuTraGopService {
 
-    private PhieuTraGopRepository repository = new PhieuTraGopRepositoryImpl();
+    private PhieuTraGopRepositoryImpl repository = new PhieuTraGopRepositoryImpl();
 
     @Override
 
@@ -37,8 +29,10 @@ public class PhieuTraGopServiceImpl implements PhieuTraGopService {
 
             traGopViewModel.setConNo(0);
             traGopViewModel.setTrangThai(false);
+            listView.add(traGopViewModel);
         }
         return listView;
+//        return null;
     }
 
     @Override

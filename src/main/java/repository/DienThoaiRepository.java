@@ -38,7 +38,7 @@ public class DienThoaiRepository {
     }
 
     // 2. get all
-    public static List<DienThoaiResponse> getAll() {
+    public List<DienThoaiResponse> getAll() {
         List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
 
         try {
@@ -46,7 +46,7 @@ public class DienThoaiRepository {
             Query query = session.createQuery("""
                                               SELECT new viewmodel.DienThoaiResponse
                                               (dt.id, dt.maDT, dt.tenDT, dt.moTa, dt.dungLuongPin, dt.rom, dt.ram, dt.cpu, dt.giaNhap, dt.giaBan, dt.soLuong, dt.hinhAnh,
-                                              h.tenHang, dsp.ten, ms.tenMauSac, hdh.ten,
+                                              hdh.ten, h.tenHang, dsp.ten, ms.tenMauSac,
                                               c.cameraChinh, c.cameraPhu, c.cameraGocRong, c.cameraTele,
                                               mh.kichThuoc, mh.doPhanGiai, mh.loaiManHinh)
                                               FROM DienThoai dt
@@ -67,8 +67,8 @@ public class DienThoaiRepository {
     // Test
     public static void main(String[] args) {
         // get all
-        List<DienThoaiResponse> dienThoaiResponses = getAll();
-        dienThoaiResponses.forEach(dt -> System.out.println(dt.toString()));
+//        List<DienThoaiResponse> dienThoaiResponses = getAll();
+//        dienThoaiResponses.forEach(dt -> System.out.println(dt.toString()));
         
         // add
 //        CameraChiTiet cam = new CameraChiTiet();

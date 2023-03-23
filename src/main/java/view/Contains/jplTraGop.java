@@ -4,7 +4,9 @@
  */
 package view.Contains;
 
+import java.awt.FlowLayout;
 import java.util.List;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import service.PhieuTraGopService;
@@ -54,6 +56,8 @@ public class jplTraGop extends javax.swing.JPanel {
         mnuChiTiet = new javax.swing.JMenuItem();
         mnuKhachHang = new javax.swing.JMenuItem();
         mnuDonHang = new javax.swing.JMenuItem();
+        jDialog1 = new javax.swing.JDialog();
+        jDialog2 = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -76,10 +80,42 @@ public class jplTraGop extends javax.swing.JPanel {
         jPopupMenu1.add(mnuChiTiet);
 
         mnuKhachHang.setText("Thông tin khách hàng");
+        mnuKhachHang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuKhachHangActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(mnuKhachHang);
 
         mnuDonHang.setText("Thông tin đơn hàng");
+        mnuDonHang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuDonHangActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(mnuDonHang);
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
+        jDialog2.getContentPane().setLayout(jDialog2Layout);
+        jDialog2Layout.setHorizontalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog2Layout.setVerticalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel1.setText("Danh Sách Trả Góp");
@@ -233,10 +269,32 @@ public class jplTraGop extends javax.swing.JPanel {
         new ViewTraGopDetail().setVisible(true);
     }//GEN-LAST:event_mnuChiTietActionPerformed
 
+    private void mnuKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuKhachHangActionPerformed
+        // TODO add your handling code here:
+        JPanel panel = new jplKhachHang();
+        jDialog1.setLayout(new FlowLayout());
+        jDialog1.add(panel);
+        jDialog1.pack();
+        jDialog1.setLocationRelativeTo(this);
+        jDialog1.setVisible(true);
+    }//GEN-LAST:event_mnuKhachHangActionPerformed
+
+    private void mnuDonHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDonHangActionPerformed
+        // TODO add your handling code here:
+        JPanel panel = new jplHoaDon();
+        jDialog2.setLayout(new FlowLayout());
+        jDialog2.add(panel);
+        jDialog2.pack();
+        jDialog2.setLocationRelativeTo(this);
+        jDialog2.setVisible(true);
+    }//GEN-LAST:event_mnuDonHangActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTaoPhieuTra;
     private javax.swing.JComboBox<String> cbxThoiGian;
     private javax.swing.JComboBox<String> cbxTrangThai;
+    private javax.swing.JDialog jDialog1;
+    private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
