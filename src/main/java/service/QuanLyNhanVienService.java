@@ -14,19 +14,27 @@ import viewmodel.NhanVienResponse;
  */
 public interface QuanLyNhanVienService {
 
-    String add(NhanVien nhanVien);
+    String add(NhanVienResponse nhanVienResponse);
 
     String update(NhanVienResponse nhanVienResponse);
 
     String delete(int id);
+    
+    List<NhanVienResponse> getAll();
 
     List<NhanVienResponse> getAllLam();
 
     List<NhanVienResponse> getAllNghi();
 
-    List<NhanVienResponse> findByName(String name);
+    List<NhanVienResponse> findByNameNVLam(String name);
     
-    List<NhanVienResponse> findByGioiTinh(boolean gt);
+    List<NhanVienResponse> findByNameNVNghi(String name);
     
-    List<NhanVienResponse> findByChucVu(boolean cv);
+    List<NhanVienResponse> findByGioiTinhNVLam(boolean gt);
+    
+    List<NhanVienResponse> findByGioiTinhNVNghi(boolean gt);
+    
+    List<NhanVienResponse> findByChucVuNVLam(boolean cv);
+    
+    List<NhanVienResponse> findByChucVuNVNghi(boolean cv);
 }

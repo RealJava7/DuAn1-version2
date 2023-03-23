@@ -138,7 +138,7 @@ public class NhanVienRepository {
         return nhanVienResponses;
     }
 
-    public List<NhanVienResponse> findByName(String name) {
+    public List<NhanVienResponse> findByNameNVLam(String name) {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
 
         try {
@@ -149,6 +149,7 @@ public class NhanVienRepository {
                                               FROM NhanVien nv
                                               INNER JOIN nv.taiKhoan tk
                                               WHERE nv.hoTen like :hoTen
+                                              AND nv.trangThai = true
                                                """);
             query.setParameter("hoTen", "%" + name + "%");
             nhanVienResponses = query.getResultList();
@@ -158,7 +159,28 @@ public class NhanVienRepository {
         return nhanVienResponses;
     }
     
-    public List<NhanVienResponse> findByGioiTinh(boolean gt) {
+    public List<NhanVienResponse> findByNameNVNghi(String name) {
+        List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.NhanVienResponse
+                                              (nv.id, nv.hoTen, nv.gioiTinh, nv.sdt, nv.ngaySinh, nv.diaChi, nv.email, nv.chucVu, nv.trangThai, nv.hinhAnh, tk.taiKhoan, tk.matKhau)
+                                              FROM NhanVien nv
+                                              INNER JOIN nv.taiKhoan tk
+                                              WHERE nv.hoTen like :hoTen
+                                              AND nv.trangThai = false
+                                               """);
+            query.setParameter("hoTen", "%" + name + "%");
+            nhanVienResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return nhanVienResponses;
+    }
+    
+    public List<NhanVienResponse> findByGioiTinhNVLam(boolean gt) {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
 
         try {
@@ -169,6 +191,7 @@ public class NhanVienRepository {
                                               FROM NhanVien nv
                                               INNER JOIN nv.taiKhoan tk
                                               WHERE nv.gioiTinh = :gioiTinh
+                                              AND nv.trangThai = true
                                                """);
             query.setParameter("gioiTinh", gt);
             nhanVienResponses = query.getResultList();
@@ -178,7 +201,28 @@ public class NhanVienRepository {
         return nhanVienResponses;
     }
     
-    public List<NhanVienResponse> findByChucVu(boolean cv) {
+    public List<NhanVienResponse> findByGioiTinhNVNghi(boolean gt) {
+        List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.NhanVienResponse
+                                              (nv.id, nv.hoTen, nv.gioiTinh, nv.sdt, nv.ngaySinh, nv.diaChi, nv.email, nv.chucVu, nv.trangThai, nv.hinhAnh, tk.taiKhoan, tk.matKhau)
+                                              FROM NhanVien nv
+                                              INNER JOIN nv.taiKhoan tk
+                                              WHERE nv.gioiTinh = :gioiTinh
+                                              AND nv.trangThai = false
+                                               """);
+            query.setParameter("gioiTinh", gt);
+            nhanVienResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return nhanVienResponses;
+    }
+    
+    public List<NhanVienResponse> findByChucVuNVLam(boolean cv) {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
 
         try {
@@ -189,6 +233,28 @@ public class NhanVienRepository {
                                               FROM NhanVien nv
                                               INNER JOIN nv.taiKhoan tk
                                               WHERE nv.chucVu = :chucVu
+                                              AND nv.trangThai = true
+                                               """);
+            query.setParameter("chucVu", cv);
+            nhanVienResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return nhanVienResponses;
+    }
+    
+    public List<NhanVienResponse> findByChucVuNVNghi(boolean cv) {
+        List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.NhanVienResponse
+                                              (nv.id, nv.hoTen, nv.gioiTinh, nv.sdt, nv.ngaySinh, nv.diaChi, nv.email, nv.chucVu, nv.trangThai, nv.hinhAnh, tk.taiKhoan, tk.matKhau)
+                                              FROM NhanVien nv
+                                              INNER JOIN nv.taiKhoan tk
+                                              WHERE nv.chucVu = :chucVu
+                                              AND nv.trangThai = false
                                                """);
             query.setParameter("chucVu", cv);
             nhanVienResponses = query.getResultList();
