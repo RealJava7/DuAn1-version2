@@ -29,6 +29,9 @@ public class DongSanPham {
 
     @Column(name = "Ten")
     private String ten;
+    
+    @Column(name = "TrangThai")
+    private boolean trangThai;
 
     @ManyToOne
     @JoinColumn(name = "IdHang")

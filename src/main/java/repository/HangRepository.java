@@ -23,6 +23,7 @@ public class HangRepository {
                                               SELECT new model.Hang
                                               (h.id, h.tenHang)
                                               FROM Hang h
+                                              WHERE h.trangThai = true
                                                """);
 
             hangs = query.getResultList();
@@ -141,8 +142,8 @@ public class HangRepository {
         return hangResponses;
     }
 
-    // 8
-    public static boolean delete(HangResponse hangResponse) {
+    // 8. delete
+    public boolean delete(HangResponse hangResponse) {
         boolean check = false;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
@@ -163,9 +164,9 @@ public class HangRepository {
     }
 
     public static void main(String[] args) {
-        HangResponse hangResponse = new HangResponse();
-        hangResponse.setId(6);
-        System.out.println(delete(hangResponse));
+//        HangResponse hangResponse = new HangResponse();
+//        hangResponse.setId(6);
+//        System.out.println(delete(hangResponse));
 
 //        HangResponse hangResponse = new HangResponse();
 //        hangResponse.setId(1);
