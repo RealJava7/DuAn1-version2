@@ -16,4 +16,8 @@ public interface HangService {
     
     Hang getByTenHang(String tenHang);
     
+    List<HangResponse> getAllDaXoa();
+    
+    String delete(HangResponse hangResponse);
+    
 }
