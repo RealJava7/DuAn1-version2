@@ -3,14 +3,14 @@ package service.impl;
 import java.util.List;
 import model.PhieuGiamGia;
 import repository.PhieuGiamGiaRepository;
-import service.QuanLyPhieuGiamGiaService;
 import viewmodel.PhieuGiamGiaResponse;
+import service.PhieuGiamGiaService;
 
 /**
  *
  * @author DELL
  */
-public class QuanLyPhieuGiamGiaServiceImpl implements QuanLyPhieuGiamGiaService {
+public class PhieuGiamGiaServiceImpl implements PhieuGiamGiaService {
 
     PhieuGiamGiaRepository pr = new PhieuGiamGiaRepository();
 
@@ -21,7 +21,7 @@ public class QuanLyPhieuGiamGiaServiceImpl implements QuanLyPhieuGiamGiaService 
 
     @Override
     public String add(PhieuGiamGia phieu) {
-   if (pr.add(phieu) == true) {
+        if (pr.add(phieu) == true) {
             return "Thêm thành công";
         }
         return "Thêm thất bại";
@@ -29,13 +29,29 @@ public class QuanLyPhieuGiamGiaServiceImpl implements QuanLyPhieuGiamGiaService 
 
     @Override
     public String update(PhieuGiamGiaResponse phieu) {
-  if (pr.update(phieu)==true) {
-            return "Thêm thành công";
+        if (pr.update(phieu) == true) {
+            return "Sửa thành công";
         }
-        return "Thêm thất bại";
+        return "sửa thất bại";
     }
+
     public static void main(String[] args) {
-        QuanLyPhieuGiamGiaService qs = new QuanLyPhieuGiamGiaServiceImpl();
+        PhieuGiamGiaService qs = new PhieuGiamGiaServiceImpl();
         System.out.println(qs.getall());
+    }
+
+    @Override
+    public List<PhieuGiamGiaResponse> getByStatus(int tt) {
+        return pr.getByStatus(tt);
+    }
+
+    @Override
+    public List<PhieuGiamGiaResponse> getByName(String name) {
+        return pr.getByName(name);
+    }
+
+    @Override
+    public List<PhieuGiamGiaResponse> getByMa(String ma) {
+        return pr.getByMa(ma);
     }
 }

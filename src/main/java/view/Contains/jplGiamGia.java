@@ -6,26 +6,26 @@ package view.Contains;
 
 import view.Contains.phieuGiamGia.ThemPhieuGiamGia;
 import java.util.List;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import service.QuanLyPhieuGiamGiaService;
-import service.impl.QuanLyPhieuGiamGiaServiceImpl;
+import org.hibernate.hql.spi.id.local.AfterUseAction;
+import service.impl.PhieuGiamGiaServiceImpl;
 import view.Contains.phieuGiamGia.SuaPhieuGiamGia;
+import view.Login;
 import viewmodel.PhieuGiamGiaResponse;
+import service.PhieuGiamGiaService;
 
-/**
- *
- * @author DELL
- */
 public class jplGiamGia extends javax.swing.JPanel {
 
-    QuanLyPhieuGiamGiaService qs;
+    PhieuGiamGiaService qs;
     DefaultTableModel dtm;
 
     public jplGiamGia() {
         initComponents();
-        qs = new QuanLyPhieuGiamGiaServiceImpl();
+        qs = new PhieuGiamGiaServiceImpl();
         dtm = (DefaultTableModel) tblMaGiamGia.getModel();
         loadTable(qs.getall());
+        rdbTatCa.setSelected(true);
     }
 
     private void loadTable(List<PhieuGiamGiaResponse> list) {
@@ -194,7 +194,7 @@ public class jplGiamGia extends javax.swing.JPanel {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel9.setText("ĐƠN BẢO HÀNH");
+        jLabel9.setText("TỔNG TIỀN GIẢM");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -300,17 +300,38 @@ public class jplGiamGia extends javax.swing.JPanel {
         rdbTatCa.setBackground(new java.awt.Color(246, 246, 246));
         buttonGroup1.add(rdbTatCa);
         rdbTatCa.setText("Tất cả");
+        rdbTatCa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdbTatCaActionPerformed(evt);
+            }
+        });
 
         rdbSapBatDau.setBackground(new java.awt.Color(246, 246, 246));
         buttonGroup1.add(rdbSapBatDau);
         rdbSapBatDau.setText("Sắp diễn ra");
+        rdbSapBatDau.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdbSapBatDauActionPerformed(evt);
+            }
+        });
 
         rdbDangDienRa.setBackground(new java.awt.Color(246, 246, 246));
         buttonGroup1.add(rdbDangDienRa);
         rdbDangDienRa.setText("Đang diễn ra");
+        rdbDangDienRa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdbDangDienRaActionPerformed(evt);
+            }
+        });
 
         rdbDaKetThuc.setBackground(new java.awt.Color(246, 246, 246));
+        buttonGroup1.add(rdbDaKetThuc);
         rdbDaKetThuc.setText("Đã kết thúc");
+        rdbDaKetThuc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdbDaKetThucActionPerformed(evt);
+            }
+        });
 
         tblMaGiamGia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -331,6 +352,8 @@ public class jplGiamGia extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tblMaGiamGia.setGridColor(new java.awt.Color(48, 85, 212));
+        tblMaGiamGia.setShowGrid(true);
         tblMaGiamGia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblMaGiamGiaMouseClicked(evt);
@@ -347,6 +370,11 @@ public class jplGiamGia extends javax.swing.JPanel {
         cbbTimKiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tên Voucher", "Mã Voucher" }));
 
         btnTimVoucher.setText("Tìm kiếm");
+        btnTimVoucher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimVoucherActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -480,7 +508,7 @@ public class jplGiamGia extends javax.swing.JPanel {
 
     private void btnTaoPhieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoPhieuActionPerformed
         // TODO add your handling code here:
-        new ThemPhieuGiamGia(null, true).setVisible(true);
+       new ThemPhieuGiamGia().setVisible(true);
         loadTable(qs.getall());
     }//GEN-LAST:event_btnTaoPhieuActionPerformed
 
@@ -488,10 +516,51 @@ public class jplGiamGia extends javax.swing.JPanel {
         // TODO add your handling code here:
         int index = tblMaGiamGia.getSelectedRow();
         PhieuGiamGiaResponse phieu = qs.getall().get(index);
+        loadTable(qs.getall());
         new SuaPhieuGiamGia(phieu).setVisible(true);
-
-
+        loadTable(qs.getall());
     }//GEN-LAST:event_tblMaGiamGiaMouseClicked
+
+    private void rdbTatCaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbTatCaActionPerformed
+        // TODO add your handling code here:
+        loadTable(qs.getall());
+        txtTimKiem.setText("");
+
+    }//GEN-LAST:event_rdbTatCaActionPerformed
+
+    private void rdbDangDienRaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbDangDienRaActionPerformed
+        // TODO add your handling code here:
+        loadTable(qs.getByStatus(0));
+        txtTimKiem.setText("");
+
+    }//GEN-LAST:event_rdbDangDienRaActionPerformed
+
+    private void rdbSapBatDauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbSapBatDauActionPerformed
+        // TODO add your handling code here:
+        loadTable(qs.getByStatus(2));
+        txtTimKiem.setText("");
+
+    }//GEN-LAST:event_rdbSapBatDauActionPerformed
+
+    private void rdbDaKetThucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbDaKetThucActionPerformed
+        // TODO add your handling code here:
+        loadTable(qs.getByStatus(1));
+        txtTimKiem.setText("");
+    }//GEN-LAST:event_rdbDaKetThucActionPerformed
+
+    private void btnTimVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimVoucherActionPerformed
+        // TODO add your handling code here:
+//        rdbSapBatDau.setSelected(false);
+//        rdbDangDienRa.setSelected(false);
+//        rdbDangDienRa.setSelected(false);
+        String tim = txtTimKiem.getText();
+        if (cbbTimKiem.getSelectedIndex() == 0) {
+            loadTable(qs.getByName(tim));
+        } else if (cbbTimKiem.getSelectedIndex() == 1) {
+            loadTable(qs.getByMa(tim));
+        }
+        buttonGroup1.setSelected(rdbDaKetThuc.getModel(), false);
+    }//GEN-LAST:event_btnTimVoucherActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTaoPhieu;

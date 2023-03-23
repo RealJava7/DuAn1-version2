@@ -9,28 +9,86 @@ import javax.swing.JOptionPane;
 import model.PhieuGiamGia;
 import model.PhieuGiamGiaChiTiet;
 import repository.PhieuGiamGiaRepository;
-import service.QuanLyPhieuGiamGiaService;
-import service.impl.QuanLyPhieuGiamGiaServiceImpl;
+import service.impl.PhieuGiamGiaServiceImpl;
 import viewmodel.PhieuGiamGiaResponse;
+import service.PhieuGiamGiaService;
+import view.Contains.jplGiamGia;
 
 /**
  *
  * @author DELL
  */
-public class ThemPhieuGiamGia extends javax.swing.JDialog {
+public class ThemPhieuGiamGia extends javax.swing.JFrame {
 
     PhieuGiamGiaChiTiet phieuGiamGiaChiTiet;
     PhieuGiamGia phieuGiamGia;
-    QuanLyPhieuGiamGiaService qs;
+    PhieuGiamGiaService qs;
+//    SimpleDateFormat sdf;
+    SimpleDateFormat checkDate;
+    int vali;
 
-    public ThemPhieuGiamGia(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public ThemPhieuGiamGia() {
         initComponents();
         setLocationRelativeTo(null);
         phieuGiamGiaChiTiet = new PhieuGiamGiaChiTiet();
         phieuGiamGia = new PhieuGiamGia();
-        qs = new QuanLyPhieuGiamGiaServiceImpl();
+        qs = new PhieuGiamGiaServiceImpl();
+//        sdf = new SimpleDateFormat("yyyy-MM-dd");
+        checkDate = new SimpleDateFormat("yyyy-MM-dd 00 00");
+        vali = 0;
+    }
 
+    public int setTrangThai(LocalDate ngayBatDau, LocalDate ngayKetThuc) {
+        LocalDate homNay = LocalDate.now();
+
+        if (homNay.compareTo(ngayBatDau) >= 0 && homNay.compareTo(ngayKetThuc) < 0) {
+            return 0;
+        } else if (homNay.compareTo(ngayBatDau) < 0) {
+            return 2;
+        } else if (homNay.compareTo(ngayBatDau) > 0 && homNay.compareTo(ngayKetThuc) >= 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public void validates() {
+        String tenPhieu = txtTenPhieu.getText();
+        String MaPhieu = txtMaVoucher.getText();
+        String mucGiam = txtMucGiam.getText();
+        String toiThieu = txtGiaTriToiThieu.getText();
+        String luotDung = txtLuotDung.getText();
+        if (tenPhieu.trim().equals("") || MaPhieu.trim().equals("")
+                || mucGiam.trim().equals("") || toiThieu.trim().equals("")
+                || luotDung.trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Bạn cần nhập tất cả thông tin");
+            vali = 1;
+            return;
+        }
+        if (!MaPhieu.matches("\\w+")) {
+            JOptionPane.showMessageDialog(this, "Mã không hợp lệ");
+            vali = 1;
+            return;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date bd;
+        bd = txtNgayBatDau.getDate();
+        Date kt;
+        kt = txtNgayKetThuc.getDate();
+        if (bd == null || kt == null) {
+            JOptionPane.showMessageDialog(this, "Bạn cần chọn ngày bắt đầu và ngày kết thúc");
+            vali = 1;
+            return;
+        }
+        long millis = System.currentTimeMillis();
+        Date now = new Date(millis);
+        System.out.println(now);
+        if (bd.compareTo(kt) >= 0) {
+            JOptionPane.showMessageDialog(this, "Chương trình giảm giá phải kéo dài ít nhất 1 ngày");
+            vali = 1;
+            return;
+        }
+        vali = 0;
     }
 
     @SuppressWarnings("unchecked")
@@ -101,7 +159,7 @@ public class ThemPhieuGiamGia extends javax.swing.JDialog {
         jLabel9.setText("Giá trị đơn hàng tối thiểu:");
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel10.setText("Lượt sử dụng tối đa:");
+        jLabel10.setText("Lượt sử dụng:");
 
         btnHuy.setText("Hủy");
         btnHuy.addActionListener(new java.awt.event.ActionListener() {
@@ -173,7 +231,7 @@ public class ThemPhieuGiamGia extends javax.swing.JDialog {
                 .addGap(24, 24, 24))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtMaVoucher, txtNgayBatDau, txtNgayKetThuc, txtTenPhieu});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtMaVoucher, txtNgayBatDau, txtNgayKetThuc});
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnHuy, btnXacNhan});
 
@@ -264,70 +322,64 @@ public class ThemPhieuGiamGia extends javax.swing.JDialog {
 
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
         // TODO add your handling code here:
+        validates();
+        if (vali == 1) {
+            return;
+        }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String batDau = sdf.format(txtNgayBatDau.getDate());
         String ketThuc = sdf.format(txtNgayKetThuc.getDate());
         int luot = 0;
+        int trangThai = 0;
+        float mucGiam = 0;
+        long dieuKien = 0;
         String luotDung = txtLuotDung.getText();
-        luot = Integer.parseInt(luotDung);
+        try {
+            mucGiam = Float.valueOf(txtMucGiam.getText());
+            if (mucGiam < 0) {
+                JOptionPane.showMessageDialog(this, "Mức giảm phải lớn hơn 0");
+                return;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Mức giảm phải là số");
+            return;
+        }
+        try {
+            dieuKien = Long.parseLong(txtGiaTriToiThieu.getText());
+            if (dieuKien < 0) {
+                JOptionPane.showMessageDialog(this, "Giá trị đơn hàng phải lớn hơn hoặc bằng 0");
+                return;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Giá trị đơn hàng phải là số");
+            return;
+        }
+        try {
+            luot = Integer.parseInt(luotDung);
+            if (luot <= 0) {
+                JOptionPane.showMessageDialog(this, "Lượt sử dụng phải lớn hơn 0");
+                return;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lượt Sử dụng phải là số");
+            return;
+        }
+
         phieuGiamGiaChiTiet.setNgayBatDau(LocalDate.parse(batDau));
         phieuGiamGiaChiTiet.setNgayKetThuc(LocalDate.parse(ketThuc));
+        trangThai = setTrangThai(LocalDate.parse(batDau), LocalDate.parse(ketThuc));
         phieuGiamGiaChiTiet.setLuotSuDung(luot);
-        phieuGiamGiaChiTiet.setDieuKien(Long.parseLong(txtGiaTriToiThieu.getText()));
-        phieuGiamGiaChiTiet.setGiaTri(Float.valueOf(txtMucGiam.getText()));
-        phieuGiamGiaChiTiet.setTrangThai(1);
+        phieuGiamGiaChiTiet.setDieuKien(dieuKien);
+        phieuGiamGiaChiTiet.setGiaTri(mucGiam);
+        phieuGiamGiaChiTiet.setTrangThai(trangThai);
         phieuGiamGia.setMaPhieu(txtMaVoucher.getText());
         phieuGiamGia.setTenPhieu(txtTenPhieu.getText());
         phieuGiamGia.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
-
         JOptionPane.showMessageDialog(this, qs.add(phieuGiamGia));
         dispose();
+
     }//GEN-LAST:event_btnXacNhanActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ThemPhieuGiamGia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ThemPhieuGiamGia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ThemPhieuGiamGia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ThemPhieuGiamGia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                ThemPhieuGiamGia dialog = new ThemPhieuGiamGia(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;
