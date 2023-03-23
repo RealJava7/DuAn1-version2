@@ -30,6 +30,9 @@ public class Hang {
 
     @Column(name = "Ten")
     private String tenHang;
+    
+    @Column(name = "TrangThai")
+    private boolean trangThai;
 
     @OneToMany(mappedBy = "hangDienThoai")
     private List<DongSanPham> dongSanPhams = new ArrayList<>();

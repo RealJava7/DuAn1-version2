@@ -35,4 +35,10 @@ public class CameraChiTiet {
     
     @Column(name = "CameraTele")
     private int cameraTele;
+
+    @Override
+    public String toString() {
+        return "CameraChiTiet{" + "id=" + id + ", cameraChinh=" + cameraChinh + ", cameraPhu=" + cameraPhu + ", cameraGocRong=" + cameraGocRong + ", cameraTele=" + cameraTele + '}';
+    }
+    
 }

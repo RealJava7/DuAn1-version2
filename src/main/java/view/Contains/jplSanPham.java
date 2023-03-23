@@ -1,12 +1,19 @@
 package view.Contains;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.CameraChiTiet;
+import model.DienThoai;
 import model.DongSanPham;
 import model.Hang;
 import model.HeDieuHanh;
+import model.Imei;
+import model.ManHinhChiTiet;
 import model.MauSac;
 import model.enums.LoaiManHinh;
 import service.DienThoaiService;
@@ -79,7 +86,7 @@ public class jplSanPham extends javax.swing.JPanel {
     // 1
     private void getDataForComboBox() {
         // Hãng
-        List<Hang> hangList = hangService.getAll();
+        List<Hang> hangList = hangService.getAllEntity();
         hangList.forEach(h -> cbHang.addItem(h));
 
         // Màu sắc
@@ -95,7 +102,7 @@ public class jplSanPham extends javax.swing.JPanel {
         ramList.forEach(r -> dcbmRam.addElement(r));
 
         // Rom
-        List<String> romList = List.of("64", "128", "256", "512");
+        List<String> romList = List.of("64", "128", "256", "512", "1024");
         romList.forEach(r -> dcbmRom.addElement(r));
 
         // Loại màn hình
@@ -358,6 +365,11 @@ public class jplSanPham extends javax.swing.JPanel {
         btnThem.setForeground(new java.awt.Color(255, 255, 255));
         btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-add-new-20.png"))); // NOI18N
         btnThem.setText("THÊM");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         btnSua.setBackground(new java.awt.Color(47, 85, 212));
         btnSua.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -385,6 +397,11 @@ public class jplSanPham extends javax.swing.JPanel {
         btnLamMoi.setForeground(new java.awt.Color(255, 255, 255));
         btnLamMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-new-20.png"))); // NOI18N
         btnLamMoi.setText("MỚI");
+        btnLamMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLamMoiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -637,7 +654,7 @@ public class jplSanPham extends javax.swing.JPanel {
                         .addComponent(jLabel13)
                         .addGap(18, 18, 18)
                         .addComponent(cbRom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -809,12 +826,9 @@ public class jplSanPham extends javax.swing.JPanel {
                                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(20, 20, 20)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(35, 35, 35))
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(35, 35, 35)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -927,16 +941,105 @@ public class jplSanPham extends javax.swing.JPanel {
 
         Hang hang = new Hang(dienThoaiResponse.getHang());
         dcbmHang.setSelectedItem(hang);
-
         DongSanPham dsp = new DongSanPham(dienThoaiResponse.getDongSanPham());
         dcbmDongSP.setSelectedItem(dsp);
-
         MauSac ms = new MauSac(dienThoaiResponse.getMauSac());
         dcbmMauSac.setSelectedItem(ms);
-
         HeDieuHanh hdh = new HeDieuHanh(dienThoaiResponse.getHeDieuHanh());
         dcbmHDH.setSelectedItem(hdh);
     }//GEN-LAST:event_tbDienThoaiMouseClicked
+
+    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
+        txtMaSanPham.setText("");
+        txtTenSanPham.setText("");
+        txtGiaNhap.setText("");
+        txtGiaBan.setText("");
+
+        cbRam.setSelectedIndex(0);
+        cbRom.setSelectedIndex(0);
+
+        txtPin.setText("");
+        txtCpu.setText("");
+
+        txtCamChinh.setText("");
+        txtCamPhu.setText("");
+        txtCamGocRong.setText("");
+        txtCamTele.setText("");
+
+        txtKichThuoc.setText("");
+        txtDoPG.setText("");
+        cbLoaiManHinh.setSelectedIndex(0);
+    }//GEN-LAST:event_btnLamMoiActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // Camera
+        CameraChiTiet cam = new CameraChiTiet();
+        String camChinh = txtCamChinh.getText().trim();
+        String camPhu = txtCamChinh.getText().trim();
+        String camTele = txtCamChinh.getText().trim();
+        String camGocRong = txtCamChinh.getText().trim();
+
+        if (!camChinh.isBlank()) {
+            cam.setCameraChinh(Integer.valueOf(camChinh));
+        }
+        if (!camPhu.isBlank()) {
+            cam.setCameraPhu(Integer.valueOf(camPhu));
+        }
+        if (!camTele.isBlank()) {
+            cam.setCameraTele(Integer.valueOf(camTele));
+        }
+        if (!camGocRong.isBlank()) {
+            cam.setCameraGocRong(Integer.valueOf(camGocRong));
+        }
+
+        // Màn hình
+        ManHinhChiTiet man = new ManHinhChiTiet();
+        man.setKichThuoc(Float.valueOf(txtKichThuoc.getText().trim()));
+        man.setDoPhanGiai(txtDoPG.getText().trim());
+        man.setLoaiManHinh((LoaiManHinh) cbLoaiManHinh.getSelectedItem());
+
+        // Điện thoại
+        DienThoai dienThoai = new DienThoai();
+
+        dienThoai.setMaDT(txtMaSanPham.getText().trim());
+        dienThoai.setTenDT(txtTenSanPham.getText().trim());
+        dienThoai.setMoTa("Dep");
+        dienThoai.setDungLuongPin(Integer.valueOf(txtPin.getText().trim()));
+        System.out.println("h1");
+        dienThoai.setRam(Integer.valueOf(String.valueOf(dcbmRam.getSelectedItem())));
+        dienThoai.setRom(Integer.valueOf(String.valueOf(dcbmRom.getSelectedItem())));
+        System.out.println("hello");
+        dienThoai.setCpu(txtCpu.getText().trim());
+        dienThoai.setGiaNhap(Long.valueOf(txtGiaNhap.getText().trim()));
+        dienThoai.setGiaBan(Long.valueOf(txtGiaBan.getText().trim()));
+        dienThoai.setSoLuong(2);
+        dienThoai.setHinhAnh("abc.png");
+
+        Hang hang = (Hang) dcbmHang.getSelectedItem();
+        DongSanPham dsp = (DongSanPham) dcbmDongSP.getSelectedItem();
+        MauSac mauSac = (MauSac) dcbmMauSac.getSelectedItem();
+        HeDieuHanh hdh = (HeDieuHanh) dcbmHDH.getSelectedItem();
+
+        dienThoai.setHang(hang);
+        dienThoai.setDongSanPham(dsp);
+        dienThoai.setMauSac(mauSac);
+        dienThoai.setHeDieuHanh(hdh);
+
+        dienThoai.setCameraChiTiet(cam);
+        dienThoai.setManHinhChiTiet(man);
+
+        Set<String> imeiStrSet = new HashSet<>();
+        imeiStrSet.add("209312301239123");
+        imeiStrSet.add("091291239123992");
+
+        for (String i : imeiStrSet) {
+            Imei imei = new Imei(i);
+            dienThoai.addImei(imei);
+        }
+
+        String addResult = dienThoaiService.add(dienThoai);
+        JOptionPane.showMessageDialog(this, addResult);
+    }//GEN-LAST:event_btnThemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDongSanPham;

@@ -91,10 +91,19 @@ public class DienThoai {
     @OneToMany(mappedBy = "dienThoai", cascade = CascadeType.ALL)
     private Set<Imei> imeis = new HashSet<>();
     
-    private void addImei(Imei imei) {
+    public void addImei(Imei imei) {
         if(imei != null) {
             this.imeis.add(imei);
         }
         imei.setDienThoai(this);
     }
+
+    @Override
+    public String toString() {
+        return "DienThoai{" + "id=" + id + ", maDT=" + maDT + ", tenDT=" + tenDT + ", moTa=" + moTa + ", dungLuongPin=" + dungLuongPin+ ", rom=" + rom
+                + ", ram=" + ram + ", cpu=" + cpu + ", giaNhap=" + giaNhap + ", giaBan=" + giaBan + ", soLuong=" + soLuong + ", hinhAnh=" + hinhAnh
+                + ", hang=" + hang.getTenHang() + ", dongSanPham=" + dongSanPham.getTen() + ", mauSac=" + mauSac.getTenMauSac()
+                + ", heDieuHanh=" + heDieuHanh.getTen() + ", cameraChiTiet=" + cameraChiTiet + ", manHinhChiTiet=" + manHinhChiTiet + '}';
+    }
+    
 }
