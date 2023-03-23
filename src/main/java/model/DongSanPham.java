@@ -46,6 +46,12 @@ public class DongSanPham {
         this.ten = ten;
     }
 
+    public DongSanPham(int id, String ten, Hang hangDienThoai) {
+        this.id = id;
+        this.ten = ten;
+        this.hangDienThoai = hangDienThoai;
+    }
+
     @Override
     public String toString() {
         return this.ten;

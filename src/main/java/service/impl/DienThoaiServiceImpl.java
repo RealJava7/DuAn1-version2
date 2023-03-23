@@ -21,4 +21,9 @@ public class DienThoaiServiceImpl implements DienThoaiService {
         return addResult ? "Thêm thành công" : "Thêm thất bại";
     }
 
+    @Override
+    public DienThoai getByMaDT(String maDT) {
+        return dienThoaiRepository.getByMaDT(maDT);
+    }
+
 }
