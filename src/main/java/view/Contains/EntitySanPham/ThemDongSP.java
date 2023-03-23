@@ -1,10 +1,69 @@
 package view.Contains.EntitySanPham;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
+import model.DongSanPham;
+import model.Hang;
+import repository.HangRepository;
+import service.DongSanPhamService;
+import service.HangService;
+import service.impl.DongSanPhamServiceImpl;
+import service.impl.HangServiceImpl;
+import viewmodel.DongSanPhamResponse;
+
 public class ThemDongSP extends javax.swing.JFrame {
+
+    private List<DongSanPhamResponse> activeDongSPResponses;
+    private List<DongSanPhamResponse> inactiveDongSPResponses;
+    private List<Hang> hangList;
+    private DefaultTableModel dtmActive;
+    private DefaultTableModel dtmInactive;
+    private DefaultComboBoxModel dcbmHang;
+
+    private DongSanPhamService dongSPService;
+    private HangService hangService;
 
     public ThemDongSP() {
         initComponents();
         setLocationRelativeTo(null);
+
+        dtmActive = (DefaultTableModel) tbActive.getModel();
+        dtmInactive = (DefaultTableModel) tbInactive.getModel();
+        dcbmHang = (DefaultComboBoxModel) cbHangDT.getModel();
+
+        activeDongSPResponses = new ArrayList<>();
+        inactiveDongSPResponses = new ArrayList<>();
+        hangList = new ArrayList<>();
+
+        dongSPService = new DongSanPhamServiceImpl();
+        hangService = new HangServiceImpl();
+
+        activeDongSPResponses = dongSPService.getAllActiveDongSP();
+        showActiveTable(activeDongSPResponses);
+        inactiveDongSPResponses = dongSPService.getAllInactiveDongSP();
+        showInActivetable(inactiveDongSPResponses);
+
+        showCbHang();
+    }
+
+    private void showActiveTable(List<DongSanPhamResponse> dongSPResponses) {
+        dtmActive.setRowCount(0);
+        dongSPResponses.forEach(d -> dtmActive.addRow(d.toDataRow()));
+    }
+
+    private void showInActivetable(List<DongSanPhamResponse> dongSPResponses) {
+        dtmInactive.setRowCount(0);
+        dongSPResponses.forEach(d -> dtmInactive.addRow(d.toDataRow()));
+    }
+
+    private void showCbHang() {
+        hangList = hangService.getAllEntity();
+        hangList.forEach(h -> cbHangDT.addItem(h));
     }
 
     @SuppressWarnings("unchecked")
@@ -12,23 +71,23 @@ public class ThemDongSP extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tab1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbActive = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         btnKhoiPhuc = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tbInactive = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtDongSP = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnLamMoi = new javax.swing.JButton();
+        btnThem = new javax.swing.JButton();
+        btnSua = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
+        cbHangDT = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("HÃNG");
@@ -37,11 +96,16 @@ public class ThemDongSP extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
+        tab1.setBackground(new java.awt.Color(255, 255, 255));
+        tab1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tab1MouseClicked(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbActive.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -60,7 +124,12 @@ public class ThemDongSP extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        tbActive.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbActiveMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbActive);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -77,7 +146,7 @@ public class ThemDongSP extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("DANH SÁCH", jPanel1);
+        tab1.addTab("DANH SÁCH", jPanel1);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -90,7 +159,7 @@ public class ThemDongSP extends javax.swing.JFrame {
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tbInactive.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -109,7 +178,12 @@ public class ThemDongSP extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        tbInactive.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbInactiveMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tbInactive);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -134,38 +208,58 @@ public class ThemDongSP extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("ĐÃ XÓA", jPanel2);
+        tab1.addTab("ĐÃ XÓA", jPanel2);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("THÔNG TIN"));
 
-        jLabel1.setText("TÊN DÒNG:");
+        jLabel1.setText("TÊN DÒNG SP:");
 
-        jTextField1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
+        txtDongSP.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
 
         jLabel2.setText("HÃNG ĐIỆN THOẠI:");
 
-        jTextField2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
+        btnLamMoi.setBackground(new java.awt.Color(47, 85, 212));
+        btnLamMoi.setForeground(new java.awt.Color(255, 255, 255));
+        btnLamMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-new-20.png"))); // NOI18N
+        btnLamMoi.setText("MỚI");
+        btnLamMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLamMoiActionPerformed(evt);
+            }
+        });
 
-        jButton1.setBackground(new java.awt.Color(47, 85, 212));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-new-20.png"))); // NOI18N
-        jButton1.setText("MỚI");
+        btnThem.setBackground(new java.awt.Color(47, 85, 212));
+        btnThem.setForeground(new java.awt.Color(255, 255, 255));
+        btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-add-new-20.png"))); // NOI18N
+        btnThem.setText("THÊM");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(47, 85, 212));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-add-new-20.png"))); // NOI18N
-        jButton2.setText("THÊM");
+        btnSua.setBackground(new java.awt.Color(47, 85, 212));
+        btnSua.setForeground(new java.awt.Color(255, 255, 255));
+        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-pencil-20 WHITE.png"))); // NOI18N
+        btnSua.setText("SỬA");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
-        jButton3.setBackground(new java.awt.Color(47, 85, 212));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-pencil-20 WHITE.png"))); // NOI18N
-        jButton3.setText("SỬA");
+        btnXoa.setBackground(new java.awt.Color(47, 85, 212));
+        btnXoa.setForeground(new java.awt.Color(255, 255, 255));
+        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-trash-20.png"))); // NOI18N
+        btnXoa.setText("XÓA");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
-        jButton4.setBackground(new java.awt.Color(47, 85, 212));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-trash-20.png"))); // NOI18N
-        jButton4.setText("XÓA");
+        cbHangDT.setModel(new javax.swing.DefaultComboBoxModel<>(new Hang[]{}));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -174,18 +268,19 @@ public class ThemDongSP extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtDongSP, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
-                        .addComponent(jButton2))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnLamMoi)
+                            .addComponent(btnSua))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnXoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(23, 23, 23))
+                    .addComponent(cbHangDT, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -194,19 +289,19 @@ public class ThemDongSP extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtDongSP, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addComponent(cbHangDT, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnLamMoi)
+                    .addComponent(btnThem))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(btnSua)
+                    .addComponent(btnXoa))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -215,13 +310,13 @@ public class ThemDongSP extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tab1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(tab1)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -243,8 +338,211 @@ public class ThemDongSP extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnKhoiPhucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhoiPhucActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Khôi phục dòng SP?", "Xác nhận khôi phục dòng SP", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
 
+        int clickedRow = tbInactive.getSelectedRow();
+        if (clickedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng SP trước khi khôi phục!");
+            return;
+        }
+
+        DongSanPhamResponse selectedDongSP = inactiveDongSPResponses.get(clickedRow);
+
+        String result = dongSPService.changeStatus(selectedDongSP, true);
+        JOptionPane.showMessageDialog(this, result);
+
+        // reset table
+        activeDongSPResponses = dongSPService.getAllActiveDongSP();
+        showActiveTable(activeDongSPResponses);
+
+        inactiveDongSPResponses = dongSPService.getAllInactiveDongSP();
+        showInActivetable(inactiveDongSPResponses);
+
+        txtDongSP.setText("");
+        cbHangDT.setSelectedIndex(0);
     }//GEN-LAST:event_btnKhoiPhucActionPerformed
+
+    private void tab1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tab1MouseClicked
+        tab1.getModel().addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int index = tab1.getSelectedIndex();
+                if (index == 0) {
+                    setButtons(true);
+                } else {
+                    setButtons(false);
+                }
+            }
+        });
+    }//GEN-LAST:event_tab1MouseClicked
+
+    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
+        txtDongSP.setText("");
+        cbHangDT.setSelectedIndex(0);
+    }//GEN-LAST:event_btnLamMoiActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Thêm dòng SP?", "Xác nhận thêm dòng SP", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+
+        String tenDongSp = txtDongSP.getText().trim();
+
+        String checkResult = checkInput(0, tenDongSp);
+        if (!checkResult.equals("")) {
+            JOptionPane.showMessageDialog(this, checkResult);
+            return;
+        }
+
+        DongSanPham newDongSP = new DongSanPham();
+        newDongSP.setTen(tenDongSp);
+
+        Hang selectedHang = HangRepository.getByTenHang(String.valueOf(dcbmHang.getSelectedItem()));
+        newDongSP.setHangDienThoai(selectedHang);
+        newDongSP.setTrangThai(true);
+
+        String addResult = dongSPService.add(newDongSP);
+        JOptionPane.showMessageDialog(this, addResult);
+
+        // reset table
+        activeDongSPResponses = dongSPService.getAllActiveDongSP();
+        showActiveTable(activeDongSPResponses);
+        txtDongSP.setText("");
+        cbHangDT.setSelectedIndex(0);
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Sửa dòng SP?", "Xác nhận sửa dòng SP", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+
+        int clickedRow = tbActive.getSelectedRow();
+        if (clickedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng SP trước khi sửa!");
+            return;
+        }
+
+        DongSanPhamResponse selectedDongSP = activeDongSPResponses.get(clickedRow);
+        String tenDongSp = txtDongSP.getText().trim();
+        String message = checkInput(selectedDongSP.getId(), tenDongSp);
+
+        if (!message.equals("")) {
+            JOptionPane.showMessageDialog(this, message);
+            return;
+        }
+
+        selectedDongSP.setTen(tenDongSp);
+        selectedDongSP.setTenHang(String.valueOf(dcbmHang.getSelectedItem()));
+
+        String updateResult = dongSPService.update(selectedDongSP);
+        JOptionPane.showMessageDialog(this, updateResult);
+
+        // reset table
+        activeDongSPResponses = dongSPService.getAllActiveDongSP();
+        showActiveTable(activeDongSPResponses);
+
+        txtDongSP.setText("");
+        cbHangDT.setSelectedIndex(0);
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void tbActiveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbActiveMouseClicked
+        int clickedRow = tbActive.getSelectedRow();
+        if (clickedRow < 0) {
+            return;
+        }
+
+        DongSanPhamResponse selectedDongSP = activeDongSPResponses.get(clickedRow);
+        txtDongSP.setText(selectedDongSP.getTen());
+        dcbmHang.setSelectedItem(selectedDongSP.getTenHang());
+    }//GEN-LAST:event_tbActiveMouseClicked
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Xóa dòng SP?", "Xác nhận xóa dòng SP", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+
+        int clickedRow = tbActive.getSelectedRow();
+        if (clickedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng SP trước khi xóa!");
+            return;
+        }
+
+        DongSanPhamResponse selectedDongSP = activeDongSPResponses.get(clickedRow);
+
+        String result = dongSPService.changeStatus(selectedDongSP, false);
+        JOptionPane.showMessageDialog(this, result);
+
+        // reset table
+        activeDongSPResponses = dongSPService.getAllActiveDongSP();
+        showActiveTable(activeDongSPResponses);
+
+        inactiveDongSPResponses = dongSPService.getAllInactiveDongSP();
+        showInActivetable(inactiveDongSPResponses);
+
+        txtDongSP.setText("");
+        cbHangDT.setSelectedIndex(0);
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void tbInactiveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbInactiveMouseClicked
+        int clickedRow = tbInactive.getSelectedRow();
+        if (clickedRow < 0) {
+            return;
+        }
+
+        DongSanPhamResponse selectedDongSP = inactiveDongSPResponses.get(clickedRow);
+        txtDongSP.setText(selectedDongSP.getTen());
+        dcbmHang.setSelectedItem(selectedDongSP.getTenHang());
+    }//GEN-LAST:event_tbInactiveMouseClicked
+
+    private String checkInput(int id, String tenDongSp) {
+        String message = "";
+        if (tenDongSp.isBlank()) {
+            message += "Tên dòng SP không được để trống!";
+            return message;
+        } else {
+
+            // Check unique tenDongSP
+            DongSanPham dsp = dongSPService.getByTenDongSP(tenDongSp);
+            if (dsp != null) {
+                if (id == 0) {
+                    message += "Tên dòng SP đã bị trùng!";
+                    if (!dsp.isTrangThai()) {
+                        message += " (trong mục đã xóa)";
+                    }
+                    return message;
+                } else if (id > 0) {
+                    if (dsp.getId() != id) {
+                        message += "Tên dòng SP đã bị trùng!";
+                        if (!dsp.isTrangThai()) {
+                            message += " (trong mục đã xóa)";
+                        }
+                        return message;
+                    }
+                }
+            }
+
+            // Check pattern
+            String pattern = "[a-zA-Z0-9 ]{1,30}";
+            if (!tenDongSp.matches(pattern)) {
+                message += "Tên dòng SP sai định dạng!\n";
+                return message;
+            }
+        }
+        return message;
+    }
+
+    private void setButtons(boolean boo) {
+        btnLamMoi.setEnabled(boo);
+        btnThem.setEnabled(boo);
+        btnSua.setEnabled(boo);
+        btnXoa.setEnabled(boo);
+    }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -281,10 +579,11 @@ public class ThemDongSP extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnKhoiPhuc;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnLamMoi;
+    private javax.swing.JButton btnSua;
+    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnXoa;
+    private javax.swing.JComboBox<Hang> cbHangDT;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -293,10 +592,9 @@ public class ThemDongSP extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTabbedPane tab1;
+    private javax.swing.JTable tbActive;
+    private javax.swing.JTable tbInactive;
+    private javax.swing.JTextField txtDongSP;
     // End of variables declaration//GEN-END:variables
 }

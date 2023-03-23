@@ -314,7 +314,6 @@ public class ThemHang extends javax.swing.JFrame {
             return;
         }
 
-        Hang newHang = new Hang();
         String tenHang = txtTenHang.getText().trim();
 
         String checkResult = checkInput(0, tenHang);
@@ -323,6 +322,7 @@ public class ThemHang extends javax.swing.JFrame {
             return;
         }
 
+        Hang newHang = new Hang();
         newHang.setTenHang(tenHang);
         newHang.setTrangThai(true);
 
@@ -401,7 +401,7 @@ public class ThemHang extends javax.swing.JFrame {
     private String checkInput(int id, String tenHang) {
         String message = "";
         if (tenHang.isBlank()) {
-            message += "Tên hãng không được để trống!\n";
+            message += "Tên hãng không được để trống!";
             return message;
         } else {
 
@@ -409,11 +409,17 @@ public class ThemHang extends javax.swing.JFrame {
             Hang hang = hangService.getByTenHang(tenHang);
             if (hang != null) {
                 if (id == 0) {
-                    message += "Tên hãng đã bị trùng!\n";
+                    message += "Tên hãng đã bị trùng!";
+                    if (!hang.isTrangThai()) {
+                        message += " (trong mục đã xóa)";
+                    }
                     return message;
                 } else if (id > 0) {
                     if (hang.getId() != id) {
-                        message += "Tên hãng đã bị trùng!\n";
+                        message += "Tên hãng đã bị trùng!";
+                        if (!hang.isTrangThai()) {
+                            message += " (trong mục đã xóa)";
+                        }
                         return message;
                     }
                 }
