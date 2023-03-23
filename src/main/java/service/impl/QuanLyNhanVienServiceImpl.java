@@ -30,8 +30,8 @@ public class QuanLyNhanVienServiceImpl implements QuanLyNhanVienService{
     }
     
     @Override
-    public String update(NhanVienResponse nhanVienResponse) {
-        if(repo.update(nhanVienResponse) == true) {
+    public String update(NhanVienResponse nhanVienResponse, int id) {
+        if(repo.update(nhanVienResponse, id) == true) {
             return "Sửa thành công";
         } else {
             return "Sửa thất bại";
@@ -44,6 +44,15 @@ public class QuanLyNhanVienServiceImpl implements QuanLyNhanVienService{
             return "Xóa thành công";
         } else {
             return "Xóa thất bại";
+        }
+    }
+    
+    @Override
+    public String recover(int id) {
+        if(repo.recover(id) == true) {
+            return "Khôi phục thành công";
+        } else {
+            return "Khôi phục thất bại";
         }
     }
     

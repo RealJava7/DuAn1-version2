@@ -129,6 +129,6 @@ public class LichSuTraGopRepositoryImpl implements LichSuTraGopRepository {
     }
 
 //    public static void main(String[] args) {
-//
+//        System.out.println(new LichSuTraGopRepositoryImpl().generateMaLSTG());
 //    }
 }

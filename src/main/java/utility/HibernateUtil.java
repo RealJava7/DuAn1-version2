@@ -47,7 +47,7 @@ public class HibernateUtil {
         conf.setProperties(properties);
         conf.addAnnotatedClass(PhieuGiamGia.class);
         conf.addAnnotatedClass(PhieuGiamGiaChiTiet.class);
-        
+
         conf.addAnnotatedClass(PhieuBaoHanh.class);
         conf.addAnnotatedClass(LoaiBaoHanh.class);
         conf.addAnnotatedClass(ChiTietPhieuBaoHanh.class);

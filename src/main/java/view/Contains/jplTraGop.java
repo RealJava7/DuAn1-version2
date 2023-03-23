@@ -137,9 +137,20 @@ public class jplTraGop extends javax.swing.JPanel {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/search.png"))); // NOI18N
 
-        cbxThoiGian.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Hôm nay", "Hôm qua", "Tuần này", "Tháng này", "Năm nay" }));
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
 
-        cbxTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Hoàn thành", "Chưa Hoàn Thành" }));
+        cbxThoiGian.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Hôm nay", "Tuần này", "Tháng này", "Năm nay" }));
+
+        cbxTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Chưa Hoàn thành", "Hoàn Thành" }));
+        cbxTrangThai.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxTrangThaiItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -290,6 +301,18 @@ public class jplTraGop extends javax.swing.JPanel {
         jDialog2.setLocationRelativeTo(this);
         jDialog2.setVisible(true);
     }//GEN-LAST:event_mnuDonHangActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+//        listView = service.getByString(txtSearch.getText().trim());
+//        showDataTable(listView);
+    }//GEN-LAST:event_txtSearchKeyReleased
+
+    private void cbxTrangThaiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxTrangThaiItemStateChanged
+        // TODO add your handling code here:
+        listView = service.getByTrangThai(cbxTrangThai.getSelectedIndex());
+        showDataTable(listView);
+    }//GEN-LAST:event_cbxTrangThaiItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTaoPhieuTra;

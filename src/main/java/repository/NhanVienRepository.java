@@ -30,14 +30,13 @@ public class NhanVienRepository {
     }
 
     // 2. update
-    public static boolean update(NhanVienResponse nhanVienResponse) {
+    public boolean update(NhanVienResponse nhanVienResponse, int id) {
         boolean check = false;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Transaction transaction = session.beginTransaction();
 
-            NhanVien nhanVien = session.get(NhanVien.class, nhanVienResponse.getId());
-
+            NhanVien nhanVien = session.get(NhanVien.class, id);
             nhanVien.setHoTen(nhanVienResponse.getHoTen());
             nhanVien.setGioiTinh(nhanVienResponse.isGioiTinh());
             nhanVien.setSdt(nhanVienResponse.getSdt());
@@ -69,6 +68,22 @@ public class NhanVienRepository {
             Transaction transaction = session.beginTransaction();
             NhanVien nhanVien = session.get(NhanVien.class, id);
             nhanVien.setTrangThai(false);
+            session.update(nhanVien);
+            transaction.commit();
+            check = true;
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+        return check;
+    }
+    
+    public boolean recover(int id) {
+        boolean check = false;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
+            NhanVien nhanVien = session.get(NhanVien.class, id);
+            nhanVien.setTrangThai(true);
             session.update(nhanVien);
             transaction.commit();
             check = true;
