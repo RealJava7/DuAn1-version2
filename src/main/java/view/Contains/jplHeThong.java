@@ -109,6 +109,7 @@ public class jplHeThong extends javax.swing.JPanel {
         ImageIcon icon = new ImageIcon(getClass().getResource("/Icon/" + nv.getHinhAnh()));    
         Image newImage = icon.getImage().getScaledInstance(148, 184, Image.SCALE_SMOOTH);
         lbAnh.setIcon(new ImageIcon(newImage));
+        strHinhAnh = nv.getHinhAnh();
         txtTaiKhoan.setText(nv.getTaiKhoan());
         txtMatKhau.setText(nv.getMatKhau());
     }
@@ -275,6 +276,7 @@ public class jplHeThong extends javax.swing.JPanel {
         jPanel8 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbNghiViec = new javax.swing.JTable();
+        btnKhoiPhuc = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         cbLocGioiTinh = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
@@ -489,13 +491,13 @@ public class jplHeThong extends javax.swing.JPanel {
 
         tbLamViec.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Họ tên", "Giới tính", "Sđt", "Ngày sinh", "Địa chỉ", "Email", "Chức vụ", "Trạng thái", "Tài khoản", "Mật khẩu"
+                "Họ tên", "Giới tính", "Sđt", "Ngày sinh", "Địa chỉ", "Email", "Chức vụ", "Trạng thái", "Hình ảnh", "Tài khoản", "Mật khẩu"
             }
         ));
         tbLamViec.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -526,13 +528,13 @@ public class jplHeThong extends javax.swing.JPanel {
 
         tbNghiViec.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Họ tên", "Giới tính", "Sđt", "Ngày sinh", "Địa chỉ", "Email", "Chức vụ", "Trạng thái", "Tài khoản", "Mật khẩu"
+                "Họ tên", "Giới tính", "Sđt", "Ngày sinh", "Địa chỉ", "Email", "Chức vụ", "Trạng thái", "Hình ảnh", "Tài khoản", "Mật khẩu"
             }
         ));
         tbNghiViec.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -542,21 +544,34 @@ public class jplHeThong extends javax.swing.JPanel {
         });
         jScrollPane3.setViewportView(tbNghiViec);
 
+        btnKhoiPhuc.setText("Khôi phục");
+        btnKhoiPhuc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKhoiPhucActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 865, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(365, 365, 365)
+                .addComponent(btnKhoiPhuc, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64))
+                .addContainerGap()
+                .addComponent(btnKhoiPhuc)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane2.addTab("Nghỉ việc", jPanel8);
@@ -715,6 +730,12 @@ public class jplHeThong extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        for (NhanVienResponse nhanVienResponse : service.getAll()) {
+            if(nhanVienResponse.getTaiKhoan().equalsIgnoreCase(txtTaiKhoan.getText())) {
+                JOptionPane.showMessageDialog(this, "Tài khoản này đã tồn tại");
+                return;
+            }
+        }
         if(validated()) {
             JOptionPane.showMessageDialog(this, service.add(readForm()));
             list1 = service.getAllLam();
@@ -798,10 +819,21 @@ public class jplHeThong extends javax.swing.JPanel {
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
         rowSelected = tbLamViec.getSelectedRow();
+        System.out.println(list1.get(rowSelected).getId());
         if(rowSelected >= 0) {
+            for (NhanVienResponse nhanVienResponse : service.getAll()) {
+                if(list1.get(rowSelected).getTaiKhoan().equalsIgnoreCase(txtTaiKhoan.getText())) {
+                    break;
+                }
+                if(nhanVienResponse.getTaiKhoan().equalsIgnoreCase(txtTaiKhoan.getText())) {
+                    JOptionPane.showMessageDialog(this, "Tài khoản này đã tồn tại");
+                    return;
+                }
+            }
             int choice = JOptionPane.showConfirmDialog(this, "Confirm", "Bạn có chắc chắn không?", JOptionPane.YES_NO_CANCEL_OPTION);
             if(choice == 0) {
-                JOptionPane.showMessageDialog(this, service.update(readForm()));
+                int id = list1.get(rowSelected).getId();
+                JOptionPane.showMessageDialog(this, service.update(readForm(), id));
                 
                 list1 = service.getAllLam();
                 showDataTblLam(list1);
@@ -833,7 +865,27 @@ public class jplHeThong extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnXoaActionPerformed
 
+    private void btnKhoiPhucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhoiPhucActionPerformed
+        // TODO add your handling code here:
+        rowSelected = tbNghiViec.getSelectedRow();
+        if(rowSelected >= 0) {
+            int choice = JOptionPane.showConfirmDialog(this, "Confirm", "Bạn có chắc chắn không?", JOptionPane.YES_NO_CANCEL_OPTION);
+            if(choice == 0) {
+                JOptionPane.showMessageDialog(this, service.recover(list2.get(rowSelected).getId()));
+                
+                list1 = service.getAllLam();
+                showDataTblLam(list1);
+        
+                list2 = service.getAllNghi();
+                showDataTblNghi(list2);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Phải chọn nhân viên muốn khôi phục");
+        }
+    }//GEN-LAST:event_btnKhoiPhucActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnKhoiPhuc;
     private javax.swing.JButton btnLamMoi;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;

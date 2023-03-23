@@ -245,6 +245,9 @@
                   <Image iconType="3" name="/Icon/icons8-sort-alpha-up-20.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton4">
               <Properties>
@@ -255,6 +258,9 @@
                   <Image iconType="3" name="/Icon/icons8-sort-alpha-up-reversed-20.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel12">
               <Properties>
@@ -290,9 +296,9 @@
                               <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                              <Component id="jButton5" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnSortDaXoaAZ" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButton6" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnSortDaXoaZA" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                               <Component id="btnKhoiPhuc" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -313,8 +319,8 @@
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="txtSearchDaXoa" alignment="1" pref="28" max="32767" attributes="0"/>
                                   <Component id="jLabel14" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="jButton5" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="jButton6" alignment="1" pref="28" max="32767" attributes="0"/>
+                                  <Component id="btnSortDaXoaAZ" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="btnSortDaXoaZA" alignment="1" pref="28" max="32767" attributes="0"/>
                                   <Component id="jLabel13" alignment="1" max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -463,7 +469,7 @@
                 <Property name="text" type="java.lang.String" value="S&#x1eae;P X&#x1ebe;P THEO T&#xca;N:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton5">
+            <Component class="javax.swing.JButton" name="btnSortDaXoaAZ">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="d4" green="55" red="2f" type="rgb"/>
@@ -472,8 +478,11 @@
                   <Image iconType="3" name="/Icon/icons8-sort-alpha-up-20.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnSortDaXoaAZMouseClicked"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton6">
+            <Component class="javax.swing.JButton" name="btnSortDaXoaZA">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="d4" green="55" red="2f" type="rgb"/>
@@ -482,6 +491,9 @@
                   <Image iconType="3" name="/Icon/icons8-sort-alpha-up-reversed-20.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnSortDaXoaZAMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -632,7 +644,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="jPanel4">
+        <Container class="javax.swing.JPanel" name="jplThongTin">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -709,11 +721,13 @@
                                       <Component id="chkTrangThai" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="txtDiaChi" alignment="0" pref="180" max="32767" attributes="0"/>
+                                  <Component id="txtDiaChi" alignment="0" pref="179" max="32767" attributes="0"/>
                                   <Component id="txtMathe" alignment="0" max="32767" attributes="0"/>
                                   <Component id="cldNgaySinh" alignment="0" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="204" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="btnTaoMa" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -754,7 +768,10 @@
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="txtMathe" min="-2" pref="33" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="btnTaoMa" max="32767" attributes="0"/>
+                                  <Component id="txtMathe" pref="33" max="32767" attributes="0"/>
+                              </Group>
                               <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -919,7 +936,7 @@
                   <Font name="Segoe UI" size="15" style="1"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="33" green="33" red="33" type="rgb"/>
+                  <Color blue="0" green="0" red="cc" type="rgb"/>
                 </Property>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
@@ -928,6 +945,7 @@
                     </MatteColorBorder>
                   </Border>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel11">
@@ -1022,6 +1040,23 @@
                   <Font name="Segoe UI" size="14" style="1"/>
                 </Property>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnTaoMa">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="d4" green="55" red="2f" type="rgb"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="12" style="1"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="T&#x1ea0;O M&#xc3;"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTaoMaActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

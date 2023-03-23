@@ -4,15 +4,11 @@
  */
 package repository.impl;
 
-import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.Query;
-import model.LichSuTraGop;
 import model.PhieuTraGop;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import repository.LichSuTraGopRepository;
 //import repository.PhieuTraGopRepository;
 import utility.HibernateUtil;
 
@@ -21,6 +17,8 @@ import utility.HibernateUtil;
  * @author Administrator
  */
 public class PhieuTraGopRepositoryImpl {
+
+    private LichSuTraGopRepository lstgRepository = new LichSuTraGopRepositoryImpl();
 
     public boolean update(int id, PhieuTraGop phieuTraGop) {
         boolean check = false;
@@ -44,6 +42,7 @@ public class PhieuTraGopRepositoryImpl {
 
     public boolean insert(PhieuTraGop phieuTraGop) {
         phieuTraGop.setMaPhieu(genarateMaPhieu());
+
         boolean check = false;
         try (Session session = HibernateUtil.getFACTORY().openSession()) {
             session.beginTransaction();
@@ -91,18 +90,6 @@ public class PhieuTraGopRepositoryImpl {
 
     }
 
-    public List<PhieuTraGop> getByString(String s) {
-        return null;
-    }
-
-    public List<PhieuTraGop> getByTime(int index) {
-        return null;
-    }
-
-    public List<PhieuTraGop> getByTrangThai(int index) {
-        return null;
-    }
-
     public String genarateMaPhieu() {
         try (Session session = HibernateUtil.getFACTORY().openSession()) {
             String hql = "SELECT COUNT(*) FROM PhieuTraGop";
@@ -117,35 +104,96 @@ public class PhieuTraGopRepositoryImpl {
         }
     }
 
-    public static void main(String[] args) {
-        PhieuTraGopRepositoryImpl repositoryImpl = new PhieuTraGopRepositoryImpl();
-//
-//        //tạo Phieu Tra Gop
-//        PhieuTraGop ptg = new PhieuTraGop();
-//        //tạo lich su tra gop
-//        LichSuTraGop lstg = new LichSuTraGop();
-//        //set lich sử trả góp
-////        lstg.setId(10);
-//        lstg.setGhiChu("Ghi chú");
-//        lstg.setMa("LSTG10");
-//        lstg.setNgayThanhToan(LocalDate.now());
-//        lstg.setPhieuTraGop(ptg);
-//        lstg.setTongTien(703703);
-//        //set Phiếu trả góp
-////        ptg.setHoaDon(null);
-////        ptg.setId(5);
-//        ptg.setKyHan(3);
-//        ptg.setLaiSuat(7);
-//        ptg.addLichSuTraGop(lstg);
-//        ptg.setMaPhieu("PTG10");
-//        ptg.setNgayDong(LocalDate.now().getDayOfMonth());
-//        ptg.setNgayTao(LocalDate.now());
-//        ptg.setPhaiTra(547325);
-//        ptg.setTongPhaiTra(2345678);
-//
-//        System.out.println(ptg.toString());
-//        System.out.println(lstg.toString());
+    public List<PhieuTraGop> getByString(String s) {
+        try (Session session = HibernateUtil.getFACTORY().openSession()) {
+            String hql = """
+                         FROM PhieuTraGop ptg
+                         JOIN ptg.HoaDon hd
+                         JOIN hd.KhachHang kh
+                         WHERE kh.HoTen LIKE :s or ptg.MaPhieu LIKE :ss
+                         """;
+            session.beginTransaction();
+            Query query = session.createQuery(hql);
+            query.setParameter("s", "%" + s + "%");
+            query.setParameter("ss", "%" + s + "%");
+            List<PhieuTraGop> listAll = query.getResultList();
+            session.getTransaction().commit();
 
-        System.out.println(repositoryImpl.getByID(1).toString());
+            return listAll;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
+
+    public List<PhieuTraGop> getByTime(int index) {
+        try (Session session = HibernateUtil.getFACTORY().openSession()) {
+            String hql = "From PhieuTraGop";
+            session.beginTransaction();
+            Query query = session.createQuery(hql);
+            List<PhieuTraGop> listAll = query.getResultList();
+            session.getTransaction().commit();
+
+            return listAll;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<PhieuTraGop> getByTrangThai(int index) {
+        if (index == 0) {
+            return getAll();
+        }
+
+        try (Session session = HibernateUtil.getFACTORY().openSession()) {
+            String hql = "From PhieuTraGop WHERE TrangThai = :index";
+            session.beginTransaction();
+            Query query = session.createQuery(hql);
+            query.setParameter("index", --index);
+            List<PhieuTraGop> listAll = query.getResultList();
+            session.getTransaction().commit();
+
+            return listAll;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+//    public static void main(String[] args) {
+//        PhieuTraGopRepositoryImpl repositoryImpl = new PhieuTraGopRepositoryImpl();
+////
+////        //tạo Phieu Tra Gop
+////        PhieuTraGop ptg = new PhieuTraGop();
+////        //tạo lich su tra gop
+////        LichSuTraGop lstg = new LichSuTraGop();
+////        //set lich sử trả góp
+//////        lstg.setId(10);
+////        lstg.setGhiChu("Ghi chú");
+////        lstg.setMa("LSTG10");
+////        lstg.setNgayThanhToan(LocalDate.now());
+////        lstg.setPhieuTraGop(ptg);
+////        lstg.setTongTien(703703);
+////        //set Phiếu trả góp
+//////        ptg.setHoaDon(null);
+//////        ptg.setId(5);
+////        ptg.setKyHan(3);
+////        ptg.setLaiSuat(7);
+////        ptg.addLichSuTraGop(lstg);
+////        ptg.setMaPhieu("PTG10");
+////        ptg.setNgayDong(LocalDate.now().getDayOfMonth());
+////        ptg.setNgayTao(LocalDate.now());
+////        ptg.setPhaiTra(547325);
+////        ptg.setTongPhaiTra(2345678);
+////
+////        System.out.println(ptg.toString());
+////        System.out.println(lstg.toString());
+//
+//        System.out.println(repositoryImpl.getByID(1).toString());
+//    }
 }

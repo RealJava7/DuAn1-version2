@@ -48,4 +48,15 @@ public class LichSuTraGop {
         return "LichSuTraGop{" + "ma=" + ma + ", ngayThanhToan=" + ngayThanhToan + ", tongTien=" + tongTien + ", ghiChu=" + ghiChu + ", phieuTraGop=" + phieuTraGop + '}';
     }
 
+    public LichSuTraGop(String ma, LocalDate ngayThanhToan, long tongTien, String ghiChu) {
+        this.ma = ma;
+        this.ngayThanhToan = ngayThanhToan;
+        this.tongTien = tongTien;
+        this.ghiChu = ghiChu;
+    }
+
+    public Object[] toDataRow() {
+        return new Object[]{ngayThanhToan, ma, tongTien, ghiChu};
+    }
+
 }

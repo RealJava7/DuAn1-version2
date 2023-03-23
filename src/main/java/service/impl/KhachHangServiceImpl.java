@@ -41,4 +41,9 @@ public class KhachHangServiceImpl implements KhachHangService {
         return repo.findBySDT(sdt, trangThai);
     }
 
+    @Override
+    public List<KhachHangResponse> sortByName(Boolean c, int trangThai) {
+        return repo.sortByName(c, trangThai);
+    }
+
 }

@@ -16,9 +16,11 @@ public interface QuanLyNhanVienService {
 
     String add(NhanVienResponse nhanVienResponse);
 
-    String update(NhanVienResponse nhanVienResponse);
+    String update(NhanVienResponse nhanVienResponse, int id);
 
     String delete(int id);
+    
+    String recover(int id);
     
     List<NhanVienResponse> getAll();
 

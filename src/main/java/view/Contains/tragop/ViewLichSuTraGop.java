@@ -4,40 +4,46 @@
  */
 package view.Contains.tragop;
 
-import java.awt.event.MouseEvent;
 import java.time.LocalDate;
-import javax.swing.JButton;
+import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import model.LichSuTraGop;
 import model.PhieuTraGop;
+import service.LichSuTraGopService;
 import service.PhieuTraGopService;
+import service.impl.LichSuTraGopServiceImpl;
 import service.impl.PhieuTraGopServiceImpl;
 
 /**
  *
  * @author Administrator
  */
-public class ViewTraGopDetail extends javax.swing.JFrame {
+public class ViewLichSuTraGop extends javax.swing.JFrame {
 
     private PhieuTraGopService ptgService = new PhieuTraGopServiceImpl();
+    private LichSuTraGopService lstgService = new LichSuTraGopServiceImpl();
     private PhieuTraGop ptg;
+    private DefaultTableModel dtm;
+    private List<LichSuTraGop> listView;
 
     /**
      * Creates new form ViewTraGopDetail
      */
-    public ViewTraGopDetail() {
+//    public ViewLichSuTraGop() {
+//        initComponents();
+//    }
+    public ViewLichSuTraGop(int id) {
         initComponents();
-    }
-
-    public ViewTraGopDetail(int id) {
-        initComponents();
+        dtm = (DefaultTableModel) this.tblLichSuThuNo.getModel();
         ptg = ptgService.getByID(id);
-        fillConTrol();
+        listView = lstgService.getByID(ptg.getId());
+        fillPhieuTraGop();
+        showDataTable(listView);
+
     }
 
-    private void fillConTrol() {
+    private void fillPhieuTraGop() {
         txtMaPhieu.setText(ptg.getMaPhieu());
         txtLaiSuat.setText(String.valueOf(ptg.getLaiSuat()));
         txtNgayDong.setText(String.valueOf(ptg.getNgayDong()));
@@ -78,6 +84,23 @@ public class ViewTraGopDetail extends javax.swing.JFrame {
         return ptg;
     }
 
+    private LichSuTraGop newLichSuTraGop() {
+        LichSuTraGop lstg = new LichSuTraGop();
+        lstg.setMa(txtMaLSTG.getText().trim());
+        lstg.setNgayThanhToan(LocalDate.now());
+        lstg.setPhieuTraGop(ptg);
+        lstg.setTongTien(Long.parseLong(txtTienThanhToan.getText().trim()));
+        lstg.setGhiChu(txtGhiChu.getText().trim());
+        return lstg;
+    }
+
+    private void showDataTable(List<LichSuTraGop> list) {
+        dtm.setRowCount(0);
+        for (LichSuTraGop lichSuTraGop : list) {
+            dtm.addRow(lichSuTraGop.toDataRow());
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -97,9 +120,11 @@ public class ViewTraGopDetail extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtGhiChu = new javax.swing.JTextArea();
-        btnTaoLichSu = new javax.swing.JButton();
-        btnTaoLichSu1 = new javax.swing.JButton();
-        btnTaoLichSu2 = new javax.swing.JButton();
+        btnTaoPhieuThu = new javax.swing.JButton();
+        btnSuaPhieuThu = new javax.swing.JButton();
+        btnXoaPhieuThu = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        txtMaLSTG = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblLichSuThuNo = new javax.swing.JTable();
@@ -124,7 +149,7 @@ public class ViewTraGopDetail extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel1.setText("Lịch Sử Trả Góp");
+        jLabel1.setText("Phiếu Trả Góp Chi Tiết");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -155,11 +180,30 @@ public class ViewTraGopDetail extends javax.swing.JFrame {
         txtGhiChu.setRows(5);
         jScrollPane1.setViewportView(txtGhiChu);
 
-        btnTaoLichSu.setText("Tạo Phiếu Thu");
+        btnTaoPhieuThu.setText("Tạo Phiếu Thu");
+        btnTaoPhieuThu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTaoPhieuThuActionPerformed(evt);
+            }
+        });
 
-        btnTaoLichSu1.setText("Sửa Phiếu Thu");
+        btnSuaPhieuThu.setText("Sửa Phiếu Thu");
+        btnSuaPhieuThu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaPhieuThuActionPerformed(evt);
+            }
+        });
 
-        btnTaoLichSu2.setText("Xóa Phiếu thu");
+        btnXoaPhieuThu.setText("Xóa Phiếu thu");
+        btnXoaPhieuThu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaPhieuThuActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setText("Mã Phiếu Thu :");
+
+        txtMaLSTG.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -167,40 +211,53 @@ public class ViewTraGopDetail extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtTienThanhToan)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtTienThanhToan)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtMaLSTG)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnTaoLichSu, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                    .addComponent(btnTaoLichSu1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnTaoLichSu2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnTaoPhieuThu, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                    .addComponent(btnSuaPhieuThu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnXoaPhieuThu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(233, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtTienThanhToan)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnTaoLichSu, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(btnTaoLichSu1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnTaoPhieuThu, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSuaPhieuThu, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnTaoLichSu2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnXoaPhieuThu, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtMaLSTG, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtTienThanhToan)
+                                .addComponent(jLabel7))
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -258,7 +315,7 @@ public class ViewTraGopDetail extends javax.swing.JFrame {
             .addGap(0, 41, Short.MAX_VALUE)
         );
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Phiếu Trả"));
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Phiếu Trả Góp"));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Mã Phiếu :");
@@ -372,10 +429,10 @@ public class ViewTraGopDetail extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel10)
                         .addComponent(lblPhaiTra)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Cập Nhật Phiếu Trả");
+        jButton1.setText("Cập Nhật Phiếu Trả Góp");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -407,12 +464,12 @@ public class ViewTraGopDetail extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -426,7 +483,10 @@ public class ViewTraGopDetail extends javax.swing.JFrame {
 
     private void tblLichSuThuNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLichSuThuNoMouseClicked
         // TODO add your handling code here:
-
+        LichSuTraGop lstg = listView.get(tblLichSuThuNo.getSelectedRow());
+        txtGhiChu.setText(lstg.getGhiChu());
+        txtMaLSTG.setText(lstg.getMa());
+        txtTienThanhToan.setText(String.valueOf(lstg.getTongTien()));
     }//GEN-LAST:event_tblLichSuThuNoMouseClicked
 
     private void txtLaiSuatKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLaiSuatKeyReleased
@@ -443,6 +503,45 @@ public class ViewTraGopDetail extends javax.swing.JFrame {
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(this, ptgService.update(ptg.getId(), newPhieuTraGop()));
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnTaoPhieuThuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoPhieuThuActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, lstgService.insert(newLichSuTraGop()));
+        listView = lstgService.getByID(ptg.getId());
+        showDataTable(listView);
+    }//GEN-LAST:event_btnTaoPhieuThuActionPerformed
+
+    private void btnSuaPhieuThuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaPhieuThuActionPerformed
+        // TODO add your handling code here:
+        int index = tblLichSuThuNo.getSelectedRow();
+        if (index < 0 || index > tblLichSuThuNo.getRowCount()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn lại phiếu trong bảng");
+            return;
+        }
+        LichSuTraGop lstg = listView.get(index);
+        JOptionPane.showMessageDialog(this, lstgService.update(lstg.getId(), newLichSuTraGop()));
+        listView = lstgService.getByID(ptg.getId());
+        showDataTable(listView);
+    }//GEN-LAST:event_btnSuaPhieuThuActionPerformed
+
+    private void btnXoaPhieuThuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaPhieuThuActionPerformed
+        // TODO add your handling code here:
+        int index = tblLichSuThuNo.getSelectedRow();
+        if (index < 0 || index > tblLichSuThuNo.getRowCount()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn lại phiếu trong bảng");
+            return;
+        }
+
+        LichSuTraGop lstg = listView.get(index);
+        int check = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn xóa phiếu thu này chứ ?");
+        if (check != JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(this, "Xóa thất bại");
+            return;
+        }
+        JOptionPane.showMessageDialog(this, lstgService.delete(lstg.getId()));
+        listView = lstgService.getByID(ptg.getId());
+        showDataTable(listView);
+    }//GEN-LAST:event_btnXoaPhieuThuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -461,33 +560,34 @@ public class ViewTraGopDetail extends javax.swing.JFrame {
 //                }
 //            }
 //        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(ViewTraGopDetail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(ViewLichSuTraGop.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(ViewTraGopDetail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(ViewLichSuTraGop.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(ViewTraGopDetail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(ViewLichSuTraGop.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(ViewTraGopDetail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(ViewLichSuTraGop.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
 //        //</editor-fold>
 //
 //        /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                new ViewTraGopDetail().setVisible(true);
+//                new ViewLichSuTraGop().setVisible(true);
 //            }
 //        });
 //    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnTaoLichSu;
-    private javax.swing.JButton btnTaoLichSu1;
-    private javax.swing.JButton btnTaoLichSu2;
+    private javax.swing.JButton btnSuaPhieuThu;
+    private javax.swing.JButton btnTaoPhieuThu;
+    private javax.swing.JButton btnXoaPhieuThu;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbxKiHan;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -509,6 +609,7 @@ public class ViewTraGopDetail extends javax.swing.JFrame {
     private javax.swing.JTable tblLichSuThuNo;
     private javax.swing.JTextArea txtGhiChu;
     private javax.swing.JTextField txtLaiSuat;
+    private javax.swing.JTextField txtMaLSTG;
     private javax.swing.JTextField txtMaPhieu;
     private javax.swing.JTextField txtNgayDong;
     private javax.swing.JTextField txtTienThanhToan;

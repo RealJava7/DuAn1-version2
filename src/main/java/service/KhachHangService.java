@@ -10,6 +10,8 @@ public interface KhachHangService {
 
     List<KhachHangResponse> findBySdt(String sdt, int trangThai);
 
+    List<KhachHangResponse> sortByName(Boolean c, int trangThai);
+
     String add(KhachHang kh);
 
     String update(KhachHangResponse kh);

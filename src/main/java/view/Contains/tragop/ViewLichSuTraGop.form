@@ -52,13 +52,13 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton1" max="32767" attributes="0"/>
+                  <Component id="jButton1" pref="45" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jPanel6" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -90,7 +90,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="20" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="L&#x1ecb;ch S&#x1eed; Tr&#x1ea3; G&#xf3;p"/>
+            <Property name="text" type="java.lang.String" value="Phi&#x1ebf;u Tr&#x1ea3; G&#xf3;p Chi Ti&#x1ebf;t"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -109,24 +109,33 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel6" alignment="0" min="-2" pref="143" max="-2" attributes="0"/>
-                      <Component id="jLabel5" alignment="0" min="-2" pref="143" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="txtTienThanhToan" max="32767" attributes="0"/>
-                      <Component id="jScrollPane1" pref="260" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel6" alignment="0" min="-2" pref="143" max="-2" attributes="0"/>
+                              <Component id="jLabel5" alignment="0" min="-2" pref="143" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="txtTienThanhToan" max="32767" attributes="0"/>
+                              <Component id="jScrollPane1" pref="260" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel12" min="-2" pref="143" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="txtMaLSTG" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel7" min="-2" pref="31" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace pref="9" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="btnTaoLichSu" alignment="0" pref="125" max="32767" attributes="0"/>
-                      <Component id="btnTaoLichSu1" alignment="0" max="32767" attributes="0"/>
-                      <Component id="btnTaoLichSu2" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnTaoPhieuThu" alignment="0" pref="125" max="32767" attributes="0"/>
+                      <Component id="btnSuaPhieuThu" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnXoaPhieuThu" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="233" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -135,21 +144,31 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="jLabel6" max="32767" attributes="0"/>
-                      <Component id="txtTienThanhToan" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel7" alignment="3" max="32767" attributes="0"/>
-                          <Component id="btnTaoLichSu" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel5" min="-2" pref="25" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <Component id="btnTaoLichSu1" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="btnTaoPhieuThu" min="-2" pref="31" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="btnSuaPhieuThu" min="-2" pref="31" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="btnTaoLichSu2" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="btnXoaPhieuThu" min="-2" pref="31" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="txtMaLSTG" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jLabel12" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                  <Component id="txtTienThanhToan" alignment="3" max="32767" attributes="0"/>
+                                  <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jLabel6" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel5" min="-2" pref="21" max="-2" attributes="0"/>
+                              <Component id="jScrollPane1" min="-2" pref="55" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
@@ -194,19 +213,38 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="btnTaoLichSu">
+        <Component class="javax.swing.JButton" name="btnTaoPhieuThu">
           <Properties>
             <Property name="text" type="java.lang.String" value="T&#x1ea1;o Phi&#x1ebf;u Thu"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTaoPhieuThuActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnTaoLichSu1">
+        <Component class="javax.swing.JButton" name="btnSuaPhieuThu">
           <Properties>
             <Property name="text" type="java.lang.String" value="S&#x1eed;a Phi&#x1ebf;u Thu"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSuaPhieuThuActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnTaoLichSu2">
+        <Component class="javax.swing.JButton" name="btnXoaPhieuThu">
           <Properties>
             <Property name="text" type="java.lang.String" value="X&#xf3;a Phi&#x1ebf;u thu"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaPhieuThuActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel12">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="M&#xe3; Phi&#x1ebf;u Thu :"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtMaLSTG">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -310,7 +348,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Phi&#x1ebf;u Tr&#x1ea3;"/>
+            <TitledBorder title="Phi&#x1ebf;u Tr&#x1ea3; G&#xf3;p"/>
           </Border>
         </Property>
       </Properties>
@@ -394,7 +432,7 @@
                           <Component id="lblPhaiTra" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="13" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -528,7 +566,7 @@
     </Container>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="C&#x1ead;p Nh&#x1ead;t Phi&#x1ebf;u Tr&#x1ea3;"/>
+        <Property name="text" type="java.lang.String" value="C&#x1ead;p Nh&#x1ead;t Phi&#x1ebf;u Tr&#x1ea3; G&#xf3;p"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
