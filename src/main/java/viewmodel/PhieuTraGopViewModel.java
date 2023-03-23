@@ -12,6 +12,7 @@ import java.time.LocalDate;
  */
 public class PhieuTraGopViewModel {
 
+    private int id;
     private LocalDate ngayDong;
     private String maPhieu;
     private String khachHang;
@@ -33,6 +34,14 @@ public class PhieuTraGopViewModel {
         this.daTra = daTra;
         this.conNo = conNo;
         this.trangThai = trangThai;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public LocalDate getNgayDong() {
