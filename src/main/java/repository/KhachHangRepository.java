@@ -116,6 +116,38 @@ public class KhachHangRepository {
         }
         return khachHangResponses;
     }
+//5. lọc theo tên
+
+    public static List<KhachHangResponse> sortByName(Boolean c, int trangThai) {
+        List<KhachHangResponse> khachHangResponses = new ArrayList<>();
+        String sql = null;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            if (c == true) {
+                sql = """
+                       SELECT new viewmodel.KhachHangResponse
+                                                                    (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
+                                                                    FROM KhachHang kh
+                                                                    INNER JOIN kh.theTichDiem ttd  WHERE kh.trangThai = :trangThai Order by kh.hoTen ASC
+                      """;
+
+            } else {
+                sql = """
+                                              SELECT new viewmodel.KhachHangResponse
+                                              (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
+                                              FROM KhachHang kh
+                                              INNER JOIN kh.theTichDiem ttd  WHERE kh.trangThai = :trangThai Order by kh.hoTen DESC
+                                               """;
+            }
+            Query query = session.createQuery(sql);
+            query.setParameter("trangThai", trangThai);
+
+            khachHangResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return khachHangResponses;
+    }
 
     public static void main(String[] args) {
         // add
