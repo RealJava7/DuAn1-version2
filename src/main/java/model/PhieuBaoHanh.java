@@ -1,5 +1,6 @@
 package model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,7 +35,7 @@ public class PhieuBaoHanh {
     @JoinColumn(name = "IdLoaiBH")
     private LoaiBaoHanh loaiBaoHanh;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "IdChiTietPhieuBH")
     private ChiTietPhieuBaoHanh chiTietPhieuBaoHanh;
 }

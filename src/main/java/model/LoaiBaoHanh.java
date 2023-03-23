@@ -29,4 +29,10 @@ public class LoaiBaoHanh {
     
     @Column(name = "DieuKienBaoHanh")
     private String dieuKien;
+
+    @Override
+    public String toString() {
+        return "LoaiBaoHanh{" + "id=" + id + ", ten=" + ten + ", dieuKien=" + dieuKien + '}';
+    }
+    
 }

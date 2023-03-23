@@ -2,6 +2,7 @@ package utility;
 
 import java.util.Properties;
 import model.CameraChiTiet;
+import model.ChiTietPhieuBaoHanh;
 import model.DienThoai;
 import model.DongSanPham;
 import model.Hang;
@@ -11,9 +12,11 @@ import model.HoaDonChiTiet;
 import model.Imei;
 import model.KhachHang;
 import model.LichSuTraGop;
+import model.LoaiBaoHanh;
 import model.ManHinhChiTiet;
 import model.MauSac;
 import model.NhanVien;
+import model.PhieuBaoHanh;
 import model.PhieuGiamGia;
 import model.PhieuGiamGiaChiTiet;
 import model.PhieuTraGop;
@@ -44,6 +47,10 @@ public class HibernateUtil {
         conf.setProperties(properties);
         conf.addAnnotatedClass(PhieuGiamGia.class);
         conf.addAnnotatedClass(PhieuGiamGiaChiTiet.class);
+        
+        conf.addAnnotatedClass(PhieuBaoHanh.class);
+        conf.addAnnotatedClass(LoaiBaoHanh.class);
+        conf.addAnnotatedClass(ChiTietPhieuBaoHanh.class);
 
         conf.addAnnotatedClass(DienThoai.class);
         conf.addAnnotatedClass(CameraChiTiet.class);

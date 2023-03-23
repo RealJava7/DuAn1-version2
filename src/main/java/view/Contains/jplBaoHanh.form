@@ -386,7 +386,7 @@
         </Container>
         <Component class="javax.swing.JButton" name="btnImportExcel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Import (Excel)"/>
+            <Property name="text" type="java.lang.String" value="Export (Excel)"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnImportExcelActionPerformed"/>
