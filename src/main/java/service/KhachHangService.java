@@ -20,4 +20,6 @@ public interface KhachHangService {
 
     List<KhachHangResponse> getAllTheTichDiem();
 
+    List<KhachHangResponse> findByMa(int id);
+
 }
