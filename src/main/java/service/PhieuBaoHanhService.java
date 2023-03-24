@@ -9,4 +9,9 @@ public interface PhieuBaoHanhService {
 
     String add(PhieuBaoHanhResponse pbh);
 
+    List<PhieuBaoHanhResponse> getAllStatus(boolean status);
+
+    List<PhieuBaoHanhResponse> getAllListSearch(String tenKH);
+
+    List<String> getAllLoaiBaoHanh();
 }
