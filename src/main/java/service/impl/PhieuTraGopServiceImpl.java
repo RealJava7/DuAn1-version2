@@ -30,7 +30,7 @@ public class PhieuTraGopServiceImpl implements PhieuTraGopService {
             traGopViewModel.setDaTra(phieuTraGop.getTongTienDaTra());
 
             traGopViewModel.setConNo(0);
-            traGopViewModel.setTrangThai(false);
+            traGopViewModel.setTrangThai(phieuTraGop.isTrangThai());
             listView.add(traGopViewModel);
         }
         return listView;
@@ -54,7 +54,7 @@ public class PhieuTraGopServiceImpl implements PhieuTraGopService {
             traGopViewModel.setDaTra(phieuTraGop.getTongTienDaTra());
 
             traGopViewModel.setConNo(0);
-            traGopViewModel.setTrangThai(false);
+            traGopViewModel.setTrangThai(phieuTraGop.isTrangThai());
             listView.add(traGopViewModel);
         }
         return listView;
@@ -62,7 +62,25 @@ public class PhieuTraGopServiceImpl implements PhieuTraGopService {
 
     @Override
     public List<PhieuTraGopViewModel> getByTime(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<PhieuTraGop> listRepo = repository.getByTime(index);
+        List<PhieuTraGopViewModel> listView = new ArrayList<>();
+
+        for (PhieuTraGop phieuTraGop : listRepo) {
+
+            PhieuTraGopViewModel traGopViewModel = new PhieuTraGopViewModel();
+            traGopViewModel.setId(phieuTraGop.getId());
+            traGopViewModel.setNgayDong(phieuTraGop.getNgayTao());
+            traGopViewModel.setMaPhieu(phieuTraGop.getMaPhieu());
+//            traGopViewModel.setKhachHang(phieuTraGop.getHoaDon().getKhachHang().getHoTen());
+//            traGopViewModel.setMaDon(phieuTraGop.getHoaDon().get);
+//            traGopViewModel.setTongTien(phieuTraGop.getHoaDon().getTongTien() - phieuTraGop.getHoaDon().getTienGiam()); // tổng tiền - tiền giảm
+            traGopViewModel.setDaTra(phieuTraGop.getTongTienDaTra());
+
+            traGopViewModel.setConNo(0);
+            traGopViewModel.setTrangThai(phieuTraGop.isTrangThai());
+            listView.add(traGopViewModel);
+        }
+        return listView;
     }
 
     @Override
@@ -82,7 +100,7 @@ public class PhieuTraGopServiceImpl implements PhieuTraGopService {
             traGopViewModel.setDaTra(phieuTraGop.getTongTienDaTra());
 
             traGopViewModel.setConNo(0);
-            traGopViewModel.setTrangThai(false);
+            traGopViewModel.setTrangThai(phieuTraGop.isTrangThai());
             listView.add(traGopViewModel);
         }
         return listView;
