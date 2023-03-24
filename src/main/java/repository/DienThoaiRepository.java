@@ -39,7 +39,7 @@ public class DienThoaiRepository {
     }
 
     // 2. get all
-    public List<DienThoaiResponse> getAll() {
+    public List<DienThoaiResponse> getAllResponse(boolean status) {
         List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
 
         try {
@@ -57,7 +57,9 @@ public class DienThoaiRepository {
                                               INNER JOIN dt.heDieuHanh hdh
                                               INNER JOIN dt.cameraChiTiet c
                                               INNER JOIN dt.manHinhChiTiet mh
+                                              WHERE dt.trangThai = :status
                                                """);
+            query.setParameter("status", status);
             dienThoaiResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
@@ -95,6 +97,62 @@ public class DienThoaiRepository {
             dienThoai = null;
         }
         return dienThoai;
+    }
+    
+    // 5. update
+    public boolean update(DienThoaiResponse dienThoaiResponse) {
+        boolean check = false;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            DienThoai dienThoai = session.get(DienThoai.class, dienThoaiResponse.getId());
+            
+            dienThoai.setMaDT(dienThoaiResponse.getMaDT());
+            dienThoai.setTenDT(dienThoaiResponse.getTenDT());
+            dienThoai.setMoTa(dienThoaiResponse.getMoTa());
+            dienThoai.setDungLuongPin(dienThoaiResponse.getDungLuongPin());
+            dienThoai.setRom(dienThoaiResponse.getRom());
+            dienThoai.setRam(dienThoaiResponse.getRam());
+            dienThoai.setCpu(dienThoaiResponse.getCpu());
+            dienThoai.setGiaNhap(dienThoaiResponse.getGiaNhap());
+            dienThoai.setGiaBan(dienThoaiResponse.getGiaBan());
+            dienThoai.setSoLuong(dienThoaiResponse.getSoLuong());
+            dienThoai.setHinhAnh(dienThoaiResponse.getHinhAnh());
+            
+            Hang hang = HangRepository.getByTenHang(dienThoaiResponse.getHang());
+            DongSanPham dsp = DongSanPhamRepository.getByTenDongSP(dienThoaiResponse.getDongSanPham());
+            MauSac mauSac = MauSacRepository.getByMa(dienThoaiResponse.getMauSac());
+            HeDieuHanh hdh = HeDieuHanhRepository.getByTen(dienThoaiResponse.getHeDieuHanh());
+            
+            dienThoai.setHang(hang);
+            dienThoai.setDongSanPham(dsp);
+            dienThoai.setMauSac(mauSac);
+            dienThoai.setHeDieuHanh(hdh);
+            
+            // Camera
+            CameraChiTiet cameraChiTiet = dienThoai.getCameraChiTiet();
+            cameraChiTiet.setCameraChinh(dienThoaiResponse.getCameraChinh());
+            cameraChiTiet.setCameraPhu(dienThoaiResponse.getCameraPhu());
+            cameraChiTiet.setCameraGocRong(dienThoaiResponse.getCameraGocRong());
+            cameraChiTiet.setCameraTele(dienThoaiResponse.getCameraTele());
+            dienThoai.setCameraChiTiet(cameraChiTiet);
+            
+            // Màn hình
+            ManHinhChiTiet manHinhChiTiet = dienThoai.getManHinhChiTiet();
+            manHinhChiTiet.setKichThuoc(dienThoaiResponse.getKichThuoc());
+            manHinhChiTiet.setDoPhanGiai(dienThoaiResponse.getDoPhanGiai());
+            manHinhChiTiet.setLoaiManHinh(dienThoaiResponse.getLoaiManHinh());
+
+            session.update(dienThoai);
+            transaction.commit();
+
+            check = true;
+            session.close();
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+        return check;
     }
 
     public static void main(String[] args) {

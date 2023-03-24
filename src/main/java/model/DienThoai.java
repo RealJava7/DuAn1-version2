@@ -63,7 +63,10 @@ public class DienThoai {
 
     @Column(name = "HinhAnh")
     private String hinhAnh;
-
+    
+    @Column(name = "TrangThai")
+    private boolean trangThai;
+    
     @ManyToOne
     @JoinColumn(name = "IdHang")
     private Hang hang;

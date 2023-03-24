@@ -11,8 +11,8 @@ public class DienThoaiServiceImpl implements DienThoaiService {
     private DienThoaiRepository dienThoaiRepository = new DienThoaiRepository();
 
     @Override
-    public List<DienThoaiResponse> getAll() {
-        return dienThoaiRepository.getAll();
+    public List<DienThoaiResponse> getAllResponse(boolean status) {
+        return dienThoaiRepository.getAllResponse(status);
     }
 
     @Override
@@ -24,6 +24,12 @@ public class DienThoaiServiceImpl implements DienThoaiService {
     @Override
     public DienThoai getByMaDT(String maDT) {
         return dienThoaiRepository.getByMaDT(maDT);
+    }
+
+    @Override
+    public String update(DienThoaiResponse dienThoaiResponse) {
+        boolean updateResult = dienThoaiRepository.update(dienThoaiResponse);
+        return updateResult ? "Sửa thành công" : "Sửa thất bại";
     }
 
 }

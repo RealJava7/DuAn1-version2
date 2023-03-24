@@ -12,6 +12,7 @@ import viewmodel.ImeiResponse;
 
 public class ThemImei extends javax.swing.JFrame {
 
+    public int idCurrentDienThoai = 0;
     private ImeiService imeiService;
     private List<ImeiResponse> imeiResponseList;
     private DefaultTableModel dtmImei;
@@ -23,17 +24,34 @@ public class ThemImei extends javax.swing.JFrame {
         imeiService = new ImeiServiceImpl();
         imeiResponseList = new ArrayList<>();
         dtmImei = (DefaultTableModel) tbImei.getModel();
-        
+
         imeiResponseList = imeiService.getAllNoneDienThoaiImei();
         showDataTable(imeiResponseList);
     }
 
+    public ThemImei(int idCurrentDienThoai) {
+        this.idCurrentDienThoai = idCurrentDienThoai;
+
+        initComponents();
+        setLocationRelativeTo(null);
+
+        imeiService = new ImeiServiceImpl();
+        imeiResponseList = new ArrayList<>();
+        dtmImei = (DefaultTableModel) tbImei.getModel();
+
+        imeiResponseList = imeiService.getAllDienThoaiId(idCurrentDienThoai);
+        dtmImei.setRowCount(0);
+        imeiResponseList.forEach(i -> dtmImei.addRow(i.toDataRow()));
+        lbTongSo.setText(String.valueOf(imeiResponseList.size()));
+    }
+
+    // 1
     private void showDataTable(List<ImeiResponse> imeis) {
         dtmImei.setRowCount(0);
         imeis.forEach(i -> dtmImei.addRow(i.toDataRow()));
         lbTongSo.setText(String.valueOf(imeis.size()));
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -55,7 +73,7 @@ public class ThemImei extends javax.swing.JFrame {
         btnXoa = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
         btnLamMoi = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        okImei = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("IMEI");
@@ -177,10 +195,10 @@ public class ThemImei extends javax.swing.JFrame {
         btnLamMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-new-20.png"))); // NOI18N
         btnLamMoi.setText("MỚI");
 
-        jButton1.setText("OK");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        okImei.setText("OK");
+        okImei.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                okImeiActionPerformed(evt);
             }
         });
 
@@ -209,7 +227,7 @@ public class ThemImei extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(59, 59, 59)
-                .addComponent(jButton1)
+                .addComponent(okImei)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -228,7 +246,7 @@ public class ThemImei extends javax.swing.JFrame {
                     .addComponent(btnSua)
                     .addComponent(btnXoa))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(okImei)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -268,11 +286,11 @@ public class ThemImei extends javax.swing.JFrame {
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         String imeiStr = txtImei.getText().trim();
         String checkResult = checkInput(0, imeiStr);
-        if(!checkResult.equals("")) {
+        if (!checkResult.equals("")) {
             JOptionPane.showMessageDialog(this, checkResult);
             return;
         }
-        
+
         Imei imei = new Imei();
         imei.setImei(imeiStr);
 
@@ -280,15 +298,24 @@ public class ThemImei extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, addResult);
 
         // reset table
-        imeiResponseList = imeiService.getAllNoneDienThoaiImei();
-        showDataTable(imeiResponseList);
-        txtImei.setText("");
+        if (idCurrentDienThoai == 0) {
+            imeiResponseList = imeiService.getAllNoneDienThoaiImei();
+            showDataTable(imeiResponseList);
+            txtImei.setText("");
+        } else {
+            imeiResponseList = imeiService.getAllDienThoaiId(idCurrentDienThoai);
+            List<ImeiResponse> noneDienThoaiImeis = imeiService.getAllNoneDienThoaiImei();
+            imeiResponseList.addAll(noneDienThoaiImeis);
+            showDataTable(imeiResponseList);
+            txtImei.setText("");
+        }
+
     }//GEN-LAST:event_btnThemActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jplSanPham.showImeis();
+    private void okImeiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okImeiActionPerformed
+        jplSanPham.showImeis(idCurrentDienThoai);
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_okImeiActionPerformed
 
     private String checkInput(int id, String imeiStr) {
         String message = "";
@@ -335,7 +362,6 @@ public class ThemImei extends javax.swing.JFrame {
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnXoa;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -346,6 +372,7 @@ public class ThemImei extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel lbTongSo;
+    private javax.swing.JButton okImei;
     private javax.swing.JTable tbImei;
     private javax.swing.JTextField txtImei;
     // End of variables declaration//GEN-END:variables

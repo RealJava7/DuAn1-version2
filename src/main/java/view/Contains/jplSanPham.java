@@ -39,9 +39,9 @@ import viewmodel.ImeiResponse;
 
 public class jplSanPham extends javax.swing.JPanel {
 
-    public static int numberOfImei = 0;
-
-    private DefaultTableModel dtmDienThoai;
+//    public static int numberOfImei = 0;
+    private DefaultTableModel dtmActive;
+    private DefaultTableModel dtmInactive;
 
     private DefaultComboBoxModel dcbmHang;
     private DefaultComboBoxModel dcbmDongSP;
@@ -58,7 +58,8 @@ public class jplSanPham extends javax.swing.JPanel {
     private HeDieuHanhService heDieuHanhService;
     private DienThoaiService dienThoaiService;
 
-    private List<DienThoaiResponse> dienThoaiResponseList;
+    private List<DienThoaiResponse> dienThoaiResponseActiveList;
+    private List<DienThoaiResponse> dienThoaiResponseInactiveList;
 
     private static ImeiService imeiService;
     private static DefaultComboBoxModel dcbmImei;
@@ -67,7 +68,8 @@ public class jplSanPham extends javax.swing.JPanel {
     public jplSanPham() {
         initComponents();
 
-        dtmDienThoai = (DefaultTableModel) tbDienThoai.getModel();
+        dtmActive = (DefaultTableModel) tbActive.getModel();
+        dtmInactive = (DefaultTableModel) tbInactive.getModel();
 
         dcbmHang = (DefaultComboBoxModel) cbHang.getModel();
         dcbmDongSP = (DefaultComboBoxModel) cbDongSanPham.getModel();
@@ -84,14 +86,18 @@ public class jplSanPham extends javax.swing.JPanel {
         heDieuHanhService = new HeDieuHanhServiceImpl();
         dienThoaiService = new DienThoaiServiceImpl();
 
-        dienThoaiResponseList = new ArrayList<>();
-        dienThoaiResponseList = dienThoaiService.getAll();
+        dienThoaiResponseActiveList = new ArrayList<>();
+        dienThoaiResponseActiveList = dienThoaiService.getAllResponse(true);
+
+        dienThoaiResponseInactiveList = new ArrayList<>();
+        dienThoaiResponseInactiveList = dienThoaiService.getAllResponse(false);
 
         dcbmImei = (DefaultComboBoxModel) cbImei.getModel();
         imeiService = new ImeiServiceImpl();
         imeiResponseList = new ArrayList<>();
 
-        setDataToDienThoaiTable(dienThoaiResponseList);
+        showActiveTable(dienThoaiResponseActiveList);
+        showInactiveTable(dienThoaiResponseInactiveList);
         getDataForComboBox();
     }
 
@@ -125,16 +131,30 @@ public class jplSanPham extends javax.swing.JPanel {
     }
 
     // 2
-    private void setDataToDienThoaiTable(List<DienThoaiResponse> dienThoaiResponses) {
-        dtmDienThoai.setRowCount(0);
-        dienThoaiResponses.forEach(dt -> dtmDienThoai.addRow(dt.toDataRow()));
+    private void showActiveTable(List<DienThoaiResponse> dienThoaiResponses) {
+        dtmActive.setRowCount(0);
+        dienThoaiResponses.forEach(dt -> dtmActive.addRow(dt.toDataRow()));
     }
 
     // 3
-    public static void showImeis() {
-        dcbmImei.removeAllElements();
-        imeiResponseList = imeiService.getAllNoneDienThoaiImei();
-        imeiResponseList.forEach(i -> dcbmImei.addElement(i.getImei()));
+    private void showInactiveTable(List<DienThoaiResponse> dienThoaiResponses) {
+        dtmInactive.setRowCount(0);
+        dienThoaiResponses.forEach(dt -> dtmInactive.addRow(dt.toDataRow()));
+    }
+
+    // 4
+    public static void showImeis(int idCurrentDienThoai) {
+        if (idCurrentDienThoai == 0) {
+            dcbmImei.removeAllElements();
+            imeiResponseList = imeiService.getAllNoneDienThoaiImei();
+            imeiResponseList.forEach(i -> dcbmImei.addElement(i.getImei()));
+        } else {
+            dcbmImei.removeAllElements();
+            imeiResponseList = imeiService.getAllDienThoaiId(idCurrentDienThoai);
+            List<ImeiResponse> noneDienThoaiImeis = imeiService.getAllNoneDienThoaiImei();
+            imeiResponseList.addAll(noneDienThoaiImeis);
+            imeiResponseList.forEach(i -> dcbmImei.addElement(i.getImei()));
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -144,7 +164,7 @@ public class jplSanPham extends javax.swing.JPanel {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         txtTimKiemTen = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbDienThoai = new javax.swing.JTable();
+        tbActive = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
@@ -152,7 +172,7 @@ public class jplSanPham extends javax.swing.JPanel {
         jButton5 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblKhachHangDaXoa = new javax.swing.JTable();
+        tbInactive = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -217,7 +237,7 @@ public class jplSanPham extends javax.swing.JPanel {
 
         txtTimKiemTen.setBackground(new java.awt.Color(255, 255, 255));
 
-        tbDienThoai.setModel(new javax.swing.table.DefaultTableModel(
+        tbActive.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -233,16 +253,16 @@ public class jplSanPham extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tbDienThoai.setFocusable(false);
-        tbDienThoai.setGridColor(new java.awt.Color(47, 85, 212));
-        tbDienThoai.setRowHeight(25);
-        tbDienThoai.setShowGrid(true);
-        tbDienThoai.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbActive.setFocusable(false);
+        tbActive.setGridColor(new java.awt.Color(47, 85, 212));
+        tbActive.setRowHeight(25);
+        tbActive.setShowGrid(true);
+        tbActive.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbDienThoaiMouseClicked(evt);
+                tbActiveMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tbDienThoai);
+        jScrollPane1.setViewportView(tbActive);
 
         jLabel9.setText("TÌM KIẾM THEO TÊN:");
 
@@ -291,46 +311,41 @@ public class jplSanPham extends javax.swing.JPanel {
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(18, 18, 18))
         );
 
         jTabbedPane1.addTab("KHÁCH HÀNG", txtTimKiemTen);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        tblKhachHangDaXoa.setModel(new javax.swing.table.DefaultTableModel(
+        tbInactive.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "ID", "HỌ VÀ TÊN", "EMAIL", "SDT", "GIỚI TÍNH", "NGÀY SINH", "ĐỊA CHỈ", "THẺ TÍCH ĐIỂM", "TRẠNG THÁI", "KHÔI PHỤC"
+                "TÊN", "HÃNG", "RAM", "ROM", "PIN", "SỐ LƯỢNG", "GIÁ BÁN"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.Object.class
-            };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tblKhachHangDaXoa.setFocusable(false);
-        tblKhachHangDaXoa.setGridColor(new java.awt.Color(47, 85, 212));
-        tblKhachHangDaXoa.setRowHeight(25);
-        tblKhachHangDaXoa.setShowGrid(true);
-        jScrollPane2.setViewportView(tblKhachHangDaXoa);
+        tbInactive.setFocusable(false);
+        tbInactive.setGridColor(new java.awt.Color(47, 85, 212));
+        tbInactive.setRowHeight(25);
+        tbInactive.setShowGrid(true);
+        jScrollPane2.setViewportView(tbInactive);
+        if (tbInactive.getColumnModel().getColumnCount() > 0) {
+            tbInactive.getColumnModel().getColumn(0).setMinWidth(100);
+            tbInactive.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tbInactive.getColumnModel().getColumn(0).setMaxWidth(100);
+        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -906,7 +921,17 @@ public class jplSanPham extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDongSanPhamActionPerformed
 
     private void btnThemImeiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemImeiMouseClicked
-        new ThemImei().setVisible(true);
+
+        int clickedActiveRow = tbActive.getSelectedRow();
+        if (clickedActiveRow != -1) {
+            DienThoaiResponse dienThoaiResponse = dienThoaiResponseActiveList.get(clickedActiveRow);
+            int dienThoaiId = dienThoaiResponse.getId();
+            new ThemImei(dienThoaiId).setVisible(true);
+//            
+//            ThemImei themImei = new ThemImei();
+//            themImei.showDataTable2(dienThoaiId);
+        }
+//        new ThemImei().setVisible(true);
     }//GEN-LAST:event_btnThemImeiMouseClicked
 
     private void cbHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbHangActionPerformed
@@ -922,12 +947,12 @@ public class jplSanPham extends javax.swing.JPanel {
         new ThemHeDieuHanh().setVisible(true);
     }//GEN-LAST:event_btnHeDieuHanhActionPerformed
 
-    private void tbDienThoaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDienThoaiMouseClicked
-        int clickedRow = tbDienThoai.getSelectedRow();
+    private void tbActiveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbActiveMouseClicked
+        int clickedRow = tbActive.getSelectedRow();
         if (clickedRow < 0) {
             return;
         }
-        DienThoaiResponse dienThoaiResponse = dienThoaiResponseList.get(clickedRow);
+        DienThoaiResponse dienThoaiResponse = dienThoaiResponseActiveList.get(clickedRow);
 
         txtMaSanPham.setText(dienThoaiResponse.getMaDT());
         txtTenSanPham.setText(dienThoaiResponse.getTenDT());
@@ -963,7 +988,7 @@ public class jplSanPham extends javax.swing.JPanel {
 
         dcbmImei.removeAllElements();
         imeiSet.forEach(i -> cbImei.addItem(i.getImei()));
-    }//GEN-LAST:event_tbDienThoaiMouseClicked
+    }//GEN-LAST:event_tbActiveMouseClicked
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
         lamMoiForm();
@@ -990,6 +1015,12 @@ public class jplSanPham extends javax.swing.JPanel {
         txtKichThuoc.setText("");
         txtDoPG.setText("");
         cbLoaiManHinh.setSelectedIndex(0);
+
+        dienThoaiResponseActiveList = dienThoaiService.getAllResponse(true);
+        showActiveTable(dienThoaiResponseActiveList);
+
+        dienThoaiResponseInactiveList = dienThoaiService.getAllResponse(false);
+        showInactiveTable(dienThoaiResponseInactiveList);
     }
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
@@ -1026,14 +1057,11 @@ public class jplSanPham extends javax.swing.JPanel {
         dienThoai.setTenDT(txtTenSanPham.getText().trim());
         dienThoai.setMoTa("Dep");
         dienThoai.setDungLuongPin(Integer.valueOf(txtPin.getText().trim()));
-        System.out.println("h1");
         dienThoai.setRam(Integer.valueOf(String.valueOf(dcbmRam.getSelectedItem())));
         dienThoai.setRom(Integer.valueOf(String.valueOf(dcbmRom.getSelectedItem())));
-        System.out.println("hello");
         dienThoai.setCpu(txtCpu.getText().trim());
         dienThoai.setGiaNhap(Long.valueOf(txtGiaNhap.getText().trim()));
         dienThoai.setGiaBan(Long.valueOf(txtGiaBan.getText().trim()));
-        dienThoai.setSoLuong(2);
         dienThoai.setHinhAnh("abc.png");
 
         Hang hang = (Hang) dcbmHang.getSelectedItem();
@@ -1049,32 +1077,101 @@ public class jplSanPham extends javax.swing.JPanel {
         dienThoai.setCameraChiTiet(cam);
         dienThoai.setManHinhChiTiet(man);
 
-        Set<String> imeiStrSet = new HashSet<>();
-
+        // xử lý imei
         for (ImeiResponse imeiResponse : jplSanPham.imeiResponseList) {
             Imei imei = new Imei(imeiResponse.getImei());
             dienThoai.addImei(imei);
         }
+        dienThoai.setSoLuong(jplSanPham.imeiResponseList.size());
 
         String addResult = dienThoaiService.add(dienThoai);
         JOptionPane.showMessageDialog(this, addResult);
 
-        // update idDienThoai cua Imei
+        // update idDienThoai cua Imei (phải add dienThoai để có ID trước)
         DienThoai dtByMa = dienThoaiService.getByMaDT(dienThoai.getMaDT());
         for (ImeiResponse imeiResponse : jplSanPham.imeiResponseList) {
             imeiResponse.setIdDienThoai(dtByMa.getId());
             imeiService.update(imeiResponse);
         }
-        
+
         // after add
         lamMoiForm();
-        dienThoaiResponseList = dienThoaiService.getAll();
-        setDataToDienThoaiTable(dienThoaiResponseList);
+        dienThoaiResponseActiveList = dienThoaiService.getAllResponse(true);
+        showActiveTable(dienThoaiResponseActiveList);
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        // TODO add your handling code here:
+        int confirm = JOptionPane.showConfirmDialog(this, "Sửa điện thoại?", "Xác nhận sửa điện thoại", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
 
+        int clickedRow = tbActive.getSelectedRow();
+        if (clickedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn điện thoại trước khi sửa!");
+            return;
+        }
+
+        DienThoaiResponse selectedDienThoai = dienThoaiResponseActiveList.get(clickedRow);
+
+        // xử lý imei mới
+        List<ImeiResponse> noneDienThoaiImeis = imeiService.getAllNoneDienThoaiImei();
+        System.out.println(noneDienThoaiImeis.size());
+        for (ImeiResponse imeiResponse : noneDienThoaiImeis) {
+            imeiResponse.setIdDienThoai(selectedDienThoai.getId());
+            imeiService.update(imeiResponse);
+        }
+
+        selectedDienThoai.setMaDT(txtMaSanPham.getText().trim());
+        selectedDienThoai.setTenDT(txtTenSanPham.getText().trim());
+        selectedDienThoai.setMoTa("Dep");
+        selectedDienThoai.setDungLuongPin(Integer.valueOf(txtPin.getText().trim()));
+        selectedDienThoai.setRam(Integer.valueOf(String.valueOf(dcbmRam.getSelectedItem())));
+        selectedDienThoai.setRom(Integer.valueOf(String.valueOf(dcbmRom.getSelectedItem())));
+        selectedDienThoai.setCpu(txtCpu.getText().trim());
+        selectedDienThoai.setGiaNhap(Long.valueOf(txtGiaNhap.getText().trim()));
+        selectedDienThoai.setGiaBan(Long.valueOf(txtGiaBan.getText().trim()));
+        selectedDienThoai.setHinhAnh("abc.png");
+
+        Hang hang = (Hang) dcbmHang.getSelectedItem();
+        DongSanPham dsp = (DongSanPham) dcbmDongSP.getSelectedItem();
+        MauSac mauSac = (MauSac) dcbmMauSac.getSelectedItem();
+        HeDieuHanh hdh = (HeDieuHanh) dcbmHDH.getSelectedItem();
+
+        selectedDienThoai.setHang(hang.getTenHang());
+        selectedDienThoai.setDongSanPham(dsp.getTen());
+        selectedDienThoai.setMauSac(mauSac.getMaMauSac());
+        selectedDienThoai.setHeDieuHanh(hdh.getTen());
+
+        // Camera
+        String camChinh = txtCamChinh.getText().trim();
+        String camPhu = txtCamPhu.getText().trim();
+        String camTele = txtCamTele.getText().trim();
+        String camGocRong = txtCamGocRong.getText().trim();
+
+        if (!camChinh.isBlank()) {
+            selectedDienThoai.setCameraChinh(Integer.valueOf(camChinh));
+        }
+        if (!camPhu.isBlank()) {
+            selectedDienThoai.setCameraPhu(Integer.valueOf(camPhu));
+        }
+        if (!camTele.isBlank()) {
+            selectedDienThoai.setCameraTele(Integer.valueOf(camTele));
+        }
+        if (!camGocRong.isBlank()) {
+            selectedDienThoai.setCameraGocRong(Integer.valueOf(camGocRong));
+        }
+
+        // Màn hình
+        selectedDienThoai.setKichThuoc(Float.valueOf(txtKichThuoc.getText().trim()));
+        selectedDienThoai.setDoPhanGiai(txtDoPG.getText().trim());
+        selectedDienThoai.setLoaiManHinh((LoaiManHinh) cbLoaiManHinh.getSelectedItem());
+
+        String updateResult = dienThoaiService.update(selectedDienThoai);
+        JOptionPane.showMessageDialog(this, updateResult);
+
+        // after update
+        lamMoiForm();
     }//GEN-LAST:event_btnSuaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1132,8 +1229,8 @@ public class jplSanPham extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField5;
-    private javax.swing.JTable tbDienThoai;
-    private javax.swing.JTable tblKhachHangDaXoa;
+    private javax.swing.JTable tbActive;
+    private javax.swing.JTable tbInactive;
     private javax.swing.JTextField txtCamChinh;
     private javax.swing.JTextField txtCamGocRong;
     private javax.swing.JTextField txtCamPhu;

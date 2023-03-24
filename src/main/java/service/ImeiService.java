@@ -14,4 +14,5 @@ public interface ImeiService {
     
     void update(ImeiResponse imeiResponse);
     
+    List<ImeiResponse> getAllDienThoaiId(int dienThoaiId);
 }

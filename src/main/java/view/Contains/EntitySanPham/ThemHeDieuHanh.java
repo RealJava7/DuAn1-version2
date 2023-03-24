@@ -1,10 +1,51 @@
 package view.Contains.EntitySanPham;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
+import model.HeDieuHanh;
+import service.HeDieuHanhService;
+import service.impl.HeDieuHanhServiceImpl;
+import viewmodel.HeDieuHanhResponse;
+
 public class ThemHeDieuHanh extends javax.swing.JFrame {
+
+    private HeDieuHanhService heDieuHanhService;
+    private List<HeDieuHanhResponse> hdhResponseActiveList;
+    private List<HeDieuHanhResponse> hdhResponseInactiveList;
+    private DefaultTableModel dtmActive;
+    private DefaultTableModel dtmInactive;
 
     public ThemHeDieuHanh() {
         initComponents();
         setLocationRelativeTo(null);
+
+        heDieuHanhService = new HeDieuHanhServiceImpl();
+        hdhResponseActiveList = new ArrayList<>();
+        hdhResponseInactiveList = new ArrayList<>();
+        dtmActive = (DefaultTableModel) tbActive.getModel();
+        dtmInactive = (DefaultTableModel) tbInactive.getModel();
+
+        hdhResponseActiveList = heDieuHanhService.getAllResponse(true);
+        hdhResponseInactiveList = heDieuHanhService.getAllResponse(false);
+
+        showActiveTable(hdhResponseActiveList);
+        showInactiveTable(hdhResponseInactiveList);
+    }
+
+    // 1
+    private void showActiveTable(List<HeDieuHanhResponse> hdhResponses) {
+        dtmActive.setRowCount(0);
+        hdhResponses.forEach(h -> dtmActive.addRow(h.toDataRow()));
+    }
+
+    // 2
+    private void showInactiveTable(List<HeDieuHanhResponse> hdhResponses) {
+        dtmInactive.setRowCount(0);
+        hdhResponses.forEach(h -> dtmInactive.addRow(h.toDataRow()));
     }
 
     @SuppressWarnings("unchecked")
@@ -12,21 +53,21 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tab = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbActive = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tbInactive = new javax.swing.JTable();
         btnKhoiPhuc = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        txtTenHDH = new javax.swing.JTextField();
+        btnLamMoi = new javax.swing.JButton();
+        btnThem = new javax.swing.JButton();
+        btnSua = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("HÃNG");
@@ -35,11 +76,16 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
+        tab.setBackground(new java.awt.Color(255, 255, 255));
+        tab.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabMouseClicked(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbActive.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -58,7 +104,12 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        tbActive.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbActiveMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbActive);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -75,11 +126,11 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("DANH SÁCH", jPanel1);
+        tab.addTab("DANH SÁCH", jPanel1);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tbInactive.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -98,7 +149,12 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        tbInactive.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbInactiveMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tbInactive);
 
         btnKhoiPhuc.setBackground(new java.awt.Color(47, 85, 212));
         btnKhoiPhuc.setForeground(new java.awt.Color(255, 255, 255));
@@ -132,34 +188,54 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("ĐÃ XÓA", jPanel2);
+        tab.addTab("ĐÃ XÓA", jPanel2);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("THÔNG TIN"));
 
         jLabel2.setText("TÊN HĐH:");
 
-        jTextField2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
+        txtTenHDH.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
 
-        jButton1.setBackground(new java.awt.Color(47, 85, 212));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-new-20.png"))); // NOI18N
-        jButton1.setText("MỚI");
+        btnLamMoi.setBackground(new java.awt.Color(47, 85, 212));
+        btnLamMoi.setForeground(new java.awt.Color(255, 255, 255));
+        btnLamMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-new-20.png"))); // NOI18N
+        btnLamMoi.setText("MỚI");
+        btnLamMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLamMoiActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(47, 85, 212));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-add-new-20.png"))); // NOI18N
-        jButton2.setText("THÊM");
+        btnThem.setBackground(new java.awt.Color(47, 85, 212));
+        btnThem.setForeground(new java.awt.Color(255, 255, 255));
+        btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-add-new-20.png"))); // NOI18N
+        btnThem.setText("THÊM");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
-        jButton3.setBackground(new java.awt.Color(47, 85, 212));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-pencil-20 WHITE.png"))); // NOI18N
-        jButton3.setText("SỬA");
+        btnSua.setBackground(new java.awt.Color(47, 85, 212));
+        btnSua.setForeground(new java.awt.Color(255, 255, 255));
+        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-pencil-20 WHITE.png"))); // NOI18N
+        btnSua.setText("SỬA");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
-        jButton4.setBackground(new java.awt.Color(47, 85, 212));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-trash-20.png"))); // NOI18N
-        jButton4.setText("XÓA");
+        btnXoa.setBackground(new java.awt.Color(47, 85, 212));
+        btnXoa.setForeground(new java.awt.Color(255, 255, 255));
+        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-trash-20.png"))); // NOI18N
+        btnXoa.setText("XÓA");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -168,16 +244,16 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jButton3))
+                    .addComponent(btnLamMoi)
+                    .addComponent(btnSua))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
-                    .addComponent(jButton4))
-                .addGap(38, 38, 38))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnXoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(46, 46, 46))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTenHDH, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(0, 6, Short.MAX_VALUE))
         );
@@ -187,15 +263,15 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTenHDH, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnLamMoi)
+                    .addComponent(btnThem))
                 .addGap(31, 31, 31)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton3))
+                    .addComponent(btnXoa)
+                    .addComponent(btnSua))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
@@ -204,14 +280,14 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tab, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(tab)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,8 +311,205 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnKhoiPhucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhoiPhucActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Khôi phục hệ điều hành?", "Xác nhận khôi phục hệ điều hành", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
 
+        int clickedRow = tbInactive.getSelectedRow();
+        if (clickedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hệ điều hành trước khi khôi phục!");
+            return;
+        }
+
+        HeDieuHanhResponse selectedHDH = hdhResponseInactiveList.get(clickedRow);
+
+        String result = heDieuHanhService.changeStatus(selectedHDH, true);
+        JOptionPane.showMessageDialog(this, result);
+
+        hdhResponseActiveList = heDieuHanhService.getAllResponse(true);
+        showActiveTable(hdhResponseActiveList);
+
+        hdhResponseInactiveList = heDieuHanhService.getAllResponse(false);
+        showInactiveTable(hdhResponseInactiveList);
+
+        txtTenHDH.setText("");
     }//GEN-LAST:event_btnKhoiPhucActionPerformed
+
+    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
+        txtTenHDH.setText("");
+
+        hdhResponseActiveList = heDieuHanhService.getAllResponse(true);
+        hdhResponseInactiveList = heDieuHanhService.getAllResponse(false);
+
+        showActiveTable(hdhResponseActiveList);
+        showInactiveTable(hdhResponseInactiveList);
+    }//GEN-LAST:event_btnLamMoiActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Thêm hệ điều hành?", "Xác nhận thêm hệ điều hành", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+
+        String tenHDH = txtTenHDH.getText().trim();
+        String checkResult = checkInput(0, tenHDH);
+
+        if (!checkResult.equals("")) {
+            JOptionPane.showMessageDialog(this, checkResult);
+            return;
+        }
+
+        HeDieuHanh newHDH = new HeDieuHanh();
+        newHDH.setTen(tenHDH);
+        newHDH.setTrangThai(true);
+
+        String addResult = heDieuHanhService.add(newHDH);
+        JOptionPane.showMessageDialog(this, addResult);
+
+        // reset table
+        hdhResponseActiveList = heDieuHanhService.getAllResponse(true);
+        showActiveTable(hdhResponseActiveList);
+
+        txtTenHDH.setText("");
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void tbInactiveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbInactiveMouseClicked
+        int clickedRow = tbInactive.getSelectedRow();
+        if (clickedRow < 0) {
+            return;
+        }
+
+        HeDieuHanhResponse hdhResponse = hdhResponseInactiveList.get(clickedRow);
+        txtTenHDH.setText(hdhResponse.getTenHDH());
+    }//GEN-LAST:event_tbInactiveMouseClicked
+
+    private void tbActiveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbActiveMouseClicked
+        int clickedRow = tbActive.getSelectedRow();
+        if (clickedRow < 0) {
+            return;
+        }
+
+        HeDieuHanhResponse hdhResponse = hdhResponseActiveList.get(clickedRow);
+        txtTenHDH.setText(hdhResponse.getTenHDH());
+    }//GEN-LAST:event_tbActiveMouseClicked
+
+    private void tabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabMouseClicked
+        tab.getModel().addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int index = tab.getSelectedIndex();
+                if (index == 0) {
+                    setButtons(true);
+                } else {
+                    setButtons(false);
+                }
+            }
+        });
+    }//GEN-LAST:event_tabMouseClicked
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Sửa hệ điều hành?", "Xác nhận sửa hệ điều hành", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+
+        int clickedRow = tbActive.getSelectedRow();
+        if (clickedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hệ điều hành trước khi sửa!");
+            return;
+        }
+
+        HeDieuHanhResponse selectedHDH = hdhResponseActiveList.get(clickedRow);
+        String tenHDH = txtTenHDH.getText().trim();
+        String message = checkInput(selectedHDH.getId(), tenHDH);
+
+        if (!message.equals("")) {
+            JOptionPane.showMessageDialog(this, message);
+            return;
+        }
+
+        selectedHDH.setTenHDH(tenHDH);
+
+        String updateResult = heDieuHanhService.update(selectedHDH);
+        JOptionPane.showMessageDialog(this, updateResult);
+
+        // reset table
+        hdhResponseActiveList = heDieuHanhService.getAllResponse(true);
+        showActiveTable(hdhResponseActiveList);
+
+        txtTenHDH.setText("");
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Xóa hệ điều hành?", "Xác nhận xóa hệ điều hành", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+
+        int clickedRow = tbActive.getSelectedRow();
+        if (clickedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hệ điều hành trước khi xóa!");
+            return;
+        }
+
+        HeDieuHanhResponse selectedHDH = hdhResponseActiveList.get(clickedRow);
+
+        String result = heDieuHanhService.changeStatus(selectedHDH, false);
+        JOptionPane.showMessageDialog(this, result);
+
+        hdhResponseActiveList = heDieuHanhService.getAllResponse(true);
+        showActiveTable(hdhResponseActiveList);
+
+        hdhResponseInactiveList = heDieuHanhService.getAllResponse(false);
+        showInactiveTable(hdhResponseInactiveList);
+
+        txtTenHDH.setText("");
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void setButtons(boolean boo) {
+        btnLamMoi.setEnabled(boo);
+        btnThem.setEnabled(boo);
+        btnSua.setEnabled(boo);
+        btnXoa.setEnabled(boo);
+    }
+
+    private String checkInput(int id, String tenHDH) {
+        String message = "";
+        if (tenHDH.isBlank()) {
+            message += "Tên HDH không được để trống!";
+            return message;
+        } else {
+
+            // Check unique tenHDH
+            HeDieuHanh hdh = heDieuHanhService.getByTen(tenHDH);
+            if (hdh != null) {
+                if (id == 0) {
+                    message += "Tên HĐH đã bị trùng!";
+                    if (!hdh.isTrangThai()) {
+                        message += " (trong mục đã xóa)";
+                    }
+                    return message;
+                } else if (id > 0) {
+                    if (hdh.getId() != id) {
+                        message += "Tên HĐH đã bị trùng!";
+                        if (!hdh.isTrangThai()) {
+                            message += " (trong mục đã xóa)";
+                        }
+                        return message;
+                    }
+                }
+            }
+
+            // Check pattern
+            String pattern = "[a-zA-Z ]{1,30}";
+            if (!tenHDH.matches(pattern)) {
+                message += "Tên HĐH sai định dạng!\n";
+                return message;
+            }
+        }
+        return message;
+    }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -273,10 +546,10 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnKhoiPhuc;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnLamMoi;
+    private javax.swing.JButton btnSua;
+    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnXoa;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -284,9 +557,9 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTabbedPane tab;
+    private javax.swing.JTable tbActive;
+    private javax.swing.JTable tbInactive;
+    private javax.swing.JTextField txtTenHDH;
     // End of variables declaration//GEN-END:variables
 }

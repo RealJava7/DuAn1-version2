@@ -53,7 +53,7 @@ public class ImeiRepository {
     // 3. get all with idDienThoai null
     public List<ImeiResponse> getAllNoneDienThoaiImei() {
         List<ImeiResponse> imeis = new ArrayList<>();
-
+        
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
@@ -62,28 +62,28 @@ public class ImeiRepository {
                                               FROM Imei i
                                               WHERE i.dienThoai IS NULL
                                                """);
-
+            
             imeis = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
         }
         return imeis;
     }
-    
+
     // 4. update
     public boolean update(ImeiResponse imeiResponse) {
         boolean check = false;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Transaction transaction = session.beginTransaction();
-
+            
             Imei imei = session.get(Imei.class, imeiResponse.getId());
             DienThoai dt = DienThoaiRepository.getById(imeiResponse.getIdDienThoai());
             imei.setDienThoai(dt);
-
+            
             session.update(imei);
             transaction.commit();
-
+            
             check = true;
             session.close();
         } catch (HibernateException e) {
@@ -92,10 +92,33 @@ public class ImeiRepository {
         return check;
     }
 
+    // 5. get all imeis by dienThoaiID
+    public List<ImeiResponse> getAllDienThoaiId(int dienThoaiId) {
+        List<ImeiResponse> imeis = new ArrayList<>();
+        
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.ImeiResponse
+                                              (i.id, i.imei)
+                                              FROM Imei i
+                                              WHERE i.dienThoai.id = :dienThoaiId
+                                               """);
+            query.setParameter("dienThoaiId", dienThoaiId);
+            imeis = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return imeis;
+    }
+    
     public static void main(String[] args) {
+        // 5. get all imeis by dienThoaiID
+//        List<ImeiResponse> list = getAllDienThoaiId(1);
+//        list.forEach(i -> System.out.println(i.getImei()));
+
 //        List<ImeiResponse> imeiResponses = getAllNoneDienThoaiImei();
 //        imeiResponses.forEach(i -> System.out.println(i.toString()));
-
 //        Imei imei = getByImei("111111111122222");
 //        System.out.println(imei.getId());
 //        Imei imei1 = new Imei();

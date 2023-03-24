@@ -31,4 +31,9 @@ public class ImeiServiceImpl implements ImeiService {
         imeiRepository.update(imeiResponse);
     }
 
+    @Override
+    public List<ImeiResponse> getAllDienThoaiId(int dienThoaiId) {
+        return imeiRepository.getAllDienThoaiId(dienThoaiId);
+    }
+
 }

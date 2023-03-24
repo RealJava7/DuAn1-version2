@@ -1,10 +1,51 @@
 package view.Contains.EntitySanPham;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
+import model.MauSac;
+import service.MauSacService;
+import service.impl.MauSacServiceImpl;
+import viewmodel.MauSacResponse;
+
 public class ThemMauSac extends javax.swing.JFrame {
+
+    private MauSacService mauSacService;
+    private List<MauSacResponse> mauSacResponseActiveList;
+    private List<MauSacResponse> mauSacResponseInactiveList;
+    private DefaultTableModel dtmActive;
+    private DefaultTableModel dtmInactive;
 
     public ThemMauSac() {
         initComponents();
         setLocationRelativeTo(null);
+
+        mauSacService = new MauSacServiceImpl();
+        mauSacResponseActiveList = new ArrayList<>();
+        mauSacResponseInactiveList = new ArrayList<>();
+        dtmActive = (DefaultTableModel) tbActive.getModel();
+        dtmInactive = (DefaultTableModel) tbInactive.getModel();
+
+        mauSacResponseActiveList = mauSacService.getAllResponse(true);
+        showActiveTable(mauSacResponseActiveList);
+
+        mauSacResponseInactiveList = mauSacService.getAllResponse(false);
+        showInactiveTable(mauSacResponseInactiveList);
+    }
+
+    // 1
+    private void showActiveTable(List<MauSacResponse> mauSacResponses) {
+        dtmActive.setRowCount(0);
+        mauSacResponses.forEach(m -> dtmActive.addRow(m.toDataRow()));
+    }
+
+    // 2
+    private void showInactiveTable(List<MauSacResponse> mauSacResponses) {
+        dtmInactive.setRowCount(0);
+        mauSacResponses.forEach(m -> dtmInactive.addRow(m.toDataRow()));
     }
 
     @SuppressWarnings("unchecked")
@@ -12,7 +53,7 @@ public class ThemMauSac extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tab1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbActive = new javax.swing.JTable();
@@ -37,7 +78,12 @@ public class ThemMauSac extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
+        tab1.setBackground(new java.awt.Color(255, 255, 255));
+        tab1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tab1MouseClicked(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -60,6 +106,11 @@ public class ThemMauSac extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tbActive.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbActiveMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbActive);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -77,7 +128,7 @@ public class ThemMauSac extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("DANH SÁCH", jPanel1);
+        tab1.addTab("DANH SÁCH", jPanel1);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -98,6 +149,11 @@ public class ThemMauSac extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tbInactive.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbInactiveMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tbInactive);
@@ -133,7 +189,7 @@ public class ThemMauSac extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("ĐÃ XÓA", jPanel2);
+        tab1.addTab("ĐÃ XÓA", jPanel2);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("THÔNG TIN"));
@@ -150,21 +206,41 @@ public class ThemMauSac extends javax.swing.JFrame {
         btnLamMoi.setForeground(new java.awt.Color(255, 255, 255));
         btnLamMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-new-20.png"))); // NOI18N
         btnLamMoi.setText("MỚI");
+        btnLamMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLamMoiActionPerformed(evt);
+            }
+        });
 
         btnThem.setBackground(new java.awt.Color(47, 85, 212));
         btnThem.setForeground(new java.awt.Color(255, 255, 255));
         btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-add-new-20.png"))); // NOI18N
         btnThem.setText("THÊM");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         btnSua.setBackground(new java.awt.Color(47, 85, 212));
         btnSua.setForeground(new java.awt.Color(255, 255, 255));
         btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-pencil-20 WHITE.png"))); // NOI18N
         btnSua.setText("SỬA");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         btnXoa.setBackground(new java.awt.Color(47, 85, 212));
         btnXoa.setForeground(new java.awt.Color(255, 255, 255));
         btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-trash-20.png"))); // NOI18N
         btnXoa.setText("XÓA");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -216,13 +292,13 @@ public class ThemMauSac extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tab1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(tab1)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -244,8 +320,215 @@ public class ThemMauSac extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnKhoiPhucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhoiPhucActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Khôi phục màu sắc?", "Xác nhận khôi phục màu sắc", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
 
+        int clickedRow = tbInactive.getSelectedRow();
+        if (clickedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn màu sắc trước khi khôi phục!");
+            return;
+        }
+
+        MauSacResponse selectedMauSac = mauSacResponseInactiveList.get(clickedRow);
+
+        String result = mauSacService.changeStatus(selectedMauSac, true);
+        JOptionPane.showMessageDialog(this, result);
+
+        // reset table
+        mauSacResponseActiveList = mauSacService.getAllResponse(true);
+        showActiveTable(mauSacResponseActiveList);
+
+        mauSacResponseInactiveList = mauSacService.getAllResponse(false);
+        showInactiveTable(mauSacResponseInactiveList);
+
+        txtMaMau.setText("");
+        txtTenMau.setText("");
     }//GEN-LAST:event_btnKhoiPhucActionPerformed
+
+    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
+        txtMaMau.setText("");
+        txtTenMau.setText("");
+        
+        mauSacResponseActiveList = mauSacService.getAllResponse(true);
+        showActiveTable(mauSacResponseActiveList);
+    }//GEN-LAST:event_btnLamMoiActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Thêm màu sắc?", "Xác nhận thêm màu sắc", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+        String maMau = txtMaMau.getText().trim();
+        String tenMau = txtTenMau.getText().trim();
+
+        String checkResult = checkMaMau(0, maMau);
+        
+        if (!checkResult.equals("")) {
+            JOptionPane.showMessageDialog(this, checkResult);
+            return;
+        }
+
+        MauSac newMauSac = new MauSac();
+        newMauSac.setMaMauSac(maMau);
+        newMauSac.setTenMauSac(tenMau);
+        newMauSac.setTrangThai(true);
+
+        String addResult = mauSacService.add(newMauSac);
+        JOptionPane.showMessageDialog(this, addResult);
+
+        // reset table
+        mauSacResponseActiveList = mauSacService.getAllResponse(true);
+        showActiveTable(mauSacResponseActiveList);
+
+        txtMaMau.setText("");
+        txtTenMau.setText("");
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void tbInactiveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbInactiveMouseClicked
+        int clickedRow = tbInactive.getSelectedRow();
+        if (clickedRow < 0) {
+            return;
+        }
+
+        MauSacResponse selectedMauSac = mauSacResponseInactiveList.get(clickedRow);
+        txtMaMau.setText(selectedMauSac.getMaMauSac());
+        txtTenMau.setText(selectedMauSac.getTenMauSac());
+    }//GEN-LAST:event_tbInactiveMouseClicked
+
+    private void tbActiveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbActiveMouseClicked
+        int clickedRow = tbActive.getSelectedRow();
+        if (clickedRow < 0) {
+            return;
+        }
+
+        MauSacResponse selectedMauSac = mauSacResponseActiveList.get(clickedRow);
+        txtMaMau.setText(selectedMauSac.getMaMauSac());
+        txtTenMau.setText(selectedMauSac.getTenMauSac());
+    }//GEN-LAST:event_tbActiveMouseClicked
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Sửa màu sắc?", "Xác nhận sửa màu sắc", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+
+        int clickedRow = tbActive.getSelectedRow();
+        if (clickedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn màu sắc trước khi sửa!");
+            return;
+        }
+
+        MauSacResponse selectedMauSac = mauSacResponseActiveList.get(clickedRow);
+        String maMau = txtMaMau.getText().trim();
+        String tenMau = txtTenMau.getText().trim();
+        String message = checkMaMau(selectedMauSac.getId(), maMau);
+
+        if (!message.equals("")) {
+            JOptionPane.showMessageDialog(this, message);
+            return;
+        }
+
+        selectedMauSac.setMaMauSac(maMau);
+        selectedMauSac.setTenMauSac(tenMau);
+
+        String updateResult = mauSacService.update(selectedMauSac);
+        JOptionPane.showMessageDialog(this, updateResult);
+
+        // reset table
+        mauSacResponseActiveList = mauSacService.getAllResponse(true);
+        showActiveTable(mauSacResponseActiveList);
+
+        txtMaMau.setText("");
+        txtTenMau.setText("");
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Xóa màu sắc?", "Xác nhận xóa màu sắc", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+
+        int clickedRow = tbActive.getSelectedRow();
+        if (clickedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn màu sắc trước khi xóa!");
+            return;
+        }
+
+        MauSacResponse selectedMauSac = mauSacResponseActiveList.get(clickedRow);
+
+        String result = mauSacService.changeStatus(selectedMauSac, false);
+        JOptionPane.showMessageDialog(this, result);
+
+        // reset table
+        mauSacResponseActiveList = mauSacService.getAllResponse(true);
+        showActiveTable(mauSacResponseActiveList);
+
+        mauSacResponseInactiveList = mauSacService.getAllResponse(false);
+        showInactiveTable(mauSacResponseInactiveList);
+
+        txtMaMau.setText("");
+        txtTenMau.setText("");
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void tab1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tab1MouseClicked
+        tab1.getModel().addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int index = tab1.getSelectedIndex();
+                if (index == 0) {
+                    setButtons(true);
+                } else {
+                    setButtons(false);
+                }
+            }
+        });
+    }//GEN-LAST:event_tab1MouseClicked
+
+    private void setButtons(boolean boo) {
+        btnLamMoi.setEnabled(boo);
+        btnThem.setEnabled(boo);
+        btnSua.setEnabled(boo);
+        btnXoa.setEnabled(boo);
+    }
+
+    private String checkMaMau(int id, String maMau) {
+        String message = "";
+        if (maMau.isBlank()) {
+            message += "Mã màu không được để trống!";
+            return message;
+        } else {
+
+            // Check unique maMau
+            MauSac mauSac = mauSacService.getByMa(maMau);
+            if (mauSac != null) {
+                if (id == 0) {
+                    message += "Mã màu đã bị trùng!";
+                    if (!mauSac.isTrangThai()) {
+                        message += " (trong mục đã xóa)";
+                    }
+                    return message;
+                } else if (id > 0) {
+                    if (mauSac.getId() != id) {
+                        message += "Mã màu đã bị trùng!";
+                        if (!mauSac.isTrangThai()) {
+                            message += " (trong mục đã xóa)";
+                        }
+                        return message;
+                    }
+                }
+            }
+
+            // Check pattern
+            String pattern = "[a-zA-Z0-9]{1,10}";
+            if (!maMau.matches(pattern)) {
+                message += "Tên hãng sai định dạng!\n";
+                return message;
+            }
+        }
+        return message;
+    }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -294,7 +577,7 @@ public class ThemMauSac extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane tab1;
     private javax.swing.JTable tbActive;
     private javax.swing.JTable tbInactive;
     private javax.swing.JTextField txtMaMau;
