@@ -191,15 +191,19 @@
         <Component class="javax.swing.JComboBox" name="cbxThoiGian">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="5">
+              <StringArray count="6">
                 <StringItem index="0" value="T&#x1ea5;t c&#x1ea3;"/>
                 <StringItem index="1" value="H&#xf4;m nay"/>
-                <StringItem index="2" value="Tu&#x1ea7;n n&#xe0;y"/>
-                <StringItem index="3" value="Th&#xe1;ng n&#xe0;y"/>
-                <StringItem index="4" value="N&#x103;m nay"/>
+                <StringItem index="2" value="H&#xf4;m qua"/>
+                <StringItem index="3" value="Tu&#x1ea7;n n&#xe0;y"/>
+                <StringItem index="4" value="Th&#xe1;ng n&#xe0;y"/>
+                <StringItem index="5" value="N&#x103;m nay"/>
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbxThoiGianItemStateChanged"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
