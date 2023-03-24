@@ -109,6 +109,6 @@ public class PhieuTraGopViewModel {
     }
 
     public Object[] toDataRow() {
-        return new Object[]{ngayDong, maPhieu, khachHang, maDon, tongTien, daTra, conNo, trangThai == false ? "Chưa hoàn thành" : "Hoàn Thành"};
+        return new Object[]{ngayDong, maPhieu, khachHang, maDon, tongTien, daTra, conNo, trangThai == true ? "Hoàn Thành" : "Chưa Hoàn Thành"};
     }
 }

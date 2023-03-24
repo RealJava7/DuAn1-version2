@@ -4,6 +4,7 @@
  */
 package repository.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.Query;
 import model.PhieuTraGop;
@@ -128,8 +129,43 @@ public class PhieuTraGopRepositoryImpl {
     }
 
     public List<PhieuTraGop> getByTime(int index) {
+        LocalDate date = LocalDate.now();
+        String hql = "";
+        switch (index) {
+            case 0:
+                //tất cả
+                hql = "From PhieuTraGop";
+                break;
+            case 1:
+                //Hôm nay
+                hql = "FROM PhieuTraGop Where NgayTao = '" + date + "'";
+                break;
+            case 2:
+                //Hôm qua
+
+                hql = "FROM PhieuTraGop Where NgayTao = '" + date.minusDays(1) + "'";
+                break;
+            case 3:
+                //Tuần này
+                System.out.println(date);
+                System.out.println(date.minusDays(7));
+                hql = "FROM PhieuTraGop\n"
+                        + "WHERE NgayTao BETWEEN '" + date.minusDays(7) + "' and '" + date + "'";
+                break;
+            case 4:
+                //tháng này
+                System.out.println(date.getMonthValue());
+                hql = "FROM PhieuTraGop Where MONTH(NgayTao) = '" + date.getMonthValue() + "'";
+                break;
+            case 5:
+                //năm này
+                hql = "FROM PhieuTraGop Where Year(NgayTao) = " + date.getYear();
+                break;
+            default:
+                hql = "From PhieuTraGop";
+        }
+
         try (Session session = HibernateUtil.getFACTORY().openSession()) {
-            String hql = "From PhieuTraGop";
             session.beginTransaction();
             Query query = session.createQuery(hql);
             List<PhieuTraGop> listAll = query.getResultList();
@@ -165,35 +201,12 @@ public class PhieuTraGopRepositoryImpl {
 
     }
 
-//    public static void main(String[] args) {
-//        PhieuTraGopRepositoryImpl repositoryImpl = new PhieuTraGopRepositoryImpl();
-////
-////        //tạo Phieu Tra Gop
-////        PhieuTraGop ptg = new PhieuTraGop();
-////        //tạo lich su tra gop
-////        LichSuTraGop lstg = new LichSuTraGop();
-////        //set lich sử trả góp
-//////        lstg.setId(10);
-////        lstg.setGhiChu("Ghi chú");
-////        lstg.setMa("LSTG10");
-////        lstg.setNgayThanhToan(LocalDate.now());
-////        lstg.setPhieuTraGop(ptg);
-////        lstg.setTongTien(703703);
-////        //set Phiếu trả góp
-//////        ptg.setHoaDon(null);
-//////        ptg.setId(5);
-////        ptg.setKyHan(3);
-////        ptg.setLaiSuat(7);
-////        ptg.addLichSuTraGop(lstg);
-////        ptg.setMaPhieu("PTG10");
-////        ptg.setNgayDong(LocalDate.now().getDayOfMonth());
-////        ptg.setNgayTao(LocalDate.now());
-////        ptg.setPhaiTra(547325);
-////        ptg.setTongPhaiTra(2345678);
-////
-////        System.out.println(ptg.toString());
-////        System.out.println(lstg.toString());
-//
-//        System.out.println(repositoryImpl.getByID(1).toString());
-//    }
+    public static void main(String[] args) {
+        PhieuTraGopRepositoryImpl repositoryImpl = new PhieuTraGopRepositoryImpl();
+
+        List<PhieuTraGop> listTime = repositoryImpl.getByTime(3);
+        for (PhieuTraGop phieuTraGop : listTime) {
+            System.out.println(phieuTraGop.toString());
+        }
+    }
 }

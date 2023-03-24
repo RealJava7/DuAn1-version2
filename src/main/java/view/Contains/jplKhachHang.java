@@ -127,7 +127,6 @@ public class jplKhachHang extends javax.swing.JPanel {
     private Boolean kiemTra(int id, String email) {
         StringBuilder sb = new StringBuilder();
         KhachHangResponse kh = service.getKhachHangByEmail(email);
-        System.out.println(id);
         if (txtHoTen.getText().isBlank()) {
             sb.append("Không để trống họ và tên\n");
 
@@ -144,8 +143,8 @@ public class jplKhachHang extends javax.swing.JPanel {
                     str = str + " trong phần đã xóa\n";
                 }
                 sb.append(str);
-            } else if (id > 0) {
-                String str = "Email đã tồn tại";
+            } else if (id > 0 && txtEmail.getText().trim().toLowerCase().equals(kh.getEmail().toLowerCase())) {
+                String str = "Email đã tồn tại\n";
 
                 if (kh.getTrangThai() == 0) {
                     str = str + " trong phần đã xóa\n";
@@ -164,6 +163,28 @@ public class jplKhachHang extends javax.swing.JPanel {
             sb.append("Không để trống Địa Chỉ\n");
         }
 
+        System.out.println(kh.getMaThe());
+        System.out.println(txtMathe.getText());
+        if (txtMathe.getText().isBlank()) {
+            sb.append("Không để trống thẻ tích điểm");
+        } else if (kh != null) {
+            if (id == 0) {
+                String str = "Mã thẻ đã tồn tại\n";
+
+                if (kh.getTrangThai() == 0) {
+                    str = str + " trong phần đã xóa\n";
+                }
+                sb.append(str);
+            } else if (id > 0 && txtMathe.getText().trim().equals(kh.getMaThe())) {
+                String str = "Mã thẻ đã tồn tại\n";
+
+                if (kh.getTrangThai() == 0) {
+                    str = str + " trong phần đã xóa\n";
+                }
+                sb.append(str);
+            }
+
+        }
         if (sb.length() > 0) {
             JOptionPane.showMessageDialog(this, sb);
             return false;

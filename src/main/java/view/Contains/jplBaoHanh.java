@@ -7,7 +7,9 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import service.PhieuBaoHanhService;
 import service.impl.PhieuBaoHanhServiceImpl;
@@ -21,15 +23,27 @@ public class jplBaoHanh extends javax.swing.JPanel {
      */
     DefaultTableModel dtm;
     PhieuBaoHanhService service;
-    
+    DefaultComboBoxModel dcbm;
+
     public jplBaoHanh() {
         initComponents();
         dtm = new DefaultTableModel();
         dtm = (DefaultTableModel) this.tbCTPBH.getModel();
         service = new PhieuBaoHanhServiceImpl();
+        dcbm = new DefaultComboBoxModel();
+        dcbm = (DefaultComboBoxModel) this.cbbLBH.getModel();
         showDataTable(service.getAll());
+        showComboboxData(service.getAllLoaiBaoHanh());
+
     }
-    
+
+    private void showComboboxData(List<String> lbh) {
+        cbbLBH.removeAllItems();
+        for (String cbb : lbh) {
+            cbbLBH.addItem(cbb);
+        }
+    }
+
     private void showDataTable(List<PhieuBaoHanhResponse> list) {
         dtm.setRowCount(0);
         for (PhieuBaoHanhResponse pbh : list) {
@@ -46,22 +60,24 @@ public class jplBaoHanh extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbCTPBH = new javax.swing.JTable();
         jPanel8 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbbLBH = new javax.swing.JComboBox<>();
         btnAddLoaiBaoHanh = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        cbbTrangThai = new javax.swing.JComboBox<>();
-        btnLoc = new javax.swing.JButton();
+        rdConHan = new javax.swing.JRadioButton();
+        rdHetHan = new javax.swing.JRadioButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtSearchTenKH = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
         btnImportExcel = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         tbCTPBH.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         tbCTPBH.setModel(new javax.swing.table.DefaultTableModel(
@@ -104,8 +120,6 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("LOẠI BẢO HÀNH"));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         btnAddLoaiBaoHanh.setText("Quản Lý Loại Bảo Hành");
         btnAddLoaiBaoHanh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,7 +133,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbbLBH, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(35, Short.MAX_VALUE))
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
@@ -130,7 +144,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbbLBH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnAddLoaiBaoHanh)
                 .addContainerGap(15, Short.MAX_VALUE))
@@ -140,37 +154,62 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
         jLabel1.setText("Trạng Thái:");
 
-        btnLoc.setText("Lọc");
+        buttonGroup1.add(rdConHan);
+        rdConHan.setText("Còn Hạn");
+        rdConHan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rdConHanMouseClicked(evt);
+            }
+        });
+
+        buttonGroup1.add(rdHetHan);
+        rdHetHan.setText("Hết Hạn");
+        rdHetHan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rdHetHanMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
+                .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(cbbTrangThai, 0, 161, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(btnLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
+                .addComponent(rdConHan)
+                .addGap(37, 37, 37)
+                .addComponent(rdHetHan)
+                .addContainerGap(53, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(22, 22, 22)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(cbbTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLoc))
-                .addContainerGap(39, Short.MAX_VALUE))
+                    .addComponent(rdConHan)
+                    .addComponent(rdHetHan))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Tìm Kiếm Phiếu Bảo Hành CT"));
 
         jLabel2.setText("Tên KH:");
 
+        txtSearchTenKH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchTenKHActionPerformed(evt);
+            }
+        });
+
         btnSearch.setText("Tìm Kiếm");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -205,6 +244,13 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
         jLabel5.setText("Danh Sách Phiếu Bảo Hành");
 
+        jButton1.setText("Load");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -227,7 +273,9 @@ public class jplBaoHanh extends javax.swing.JPanel {
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(13, 13, 13)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -245,8 +293,10 @@ public class jplBaoHanh extends javax.swing.JPanel {
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(200, Short.MAX_VALUE))
         );
@@ -270,7 +320,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(jplBaoHanh.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
     }//GEN-LAST:event_btnImportExcelActionPerformed
 
@@ -280,13 +330,42 @@ public class jplBaoHanh extends javax.swing.JPanel {
         qllbh.setVisible(true);
     }//GEN-LAST:event_btnAddLoaiBaoHanhActionPerformed
 
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        // TODO add your handling code here:
+        if (txtSearchTenKH.getText().matches("\\s+") && txtSearchTenKH.getText().matches("\\s")) {
+            JOptionPane.showMessageDialog(rdConHan, "Không được để trống tìm kiếm");
+        } else {
+            showDataTable(service.getAllListSearch(txtSearchTenKH.getText()));
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        showDataTable(service.getAll());
+        showComboboxData(service.getAllLoaiBaoHanh());
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void rdConHanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdConHanMouseClicked
+        // TODO add your handling code here:
+        showDataTable(service.getAllStatus(true));
+    }//GEN-LAST:event_rdConHanMouseClicked
+
+    private void rdHetHanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdHetHanMouseClicked
+        // TODO add your handling code here:
+        showDataTable(service.getAllStatus(false));
+    }//GEN-LAST:event_rdHetHanMouseClicked
+
+    private void txtSearchTenKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchTenKHActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchTenKHActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddLoaiBaoHanh;
     private javax.swing.JButton btnImportExcel;
-    private javax.swing.JButton btnLoc;
     private javax.swing.JButton btnSearch;
-    private javax.swing.JComboBox<String> cbbTrangThai;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> cbbLBH;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
@@ -295,6 +374,8 @@ public class jplBaoHanh extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JRadioButton rdConHan;
+    private javax.swing.JRadioButton rdHetHan;
     private javax.swing.JTable tbCTPBH;
     private javax.swing.JTextField txtSearchTenKH;
     // End of variables declaration//GEN-END:variables

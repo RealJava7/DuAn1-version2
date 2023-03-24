@@ -143,7 +143,12 @@ public class jplTraGop extends javax.swing.JPanel {
             }
         });
 
-        cbxThoiGian.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Hôm nay", "Tuần này", "Tháng này", "Năm nay" }));
+        cbxThoiGian.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Hôm nay", "Hôm qua", "Tuần này", "Tháng này", "Năm nay" }));
+        cbxThoiGian.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxThoiGianItemStateChanged(evt);
+            }
+        });
 
         cbxTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Chưa Hoàn thành", "Hoàn Thành" }));
         cbxTrangThai.addItemListener(new java.awt.event.ItemListener() {
@@ -313,6 +318,12 @@ public class jplTraGop extends javax.swing.JPanel {
         listView = service.getByTrangThai(cbxTrangThai.getSelectedIndex());
         showDataTable(listView);
     }//GEN-LAST:event_cbxTrangThaiItemStateChanged
+
+    private void cbxThoiGianItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxThoiGianItemStateChanged
+        // TODO add your handling code here:
+        listView = service.getByTime(cbxThoiGian.getSelectedIndex());
+        showDataTable(listView);
+    }//GEN-LAST:event_cbxThoiGianItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTaoPhieuTra;
