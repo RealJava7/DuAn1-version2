@@ -25,6 +25,7 @@ public class MauSacRepository {
                                               SELECT new model.MauSac
                                               (ms.id, ms.maMauSac, ms.tenMauSac)
                                               FROM MauSac ms
+                                              WHERE ms.trangThai = true
                                                """);
 
             mauSacs = query.getResultList();
@@ -152,8 +153,12 @@ public class MauSacRepository {
 
 //        List<MauSacResponse> mauSacs = getAllResponse();
 //        mauSacs.forEach(m -> System.out.println(m.toString()));
+
+        // get by ma
 //        MauSac ms = getByMa("YE12");
 //        System.out.println(ms.getId());
+//        System.out.println(ms.getTenMauSac());
+        
 //        System.out.println(ms.getTenMauSac());
 //        MauSac ms = new MauSac();
 //        ms.setMaMauSac("PI12");

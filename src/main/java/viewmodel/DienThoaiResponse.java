@@ -30,7 +30,7 @@ public class DienThoaiResponse {
     private String heDieuHanh;
     private String hang;
     private String dongSanPham;
-    private String mauSac;
+    private String mauSac; // maMauSac
 
     private int cameraChinh;
     private int cameraPhu;

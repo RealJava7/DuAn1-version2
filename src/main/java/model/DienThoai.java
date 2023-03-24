@@ -105,7 +105,7 @@ public class DienThoai {
     public String toString() {
         return "DienThoai{" + "id=" + id + ", maDT=" + maDT + ", tenDT=" + tenDT + ", moTa=" + moTa + ", dungLuongPin=" + dungLuongPin+ ", rom=" + rom
                 + ", ram=" + ram + ", cpu=" + cpu + ", giaNhap=" + giaNhap + ", giaBan=" + giaBan + ", soLuong=" + soLuong + ", hinhAnh=" + hinhAnh
-                + ", hang=" + hang.getTenHang() + ", dongSanPham=" + dongSanPham.getTen() + ", mauSac=" + mauSac.getTenMauSac()
+                + ", hang=" + hang.getTenHang() + ", dongSanPham=" + dongSanPham.getTen() + ", mauSac=" + mauSac.getMaMauSac()
                 + ", heDieuHanh=" + heDieuHanh.getTen() + ", cameraChiTiet=" + cameraChiTiet + ", manHinhChiTiet=" + manHinhChiTiet + '}';
     }
     
