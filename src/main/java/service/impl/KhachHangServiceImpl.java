@@ -57,4 +57,9 @@ public class KhachHangServiceImpl implements KhachHangService {
 
     }
 
+    @Override
+    public KhachHangResponse getKhachHangByEmail(String email) {
+        return repo.getKhachHangByEmail(email);
+    }
+
 }

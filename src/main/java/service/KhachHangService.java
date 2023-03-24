@@ -8,6 +8,8 @@ public interface KhachHangService {
 
     List<KhachHangResponse> getAll(int trangThai);
 
+    KhachHangResponse getKhachHangByEmail(String email);
+
     List<KhachHangResponse> findBySdt(String sdt, int trangThai);
 
     List<KhachHangResponse> sortByName(Boolean c, int trangThai);

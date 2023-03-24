@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import model.KhachHang;
 import model.TheTichDiem;
@@ -116,6 +117,29 @@ public class KhachHangRepository {
             ex.printStackTrace(System.out);
         }
         return khachHangResponses;
+    }
+
+    //get khách hàng by email
+    public static KhachHangResponse getKhachHangByEmail(String email) {
+        KhachHangResponse kh = null;
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.KhachHangResponse
+                                              (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.id, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
+                                              FROM KhachHang kh
+                                              INNER JOIN kh.theTichDiem ttd WHERE kh.email = :email
+                                               """);
+            query.setParameter("email", email);
+            kh = (KhachHangResponse) query.getSingleResult();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        } catch (NoResultException e) {
+            kh = null;
+        }
+        return kh;
+
     }
 
     // 4. get by SDT và trạng thái

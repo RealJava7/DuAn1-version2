@@ -124,22 +124,46 @@ public class jplKhachHang extends javax.swing.JPanel {
         return khachHang;
     }
 
-    private Boolean kiemTra() {
+    private Boolean kiemTra(int id, String email) {
         StringBuilder sb = new StringBuilder();
+        KhachHangResponse kh = service.getKhachHangByEmail(email);
+        System.out.println(id);
         if (txtHoTen.getText().isBlank()) {
             sb.append("Không để trống họ và tên\n");
 
         }
-        Boolean check = false;
-        for (KhachHangResponse s : listKhachHang) {
-            if (s.getEmail().equalsIgnoreCase(txtEmail.getText().trim().toLowerCase())) {
-                check = true;
-                break;
+        if (txtEmail.getText().trim().isBlank()) {
+            sb.append("Không để trống email\n");
+        } else if (!txtEmail.getText().trim().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+            sb.append("vui lòng nhập đúng định dạng email\n");
+        } else if (kh != null) {
+            if (id == 0) {
+                String str = "Email đã tồn tại";
+
+                if (kh.getTrangThai() == 0) {
+                    str = str + " trong phần đã xóa\n";
+                }
+                sb.append(str);
+            } else if (id > 0) {
+                String str = "Email đã tồn tại";
+
+                if (kh.getTrangThai() == 0) {
+                    str = str + " trong phần đã xóa\n";
+                }
+                sb.append(str);
             }
+
         }
-        if (check == true) {
-            sb.append("Email bị trùng\n");
+
+        if (txtSdt.getText().trim().isBlank()) {
+            sb.append("Không để trống SĐT\n");
+        } else if (!txtSdt.getText().trim().matches("^(0|\\+84)[1-9][0-9]{8}$")) {
+            sb.append("vui lòng nhập đúng định dạng SĐT\n");
         }
+        if (txtDiaChi.getText().isBlank()) {
+            sb.append("Không để trống Địa Chỉ\n");
+        }
+
         if (sb.length() > 0) {
             JOptionPane.showMessageDialog(this, sb);
             return false;
@@ -787,7 +811,8 @@ public class jplKhachHang extends javax.swing.JPanel {
     }//GEN-LAST:event_tblKhachHangMouseClicked
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        if (kiemTra()) {
+
+        if (kiemTra(0, txtEmail.getText().trim())) {
             JOptionPane.showMessageDialog(this, service.add(getData()));
             listKhachHang = service.getAll(1);
             showData(listKhachHang);
@@ -801,18 +826,8 @@ public class jplKhachHang extends javax.swing.JPanel {
             return;
         }
         KhachHangResponse kh = listKhachHang.get(rowIndex);
-        String email = kh.getEmail().toLowerCase();
-        Boolean check = false;
-        for (KhachHangResponse s : listKhachHang) {
-            if (s.getId() != kh.getId()) {
-                if (email.equals(txtEmail.getText().trim().toLowerCase()) == false && s.getEmail().equals(txtEmail.getText().trim().toLowerCase()) == false) {
-                    check = true;
 
-                }
-            }
-
-        }
-        if (check == false) {
+        if (kiemTra(kh.getId(), txtEmail.getText().trim())) {
             int choose = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn sửa khách hàng này không?", "UPDATE", JOptionPane.YES_NO_CANCEL_OPTION);
             if (choose == 0) {
                 KhachHang s = getData();
@@ -821,9 +836,8 @@ public class jplKhachHang extends javax.swing.JPanel {
                 showData(listKhachHang);
                 showDataRemove(listKhachHangDaXoa);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Email bị trùng");
         }
+
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void tblKhachHangDaXoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangDaXoaMouseClicked
