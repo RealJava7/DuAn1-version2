@@ -51,4 +51,15 @@ public class KhachHangServiceImpl implements KhachHangService {
         return repo.getAllTheTichDiem();
     }
 
+    @Override
+    public List<KhachHangResponse> findByMa(int id) {
+        return repo.findByMa(id);
+
+    }
+
+    @Override
+    public KhachHangResponse getKhachHangByEmail(String email) {
+        return repo.getKhachHangByEmail(email);
+    }
+
 }

@@ -8,6 +8,8 @@ public interface KhachHangService {
 
     List<KhachHangResponse> getAll(int trangThai);
 
+    KhachHangResponse getKhachHangByEmail(String email);
+
     List<KhachHangResponse> findBySdt(String sdt, int trangThai);
 
     List<KhachHangResponse> sortByName(Boolean c, int trangThai);
@@ -19,5 +21,7 @@ public interface KhachHangService {
     void updateKhoiPhuc(KhachHangResponse kh, int trangThai);
 
     List<KhachHangResponse> getAllTheTichDiem();
+
+    List<KhachHangResponse> findByMa(int id);
 
 }

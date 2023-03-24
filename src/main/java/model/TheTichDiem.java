@@ -23,7 +23,7 @@ public class TheTichDiem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private int idThe;
 
     @Column(name = "MaThe")
     private String maThe;
