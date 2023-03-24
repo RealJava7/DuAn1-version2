@@ -27,11 +27,19 @@ public class HeDieuHanh {
 
     @Column(name = "Ten")
     private String ten;
+    
+    @Column(name = "TrangThai")
+    private boolean trangThai;
 
     public HeDieuHanh(String ten) {
         this.ten = ten;
     }
 
+    public HeDieuHanh(int id, String ten) {
+        this.id = id;
+        this.ten = ten;
+    }
+    
     @Override
     public String toString() {
         return this.ten;

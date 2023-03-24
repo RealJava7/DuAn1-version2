@@ -1,10 +1,12 @@
 package repository;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import model.KhachHang;
 import model.TheTichDiem;
@@ -59,6 +61,25 @@ public class KhachHangRepository {
         return check;
     }
 
+    //update trạng thái thẻ tích điểm
+    public static boolean updateTichDiem(KhachHangResponse kh, int trangThai) {
+        boolean check = false;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+
+            TheTichDiem the = session.get(TheTichDiem.class, kh.getIdThe());
+            the.setTrangThai(trangThai == 1 ? true : false);
+            Transaction transaction = session.beginTransaction();
+
+            session.update(the);
+            transaction.commit();
+            check = true;
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return check;
+    }
+
     public static boolean updateKhoiPhuc(KhachHangResponse kh, int trangThai) {
         boolean check = false;
         try {
@@ -66,7 +87,9 @@ public class KhachHangRepository {
 
             KhachHang khachHangInDB = session.get(KhachHang.class, kh.getId());
             khachHangInDB.setTrangThai(trangThai);
+            updateTichDiem(kh, trangThai);
             Transaction transaction = session.beginTransaction();
+
             session.update(khachHangInDB);
             transaction.commit();
             check = true;
@@ -84,7 +107,7 @@ public class KhachHangRepository {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                               SELECT new viewmodel.KhachHangResponse
-                                              (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
+                                              (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.id, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
                                               FROM KhachHang kh
                                               INNER JOIN kh.theTichDiem ttd WHERE kh.trangThai = :trangThai
                                                """);
@@ -96,6 +119,29 @@ public class KhachHangRepository {
         return khachHangResponses;
     }
 
+    //get khách hàng by email
+    public static KhachHangResponse getKhachHangByEmail(String email) {
+        KhachHangResponse kh = null;
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.KhachHangResponse
+                                              (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.id, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
+                                              FROM KhachHang kh
+                                              INNER JOIN kh.theTichDiem ttd WHERE kh.email = :email
+                                               """);
+            query.setParameter("email", email);
+            kh = (KhachHangResponse) query.getSingleResult();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        } catch (NoResultException e) {
+            kh = null;
+        }
+        return kh;
+
+    }
+
     // 4. get by SDT và trạng thái
     public static List<KhachHangResponse> findBySDT(String sdt, int trangThai) {
         List<KhachHangResponse> khachHangResponses = new ArrayList<>();
@@ -104,7 +150,7 @@ public class KhachHangRepository {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                               SELECT new viewmodel.KhachHangResponse
-                                              (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
+                                              (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.id, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
                                               FROM KhachHang kh
                                               INNER JOIN kh.theTichDiem ttd WHERE kh.trangThai = :trangThai AND kh.sdt LIKE :sdt
                                                """);
@@ -126,7 +172,7 @@ public class KhachHangRepository {
             if (c == true) {
                 sql = """
                        SELECT new viewmodel.KhachHangResponse
-                                                                    (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
+                                                                    (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.id, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
                                                                     FROM KhachHang kh
                                                                     INNER JOIN kh.theTichDiem ttd  WHERE kh.trangThai = :trangThai Order by kh.hoTen ASC
                       """;
@@ -134,7 +180,7 @@ public class KhachHangRepository {
             } else {
                 sql = """
                                               SELECT new viewmodel.KhachHangResponse
-                                              (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
+                                              (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.id, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
                                               FROM KhachHang kh
                                               INNER JOIN kh.theTichDiem ttd  WHERE kh.trangThai = :trangThai Order by kh.hoTen DESC
                                                """;
@@ -142,6 +188,37 @@ public class KhachHangRepository {
             Query query = session.createQuery(sql);
             query.setParameter("trangThai", trangThai);
 
+            khachHangResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return khachHangResponses;
+    }
+
+    //6. getAll thẻ tích điểm
+    public List<KhachHangResponse> getAllTheTichDiem() {
+        List<KhachHangResponse> lists = new ArrayList<>();
+        try ( Session session = HibernateUtil.getFACTORY().openSession()) {
+            String hql = """
+                         SELECT new viewmodel.KhachHangResponse(kh.id,kh.maThe,kh.ngayKichHoat,kh.soDiem,kh.trangThai) FROM TheTichDiem kh
+                         """;
+            Query query = session.createQuery(hql);
+            lists = query.getResultList();
+        }
+        return lists;
+    }
+// find by Mã Tích Điểm
+
+    public static List<KhachHangResponse> findByMa(int id) {
+        List<KhachHangResponse> khachHangResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                         SELECT new viewmodel.KhachHangResponse(kh.id,kh.maThe,kh.ngayKichHoat,kh.soDiem,kh.trangThai) FROM TheTichDiem kh WHERE kh.id = :id
+                         """);
+
+            query.setParameter("id", id);
             khachHangResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);

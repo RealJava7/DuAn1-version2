@@ -6,8 +6,11 @@ import viewmodel.DienThoaiResponse;
 
 public interface DienThoaiService {
 
-    List<DienThoaiResponse> getAll();
+    List<DienThoaiResponse> getAllResponse(boolean status);
     
     String add(DienThoai dienThoai);
     
+    DienThoai getByMaDT(String maDT);
+    
+    String update(DienThoaiResponse dienThoaiResponse);
 }

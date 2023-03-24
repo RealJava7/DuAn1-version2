@@ -30,10 +30,20 @@ public class MauSac {
 
     @Column(name = "TenMauSac")
     private String tenMauSac;
+    
+    @Column(name = "TrangThai")
+    private boolean trangThai;
 
     public MauSac(String tenMauSac) {
         this.tenMauSac = tenMauSac;
     }
+
+    public MauSac(int id, String maMauSac, String tenMauSac) {
+        this.id = id;
+        this.maMauSac = maMauSac;
+        this.tenMauSac = tenMauSac;
+    }
+    
 
     @Override
     public String toString() {

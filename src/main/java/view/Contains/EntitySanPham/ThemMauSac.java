@@ -1,10 +1,51 @@
 package view.Contains.EntitySanPham;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
+import model.MauSac;
+import service.MauSacService;
+import service.impl.MauSacServiceImpl;
+import viewmodel.MauSacResponse;
+
 public class ThemMauSac extends javax.swing.JFrame {
+
+    private MauSacService mauSacService;
+    private List<MauSacResponse> mauSacResponseActiveList;
+    private List<MauSacResponse> mauSacResponseInactiveList;
+    private DefaultTableModel dtmActive;
+    private DefaultTableModel dtmInactive;
 
     public ThemMauSac() {
         initComponents();
         setLocationRelativeTo(null);
+
+        mauSacService = new MauSacServiceImpl();
+        mauSacResponseActiveList = new ArrayList<>();
+        mauSacResponseInactiveList = new ArrayList<>();
+        dtmActive = (DefaultTableModel) tbActive.getModel();
+        dtmInactive = (DefaultTableModel) tbInactive.getModel();
+
+        mauSacResponseActiveList = mauSacService.getAllResponse(true);
+        showActiveTable(mauSacResponseActiveList);
+
+        mauSacResponseInactiveList = mauSacService.getAllResponse(false);
+        showInactiveTable(mauSacResponseInactiveList);
+    }
+
+    // 1
+    private void showActiveTable(List<MauSacResponse> mauSacResponses) {
+        dtmActive.setRowCount(0);
+        mauSacResponses.forEach(m -> dtmActive.addRow(m.toDataRow()));
+    }
+
+    // 2
+    private void showInactiveTable(List<MauSacResponse> mauSacResponses) {
+        dtmInactive.setRowCount(0);
+        mauSacResponses.forEach(m -> dtmInactive.addRow(m.toDataRow()));
     }
 
     @SuppressWarnings("unchecked")
@@ -12,23 +53,23 @@ public class ThemMauSac extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tab1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbActive = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tbInactive = new javax.swing.JTable();
         btnKhoiPhuc = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtMaMau = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        txtTenMau = new javax.swing.JTextField();
+        btnLamMoi = new javax.swing.JButton();
+        btnThem = new javax.swing.JButton();
+        btnSua = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MÀU SẮC");
@@ -37,11 +78,16 @@ public class ThemMauSac extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
+        tab1.setBackground(new java.awt.Color(255, 255, 255));
+        tab1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tab1MouseClicked(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbActive.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -60,7 +106,12 @@ public class ThemMauSac extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        tbActive.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbActiveMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbActive);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -77,11 +128,11 @@ public class ThemMauSac extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("DANH SÁCH", jPanel1);
+        tab1.addTab("DANH SÁCH", jPanel1);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tbInactive.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -100,7 +151,12 @@ public class ThemMauSac extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        tbInactive.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbInactiveMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tbInactive);
 
         btnKhoiPhuc.setBackground(new java.awt.Color(47, 85, 212));
         btnKhoiPhuc.setForeground(new java.awt.Color(255, 255, 255));
@@ -133,38 +189,58 @@ public class ThemMauSac extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("ĐÃ XÓA", jPanel2);
+        tab1.addTab("ĐÃ XÓA", jPanel2);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("THÔNG TIN"));
 
         jLabel1.setText("MÃ MÀU");
 
-        jTextField1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
+        txtMaMau.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
 
         jLabel2.setText("TÊN MÀU:");
 
-        jTextField2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
+        txtTenMau.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
 
-        jButton1.setBackground(new java.awt.Color(47, 85, 212));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-new-20.png"))); // NOI18N
-        jButton1.setText("MỚI");
+        btnLamMoi.setBackground(new java.awt.Color(47, 85, 212));
+        btnLamMoi.setForeground(new java.awt.Color(255, 255, 255));
+        btnLamMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-new-20.png"))); // NOI18N
+        btnLamMoi.setText("MỚI");
+        btnLamMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLamMoiActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(47, 85, 212));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-add-new-20.png"))); // NOI18N
-        jButton2.setText("THÊM");
+        btnThem.setBackground(new java.awt.Color(47, 85, 212));
+        btnThem.setForeground(new java.awt.Color(255, 255, 255));
+        btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-add-new-20.png"))); // NOI18N
+        btnThem.setText("THÊM");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
-        jButton3.setBackground(new java.awt.Color(47, 85, 212));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-pencil-20 WHITE.png"))); // NOI18N
-        jButton3.setText("SỬA");
+        btnSua.setBackground(new java.awt.Color(47, 85, 212));
+        btnSua.setForeground(new java.awt.Color(255, 255, 255));
+        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-pencil-20 WHITE.png"))); // NOI18N
+        btnSua.setText("SỬA");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
-        jButton4.setBackground(new java.awt.Color(47, 85, 212));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-trash-20.png"))); // NOI18N
-        jButton4.setText("XÓA");
+        btnXoa.setBackground(new java.awt.Color(47, 85, 212));
+        btnXoa.setForeground(new java.awt.Color(255, 255, 255));
+        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-trash-20.png"))); // NOI18N
+        btnXoa.setText("XÓA");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -173,18 +249,20 @@ public class ThemMauSac extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtTenMau, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtMaMau, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
-                        .addComponent(jButton2))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnSua)
+                            .addComponent(btnLamMoi))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnXoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(33, 33, 33)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -193,19 +271,19 @@ public class ThemMauSac extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtMaMau, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTenMau, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnLamMoi)
+                    .addComponent(btnThem))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(btnSua)
+                    .addComponent(btnXoa))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -214,13 +292,13 @@ public class ThemMauSac extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tab1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(tab1)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -242,8 +320,215 @@ public class ThemMauSac extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnKhoiPhucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhoiPhucActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Khôi phục màu sắc?", "Xác nhận khôi phục màu sắc", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
 
+        int clickedRow = tbInactive.getSelectedRow();
+        if (clickedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn màu sắc trước khi khôi phục!");
+            return;
+        }
+
+        MauSacResponse selectedMauSac = mauSacResponseInactiveList.get(clickedRow);
+
+        String result = mauSacService.changeStatus(selectedMauSac, true);
+        JOptionPane.showMessageDialog(this, result);
+
+        // reset table
+        mauSacResponseActiveList = mauSacService.getAllResponse(true);
+        showActiveTable(mauSacResponseActiveList);
+
+        mauSacResponseInactiveList = mauSacService.getAllResponse(false);
+        showInactiveTable(mauSacResponseInactiveList);
+
+        txtMaMau.setText("");
+        txtTenMau.setText("");
     }//GEN-LAST:event_btnKhoiPhucActionPerformed
+
+    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
+        txtMaMau.setText("");
+        txtTenMau.setText("");
+        
+        mauSacResponseActiveList = mauSacService.getAllResponse(true);
+        showActiveTable(mauSacResponseActiveList);
+    }//GEN-LAST:event_btnLamMoiActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Thêm màu sắc?", "Xác nhận thêm màu sắc", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+        String maMau = txtMaMau.getText().trim();
+        String tenMau = txtTenMau.getText().trim();
+
+        String checkResult = checkMaMau(0, maMau);
+        
+        if (!checkResult.equals("")) {
+            JOptionPane.showMessageDialog(this, checkResult);
+            return;
+        }
+
+        MauSac newMauSac = new MauSac();
+        newMauSac.setMaMauSac(maMau);
+        newMauSac.setTenMauSac(tenMau);
+        newMauSac.setTrangThai(true);
+
+        String addResult = mauSacService.add(newMauSac);
+        JOptionPane.showMessageDialog(this, addResult);
+
+        // reset table
+        mauSacResponseActiveList = mauSacService.getAllResponse(true);
+        showActiveTable(mauSacResponseActiveList);
+
+        txtMaMau.setText("");
+        txtTenMau.setText("");
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void tbInactiveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbInactiveMouseClicked
+        int clickedRow = tbInactive.getSelectedRow();
+        if (clickedRow < 0) {
+            return;
+        }
+
+        MauSacResponse selectedMauSac = mauSacResponseInactiveList.get(clickedRow);
+        txtMaMau.setText(selectedMauSac.getMaMauSac());
+        txtTenMau.setText(selectedMauSac.getTenMauSac());
+    }//GEN-LAST:event_tbInactiveMouseClicked
+
+    private void tbActiveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbActiveMouseClicked
+        int clickedRow = tbActive.getSelectedRow();
+        if (clickedRow < 0) {
+            return;
+        }
+
+        MauSacResponse selectedMauSac = mauSacResponseActiveList.get(clickedRow);
+        txtMaMau.setText(selectedMauSac.getMaMauSac());
+        txtTenMau.setText(selectedMauSac.getTenMauSac());
+    }//GEN-LAST:event_tbActiveMouseClicked
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Sửa màu sắc?", "Xác nhận sửa màu sắc", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+
+        int clickedRow = tbActive.getSelectedRow();
+        if (clickedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn màu sắc trước khi sửa!");
+            return;
+        }
+
+        MauSacResponse selectedMauSac = mauSacResponseActiveList.get(clickedRow);
+        String maMau = txtMaMau.getText().trim();
+        String tenMau = txtTenMau.getText().trim();
+        String message = checkMaMau(selectedMauSac.getId(), maMau);
+
+        if (!message.equals("")) {
+            JOptionPane.showMessageDialog(this, message);
+            return;
+        }
+
+        selectedMauSac.setMaMauSac(maMau);
+        selectedMauSac.setTenMauSac(tenMau);
+
+        String updateResult = mauSacService.update(selectedMauSac);
+        JOptionPane.showMessageDialog(this, updateResult);
+
+        // reset table
+        mauSacResponseActiveList = mauSacService.getAllResponse(true);
+        showActiveTable(mauSacResponseActiveList);
+
+        txtMaMau.setText("");
+        txtTenMau.setText("");
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Xóa màu sắc?", "Xác nhận xóa màu sắc", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+
+        int clickedRow = tbActive.getSelectedRow();
+        if (clickedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn màu sắc trước khi xóa!");
+            return;
+        }
+
+        MauSacResponse selectedMauSac = mauSacResponseActiveList.get(clickedRow);
+
+        String result = mauSacService.changeStatus(selectedMauSac, false);
+        JOptionPane.showMessageDialog(this, result);
+
+        // reset table
+        mauSacResponseActiveList = mauSacService.getAllResponse(true);
+        showActiveTable(mauSacResponseActiveList);
+
+        mauSacResponseInactiveList = mauSacService.getAllResponse(false);
+        showInactiveTable(mauSacResponseInactiveList);
+
+        txtMaMau.setText("");
+        txtTenMau.setText("");
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void tab1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tab1MouseClicked
+        tab1.getModel().addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int index = tab1.getSelectedIndex();
+                if (index == 0) {
+                    setButtons(true);
+                } else {
+                    setButtons(false);
+                }
+            }
+        });
+    }//GEN-LAST:event_tab1MouseClicked
+
+    private void setButtons(boolean boo) {
+        btnLamMoi.setEnabled(boo);
+        btnThem.setEnabled(boo);
+        btnSua.setEnabled(boo);
+        btnXoa.setEnabled(boo);
+    }
+
+    private String checkMaMau(int id, String maMau) {
+        String message = "";
+        if (maMau.isBlank()) {
+            message += "Mã màu không được để trống!";
+            return message;
+        } else {
+
+            // Check unique maMau
+            MauSac mauSac = mauSacService.getByMa(maMau);
+            if (mauSac != null) {
+                if (id == 0) {
+                    message += "Mã màu đã bị trùng!";
+                    if (!mauSac.isTrangThai()) {
+                        message += " (trong mục đã xóa)";
+                    }
+                    return message;
+                } else if (id > 0) {
+                    if (mauSac.getId() != id) {
+                        message += "Mã màu đã bị trùng!";
+                        if (!mauSac.isTrangThai()) {
+                            message += " (trong mục đã xóa)";
+                        }
+                        return message;
+                    }
+                }
+            }
+
+            // Check pattern
+            String pattern = "[a-zA-Z0-9]{1,10}";
+            if (!maMau.matches(pattern)) {
+                message += "Tên hãng sai định dạng!\n";
+                return message;
+            }
+        }
+        return message;
+    }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -280,10 +565,10 @@ public class ThemMauSac extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnKhoiPhuc;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnLamMoi;
+    private javax.swing.JButton btnSua;
+    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnXoa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -292,10 +577,10 @@ public class ThemMauSac extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTabbedPane tab1;
+    private javax.swing.JTable tbActive;
+    private javax.swing.JTable tbInactive;
+    private javax.swing.JTextField txtMaMau;
+    private javax.swing.JTextField txtTenMau;
     // End of variables declaration//GEN-END:variables
 }

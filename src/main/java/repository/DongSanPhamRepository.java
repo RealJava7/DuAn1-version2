@@ -106,7 +106,7 @@ public class DongSanPhamRepository {
     }
 
     // 6. get by tenDongSP
-    public DongSanPham getByTenDongSP(String tenDongSP) {
+    public static DongSanPham getByTenDongSP(String tenDongSP) {
         DongSanPham dongSanPham = null;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
