@@ -6,7 +6,7 @@ import viewmodel.HeDieuHanhResponse;
 
 public interface HeDieuHanhService {
     
-    List<HeDieuHanh> getAll();
+    List<HeDieuHanh> getAllEntityByStatus(boolean status);
     
     HeDieuHanh getByTen(String ten);
     

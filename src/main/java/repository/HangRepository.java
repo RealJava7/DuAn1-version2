@@ -13,19 +13,19 @@ import viewmodel.HangResponse;
 
 public class HangRepository {
 
-    // 1. get all entity
-    public List<Hang> getAllEntity() {
+    // 1. get all entity by trangThai
+    public List<Hang> getAllEntityByStatus(boolean status) {
         List<Hang> hangs = new ArrayList<>();
 
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                               SELECT new model.Hang
-                                              (h.id, h.tenHang)
+                                              (h.id, h.tenHang, h.trangThai)
                                               FROM Hang h
-                                              WHERE h.trangThai = true
+                                              WHERE h.trangThai = :status
                                                """);
-
+            query.setParameter("status", status);
             hangs = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
@@ -33,8 +33,8 @@ public class HangRepository {
         return hangs;
     }
 
-    // 2. get all response
-    public List<HangResponse> getAllResponse() {
+    // 2. get all response by status
+    public List<HangResponse> getAllResponseByStatus(boolean status) {
         List<HangResponse> hangResponses = new ArrayList<>();
 
         try {
@@ -43,9 +43,9 @@ public class HangRepository {
                                               SELECT new viewmodel.HangResponse
                                               (h.id, h.tenHang, h.trangThai)
                                               FROM Hang h
-                                              WHERE h.trangThai = true
+                                              WHERE h.trangThai = :status
                                                """);
-
+            query.setParameter("status", status);
             hangResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
@@ -64,8 +64,28 @@ public class HangRepository {
         }
         return hang;
     }
+    
+    // 4. get by tenHang
+    public static Hang getByTenHang(String tenHang) {
+        Hang hang = null;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT h
+                                              FROM Hang h
+                                              WHERE h.tenHang = :tenHang
+                                               """);
+            query.setParameter("tenHang", tenHang);
+            hang = (Hang) query.getSingleResult();
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        } catch (NoResultException e) {
+            hang = null;
+        }
+        return hang;
+    }
 
-    // 4. add
+    // 5. add
     public boolean add(Hang hang) {
         boolean check = false;
         try {
@@ -81,7 +101,7 @@ public class HangRepository {
         return check;
     }
 
-    // 5. update
+    // 6. update
     public static boolean update(HangResponse hangResponse) {
         boolean check = false;
         try {
@@ -102,47 +122,7 @@ public class HangRepository {
         return check;
     }
 
-    // 6. get by tenHang
-    public static Hang getByTenHang(String tenHang) {
-        Hang hang = null;
-        try {
-            Session session = HibernateUtil.getFACTORY().openSession();
-            Query query = session.createQuery("""
-                                              SELECT h
-                                              FROM Hang h
-                                              WHERE h.tenHang = :tenHang
-                                               """);
-            query.setParameter("tenHang", tenHang);
-            hang = (Hang) query.getSingleResult();
-        } catch (HibernateException e) {
-            e.printStackTrace(System.out);
-        } catch (NoResultException e) {
-            hang = null;
-        }
-        return hang;
-    }
-
-    // 7. get all hangDaXoa
-    public List<HangResponse> getAllDaXoa() {
-        List<HangResponse> hangResponses = new ArrayList<>();
-
-        try {
-            Session session = HibernateUtil.getFACTORY().openSession();
-            Query query = session.createQuery("""
-                                              SELECT new viewmodel.HangResponse
-                                              (h.id, h.tenHang, h.trangThai)
-                                              FROM Hang h
-                                              WHERE h.trangThai = false
-                                               """);
-
-            hangResponses = query.getResultList();
-        } catch (HibernateException ex) {
-            ex.printStackTrace(System.out);
-        }
-        return hangResponses;
-    }
-
-    // 8. delete
+    // 7. delete
     public boolean delete(HangResponse hangResponse) {
         boolean check = false;
         try {
@@ -162,12 +142,28 @@ public class HangRepository {
         }
         return check;
     }
+    
+    // 8. changeStatus hang
+    public void changeStatus(HangResponse hangResponse, boolean newStatus) {
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
 
-    public static void main(String[] args) {
+            Hang hang = session.get(Hang.class, hangResponse.getId());
+            hang.setTrangThai(newStatus);
+
+            session.update(hang);
+            transaction.commit();
+            session.close();
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+    }
+
+//    public static void main(String[] args) {
 //        HangResponse hangResponse = new HangResponse();
 //        hangResponse.setId(6);
 //        System.out.println(delete(hangResponse));
-
 //        HangResponse hangResponse = new HangResponse();
 //        hangResponse.setId(1);
 //        hangResponse.setTenHang("Applee");
@@ -187,5 +183,5 @@ public class HangRepository {
 //        hangList.forEach(h -> System.out.println(h.toString()));
 //        Hang hang = getById(1);
 //        System.out.println(hang.getTenHang());
-    }
+//    }
 }

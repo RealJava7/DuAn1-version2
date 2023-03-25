@@ -11,13 +11,13 @@ public class HangServiceImpl implements HangService {
     private HangRepository hangRepository = new HangRepository();
 
     @Override
-    public List<Hang> getAllEntity() {
-        return hangRepository.getAllEntity();
+    public List<Hang> getAllEntityByStatus(boolean status) {
+        return hangRepository.getAllEntityByStatus(status);
     }
 
     @Override
-    public List<HangResponse> getAllResponse() {
-        return hangRepository.getAllResponse();
+    public List<HangResponse> getAllResponseByStatus(boolean status) {
+        return hangRepository.getAllResponseByStatus(status);
     }
 
     @Override
@@ -38,14 +38,16 @@ public class HangServiceImpl implements HangService {
     }
 
     @Override
-    public List<HangResponse> getAllDaXoa() {
-        return hangRepository.getAllDaXoa();
-    }
-
-    @Override
     public String delete(HangResponse hangResponse) {
         boolean deleteResult = hangRepository.delete(hangResponse);
         return deleteResult ? "Xóa thành công!" : "Xóa thất bại!";
+    }
+
+    @Override
+    public String changeStatus(HangResponse hangResponse, boolean newStatus) {
+        String message = newStatus ? "Khôi phục thành công!" : "Xóa thành công!";
+        hangRepository.changeStatus(hangResponse, newStatus);
+        return message;
     }
 
 }

@@ -38,8 +38,8 @@ public class DienThoaiRepository {
         return check;
     }
 
-    // 2. get all
-    public List<DienThoaiResponse> getAllResponse(boolean status) {
+    // 2. get all by trangThai
+    public List<DienThoaiResponse> getAllResponseByStatus(boolean status) {
         List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
 
         try {
@@ -47,7 +47,7 @@ public class DienThoaiRepository {
             Query query = session.createQuery("""
                                               SELECT new viewmodel.DienThoaiResponse
                                               (dt.id, dt.maDT, dt.tenDT, dt.moTa, dt.dungLuongPin, dt.rom, dt.ram, dt.cpu, dt.giaNhap, dt.giaBan, dt.soLuong, dt.hinhAnh,
-                                              hdh.ten, h.tenHang, dsp.ten, ms.maMauSac,
+                                              hdh.ten, h.tenHang, dsp.ten, ms.tenMauSac,
                                               c.cameraChinh, c.cameraPhu, c.cameraGocRong, c.cameraTele,
                                               mh.kichThuoc, mh.doPhanGiai, mh.loaiManHinh)
                                               FROM DienThoai dt
@@ -122,11 +122,7 @@ public class DienThoaiRepository {
             
             Hang hang = HangRepository.getByTenHang(dienThoaiResponse.getHang());
             DongSanPham dsp = DongSanPhamRepository.getByTenDongSP(dienThoaiResponse.getDongSanPham());
-            MauSac mauSac = MauSacRepository.getByMa(dienThoaiResponse.getMauSac());
-            System.out.println("in repo");
-            System.out.println(mauSac.getId());
-            System.out.println(mauSac.getMaMauSac());
-            System.out.println(mauSac.getTenMauSac());
+            MauSac mauSac = MauSacRepository.getByTen(dienThoaiResponse.getMauSac());
             HeDieuHanh hdh = HeDieuHanhRepository.getByTen(dienThoaiResponse.getHeDieuHanh());
             
             dienThoai.setHang(hang);

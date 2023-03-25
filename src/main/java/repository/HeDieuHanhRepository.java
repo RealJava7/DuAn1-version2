@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import model.DongSanPham;
 import model.HeDieuHanh;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -14,18 +13,19 @@ import viewmodel.HeDieuHanhResponse;
 
 public class HeDieuHanhRepository {
 
-    // 1. get all
-    public List<HeDieuHanh> getAllEntity() {
+    // 1. get all by trangThai
+    public List<HeDieuHanh> getAllEntityByStatus(boolean status) {
         List<HeDieuHanh> heDieuHanhs = new ArrayList<>();
 
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                               SELECT new model.HeDieuHanh
-                                              (h.id, h.ten)
+                                              (h.id, h.ten, h.trangThai)
                                               FROM HeDieuHanh h
+                                              WHERE h.trangThai = :status
                                                """);
-
+            query.setParameter("status", status);
             heDieuHanhs = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);

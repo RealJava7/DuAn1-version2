@@ -15,19 +15,19 @@ import viewmodel.MauSacResponse;
 
 public class MauSacRepository {
 
-    // 1. get all entity
-    public List<MauSac> getAllEntity() {
+    // 1. get all entity by trangThai
+    public List<MauSac> getAllEntityByStatus(boolean status) {
         List<MauSac> mauSacs = new ArrayList<>();
 
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                               SELECT new model.MauSac
-                                              (ms.id, ms.maMauSac, ms.tenMauSac)
+                                              (ms.id, ms.maMauSac, ms.tenMauSac, ms.trangThai)
                                               FROM MauSac ms
-                                              WHERE ms.trangThai = true
+                                              WHERE ms.trangThai = :status
                                                """);
-
+            query.setParameter("status", status);
             mauSacs = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
@@ -46,34 +46,18 @@ public class MauSacRepository {
         }
         return mauSac;
     }
-
-    // 3. add
-    public boolean add(MauSac mauSac) {
-        boolean check = false;
-        try {
-            Session session = HibernateUtil.getFACTORY().openSession();
-            Transaction transaction = session.beginTransaction();
-            session.save(mauSac);
-            transaction.commit();
-            check = true;
-            session.close();
-        } catch (HibernateException ex) {
-            ex.printStackTrace(System.out);
-        }
-        return check;
-    }
-
-    // 4. get mauSac by maMau
-    public static MauSac getByMa(String maMau) {
+    
+    // 4. get mauSac by tenMauSac
+    public static MauSac getByTen(String tenMauSac) {
         MauSac mauSac = null;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                               SELECT ms
                                               FROM MauSac ms
-                                              WHERE ms.maMauSac = :maMau
+                                              WHERE ms.tenMauSac = :tenMauSac
                                                """);
-            query.setParameter("maMau", maMau);
+            query.setParameter("tenMauSac", tenMauSac);
             mauSac = (MauSac) query.getSingleResult();
         } catch (HibernateException e) {
             e.printStackTrace(System.out);
@@ -82,9 +66,29 @@ public class MauSacRepository {
         }
         return mauSac;
     }
-
-    // 5. get all response
-    public List<MauSacResponse> getAllResponse(boolean status) {
+    
+    // 4. get mauSac by maMauSac
+    public static MauSac getByMa(String maMauSac) {
+        MauSac mauSac = null;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT ms
+                                              FROM MauSac ms
+                                              WHERE ms.maMauSac = :maMauSac
+                                               """);
+            query.setParameter("tenMauSac", maMauSac);
+            mauSac = (MauSac) query.getSingleResult();
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        } catch (NoResultException e) {
+            mauSac = null;
+        }
+        return mauSac;
+    }
+    
+    // 5. get all response by trangThai
+    public List<MauSacResponse> getAllResponseByStatus(boolean status) {
         List<MauSacResponse> mauSacs = new ArrayList<>();
 
         try {
@@ -101,6 +105,22 @@ public class MauSacRepository {
             ex.printStackTrace(System.out);
         }
         return mauSacs;
+    }
+
+    // 3. add
+    public boolean add(MauSac mauSac) {
+        boolean check = false;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
+            session.save(mauSac);
+            transaction.commit();
+            check = true;
+            session.close();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return check;
     }
 
     // 6. update
