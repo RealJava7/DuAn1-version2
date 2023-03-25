@@ -25,6 +25,7 @@ public class DongSanPhamRepository {
                                               (dsp.id, dsp.ten, dsp.hangDienThoai)
                                               FROM DongSanPham dsp
                                               WHERE dsp.hangDienThoai.id = :hangId AND dsp.trangThai = true
+                                              ORDER BY dsp.ten
                                                """);
             query.setParameter("hangId", hangId);
             dongSanPhams = query.getResultList();

@@ -32,4 +32,21 @@ public class DienThoaiServiceImpl implements DienThoaiService {
         return updateResult ? "Sửa thành công" : "Sửa thất bại";
     }
 
+    @Override
+    public String changeStatus(DienThoaiResponse dienThoaiResponse, boolean newStatus) {
+        String message = newStatus ? "Khôi phục thành công!" : "Xóa thành công!";
+        dienThoaiRepository.changeStatus(dienThoaiResponse, newStatus);
+        return message;
+    }
+
+    @Override
+    public List<DienThoaiResponse> getAllResponseByGiaBan(String order) {
+        return dienThoaiRepository.getAllResponseByGiaBan(order);
+    }
+
+    @Override
+    public List<DienThoaiResponse> searchAllResponseByName(String keyword) {
+        return dienThoaiRepository.searchAllResponseByName(keyword);
+    }
+
 }

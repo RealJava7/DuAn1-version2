@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import model.DongSanPham;
-import model.Hang;
 import model.MauSac;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -26,6 +24,7 @@ public class MauSacRepository {
                                               (ms.id, ms.maMauSac, ms.tenMauSac, ms.trangThai)
                                               FROM MauSac ms
                                               WHERE ms.trangThai = :status
+                                              ORDER BY ms.tenMauSac
                                                """);
             query.setParameter("status", status);
             mauSacs = query.getResultList();
@@ -77,7 +76,7 @@ public class MauSacRepository {
                                               FROM MauSac ms
                                               WHERE ms.maMauSac = :maMauSac
                                                """);
-            query.setParameter("tenMauSac", maMauSac);
+            query.setParameter("maMauSac", maMauSac);
             mauSac = (MauSac) query.getSingleResult();
         } catch (HibernateException e) {
             e.printStackTrace(System.out);
@@ -108,7 +107,7 @@ public class MauSacRepository {
     }
 
     // 3. add
-    public boolean add(MauSac mauSac) {
+    public static boolean add(MauSac mauSac) {
         boolean check = false;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
@@ -121,6 +120,14 @@ public class MauSacRepository {
             ex.printStackTrace(System.out);
         }
         return check;
+    }
+    
+    public static void main(String[] args) {
+        MauSac ms = new MauSac();
+        ms.setMaMauSac("RE001");
+        ms.setTenMauSac("Đỏ");
+        
+        System.out.println(add(ms));
     }
 
     // 6. update
@@ -162,7 +169,7 @@ public class MauSacRepository {
         }
     }
 
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
         // 1
 //        MauSacResponse mauSacResponse = new MauSacResponse();
 //        mauSacResponse.setId(3);
@@ -189,5 +196,5 @@ public class MauSacRepository {
 //        mauSacs.forEach(ms -> System.out.println(ms.toString()));
 //        MauSac ms1 = getById(1);
 //        System.out.println(ms1.getTenMauSac());
-    }
+//    }
 }

@@ -21,10 +21,17 @@ public class ThemImei extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
 
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                jplSanPham.showImeiComboBox(idCurrentDienThoai);
+            }
+        });
+
         imeiService = new ImeiServiceImpl();
         imeiResponseList = new ArrayList<>();
         dtmImei = (DefaultTableModel) tbImei.getModel();
 
+        imeiService.deleteImeiWithDienThoaiNull();
         imeiResponseList = imeiService.getAllNoneDienThoaiImei();
         showDataTable(imeiResponseList);
     }
@@ -35,11 +42,20 @@ public class ThemImei extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
 
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                jplSanPham.showImeiComboBox(idCurrentDienThoai);
+            }
+        });
+
         imeiService = new ImeiServiceImpl();
         imeiResponseList = new ArrayList<>();
         dtmImei = (DefaultTableModel) tbImei.getModel();
 
         imeiResponseList = imeiService.getAllDienThoaiId(idCurrentDienThoai);
+        List<ImeiResponse> noneList = imeiService.getAllNoneDienThoaiImei();
+        imeiResponseList.addAll(noneList);
+
         dtmImei.setRowCount(0);
         imeiResponseList.forEach(i -> dtmImei.addRow(i.toDataRow()));
         lbTongSo.setText(String.valueOf(imeiResponseList.size()));
@@ -73,7 +89,6 @@ public class ThemImei extends javax.swing.JFrame {
         btnXoa = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
         btnLamMoi = new javax.swing.JButton();
-        okImei = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("IMEI");
@@ -184,6 +199,11 @@ public class ThemImei extends javax.swing.JFrame {
         btnXoa.setForeground(new java.awt.Color(255, 255, 255));
         btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-trash-20.png"))); // NOI18N
         btnXoa.setText("XÓA");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         btnSua.setBackground(new java.awt.Color(47, 85, 212));
         btnSua.setForeground(new java.awt.Color(255, 255, 255));
@@ -194,13 +214,6 @@ public class ThemImei extends javax.swing.JFrame {
         btnLamMoi.setForeground(new java.awt.Color(255, 255, 255));
         btnLamMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-new-20.png"))); // NOI18N
         btnLamMoi.setText("MỚI");
-
-        okImei.setText("OK");
-        okImei.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                okImeiActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -225,10 +238,6 @@ public class ThemImei extends javax.swing.JFrame {
                         .addGap(16, 16, 16)
                         .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addComponent(okImei)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -245,8 +254,6 @@ public class ThemImei extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSua)
                     .addComponent(btnXoa))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(okImei)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -312,10 +319,10 @@ public class ThemImei extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnThemActionPerformed
 
-    private void okImeiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okImeiActionPerformed
-        jplSanPham.showImeiComboBox(idCurrentDienThoai);
-        this.dispose();
-    }//GEN-LAST:event_okImeiActionPerformed
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnXoaActionPerformed
 
     private String checkInput(int id, String imeiStr) {
         String message = "";
@@ -372,7 +379,6 @@ public class ThemImei extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel lbTongSo;
-    private javax.swing.JButton okImei;
     private javax.swing.JTable tbImei;
     private javax.swing.JTextField txtImei;
     // End of variables declaration//GEN-END:variables

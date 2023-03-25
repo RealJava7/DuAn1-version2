@@ -24,6 +24,7 @@ public class HeDieuHanhRepository {
                                               (h.id, h.ten, h.trangThai)
                                               FROM HeDieuHanh h
                                               WHERE h.trangThai = :status
+                                              ORDER BY h.ten
                                                """);
             query.setParameter("status", status);
             heDieuHanhs = query.getResultList();

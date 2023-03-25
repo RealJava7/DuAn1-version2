@@ -20,6 +20,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import utility.HibernateUtil;
 import viewmodel.DienThoaiResponse;
+import viewmodel.HangResponse;
 
 public class DienThoaiRepository {
 
@@ -78,7 +79,7 @@ public class DienThoaiRepository {
         }
         return dienThoai;
     }
-    
+
     // 4. get by maDienThoai
     public DienThoai getByMaDT(String maDT) {
         DienThoai dienThoai = null;
@@ -98,8 +99,67 @@ public class DienThoaiRepository {
         }
         return dienThoai;
     }
-    
-    // 5. update
+
+    // 5. get all by giaBan
+    public List<DienThoaiResponse> getAllResponseByGiaBan(String order) {
+        List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.DienThoaiResponse
+                                              (dt.id, dt.maDT, dt.tenDT, dt.moTa, dt.dungLuongPin, dt.rom, dt.ram, dt.cpu, dt.giaNhap, dt.giaBan, dt.soLuong, dt.hinhAnh,
+                                              hdh.ten, h.tenHang, dsp.ten, ms.tenMauSac,
+                                              c.cameraChinh, c.cameraPhu, c.cameraGocRong, c.cameraTele,
+                                              mh.kichThuoc, mh.doPhanGiai, mh.loaiManHinh)
+                                              FROM DienThoai dt
+                                              INNER JOIN dt.hang h
+                                              INNER JOIN dt.dongSanPham dsp
+                                              INNER JOIN dt.mauSac ms
+                                              INNER JOIN dt.heDieuHanh hdh
+                                              INNER JOIN dt.cameraChiTiet c
+                                              INNER JOIN dt.manHinhChiTiet mh
+                                              WHERE dt.trangThai = TRUE
+                                              ORDER BY dt.giaBan
+                                               """ + order);
+            dienThoaiResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return dienThoaiResponses;
+    }
+
+    // 6. get by name
+    public List<DienThoaiResponse> searchAllResponseByName(String keyword) {
+        List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.DienThoaiResponse
+                                              (dt.id, dt.maDT, dt.tenDT, dt.moTa, dt.dungLuongPin, dt.rom, dt.ram, dt.cpu, dt.giaNhap, dt.giaBan, dt.soLuong, dt.hinhAnh,
+                                              hdh.ten, h.tenHang, dsp.ten, ms.tenMauSac,
+                                              c.cameraChinh, c.cameraPhu, c.cameraGocRong, c.cameraTele,
+                                              mh.kichThuoc, mh.doPhanGiai, mh.loaiManHinh)
+                                              FROM DienThoai dt
+                                              INNER JOIN dt.hang h
+                                              INNER JOIN dt.dongSanPham dsp
+                                              INNER JOIN dt.mauSac ms
+                                              INNER JOIN dt.heDieuHanh hdh
+                                              INNER JOIN dt.cameraChiTiet c
+                                              INNER JOIN dt.manHinhChiTiet mh
+                                              WHERE dt.trangThai = TRUE
+                                              AND dt.tenDT like :keyword
+                                               """);
+            query.setParameter("keyword", "%" + keyword + "%");
+            dienThoaiResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return dienThoaiResponses;
+    }
+
+    // 6. update
     public boolean update(DienThoaiResponse dienThoaiResponse) {
         boolean check = false;
         try {
@@ -107,7 +167,7 @@ public class DienThoaiRepository {
             Transaction transaction = session.beginTransaction();
 
             DienThoai dienThoai = session.get(DienThoai.class, dienThoaiResponse.getId());
-            
+
             dienThoai.setMaDT(dienThoaiResponse.getMaDT());
             dienThoai.setTenDT(dienThoaiResponse.getTenDT());
             dienThoai.setMoTa(dienThoaiResponse.getMoTa());
@@ -119,17 +179,17 @@ public class DienThoaiRepository {
             dienThoai.setGiaBan(dienThoaiResponse.getGiaBan());
             dienThoai.setSoLuong(dienThoaiResponse.getSoLuong());
             dienThoai.setHinhAnh(dienThoaiResponse.getHinhAnh());
-            
+
             Hang hang = HangRepository.getByTenHang(dienThoaiResponse.getHang());
             DongSanPham dsp = DongSanPhamRepository.getByTenDongSP(dienThoaiResponse.getDongSanPham());
             MauSac mauSac = MauSacRepository.getByTen(dienThoaiResponse.getMauSac());
             HeDieuHanh hdh = HeDieuHanhRepository.getByTen(dienThoaiResponse.getHeDieuHanh());
-            
+
             dienThoai.setHang(hang);
             dienThoai.setDongSanPham(dsp);
             dienThoai.setMauSac(mauSac);
             dienThoai.setHeDieuHanh(hdh);
-            
+
             // Camera
             CameraChiTiet cameraChiTiet = dienThoai.getCameraChiTiet();
             cameraChiTiet.setCameraChinh(dienThoaiResponse.getCameraChinh());
@@ -137,7 +197,7 @@ public class DienThoaiRepository {
             cameraChiTiet.setCameraGocRong(dienThoaiResponse.getCameraGocRong());
             cameraChiTiet.setCameraTele(dienThoaiResponse.getCameraTele());
             dienThoai.setCameraChiTiet(cameraChiTiet);
-            
+
             // Màn hình
             ManHinhChiTiet manHinhChiTiet = dienThoai.getManHinhChiTiet();
             manHinhChiTiet.setKichThuoc(dienThoaiResponse.getKichThuoc());
@@ -145,7 +205,27 @@ public class DienThoaiRepository {
             manHinhChiTiet.setLoaiManHinh(dienThoaiResponse.getLoaiManHinh());
             dienThoai.setManHinhChiTiet(manHinhChiTiet);
 
-            System.out.println(dienThoai.toString());
+            session.update(dienThoai);
+            transaction.commit();
+
+            check = true;
+            session.close();
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+        return check;
+    }
+
+    // 7. delete
+    public boolean changeStatus(DienThoaiResponse dienThoaiResponse, boolean newStatus) {
+        boolean check = false;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            DienThoai dienThoai = session.get(DienThoai.class, dienThoaiResponse.getId());
+            dienThoai.setTrangThai(newStatus);
+
             session.update(dienThoai);
             transaction.commit();
 
@@ -160,11 +240,10 @@ public class DienThoaiRepository {
     public static void main(String[] args) {
 //        DienThoai dt = getById(1);
 //        System.out.println(dt.toString());
-        
+
         // get all
 //        List<DienThoaiResponse> dienThoaiResponses = getAll();
 //        dienThoaiResponses.forEach(dt -> System.out.println(dt.toString()));
-
         // add
 //        CameraChiTiet cam = new CameraChiTiet();
 //        cam.setCameraChinh(48);

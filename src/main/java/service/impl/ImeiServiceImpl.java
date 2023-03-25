@@ -36,4 +36,9 @@ public class ImeiServiceImpl implements ImeiService {
         return imeiRepository.getAllDienThoaiId(dienThoaiId);
     }
 
+    @Override
+    public void deleteImeiWithDienThoaiNull() {
+        imeiRepository.deleteImeiWithDienThoaiNull();
+    }
+
 }

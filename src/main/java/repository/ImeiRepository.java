@@ -37,7 +37,7 @@ public class ImeiRepository {
     // 2. get all with idDienThoai null
     public List<ImeiResponse> getAllNoneDienThoaiImei() {
         List<ImeiResponse> imeis = new ArrayList<>();
-        
+
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
@@ -46,18 +46,18 @@ public class ImeiRepository {
                                               FROM Imei i
                                               WHERE i.dienThoai IS NULL
                                                """);
-            
+
             imeis = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
         }
         return imeis;
     }
-    
+
     // 3. get all imeis by dienThoaiID
     public List<ImeiResponse> getAllDienThoaiId(int dienThoaiId) {
         List<ImeiResponse> imeis = new ArrayList<>();
-        
+
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
@@ -89,21 +89,21 @@ public class ImeiRepository {
         }
         return check;
     }
-    
+
     // 5. update
     public boolean update(ImeiResponse imeiResponse) {
         boolean check = false;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Transaction transaction = session.beginTransaction();
-            
+
             Imei imei = session.get(Imei.class, imeiResponse.getId());
             DienThoai dt = DienThoaiRepository.getById(imeiResponse.getIdDienThoai());
             imei.setDienThoai(dt);
-            
+
             session.update(imei);
             transaction.commit();
-            
+
             check = true;
             session.close();
         } catch (HibernateException e) {
@@ -112,7 +112,27 @@ public class ImeiRepository {
         return check;
     }
 
+    // 6
+    public void deleteImeiWithDienThoaiNull() {
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            Query query = session.createQuery("""
+                                              DELETE Imei i
+                                              WHERE i.dienThoai IS NULL
+                                               """);
+            query.executeUpdate();
+            transaction.commit();
+            session.close();
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+    }
+
     public static void main(String[] args) {
+//        deleteImeiWithDienThoaiNull();
+//        System.out.println("ok");
         // 5. get all imeis by dienThoaiID
 //        List<ImeiResponse> list = getAllDienThoaiId(1);
 //        list.forEach(i -> System.out.println(i.getImei()));

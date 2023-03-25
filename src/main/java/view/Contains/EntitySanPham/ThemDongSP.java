@@ -33,13 +33,12 @@ public class ThemDongSP extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
 
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent e) {
+//        addWindowListener(new java.awt.event.WindowAdapter() {
+//            public void windowClosing(java.awt.event.WindowEvent e) {
 //                jplSanPham jplSanPham = new jplSanPham();
-//                jplSanPham.setEventForcbHangActionPerformed();
-                    jplSanPham.setEventForcbHangActionPerformed2();
-            }
-        });
+//                jplSanPham.setEvent();
+//            }
+//        });
 
         dtmActive = (DefaultTableModel) tbActive.getModel();
         dtmInactive = (DefaultTableModel) tbInactive.getModel();
