@@ -72,4 +72,12 @@ public class KhachHangServiceImpl implements KhachHangService {
         return repo.getKhachHangByMaThe(maThe);
     }
 
+    @Override
+    public String updateDiem(KhachHangResponse kh, int soDiem) {
+        if (repo.UpdateDiem(kh, soDiem) == true) {
+            return "Sửa thành công";
+        }
+        return "Sửa thất bại";
+    }
+
 }

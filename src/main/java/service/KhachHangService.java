@@ -28,4 +28,6 @@ public interface KhachHangService {
 
     List<KhachHangResponse> findByMa(int id);
 
+    String updateDiem(KhachHangResponse kh, int soDiem);
+
 }
