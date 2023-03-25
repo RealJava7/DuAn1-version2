@@ -47,7 +47,7 @@ public class DienThoaiRepository {
             Query query = session.createQuery("""
                                               SELECT new viewmodel.DienThoaiResponse
                                               (dt.id, dt.maDT, dt.tenDT, dt.moTa, dt.dungLuongPin, dt.rom, dt.ram, dt.cpu, dt.giaNhap, dt.giaBan, dt.soLuong, dt.hinhAnh,
-                                              hdh.ten, h.tenHang, dsp.ten, ms.tenMauSac,
+                                              hdh.ten, h.tenHang, dsp.ten, ms.maMauSac,
                                               c.cameraChinh, c.cameraPhu, c.cameraGocRong, c.cameraTele,
                                               mh.kichThuoc, mh.doPhanGiai, mh.loaiManHinh)
                                               FROM DienThoai dt
@@ -123,6 +123,10 @@ public class DienThoaiRepository {
             Hang hang = HangRepository.getByTenHang(dienThoaiResponse.getHang());
             DongSanPham dsp = DongSanPhamRepository.getByTenDongSP(dienThoaiResponse.getDongSanPham());
             MauSac mauSac = MauSacRepository.getByMa(dienThoaiResponse.getMauSac());
+            System.out.println("in repo");
+            System.out.println(mauSac.getId());
+            System.out.println(mauSac.getMaMauSac());
+            System.out.println(mauSac.getTenMauSac());
             HeDieuHanh hdh = HeDieuHanhRepository.getByTen(dienThoaiResponse.getHeDieuHanh());
             
             dienThoai.setHang(hang);
@@ -143,7 +147,9 @@ public class DienThoaiRepository {
             manHinhChiTiet.setKichThuoc(dienThoaiResponse.getKichThuoc());
             manHinhChiTiet.setDoPhanGiai(dienThoaiResponse.getDoPhanGiai());
             manHinhChiTiet.setLoaiManHinh(dienThoaiResponse.getLoaiManHinh());
+            dienThoai.setManHinhChiTiet(manHinhChiTiet);
 
+            System.out.println(dienThoai.toString());
             session.update(dienThoai);
             transaction.commit();
 

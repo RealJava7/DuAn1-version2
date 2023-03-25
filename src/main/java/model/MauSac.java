@@ -34,8 +34,8 @@ public class MauSac {
     @Column(name = "TrangThai")
     private boolean trangThai;
 
-    public MauSac(String tenMauSac) {
-        this.tenMauSac = tenMauSac;
+    public MauSac(String maMauSac) {
+        this.maMauSac = maMauSac;
     }
 
     public MauSac(int id, String maMauSac, String tenMauSac) {
@@ -52,8 +52,8 @@ public class MauSac {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 37 * hash + Objects.hashCode(this.tenMauSac);
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.maMauSac);
         return hash;
     }
 
@@ -69,7 +69,7 @@ public class MauSac {
             return false;
         }
         final MauSac other = (MauSac) obj;
-        return Objects.equals(this.tenMauSac, other.tenMauSac);
+        return Objects.equals(this.maMauSac, other.maMauSac);
     }
 
 }
