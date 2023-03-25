@@ -11,8 +11,8 @@ public class KhachHangServiceImpl implements KhachHangService {
     KhachHangRepository repo = new KhachHangRepository();
 
     @Override
-    public List<KhachHangResponse> getAll(int trangThai) {
-        return repo.getAll(trangThai);
+    public List<KhachHangResponse> getAll() {
+        return repo.getAll();
     }
 
     @Override
@@ -60,6 +60,16 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Override
     public KhachHangResponse getKhachHangByEmail(String email) {
         return repo.getKhachHangByEmail(email);
+    }
+
+    @Override
+    public KhachHangResponse getKhachHangById(int id) {
+        return repo.getKhachHangById(id);
+    }
+
+    @Override
+    public KhachHangResponse getKhachHangByMaThe(String maThe) {
+        return repo.getKhachHangByMaThe(maThe);
     }
 
 }

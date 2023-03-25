@@ -21,7 +21,6 @@ import service.KhachHangService;
 public class jplKhachHang extends javax.swing.JPanel {
 
     private List<KhachHangResponse> listKhachHang = new ArrayList<>();
-    private List<KhachHangResponse> listKhachHangDaXoa = new ArrayList<>();
     private List<KhachHangResponse> listTheTichDiem = new ArrayList<>();
     private KhachHangService service = new KhachHangServiceImpl();
     private DefaultTableModel dtm = new DefaultTableModel();
@@ -49,10 +48,10 @@ public class jplKhachHang extends javax.swing.JPanel {
         dtm = (DefaultTableModel) tblKhachHang.getModel();
         dtmDaXoa = (DefaultTableModel) tblKhachHangDaXoa.getModel();
         dtmTichDiem = (DefaultTableModel) tblTheTichDiem.getModel();
-        listKhachHang = service.getAll(1);
+        listKhachHang = service.getAll();
         showData(listKhachHang);
-        listKhachHangDaXoa = service.getAll(0);
-        showDataRemove(listKhachHangDaXoa);
+
+        showDataRemove(listKhachHang);
         listTheTichDiem = service.getAllTheTichDiem();
         showDataTichDiem(listTheTichDiem);
 
@@ -61,14 +60,18 @@ public class jplKhachHang extends javax.swing.JPanel {
     private void showData(List<KhachHangResponse> list) {
         dtm.setRowCount(0);
         for (KhachHangResponse s : list) {
-            dtm.addRow(s.toDataRow());
+            if (s.getTrangThai() == 1) {
+                dtm.addRow(s.toDataRow());
+            }
         }
     }
 
     private void showDataRemove(List<KhachHangResponse> list) {
         dtmDaXoa.setRowCount(0);
         for (KhachHangResponse s : list) {
-            dtmDaXoa.addRow(s.toDataRow());
+            if (s.getTrangThai() == 0) {
+                dtmDaXoa.addRow(s.toDataRow());
+            }
         }
     }
 
@@ -80,7 +83,9 @@ public class jplKhachHang extends javax.swing.JPanel {
     }
 
     public void showDataToText(int rowIndex) {
-        KhachHangResponse kh = listKhachHang.get(rowIndex);
+        int id = (int) tblKhachHang.getValueAt(rowIndex, 0);
+        KhachHangResponse kh = service.getKhachHangById(id);
+
         txtHoTen.setText(kh.getHoTen());
         txtEmail.setText(kh.getEmail());
         txtSdt.setText(kh.getSdt());
@@ -124,7 +129,8 @@ public class jplKhachHang extends javax.swing.JPanel {
         return khachHang;
     }
 
-    private Boolean kiemTra(int id, String email) {
+    private Boolean kiemTra(int id, String email, String maThe) {
+
         StringBuilder sb = new StringBuilder();
         KhachHangResponse kh = service.getKhachHangByEmail(email);
         if (txtHoTen.getText().isBlank()) {
@@ -137,19 +143,30 @@ public class jplKhachHang extends javax.swing.JPanel {
             sb.append("vui lòng nhập đúng định dạng email\n");
         } else if (kh != null) {
             if (id == 0) {
-                String str = "Email đã tồn tại";
-
-                if (kh.getTrangThai() == 0) {
-                    str = str + " trong phần đã xóa\n";
-                }
-                sb.append(str);
-            } else if (id > 0 && txtEmail.getText().trim().toLowerCase().equals(kh.getEmail().toLowerCase())) {
                 String str = "Email đã tồn tại\n";
 
                 if (kh.getTrangThai() == 0) {
                     str = str + " trong phần đã xóa\n";
                 }
                 sb.append(str);
+            } else if (id > 0) {
+
+                String str = "";
+                for (KhachHangResponse s : listKhachHang) {
+                    if (s.getId() != id) {
+
+                        if (txtEmail.getText().trim().toLowerCase().equals(s.getEmail().toLowerCase()) == true) {
+
+                            str = "Email đã tồn tại\n";
+                            if (s.getTrangThai() == 0) {
+                                str = str + " trong phần đã xóa\n";
+                            }
+                            sb.append(str);
+                            break;
+                        }
+                    }
+                }
+
             }
 
         }
@@ -162,26 +179,35 @@ public class jplKhachHang extends javax.swing.JPanel {
         if (txtDiaChi.getText().isBlank()) {
             sb.append("Không để trống Địa Chỉ\n");
         }
-
-        System.out.println(kh.getMaThe());
-        System.out.println(txtMathe.getText());
+        KhachHangResponse khId = service.getKhachHangByMaThe(maThe);
         if (txtMathe.getText().isBlank()) {
             sb.append("Không để trống thẻ tích điểm");
-        } else if (kh != null) {
+        } else if (khId != null) {
             if (id == 0) {
-                String str = "Mã thẻ đã tồn tại\n";
+                String str = "Mã Thẻ đã tồn tại\n";
 
-                if (kh.getTrangThai() == 0) {
+                if (khId.getTrangThai() == 0) {
                     str = str + " trong phần đã xóa\n";
                 }
                 sb.append(str);
-            } else if (id > 0 && txtMathe.getText().trim().equals(kh.getMaThe())) {
-                String str = "Mã thẻ đã tồn tại\n";
+            } else if (id > 0) {
 
-                if (kh.getTrangThai() == 0) {
-                    str = str + " trong phần đã xóa\n";
+                String str = "";
+                for (KhachHangResponse s : listKhachHang) {
+                    if (s.getId() != id) {
+
+                        if (txtMathe.getText().trim().toLowerCase().equals(s.getMaThe().toLowerCase()) == true) {
+
+                            str = "Mã Thẻ đã tồn tại\n";
+                            if (s.getTrangThai() == 0) {
+                                str = str + " trong phần đã xóa\n";
+                            }
+                            sb.append(str);
+                            break;
+                        }
+                    }
                 }
-                sb.append(str);
+
             }
 
         }
@@ -832,10 +858,13 @@ public class jplKhachHang extends javax.swing.JPanel {
     }//GEN-LAST:event_tblKhachHangMouseClicked
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        KhachHang kh = getData();
+        if (kiemTra(0, txtEmail.getText().trim(), txtMathe.getText().trim())) {
+            JOptionPane.showMessageDialog(this, service.add(kh));
 
-        if (kiemTra(0, txtEmail.getText().trim())) {
-            JOptionPane.showMessageDialog(this, service.add(getData()));
-            listKhachHang = service.getAll(1);
+            listKhachHang = service.getAll();
+            KhachHangResponse s = service.getKhachHangById(kh.getId());
+            service.updateKhoiPhuc(s, chkTrangThai.isSelected() ? 1 : 0);
             showData(listKhachHang);
         }
     }//GEN-LAST:event_btnThemActionPerformed
@@ -846,16 +875,21 @@ public class jplKhachHang extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng muốn sửa");
             return;
         }
-        KhachHangResponse kh = listKhachHang.get(rowIndex);
 
-        if (kiemTra(kh.getId(), txtEmail.getText().trim())) {
+        int id = (int) tblKhachHang.getValueAt(rowIndex, 0);
+        KhachHangResponse kh = service.getKhachHangById(id);
+
+        if (kiemTra(kh.getId(), txtEmail.getText().trim(), txtMathe.getText().trim())) {
             int choose = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn sửa khách hàng này không?", "UPDATE", JOptionPane.YES_NO_CANCEL_OPTION);
             if (choose == 0) {
                 KhachHang s = getData();
                 JOptionPane.showMessageDialog(this, service.update(new KhachHangResponse(kh.getId(), s.getHoTen(), s.getEmail(), s.getSdt(), s.isGioiTinh(), s.getNgaySinh(), s.getDiaChi(), s.getTrangThai())));
-                listKhachHang = service.getAll(1);
+                if (s.getTrangThai() == 0) {
+                    service.updateKhoiPhuc(kh, 0);
+                }
+                listKhachHang = service.getAll();
                 showData(listKhachHang);
-                showDataRemove(listKhachHangDaXoa);
+                showDataRemove(listKhachHang);
             }
         }
 
@@ -871,36 +905,38 @@ public class jplKhachHang extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng muốn khôi phục");
             return;
         }
-        KhachHangResponse kh = listKhachHangDaXoa.get(rowIndex);
+        int id = (int) tblKhachHangDaXoa.getValueAt(rowIndex, 0);
+        KhachHangResponse kh = service.getKhachHangById(id);
         service.updateKhoiPhuc(kh, 1);
-        listKhachHangDaXoa = service.getAll(0);
-        showDataRemove(listKhachHangDaXoa);
+        listKhachHang = service.getAll();
+        showDataRemove(listKhachHang);
         JOptionPane.showMessageDialog(this, "Khôi phục thành công");
         showData(listKhachHang);
 
     }//GEN-LAST:event_btnKhoiPhucActionPerformed
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
-        listKhachHang = service.getAll(1);
+        listKhachHang = service.getAll();
         showData(listKhachHang);
-        listKhachHangDaXoa = service.getAll(0);
-        showDataRemove(listKhachHangDaXoa);
+        showDataRemove(listKhachHang);
         listTheTichDiem = service.getAllTheTichDiem();
         showDataTichDiem(listTheTichDiem);
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         int rowIndex = tblKhachHang.getSelectedRow();
-        System.out.println(rowIndex);
+
         if (rowIndex < 0) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng muốn xóa");
             return;
         }
-        KhachHangResponse kh = listKhachHang.get(rowIndex);
+        int id = (int) tblKhachHang.getValueAt(rowIndex, 0);
+        System.out.println(id);
+        KhachHangResponse kh = service.getKhachHangById(id);
         int choose = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn xóa khách hàng này không?", "Delete", JOptionPane.YES_NO_CANCEL_OPTION);
         if (choose == 0) {
             service.updateKhoiPhuc(kh, 0);
-            listKhachHang = service.getAll(1);
+            listKhachHang = service.getAll();
             JOptionPane.showMessageDialog(this, "Xóa thành công");
             showData(listKhachHang);
         }
@@ -916,8 +952,8 @@ public class jplKhachHang extends javax.swing.JPanel {
     }//GEN-LAST:event_tblKhachHangCaretPositionChanged
 
     private void txtSearchDaXoaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSearchDaXoaCaretUpdate
-        listKhachHangDaXoa = service.findBySdt(txtSearchDaXoa.getText().trim(), 0);
-        showDataRemove(listKhachHangDaXoa);
+        listKhachHang = service.findBySdt(txtSearchDaXoa.getText().trim(), 0);
+        showDataRemove(listKhachHang);
     }//GEN-LAST:event_txtSearchDaXoaCaretUpdate
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -933,15 +969,15 @@ public class jplKhachHang extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnSortDaXoaAZMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSortDaXoaAZMouseClicked
-        listKhachHangDaXoa = service.sortByName(true, 0);
+        listKhachHang = service.sortByName(true, 0);
         JOptionPane.showMessageDialog(this, "Sort thành công");
-        showDataRemove(listKhachHangDaXoa);
+        showDataRemove(listKhachHang);
     }//GEN-LAST:event_btnSortDaXoaAZMouseClicked
 
     private void btnSortDaXoaZAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSortDaXoaZAMouseClicked
-        listKhachHangDaXoa = service.sortByName(false, 0);
+        listKhachHang = service.sortByName(false, 0);
         JOptionPane.showMessageDialog(this, "Sort thành công");
-        showDataRemove(listKhachHangDaXoa);
+        showDataRemove(listKhachHang);
     }//GEN-LAST:event_btnSortDaXoaZAMouseClicked
     private static final String NUMERIC_CHARS = "0123456789";
     private static final int STRING_LENGTH = 15;
