@@ -83,7 +83,9 @@ public class jplKhachHang extends javax.swing.JPanel {
     }
 
     public void showDataToText(int rowIndex) {
-        KhachHangResponse kh = listKhachHang.get(rowIndex);
+        int id = (int) tblKhachHang.getValueAt(rowIndex, 0);
+        KhachHangResponse kh = service.getKhachHangById(id);
+
         txtHoTen.setText(kh.getHoTen());
         txtEmail.setText(kh.getEmail());
         txtSdt.setText(kh.getSdt());
