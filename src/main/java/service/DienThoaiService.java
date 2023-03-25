@@ -6,7 +6,7 @@ import viewmodel.DienThoaiResponse;
 
 public interface DienThoaiService {
 
-    List<DienThoaiResponse> getAllResponse(boolean status);
+    List<DienThoaiResponse> getAllResponseByStatus(boolean status);
     
     String add(DienThoai dienThoai);
     

@@ -23,6 +23,10 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         panel = new jplTrangChu();
         setPanel(panel);
     }
+    
+    public PhanMemBanDienThoai(JPanel panel) {
+        setPanel(panel);
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

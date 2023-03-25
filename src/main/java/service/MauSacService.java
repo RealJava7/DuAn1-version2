@@ -6,13 +6,13 @@ import viewmodel.MauSacResponse;
 
 public interface MauSacService {
 
-    List<MauSac> getAll();
+    List<MauSac> getAllEntityByStatus(boolean status);
     
     MauSac getByMa(String maMau);
     
-    String add(MauSac mauSac);
+    List<MauSacResponse> getAllResponseByStatus(boolean status);
     
-    List<MauSacResponse> getAllResponse(boolean status);
+    String add(MauSac mauSac);
     
     String update(MauSacResponse mauSacResponse);
     

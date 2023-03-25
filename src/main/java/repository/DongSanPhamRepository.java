@@ -14,7 +14,7 @@ import viewmodel.DongSanPhamResponse;
 
 public class DongSanPhamRepository {
 
-    // 1. get all by hangDienThoai
+    // 1. get all entity by hangDienThoai
     public List<DongSanPham> getAllEntityByHang(int hangId) {
         List<DongSanPham> dongSanPhams = new ArrayList<>();
 
@@ -24,8 +24,7 @@ public class DongSanPhamRepository {
                                               SELECT new model.DongSanPham
                                               (dsp.id, dsp.ten, dsp.hangDienThoai)
                                               FROM DongSanPham dsp
-                                              WHERE dsp.hangDienThoai.id = :hangId
-                                              ORDER BY dsp.ten
+                                              WHERE dsp.hangDienThoai.id = :hangId AND dsp.trangThai = true
                                                """);
             query.setParameter("hangId", hangId);
             dongSanPhams = query.getResultList();
@@ -47,8 +46,8 @@ public class DongSanPhamRepository {
         return dongSanPham;
     }
 
-    // 3. get all active dongSanPham
-    public List<DongSanPhamResponse> getAllActiveDongSP() {
+    // 3. get all dongSanPhamResponse by status
+    public List<DongSanPhamResponse> getDongSPResponseByStatus(boolean status) {
         List<DongSanPhamResponse> dongSanPhamResponses = new ArrayList<>();
 
         try {
@@ -58,53 +57,16 @@ public class DongSanPhamRepository {
                                               (dsp.id, dsp.ten, dsp.trangThai, hdt.tenHang)
                                               FROM DongSanPham dsp
                                               INNER JOIN dsp.hangDienThoai hdt
-                                              WHERE dsp.trangThai = true
-                                              ORDER BY dsp.ten
+                                              WHERE dsp.trangThai = :status
                                                """);
+            query.setParameter("status", status);
             dongSanPhamResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
         }
         return dongSanPhamResponses;
     }
-
-    // 4. get all inactive dongSanPham
-    public List<DongSanPhamResponse> getAllInactiveDongSP() {
-        List<DongSanPhamResponse> dongSanPhamResponses = new ArrayList<>();
-
-        try {
-            Session session = HibernateUtil.getFACTORY().openSession();
-            Query query = session.createQuery("""
-                                              SELECT new viewmodel.DongSanPhamResponse
-                                              (dsp.id, dsp.ten, dsp.trangThai, hdt.tenHang)
-                                              FROM DongSanPham dsp
-                                              INNER JOIN dsp.hangDienThoai hdt
-                                              WHERE dsp.trangThai = false
-                                              ORDER BY dsp.ten
-                                               """);
-            dongSanPhamResponses = query.getResultList();
-        } catch (HibernateException ex) {
-            ex.printStackTrace(System.out);
-        }
-        return dongSanPhamResponses;
-    }
-
-    // 5. add
-    public boolean add(DongSanPham dsp) {
-        boolean check = false;
-        try {
-            Session session = HibernateUtil.getFACTORY().openSession();
-            Transaction transaction = session.beginTransaction();
-            session.save(dsp);
-            transaction.commit();
-            check = true;
-            session.close();
-        } catch (HibernateException ex) {
-            ex.printStackTrace(System.out);
-        }
-        return check;
-    }
-
+    
     // 6. get by tenDongSP
     public static DongSanPham getByTenDongSP(String tenDongSP) {
         DongSanPham dongSanPham = null;
@@ -123,6 +85,22 @@ public class DongSanPhamRepository {
             dongSanPham = null;
         }
         return dongSanPham;
+    }
+
+    // 5. add
+    public boolean add(DongSanPham dsp) {
+        boolean check = false;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
+            session.save(dsp);
+            transaction.commit();
+            check = true;
+            session.close();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return check;
     }
 
     // 7. update dongSanPham

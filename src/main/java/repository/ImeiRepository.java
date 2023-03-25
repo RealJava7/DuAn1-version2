@@ -14,23 +14,7 @@ import viewmodel.ImeiResponse;
 
 public class ImeiRepository {
 
-    // 1. add
-    public boolean add(Imei imei) {
-        boolean check = false;
-        try {
-            Session session = HibernateUtil.getFACTORY().openSession();
-            Transaction transaction = session.beginTransaction();
-            session.save(imei);
-            transaction.commit();
-            check = true;
-            session.close();
-        } catch (HibernateException ex) {
-            ex.printStackTrace(System.out);
-        }
-        return check;
-    }
-
-    // 2. get by imei
+    // 1. get by imei
     public Imei getByImei(String imeiStr) {
         Imei imei = null;
         try {
@@ -50,7 +34,7 @@ public class ImeiRepository {
         return imei;
     }
 
-    // 3. get all with idDienThoai null
+    // 2. get all with idDienThoai null
     public List<ImeiResponse> getAllNoneDienThoaiImei() {
         List<ImeiResponse> imeis = new ArrayList<>();
         
@@ -69,8 +53,44 @@ public class ImeiRepository {
         }
         return imeis;
     }
+    
+    // 3. get all imeis by dienThoaiID
+    public List<ImeiResponse> getAllDienThoaiId(int dienThoaiId) {
+        List<ImeiResponse> imeis = new ArrayList<>();
+        
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.ImeiResponse
+                                              (i.id, i.imei)
+                                              FROM Imei i
+                                              WHERE i.dienThoai.id = :dienThoaiId
+                                               """);
+            query.setParameter("dienThoaiId", dienThoaiId);
+            imeis = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return imeis;
+    }
 
-    // 4. update
+    // 4. add
+    public boolean add(Imei imei) {
+        boolean check = false;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
+            session.save(imei);
+            transaction.commit();
+            check = true;
+            session.close();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return check;
+    }
+    
+    // 5. update
     public boolean update(ImeiResponse imeiResponse) {
         boolean check = false;
         try {
@@ -92,26 +112,6 @@ public class ImeiRepository {
         return check;
     }
 
-    // 5. get all imeis by dienThoaiID
-    public List<ImeiResponse> getAllDienThoaiId(int dienThoaiId) {
-        List<ImeiResponse> imeis = new ArrayList<>();
-        
-        try {
-            Session session = HibernateUtil.getFACTORY().openSession();
-            Query query = session.createQuery("""
-                                              SELECT new viewmodel.ImeiResponse
-                                              (i.id, i.imei)
-                                              FROM Imei i
-                                              WHERE i.dienThoai.id = :dienThoaiId
-                                               """);
-            query.setParameter("dienThoaiId", dienThoaiId);
-            imeis = query.getResultList();
-        } catch (HibernateException ex) {
-            ex.printStackTrace(System.out);
-        }
-        return imeis;
-    }
-    
     public static void main(String[] args) {
         // 5. get all imeis by dienThoaiID
 //        List<ImeiResponse> list = getAllDienThoaiId(1);

@@ -6,11 +6,9 @@ import viewmodel.DongSanPhamResponse;
 
 public interface DongSanPhamService {
 
-    List<DongSanPham> getAll(int id);
+    List<DongSanPham> getAllEntityByHang(int id);
 
-    List<DongSanPhamResponse> getAllActiveDongSP();
-
-    List<DongSanPhamResponse> getAllInactiveDongSP();
+    List<DongSanPhamResponse> getAllDongSPResponseByStatus(boolean status);
 
     DongSanPham getByTenDongSP(String ten);
 

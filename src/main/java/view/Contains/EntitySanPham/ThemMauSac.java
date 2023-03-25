@@ -14,8 +14,8 @@ import viewmodel.MauSacResponse;
 public class ThemMauSac extends javax.swing.JFrame {
 
     private MauSacService mauSacService;
-    private List<MauSacResponse> mauSacResponseActiveList;
-    private List<MauSacResponse> mauSacResponseInactiveList;
+    private List<MauSacResponse> activeMauSacResponseList;
+    private List<MauSacResponse> inactiveMauSacResponseList;
     private DefaultTableModel dtmActive;
     private DefaultTableModel dtmInactive;
 
@@ -24,16 +24,16 @@ public class ThemMauSac extends javax.swing.JFrame {
         setLocationRelativeTo(null);
 
         mauSacService = new MauSacServiceImpl();
-        mauSacResponseActiveList = new ArrayList<>();
-        mauSacResponseInactiveList = new ArrayList<>();
+        activeMauSacResponseList = new ArrayList<>();
+        inactiveMauSacResponseList = new ArrayList<>();
         dtmActive = (DefaultTableModel) tbActive.getModel();
         dtmInactive = (DefaultTableModel) tbInactive.getModel();
 
-        mauSacResponseActiveList = mauSacService.getAllResponse(true);
-        showActiveTable(mauSacResponseActiveList);
+        activeMauSacResponseList = mauSacService.getAllResponseByStatus(true);
+        showActiveTable(activeMauSacResponseList);
 
-        mauSacResponseInactiveList = mauSacService.getAllResponse(false);
-        showInactiveTable(mauSacResponseInactiveList);
+        inactiveMauSacResponseList = mauSacService.getAllResponseByStatus(false);
+        showInactiveTable(inactiveMauSacResponseList);
     }
 
     // 1
@@ -53,7 +53,7 @@ public class ThemMauSac extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        tab1 = new javax.swing.JTabbedPane();
+        tab = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbActive = new javax.swing.JTable();
@@ -78,10 +78,10 @@ public class ThemMauSac extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        tab1.setBackground(new java.awt.Color(255, 255, 255));
-        tab1.addMouseListener(new java.awt.event.MouseAdapter() {
+        tab.setBackground(new java.awt.Color(255, 255, 255));
+        tab.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tab1MouseClicked(evt);
+                tabMouseClicked(evt);
             }
         });
 
@@ -128,7 +128,7 @@ public class ThemMauSac extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        tab1.addTab("DANH SÁCH", jPanel1);
+        tab.addTab("DANH SÁCH", jPanel1);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -189,7 +189,7 @@ public class ThemMauSac extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tab1.addTab("ĐÃ XÓA", jPanel2);
+        tab.addTab("ĐÃ XÓA", jPanel2);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("THÔNG TIN"));
@@ -292,13 +292,13 @@ public class ThemMauSac extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(tab1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tab, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tab1)
+            .addComponent(tab)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -331,28 +331,31 @@ public class ThemMauSac extends javax.swing.JFrame {
             return;
         }
 
-        MauSacResponse selectedMauSac = mauSacResponseInactiveList.get(clickedRow);
+        MauSacResponse selectedMauSacResponse = inactiveMauSacResponseList.get(clickedRow);
 
-        String result = mauSacService.changeStatus(selectedMauSac, true);
+        String result = mauSacService.changeStatus(selectedMauSacResponse, true);
         JOptionPane.showMessageDialog(this, result);
 
         // reset table
-        mauSacResponseActiveList = mauSacService.getAllResponse(true);
-        showActiveTable(mauSacResponseActiveList);
+        activeMauSacResponseList = mauSacService.getAllResponseByStatus(true);
+        showActiveTable(activeMauSacResponseList);
 
-        mauSacResponseInactiveList = mauSacService.getAllResponse(false);
-        showInactiveTable(mauSacResponseInactiveList);
+        inactiveMauSacResponseList = mauSacService.getAllResponseByStatus(false);
+        showInactiveTable(inactiveMauSacResponseList);
 
         txtMaMau.setText("");
         txtTenMau.setText("");
     }//GEN-LAST:event_btnKhoiPhucActionPerformed
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
+        activeMauSacResponseList = mauSacService.getAllResponseByStatus(true);
+        showActiveTable(activeMauSacResponseList);
+
+        inactiveMauSacResponseList = mauSacService.getAllResponseByStatus(false);
+        showInactiveTable(inactiveMauSacResponseList);
+
         txtMaMau.setText("");
         txtTenMau.setText("");
-        
-        mauSacResponseActiveList = mauSacService.getAllResponse(true);
-        showActiveTable(mauSacResponseActiveList);
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
@@ -379,8 +382,8 @@ public class ThemMauSac extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, addResult);
 
         // reset table
-        mauSacResponseActiveList = mauSacService.getAllResponse(true);
-        showActiveTable(mauSacResponseActiveList);
+        activeMauSacResponseList = mauSacService.getAllResponseByStatus(true);
+        showActiveTable(activeMauSacResponseList);
 
         txtMaMau.setText("");
         txtTenMau.setText("");
@@ -392,7 +395,7 @@ public class ThemMauSac extends javax.swing.JFrame {
             return;
         }
 
-        MauSacResponse selectedMauSac = mauSacResponseInactiveList.get(clickedRow);
+        MauSacResponse selectedMauSac = inactiveMauSacResponseList.get(clickedRow);
         txtMaMau.setText(selectedMauSac.getMaMauSac());
         txtTenMau.setText(selectedMauSac.getTenMauSac());
     }//GEN-LAST:event_tbInactiveMouseClicked
@@ -403,7 +406,7 @@ public class ThemMauSac extends javax.swing.JFrame {
             return;
         }
 
-        MauSacResponse selectedMauSac = mauSacResponseActiveList.get(clickedRow);
+        MauSacResponse selectedMauSac = activeMauSacResponseList.get(clickedRow);
         txtMaMau.setText(selectedMauSac.getMaMauSac());
         txtTenMau.setText(selectedMauSac.getTenMauSac());
     }//GEN-LAST:event_tbActiveMouseClicked
@@ -420,25 +423,25 @@ public class ThemMauSac extends javax.swing.JFrame {
             return;
         }
 
-        MauSacResponse selectedMauSac = mauSacResponseActiveList.get(clickedRow);
+        MauSacResponse selectedMauSacResponse = activeMauSacResponseList.get(clickedRow);
         String maMau = txtMaMau.getText().trim();
         String tenMau = txtTenMau.getText().trim();
-        String message = checkMaMau(selectedMauSac.getId(), maMau);
+        String message = checkMaMau(selectedMauSacResponse.getId(), maMau);
 
         if (!message.equals("")) {
             JOptionPane.showMessageDialog(this, message);
             return;
         }
 
-        selectedMauSac.setMaMauSac(maMau);
-        selectedMauSac.setTenMauSac(tenMau);
+        selectedMauSacResponse.setMaMauSac(maMau);
+        selectedMauSacResponse.setTenMauSac(tenMau);
 
-        String updateResult = mauSacService.update(selectedMauSac);
+        String updateResult = mauSacService.update(selectedMauSacResponse);
         JOptionPane.showMessageDialog(this, updateResult);
 
         // reset table
-        mauSacResponseActiveList = mauSacService.getAllResponse(true);
-        showActiveTable(mauSacResponseActiveList);
+        activeMauSacResponseList = mauSacService.getAllResponseByStatus(true);
+        showActiveTable(activeMauSacResponseList);
 
         txtMaMau.setText("");
         txtTenMau.setText("");
@@ -456,27 +459,27 @@ public class ThemMauSac extends javax.swing.JFrame {
             return;
         }
 
-        MauSacResponse selectedMauSac = mauSacResponseActiveList.get(clickedRow);
+        MauSacResponse selectedMauSacResponse = activeMauSacResponseList.get(clickedRow);
 
-        String result = mauSacService.changeStatus(selectedMauSac, false);
+        String result = mauSacService.changeStatus(selectedMauSacResponse, false);
         JOptionPane.showMessageDialog(this, result);
 
         // reset table
-        mauSacResponseActiveList = mauSacService.getAllResponse(true);
-        showActiveTable(mauSacResponseActiveList);
+        activeMauSacResponseList = mauSacService.getAllResponseByStatus(true);
+        showActiveTable(activeMauSacResponseList);
 
-        mauSacResponseInactiveList = mauSacService.getAllResponse(false);
-        showInactiveTable(mauSacResponseInactiveList);
+        inactiveMauSacResponseList = mauSacService.getAllResponseByStatus(false);
+        showInactiveTable(inactiveMauSacResponseList);
 
         txtMaMau.setText("");
         txtTenMau.setText("");
     }//GEN-LAST:event_btnXoaActionPerformed
 
-    private void tab1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tab1MouseClicked
-        tab1.getModel().addChangeListener(new ChangeListener() {
+    private void tabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabMouseClicked
+        tab.getModel().addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                int index = tab1.getSelectedIndex();
+                int index = tab.getSelectedIndex();
                 if (index == 0) {
                     setButtons(true);
                 } else {
@@ -484,7 +487,7 @@ public class ThemMauSac extends javax.swing.JFrame {
                 }
             }
         });
-    }//GEN-LAST:event_tab1MouseClicked
+    }//GEN-LAST:event_tabMouseClicked
 
     private void setButtons(boolean boo) {
         btnLamMoi.setEnabled(boo);
@@ -531,31 +534,6 @@ public class ThemMauSac extends javax.swing.JFrame {
     }
 
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ThemMauSac.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ThemMauSac.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ThemMauSac.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ThemMauSac.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ThemMauSac().setVisible(true);
@@ -577,7 +555,7 @@ public class ThemMauSac extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane tab1;
+    private javax.swing.JTabbedPane tab;
     private javax.swing.JTable tbActive;
     private javax.swing.JTable tbInactive;
     private javax.swing.JTextField txtMaMau;

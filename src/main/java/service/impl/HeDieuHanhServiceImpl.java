@@ -11,8 +11,8 @@ public class HeDieuHanhServiceImpl implements HeDieuHanhService {
     private HeDieuHanhRepository heDieuHanhRepository = new HeDieuHanhRepository();
 
     @Override
-    public List<HeDieuHanh> getAll() {
-        return heDieuHanhRepository.getAllEntity();
+    public List<HeDieuHanh> getAllEntityByStatus(boolean status) {
+        return heDieuHanhRepository.getAllEntityByStatus(status);
     }
 
     @Override

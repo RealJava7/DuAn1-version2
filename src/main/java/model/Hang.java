@@ -41,11 +41,12 @@ public class Hang {
         this.tenHang = tenHang;
     }
 
-    public Hang(int id, String tenHang) {
+    public Hang(int id, String tenHang, boolean trangThai) {
         this.id = id;
         this.tenHang = tenHang;
+        this.trangThai = trangThai;
     }
-
+    
     @Override
     public String toString() {
         return this.tenHang;

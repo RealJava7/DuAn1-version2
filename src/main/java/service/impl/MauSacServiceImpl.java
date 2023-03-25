@@ -11,8 +11,8 @@ public class MauSacServiceImpl implements MauSacService {
     private MauSacRepository mauSacRepository = new MauSacRepository();
 
     @Override
-    public List<MauSac> getAll() {
-        return mauSacRepository.getAllEntity();
+    public List<MauSac> getAllEntityByStatus(boolean status) {
+        return mauSacRepository.getAllEntityByStatus(status);
     }
 
     @Override
@@ -21,14 +21,14 @@ public class MauSacServiceImpl implements MauSacService {
     }
 
     @Override
-    public String add(MauSac mauSac) {
-        boolean addResult = mauSacRepository.add(mauSac);
-        return addResult ? "Thêm thành công!" : "Thêm thất bại!";
+    public List<MauSacResponse> getAllResponseByStatus(boolean status) {
+        return mauSacRepository.getAllResponseByStatus(status);
     }
 
     @Override
-    public List<MauSacResponse> getAllResponse(boolean status) {
-        return mauSacRepository.getAllResponse(status);
+    public String add(MauSac mauSac) {
+        boolean addResult = mauSacRepository.add(mauSac);
+        return addResult ? "Thêm thành công!" : "Thêm thất bại!";
     }
 
     @Override

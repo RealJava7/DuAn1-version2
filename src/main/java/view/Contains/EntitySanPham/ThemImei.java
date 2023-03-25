@@ -313,7 +313,7 @@ public class ThemImei extends javax.swing.JFrame {
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void okImeiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okImeiActionPerformed
-        jplSanPham.showImeis(idCurrentDienThoai);
+        jplSanPham.showImeiComboBox(idCurrentDienThoai);
         this.dispose();
     }//GEN-LAST:event_okImeiActionPerformed
 

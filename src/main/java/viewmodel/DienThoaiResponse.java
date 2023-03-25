@@ -30,7 +30,7 @@ public class DienThoaiResponse {
     private String heDieuHanh;
     private String hang;
     private String dongSanPham;
-    private String mauSac; // maMauSac
+    private String mauSac; // tenMauSac
 
     private int cameraChinh;
     private int cameraPhu;
@@ -43,7 +43,11 @@ public class DienThoaiResponse {
 
     @Override
     public String toString() {
-        return "DienThoaiResponse{" + "id=" + id + ", maDT=" + maDT + ", tenDT=" + tenDT + ", moTa=" + moTa + ", dungLuongPin=" + dungLuongPin + ", rom=" + rom + ", ram=" + ram + ", cpu=" + cpu + ", giaNhap=" + giaNhap + ", giaBan=" + giaBan + ", soLuong=" + soLuong + ", hinhAnh=" + hinhAnh + ", heDieuHanh=" + heDieuHanh + ", hang=" + hang + ", dongSanPham=" + dongSanPham + ", mauSac=" + mauSac + ", cameraChinh=" + cameraChinh + ", cameraPhu=" + cameraPhu + ", cameraGocRong=" + cameraGocRong + ", cameraTele=" + cameraTele + ", kichThuoc=" + kichThuoc + ", doPhanGiai=" + doPhanGiai + ", loaiManHinh=" + loaiManHinh + '}';
+        return "DienThoaiResponse{" + "id=" + id + ", maDT=" + maDT + ", tenDT=" + tenDT + ", moTa=" + moTa + ", dungLuongPin=" + dungLuongPin
+                + ", rom=" + rom + ", ram=" + ram + ", cpu=" + cpu + ", giaNhap=" + giaNhap + ", giaBan=" + giaBan + ", soLuong=" + soLuong + ", hinhAnh=" + hinhAnh
+                + ", heDieuHanh=" + heDieuHanh + ", hang=" + hang + ", dongSanPham=" + dongSanPham + ", mauSac=" + mauSac + ", cameraChinh="
+                + cameraChinh + ", cameraPhu=" + cameraPhu + ", cameraGocRong=" + cameraGocRong + ", cameraTele=" + cameraTele + ", kichThuoc="
+               + kichThuoc + ", doPhanGiai=" + doPhanGiai + ", loaiManHinh=" + loaiManHinh + '}';
     }
 
     public Object[] toDataRow() {

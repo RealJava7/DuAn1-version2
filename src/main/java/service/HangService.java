@@ -6,9 +6,9 @@ import viewmodel.HangResponse;
 
 public interface HangService {
     
-     List<Hang> getAllEntity();
+     List<Hang> getAllEntityByStatus(boolean status);
     
-    List<HangResponse> getAllResponse();
+    List<HangResponse> getAllResponseByStatus(boolean status);
     
     String add(Hang hang);
     
@@ -16,8 +16,8 @@ public interface HangService {
     
     Hang getByTenHang(String tenHang);
     
-    List<HangResponse> getAllDaXoa();
-    
     String delete(HangResponse hangResponse);
+    
+    String changeStatus(HangResponse hangResponse, boolean newStatus);
     
 }

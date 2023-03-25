@@ -14,6 +14,7 @@ import service.DongSanPhamService;
 import service.HangService;
 import service.impl.DongSanPhamServiceImpl;
 import service.impl.HangServiceImpl;
+import view.Contains.jplSanPham;
 import viewmodel.DongSanPhamResponse;
 
 public class ThemDongSP extends javax.swing.JFrame {
@@ -32,6 +33,14 @@ public class ThemDongSP extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
 
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent e) {
+//                jplSanPham jplSanPham = new jplSanPham();
+//                jplSanPham.setEventForcbHangActionPerformed();
+                    jplSanPham.setEventForcbHangActionPerformed2();
+            }
+        });
+
         dtmActive = (DefaultTableModel) tbActive.getModel();
         dtmInactive = (DefaultTableModel) tbInactive.getModel();
         dcbmHang = (DefaultComboBoxModel) cbHangDT.getModel();
@@ -43,10 +52,10 @@ public class ThemDongSP extends javax.swing.JFrame {
         dongSPService = new DongSanPhamServiceImpl();
         hangService = new HangServiceImpl();
 
-        activeDongSPResponses = dongSPService.getAllActiveDongSP();
+        activeDongSPResponses = dongSPService.getAllDongSPResponseByStatus(true);
         showActiveTable(activeDongSPResponses);
-        inactiveDongSPResponses = dongSPService.getAllInactiveDongSP();
-        showInActivetable(inactiveDongSPResponses);
+        inactiveDongSPResponses = dongSPService.getAllDongSPResponseByStatus(false);
+        showInactivetable(inactiveDongSPResponses);
 
         showCbHang();
     }
@@ -56,13 +65,13 @@ public class ThemDongSP extends javax.swing.JFrame {
         dongSPResponses.forEach(d -> dtmActive.addRow(d.toDataRow()));
     }
 
-    private void showInActivetable(List<DongSanPhamResponse> dongSPResponses) {
+    private void showInactivetable(List<DongSanPhamResponse> dongSPResponses) {
         dtmInactive.setRowCount(0);
         dongSPResponses.forEach(d -> dtmInactive.addRow(d.toDataRow()));
     }
 
     private void showCbHang() {
-        hangList = hangService.getAllEntity();
+        hangList = hangService.getAllEntityByStatus(true);
         hangList.forEach(h -> cbHangDT.addItem(h));
     }
 
@@ -71,7 +80,7 @@ public class ThemDongSP extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        tab1 = new javax.swing.JTabbedPane();
+        tab = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbActive = new javax.swing.JTable();
@@ -96,10 +105,10 @@ public class ThemDongSP extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        tab1.setBackground(new java.awt.Color(255, 255, 255));
-        tab1.addMouseListener(new java.awt.event.MouseAdapter() {
+        tab.setBackground(new java.awt.Color(255, 255, 255));
+        tab.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tab1MouseClicked(evt);
+                tabMouseClicked(evt);
             }
         });
 
@@ -146,7 +155,7 @@ public class ThemDongSP extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        tab1.addTab("DANH SÁCH", jPanel1);
+        tab.addTab("DANH SÁCH", jPanel1);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -208,7 +217,7 @@ public class ThemDongSP extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tab1.addTab("ĐÃ XÓA", jPanel2);
+        tab.addTab("ĐÃ XÓA", jPanel2);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("THÔNG TIN"));
@@ -310,13 +319,13 @@ public class ThemDongSP extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(tab1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tab, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tab1)
+            .addComponent(tab)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -349,27 +358,27 @@ public class ThemDongSP extends javax.swing.JFrame {
             return;
         }
 
-        DongSanPhamResponse selectedDongSP = inactiveDongSPResponses.get(clickedRow);
+        DongSanPhamResponse selectedDongSPhamResponse = inactiveDongSPResponses.get(clickedRow);
 
-        String result = dongSPService.changeStatus(selectedDongSP, true);
+        String result = dongSPService.changeStatus(selectedDongSPhamResponse, true);
         JOptionPane.showMessageDialog(this, result);
 
         // reset table
-        activeDongSPResponses = dongSPService.getAllActiveDongSP();
+        activeDongSPResponses = dongSPService.getAllDongSPResponseByStatus(true);
         showActiveTable(activeDongSPResponses);
 
-        inactiveDongSPResponses = dongSPService.getAllInactiveDongSP();
-        showInActivetable(inactiveDongSPResponses);
+        inactiveDongSPResponses = dongSPService.getAllDongSPResponseByStatus(false);
+        showInactivetable(inactiveDongSPResponses);
 
         txtDongSP.setText("");
         cbHangDT.setSelectedIndex(0);
     }//GEN-LAST:event_btnKhoiPhucActionPerformed
 
-    private void tab1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tab1MouseClicked
-        tab1.getModel().addChangeListener(new ChangeListener() {
+    private void tabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabMouseClicked
+        tab.getModel().addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                int index = tab1.getSelectedIndex();
+                int index = tab.getSelectedIndex();
                 if (index == 0) {
                     setButtons(true);
                 } else {
@@ -377,11 +386,17 @@ public class ThemDongSP extends javax.swing.JFrame {
                 }
             }
         });
-    }//GEN-LAST:event_tab1MouseClicked
+    }//GEN-LAST:event_tabMouseClicked
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
         txtDongSP.setText("");
         cbHangDT.setSelectedIndex(0);
+
+        activeDongSPResponses = dongSPService.getAllDongSPResponseByStatus(true);
+        showActiveTable(activeDongSPResponses);
+
+        inactiveDongSPResponses = dongSPService.getAllDongSPResponseByStatus(false);
+        showInactivetable(inactiveDongSPResponses);
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
@@ -409,7 +424,7 @@ public class ThemDongSP extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, addResult);
 
         // reset table
-        activeDongSPResponses = dongSPService.getAllActiveDongSP();
+        activeDongSPResponses = dongSPService.getAllDongSPResponseByStatus(true);
         showActiveTable(activeDongSPResponses);
         txtDongSP.setText("");
         cbHangDT.setSelectedIndex(0);
@@ -443,7 +458,7 @@ public class ThemDongSP extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, updateResult);
 
         // reset table
-        activeDongSPResponses = dongSPService.getAllActiveDongSP();
+        activeDongSPResponses = dongSPService.getAllDongSPResponseByStatus(true);
         showActiveTable(activeDongSPResponses);
 
         txtDongSP.setText("");
@@ -458,7 +473,8 @@ public class ThemDongSP extends javax.swing.JFrame {
 
         DongSanPhamResponse selectedDongSP = activeDongSPResponses.get(clickedRow);
         txtDongSP.setText(selectedDongSP.getTen());
-        dcbmHang.setSelectedItem(selectedDongSP.getTenHang());
+        Hang hang = HangRepository.getByTenHang(selectedDongSP.getTenHang());
+        cbHangDT.setSelectedItem(hang);
     }//GEN-LAST:event_tbActiveMouseClicked
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
@@ -479,11 +495,11 @@ public class ThemDongSP extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, result);
 
         // reset table
-        activeDongSPResponses = dongSPService.getAllActiveDongSP();
+        activeDongSPResponses = dongSPService.getAllDongSPResponseByStatus(true);
         showActiveTable(activeDongSPResponses);
 
-        inactiveDongSPResponses = dongSPService.getAllInactiveDongSP();
-        showInActivetable(inactiveDongSPResponses);
+        inactiveDongSPResponses = dongSPService.getAllDongSPResponseByStatus(false);
+        showInactivetable(inactiveDongSPResponses);
 
         txtDongSP.setText("");
         cbHangDT.setSelectedIndex(0);
@@ -497,7 +513,8 @@ public class ThemDongSP extends javax.swing.JFrame {
 
         DongSanPhamResponse selectedDongSP = inactiveDongSPResponses.get(clickedRow);
         txtDongSP.setText(selectedDongSP.getTen());
-        dcbmHang.setSelectedItem(selectedDongSP.getTenHang());
+        Hang hang = HangRepository.getByTenHang(selectedDongSP.getTenHang());
+        cbHangDT.setSelectedItem(hang);
     }//GEN-LAST:event_tbInactiveMouseClicked
 
     private String checkInput(int id, String tenDongSp) {
@@ -592,9 +609,10 @@ public class ThemDongSP extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane tab1;
+    private javax.swing.JTabbedPane tab;
     private javax.swing.JTable tbActive;
     private javax.swing.JTable tbInactive;
     private javax.swing.JTextField txtDongSP;
     // End of variables declaration//GEN-END:variables
+
 }

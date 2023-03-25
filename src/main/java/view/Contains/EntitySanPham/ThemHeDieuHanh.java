@@ -14,8 +14,8 @@ import viewmodel.HeDieuHanhResponse;
 public class ThemHeDieuHanh extends javax.swing.JFrame {
 
     private HeDieuHanhService heDieuHanhService;
-    private List<HeDieuHanhResponse> hdhResponseActiveList;
-    private List<HeDieuHanhResponse> hdhResponseInactiveList;
+    private List<HeDieuHanhResponse> activeHeDHResponseList;
+    private List<HeDieuHanhResponse> inactiveHeDHResponseList;
     private DefaultTableModel dtmActive;
     private DefaultTableModel dtmInactive;
 
@@ -24,16 +24,16 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
         setLocationRelativeTo(null);
 
         heDieuHanhService = new HeDieuHanhServiceImpl();
-        hdhResponseActiveList = new ArrayList<>();
-        hdhResponseInactiveList = new ArrayList<>();
+        activeHeDHResponseList = new ArrayList<>();
+        inactiveHeDHResponseList = new ArrayList<>();
         dtmActive = (DefaultTableModel) tbActive.getModel();
         dtmInactive = (DefaultTableModel) tbInactive.getModel();
 
-        hdhResponseActiveList = heDieuHanhService.getAllResponse(true);
-        hdhResponseInactiveList = heDieuHanhService.getAllResponse(false);
+        activeHeDHResponseList = heDieuHanhService.getAllResponse(true);
+        inactiveHeDHResponseList = heDieuHanhService.getAllResponse(false);
 
-        showActiveTable(hdhResponseActiveList);
-        showInactiveTable(hdhResponseInactiveList);
+        showActiveTable(activeHeDHResponseList);
+        showInactiveTable(inactiveHeDHResponseList);
     }
 
     // 1
@@ -322,28 +322,28 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
             return;
         }
 
-        HeDieuHanhResponse selectedHDH = hdhResponseInactiveList.get(clickedRow);
+        HeDieuHanhResponse selectedHeDHanhResponse = inactiveHeDHResponseList.get(clickedRow);
 
-        String result = heDieuHanhService.changeStatus(selectedHDH, true);
+        String result = heDieuHanhService.changeStatus(selectedHeDHanhResponse, true);
         JOptionPane.showMessageDialog(this, result);
 
-        hdhResponseActiveList = heDieuHanhService.getAllResponse(true);
-        showActiveTable(hdhResponseActiveList);
+        activeHeDHResponseList = heDieuHanhService.getAllResponse(true);
+        showActiveTable(activeHeDHResponseList);
 
-        hdhResponseInactiveList = heDieuHanhService.getAllResponse(false);
-        showInactiveTable(hdhResponseInactiveList);
+        inactiveHeDHResponseList = heDieuHanhService.getAllResponse(false);
+        showInactiveTable(inactiveHeDHResponseList);
 
         txtTenHDH.setText("");
     }//GEN-LAST:event_btnKhoiPhucActionPerformed
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
+        activeHeDHResponseList = heDieuHanhService.getAllResponse(true);
+        showActiveTable(activeHeDHResponseList);
+
+        inactiveHeDHResponseList = heDieuHanhService.getAllResponse(false);
+        showInactiveTable(inactiveHeDHResponseList);
+
         txtTenHDH.setText("");
-
-        hdhResponseActiveList = heDieuHanhService.getAllResponse(true);
-        hdhResponseInactiveList = heDieuHanhService.getAllResponse(false);
-
-        showActiveTable(hdhResponseActiveList);
-        showInactiveTable(hdhResponseInactiveList);
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
@@ -368,8 +368,8 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, addResult);
 
         // reset table
-        hdhResponseActiveList = heDieuHanhService.getAllResponse(true);
-        showActiveTable(hdhResponseActiveList);
+        activeHeDHResponseList = heDieuHanhService.getAllResponse(true);
+        showActiveTable(activeHeDHResponseList);
 
         txtTenHDH.setText("");
     }//GEN-LAST:event_btnThemActionPerformed
@@ -380,7 +380,7 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
             return;
         }
 
-        HeDieuHanhResponse hdhResponse = hdhResponseInactiveList.get(clickedRow);
+        HeDieuHanhResponse hdhResponse = inactiveHeDHResponseList.get(clickedRow);
         txtTenHDH.setText(hdhResponse.getTenHDH());
     }//GEN-LAST:event_tbInactiveMouseClicked
 
@@ -390,7 +390,7 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
             return;
         }
 
-        HeDieuHanhResponse hdhResponse = hdhResponseActiveList.get(clickedRow);
+        HeDieuHanhResponse hdhResponse = activeHeDHResponseList.get(clickedRow);
         txtTenHDH.setText(hdhResponse.getTenHDH());
     }//GEN-LAST:event_tbActiveMouseClicked
 
@@ -420,23 +420,23 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
             return;
         }
 
-        HeDieuHanhResponse selectedHDH = hdhResponseActiveList.get(clickedRow);
+        HeDieuHanhResponse selectedHeDHanhResponse = activeHeDHResponseList.get(clickedRow);
         String tenHDH = txtTenHDH.getText().trim();
-        String message = checkInput(selectedHDH.getId(), tenHDH);
+        String message = checkInput(selectedHeDHanhResponse.getId(), tenHDH);
 
         if (!message.equals("")) {
             JOptionPane.showMessageDialog(this, message);
             return;
         }
 
-        selectedHDH.setTenHDH(tenHDH);
+        selectedHeDHanhResponse.setTenHDH(tenHDH);
 
-        String updateResult = heDieuHanhService.update(selectedHDH);
+        String updateResult = heDieuHanhService.update(selectedHeDHanhResponse);
         JOptionPane.showMessageDialog(this, updateResult);
 
         // reset table
-        hdhResponseActiveList = heDieuHanhService.getAllResponse(true);
-        showActiveTable(hdhResponseActiveList);
+        activeHeDHResponseList = heDieuHanhService.getAllResponse(true);
+        showActiveTable(activeHeDHResponseList);
 
         txtTenHDH.setText("");
     }//GEN-LAST:event_btnSuaActionPerformed
@@ -453,16 +453,16 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
             return;
         }
 
-        HeDieuHanhResponse selectedHDH = hdhResponseActiveList.get(clickedRow);
+        HeDieuHanhResponse selectedHeDHanhResponse = activeHeDHResponseList.get(clickedRow);
 
-        String result = heDieuHanhService.changeStatus(selectedHDH, false);
+        String result = heDieuHanhService.changeStatus(selectedHeDHanhResponse, false);
         JOptionPane.showMessageDialog(this, result);
 
-        hdhResponseActiveList = heDieuHanhService.getAllResponse(true);
-        showActiveTable(hdhResponseActiveList);
+        activeHeDHResponseList = heDieuHanhService.getAllResponse(true);
+        showActiveTable(activeHeDHResponseList);
 
-        hdhResponseInactiveList = heDieuHanhService.getAllResponse(false);
-        showInactiveTable(hdhResponseInactiveList);
+        inactiveHeDHResponseList = heDieuHanhService.getAllResponse(false);
+        showInactiveTable(inactiveHeDHResponseList);
 
         txtTenHDH.setText("");
     }//GEN-LAST:event_btnXoaActionPerformed

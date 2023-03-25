@@ -3,6 +3,8 @@ package view.Contains.EntitySanPham;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import model.Hang;
 import service.HangService;
@@ -12,8 +14,8 @@ import viewmodel.HangResponse;
 public class ThemHang extends javax.swing.JFrame {
 
     private HangService hangService;
-    private List<HangResponse> hangResponseList;
-    private List<HangResponse> hangDaXoaList;
+    private List<HangResponse> activeHangResponseList;
+    private List<HangResponse> inactiveHangResponseList;
     private DefaultTableModel dtmHang;
     private DefaultTableModel dtmHangDaXoa;
 
@@ -22,24 +24,24 @@ public class ThemHang extends javax.swing.JFrame {
         setLocationRelativeTo(null);
 
         hangService = new HangServiceImpl();
-        hangResponseList = new ArrayList<>();
-        hangDaXoaList = new ArrayList<>();
-        dtmHang = (DefaultTableModel) tbHang.getModel();
-        dtmHangDaXoa = (DefaultTableModel) tbDaXoa.getModel();
+        activeHangResponseList = new ArrayList<>();
+        inactiveHangResponseList = new ArrayList<>();
+        dtmHang = (DefaultTableModel) tbActive.getModel();
+        dtmHangDaXoa = (DefaultTableModel) tbInactive.getModel();
 
-        hangResponseList = hangService.getAllResponse();
-        showDataTable(hangResponseList);
+        activeHangResponseList = hangService.getAllResponseByStatus(true);
+        showActiveTable(activeHangResponseList);
 
-        hangDaXoaList = hangService.getAllDaXoa();
-        showDataTableDaXoa(hangDaXoaList);
+        inactiveHangResponseList = hangService.getAllResponseByStatus(false);
+        showInactiveTable(inactiveHangResponseList);
     }
 
-    private void showDataTable(List<HangResponse> hangs) {
+    private void showActiveTable(List<HangResponse> hangs) {
         dtmHang.setRowCount(0);
         hangs.forEach(h -> dtmHang.addRow(h.toDataRow()));
     }
 
-    private void showDataTableDaXoa(List<HangResponse> hangs) {
+    private void showInactiveTable(List<HangResponse> hangs) {
         dtmHangDaXoa.setRowCount(0);
         hangs.forEach(h -> dtmHangDaXoa.addRow(h.toDataRow()));
     }
@@ -49,13 +51,13 @@ public class ThemHang extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tab = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbHang = new javax.swing.JTable();
+        tbActive = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tbDaXoa = new javax.swing.JTable();
+        tbInactive = new javax.swing.JTable();
         btnKhoiPhuc = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -72,11 +74,16 @@ public class ThemHang extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
+        tab.setBackground(new java.awt.Color(255, 255, 255));
+        tab.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabMouseClicked(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        tbHang.setModel(new javax.swing.table.DefaultTableModel(
+        tbActive.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -92,12 +99,12 @@ public class ThemHang extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbHang.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbActive.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbHangMouseClicked(evt);
+                tbActiveMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tbHang);
+        jScrollPane1.setViewportView(tbActive);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -114,11 +121,11 @@ public class ThemHang extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("DANH SÁCH", jPanel1);
+        tab.addTab("DANH SÁCH", jPanel1);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        tbDaXoa.setModel(new javax.swing.table.DefaultTableModel(
+        tbInactive.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -134,12 +141,12 @@ public class ThemHang extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbDaXoa.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbInactive.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbDaXoaMouseClicked(evt);
+                tbInactiveMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(tbDaXoa);
+        jScrollPane2.setViewportView(tbInactive);
 
         btnKhoiPhuc.setBackground(new java.awt.Color(47, 85, 212));
         btnKhoiPhuc.setForeground(new java.awt.Color(255, 255, 255));
@@ -172,7 +179,7 @@ public class ThemHang extends javax.swing.JFrame {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("ĐÃ XÓA", jPanel2);
+        tab.addTab("ĐÃ XÓA", jPanel2);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("THÔNG TIN"));
@@ -264,14 +271,14 @@ public class ThemHang extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tab, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(tab)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -294,15 +301,15 @@ public class ThemHang extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tbHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHangMouseClicked
-        int clickedRow = tbHang.getSelectedRow();
+    private void tbActiveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbActiveMouseClicked
+        int clickedRow = tbActive.getSelectedRow();
         if (clickedRow < 0) {
             return;
         }
 
-        HangResponse selectedHang = hangResponseList.get(clickedRow);
-        txtTenHang.setText(selectedHang.getTenHang());
-    }//GEN-LAST:event_tbHangMouseClicked
+        HangResponse selectedHangResponse = activeHangResponseList.get(clickedRow);
+        txtTenHang.setText(selectedHangResponse.getTenHang());
+    }//GEN-LAST:event_tbActiveMouseClicked
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
         txtTenHang.setText("");
@@ -329,8 +336,8 @@ public class ThemHang extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, addResult);
 
         // reset table
-        hangResponseList = hangService.getAllResponse();
-        showDataTable(hangResponseList);
+        activeHangResponseList = hangService.getAllResponseByStatus(true);
+        showActiveTable(activeHangResponseList);
         txtTenHang.setText("");
     }//GEN-LAST:event_btnThemActionPerformed
 
@@ -340,28 +347,28 @@ public class ThemHang extends javax.swing.JFrame {
             return;
         }
 
-        int clickedRow = tbHang.getSelectedRow();
+        int clickedRow = tbActive.getSelectedRow();
         if (clickedRow < 0) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn hãng trước khi sửa!");
             return;
         }
 
-        HangResponse selectedHang = hangResponseList.get(clickedRow);
+        HangResponse selectedHangResponse = activeHangResponseList.get(clickedRow);
         String tenHang = txtTenHang.getText().trim();
-        String message = checkInput(selectedHang.getId(), tenHang);
+        String message = checkInput(selectedHangResponse.getId(), tenHang);
 
         if (!message.equals("")) {
             JOptionPane.showMessageDialog(this, message);
             return;
         }
 
-        selectedHang.setTenHang(tenHang);
-        String updateResult = hangService.update(selectedHang);
+        selectedHangResponse.setTenHang(tenHang);
+        String updateResult = hangService.update(selectedHangResponse);
         JOptionPane.showMessageDialog(this, updateResult);
 
         // reset table
-        hangResponseList = hangService.getAllResponse();
-        showDataTable(hangResponseList);
+        activeHangResponseList = hangService.getAllResponseByStatus(true);
+        showActiveTable(activeHangResponseList);
         txtTenHang.setText("");
     }//GEN-LAST:event_btnSuaActionPerformed
 
@@ -371,31 +378,82 @@ public class ThemHang extends javax.swing.JFrame {
             return;
         }
 
-        int clickedRow = tbHang.getSelectedRow();
+        int clickedRow = tbActive.getSelectedRow();
         if (clickedRow < 0) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn hãng trước khi xóa!");
             return;
         }
-        HangResponse selectedHang = hangResponseList.get(clickedRow);
-        String deleteResult = hangService.delete(selectedHang);
+        HangResponse selectedHangResponse = activeHangResponseList.get(clickedRow);
+        String deleteResult = hangService.delete(selectedHangResponse);
         JOptionPane.showMessageDialog(this, deleteResult);
 
         // reset table
-        hangResponseList = hangService.getAllResponse();
-        showDataTable(hangResponseList);
+        activeHangResponseList = hangService.getAllResponseByStatus(true);
+        showActiveTable(activeHangResponseList);
 
-        hangDaXoaList = hangService.getAllDaXoa();
-        showDataTableDaXoa(hangDaXoaList);
+        inactiveHangResponseList = hangService.getAllResponseByStatus(false);
+        showInactiveTable(inactiveHangResponseList);
+
         txtTenHang.setText("");
     }//GEN-LAST:event_btnXoaActionPerformed
 
-    private void tbDaXoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDaXoaMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tbDaXoaMouseClicked
+    private void tbInactiveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbInactiveMouseClicked
+        int clickedRow = tbInactive.getSelectedRow();
+        if (clickedRow < 0) {
+            return;
+        }
+
+        HangResponse selectedHangResponse = inactiveHangResponseList.get(clickedRow);
+        txtTenHang.setText(selectedHangResponse.getTenHang());
+    }//GEN-LAST:event_tbInactiveMouseClicked
 
     private void btnKhoiPhucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhoiPhucActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Khôi phục hãng?", "Xác nhận khôi phục hãng", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
 
+        int clickedRow = tbInactive.getSelectedRow();
+        if (clickedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hãng trước khi khôi phục!");
+            return;
+        }
+
+        HangResponse selectedHangResponse = inactiveHangResponseList.get(clickedRow);
+
+        String result = hangService.changeStatus(selectedHangResponse, true);
+        JOptionPane.showMessageDialog(this, result);
+
+        // reset table
+        activeHangResponseList = hangService.getAllResponseByStatus(true);
+        showActiveTable(activeHangResponseList);
+
+        inactiveHangResponseList = hangService.getAllResponseByStatus(false);
+        showInactiveTable(inactiveHangResponseList);
+
+        txtTenHang.setText("");
     }//GEN-LAST:event_btnKhoiPhucActionPerformed
+
+    private void tabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabMouseClicked
+        tab.getModel().addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int index = tab.getSelectedIndex();
+                if (index == 0) {
+                    setButtons(true);
+                } else {
+                    setButtons(false);
+                }
+            }
+        });
+    }//GEN-LAST:event_tabMouseClicked
+
+    private void setButtons(boolean boo) {
+        btnLamMoi.setEnabled(boo);
+        btnThem.setEnabled(boo);
+        btnSua.setEnabled(boo);
+        btnXoa.setEnabled(boo);
+    }
 
     private String checkInput(int id, String tenHang) {
         String message = "";
@@ -479,9 +537,9 @@ public class ThemHang extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable tbDaXoa;
-    private javax.swing.JTable tbHang;
+    private javax.swing.JTabbedPane tab;
+    private javax.swing.JTable tbActive;
+    private javax.swing.JTable tbInactive;
     private javax.swing.JTextField txtTenHang;
     // End of variables declaration//GEN-END:variables
 }

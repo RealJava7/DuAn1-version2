@@ -11,8 +11,8 @@ public class DienThoaiServiceImpl implements DienThoaiService {
     private DienThoaiRepository dienThoaiRepository = new DienThoaiRepository();
 
     @Override
-    public List<DienThoaiResponse> getAllResponse(boolean status) {
-        return dienThoaiRepository.getAllResponse(status);
+    public List<DienThoaiResponse> getAllResponseByStatus(boolean status) {
+        return dienThoaiRepository.getAllResponseByStatus(status);
     }
 
     @Override

@@ -11,18 +11,13 @@ public class DongSanPhamServiceImpl implements DongSanPhamService {
     private DongSanPhamRepository dongSanPhamRepository = new DongSanPhamRepository();
 
     @Override
-    public List<DongSanPham> getAll(int id) {
+    public List<DongSanPham> getAllEntityByHang(int id) {
         return dongSanPhamRepository.getAllEntityByHang(id);
     }
 
     @Override
-    public List<DongSanPhamResponse> getAllActiveDongSP() {
-        return dongSanPhamRepository.getAllActiveDongSP();
-    }
-
-    @Override
-    public List<DongSanPhamResponse> getAllInactiveDongSP() {
-        return dongSanPhamRepository.getAllInactiveDongSP();
+    public List<DongSanPhamResponse> getAllDongSPResponseByStatus(boolean status) {
+        return dongSanPhamRepository.getDongSPResponseByStatus(status);
     }
 
     @Override
