@@ -6,9 +6,13 @@ import viewmodel.KhachHangResponse;
 
 public interface KhachHangService {
 
-    List<KhachHangResponse> getAll(int trangThai);
+    List<KhachHangResponse> getAll();
 
     KhachHangResponse getKhachHangByEmail(String email);
+
+    KhachHangResponse getKhachHangById(int id);
+
+    KhachHangResponse getKhachHangByMaThe(String maThe);
 
     List<KhachHangResponse> findBySdt(String sdt, int trangThai);
 

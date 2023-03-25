@@ -32,7 +32,8 @@ public class KhachHangResponse {
         this.trangThai = trangThai;
     }
 
-    public KhachHangResponse(int idThe, String maThe, LocalDate ngayKichHoat, int soDiem, boolean trangThaiThe) {
+    public KhachHangResponse(String hoTen, int idThe, String maThe, LocalDate ngayKichHoat, int soDiem, boolean trangThaiThe) {
+        this.hoTen = hoTen;
         this.idThe = idThe;
         this.maThe = maThe;
         this.ngayKichHoat = ngayKichHoat;
@@ -59,7 +60,7 @@ public class KhachHangResponse {
 
     public Object[] toDataRowTheTichDiem() {
         return new Object[]{
-            idThe, maThe, ngayKichHoat, soDiem, trangThaiThe == true ? "Hoạt Động" : "Ngừng Hoạt Động"
+            idThe, maThe, hoTen, ngayKichHoat, soDiem, trangThaiThe == true ? "Hoạt Động" : "Ngừng Hoạt Động"
         };
     }
 
