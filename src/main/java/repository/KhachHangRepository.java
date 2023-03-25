@@ -273,6 +273,25 @@ public class KhachHangRepository {
         }
         return khachHangResponses;
     }
+//tangdiem khách hàng
+
+    public static boolean UpdateDiem(KhachHangResponse kh, int soDiem) {
+        boolean check = false;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+
+            TheTichDiem the = session.get(TheTichDiem.class, kh.getIdThe());
+            the.setSoDiem(soDiem);
+            Transaction transaction = session.beginTransaction();
+
+            session.update(the);
+            transaction.commit();
+            check = true;
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return check;
+    }
 
     public static void main(String[] args) {
         // add
