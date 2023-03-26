@@ -38,12 +38,6 @@ public class HangServiceImpl implements HangService {
     }
 
     @Override
-    public String delete(HangResponse hangResponse) {
-        boolean deleteResult = hangRepository.delete(hangResponse);
-        return deleteResult ? "Xóa thành công!" : "Xóa thất bại!";
-    }
-
-    @Override
     public String changeStatus(HangResponse hangResponse, boolean newStatus) {
         String message = newStatus ? "Khôi phục thành công!" : "Xóa thành công!";
         hangRepository.changeStatus(hangResponse, newStatus);

@@ -13,4 +13,10 @@ public interface DienThoaiService {
     DienThoai getByMaDT(String maDT);
     
     String update(DienThoaiResponse dienThoaiResponse);
+    
+    String changeStatus(DienThoaiResponse dienThoaiResponse, boolean newStatus);
+    
+    List<DienThoaiResponse> getAllResponseByGiaBan(String order);
+    
+    List<DienThoaiResponse> searchAllResponseByName(String keyword);
 }

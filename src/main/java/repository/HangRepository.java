@@ -24,6 +24,7 @@ public class HangRepository {
                                               (h.id, h.tenHang, h.trangThai)
                                               FROM Hang h
                                               WHERE h.trangThai = :status
+                                              ORDER BY h.tenHang
                                                """);
             query.setParameter("status", status);
             hangs = query.getResultList();
@@ -122,28 +123,7 @@ public class HangRepository {
         return check;
     }
 
-    // 7. delete
-    public boolean delete(HangResponse hangResponse) {
-        boolean check = false;
-        try {
-            Session session = HibernateUtil.getFACTORY().openSession();
-            Transaction transaction = session.beginTransaction();
-
-            Hang hang = session.get(Hang.class, hangResponse.getId());
-            hang.setTrangThai(false);
-
-            session.update(hang);
-            transaction.commit();
-
-            check = true;
-            session.close();
-        } catch (HibernateException e) {
-            e.printStackTrace(System.out);
-        }
-        return check;
-    }
-    
-    // 8. changeStatus hang
+    // 7. changeStatus hang
     public void changeStatus(HangResponse hangResponse, boolean newStatus) {
         try {
             Session session = HibernateUtil.getFACTORY().openSession();

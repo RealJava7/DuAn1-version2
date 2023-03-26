@@ -16,8 +16,6 @@ public interface HangService {
     
     Hang getByTenHang(String tenHang);
     
-    String delete(HangResponse hangResponse);
-    
     String changeStatus(HangResponse hangResponse, boolean newStatus);
     
 }
