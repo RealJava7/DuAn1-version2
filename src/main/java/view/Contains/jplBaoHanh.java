@@ -120,6 +120,8 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("LOẠI BẢO HÀNH"));
 
+        btnAddLoaiBaoHanh.setBackground(new java.awt.Color(47, 85, 212));
+        btnAddLoaiBaoHanh.setForeground(new java.awt.Color(255, 255, 255));
         btnAddLoaiBaoHanh.setText("Quản Lý Loại Bảo Hành");
         btnAddLoaiBaoHanh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -204,6 +206,8 @@ public class jplBaoHanh extends javax.swing.JPanel {
             }
         });
 
+        btnSearch.setBackground(new java.awt.Color(47, 85, 212));
+        btnSearch.setForeground(new java.awt.Color(255, 255, 255));
         btnSearch.setText("Tìm Kiếm");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -244,6 +248,8 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
         jLabel5.setText("Danh Sách Phiếu Bảo Hành");
 
+        jButton1.setBackground(new java.awt.Color(47, 85, 212));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Load");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -314,6 +320,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
         //if Open button is clicked
         if (excelChooser == JFileChooser.APPROVE_OPTION) {
             excelFile = excelFileChooser.getSelectedFile();
+            
             try {
                 excelFIS = new FileInputStream(excelFile);
                 excelBis = new BufferedInputStream(excelBis);
