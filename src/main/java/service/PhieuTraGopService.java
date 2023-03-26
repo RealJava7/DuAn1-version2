@@ -24,7 +24,7 @@ public interface PhieuTraGopService {
 
     List<PhieuTraGopViewModel> getByString(String s);
 
-    List<PhieuTraGopViewModel> getByTime(int index);
-
-    List<PhieuTraGopViewModel> getByTrangThai(int index);
+//    List<PhieuTraGopViewModel> getByTime(int index);
+//    List<PhieuTraGopViewModel> getByTrangThai(int index);
+    List<PhieuTraGopViewModel> getByTimeAndTrangThai(int time, int trangThai);
 }
