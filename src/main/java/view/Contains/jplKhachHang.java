@@ -29,7 +29,20 @@ public class jplKhachHang extends javax.swing.JPanel {
 
     public jplKhachHang() {
         initComponents();
+        viewTable();
+        dtm = (DefaultTableModel) tblKhachHang.getModel();
+        dtmDaXoa = (DefaultTableModel) tblKhachHangDaXoa.getModel();
+        dtmTichDiem = (DefaultTableModel) tblTheTichDiem.getModel();
+        listKhachHang = service.getAll();
+        showData(listKhachHang);
 
+        showDataRemove(listKhachHang);
+        listTheTichDiem = service.getAllTheTichDiem();
+        showDataTichDiem(listTheTichDiem);
+
+    }
+
+    private void viewTable() {
         JTableHeader Theader = tblKhachHang.getTableHeader();
         JTableHeader TheaderXoa = tblKhachHangDaXoa.getTableHeader();
         JTableHeader TheaderTichDiem = tblTheTichDiem.getTableHeader();
@@ -44,17 +57,6 @@ public class jplKhachHang extends javax.swing.JPanel {
         TheaderTichDiem.setFont(new Font("tahoma", Font.BOLD, 15));
         TheaderTichDiem.setBackground(new Color(47, 85, 212));
         TheaderTichDiem.setForeground(Color.white);
-
-        dtm = (DefaultTableModel) tblKhachHang.getModel();
-        dtmDaXoa = (DefaultTableModel) tblKhachHangDaXoa.getModel();
-        dtmTichDiem = (DefaultTableModel) tblTheTichDiem.getModel();
-        listKhachHang = service.getAll();
-        showData(listKhachHang);
-
-        showDataRemove(listKhachHang);
-        listTheTichDiem = service.getAllTheTichDiem();
-        showDataTichDiem(listTheTichDiem);
-
     }
 
     private void showData(List<KhachHangResponse> list) {
@@ -566,20 +568,20 @@ public class jplKhachHang extends javax.swing.JPanel {
         tblKhachHangDaXoa.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         tblKhachHangDaXoa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "HỌ VÀ TÊN", "EMAIL", "SDT", "GIỚI TÍNH", "NGÀY SINH", "ĐỊA CHỈ", "ĐIỂM", "TRẠNG THÁI"
+                "ID", "HỌ VÀ TÊN", "EMAIL", "SDT", "GIỚI TÍNH", "NGÀY SINH", "ĐỊA CHỈ", "ĐIỂM", "TRẠNG THÁI", "Khôi Phục"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1019,7 +1021,7 @@ public class jplKhachHang extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ThemKhachHang, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(ThemKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jTabbedPane1))
                         .addContainerGap())))
         );
