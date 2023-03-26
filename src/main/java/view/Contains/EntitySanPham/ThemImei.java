@@ -1,10 +1,22 @@
 package view.Contains.EntitySanPham;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import model.Imei;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import service.ImeiService;
 import service.impl.ImeiServiceImpl;
 import view.Contains.jplSanPham;
@@ -140,6 +152,11 @@ public class ThemImei extends javax.swing.JFrame {
         lbTongSo.setText("0");
 
         btnImportExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-microsoft-excel-25.png"))); // NOI18N
+        btnImportExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImportExcelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -310,7 +327,7 @@ public class ThemImei extends javax.swing.JFrame {
         if (confirm != 0) {
             return;
         }
-        
+
         String imeiStr = txtImei.getText().trim();
         String checkResult = checkInput(0, imeiStr);
         if (!checkResult.equals("")) {
@@ -365,14 +382,13 @@ public class ThemImei extends javax.swing.JFrame {
         if (confirm != 0) {
             return;
         }
-        
+
         int clickedRow = tbImei.getSelectedRow();
         if (clickedRow < 0) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn imei trước khi sửa!");
             return;
         }
-        
-        
+
         String imeiStr = txtImei.getText().trim();
         String checkResult = checkInput(0, imeiStr);
         if (!checkResult.equals("")) {
@@ -388,6 +404,46 @@ public class ThemImei extends javax.swing.JFrame {
 
         lamMoiForm();
     }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnImportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportExcelActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        int result = chooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+                // C:\Users\T490\OneDrive - Hanoi University of Science and Technology\Documents\NetBeansProjects\phone-imei\imeis-1.xlsx
+                File file = chooser.getSelectedFile();
+                FileInputStream fis = new FileInputStream(file);
+
+                XSSFWorkbook wb = new XSSFWorkbook(fis);
+                XSSFSheet sheet = wb.getSheetAt(0);
+                Iterator<Row> itr = sheet.iterator();
+
+                while (itr.hasNext()) {
+                    Row row = itr.next();
+                    Iterator<Cell> cellIterator = row.cellIterator();
+                    while (cellIterator.hasNext()) {
+                        Cell cell = cellIterator.next();
+                        switch (cell.getCellType()) {
+                            case STRING: {
+                                String imeiStr = cell.getStringCellValue().substring(1);
+                                if (imeiService.getByImei(imeiStr) == null) {
+                                    System.out.println(cell.getStringCellValue().substring(1));
+                                    Imei imei = new Imei();
+                                    imei.setImei(imeiStr);
+                                    String addResult = imeiService.add(imei);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+                lamMoiForm();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }//GEN-LAST:event_btnImportExcelActionPerformed
 
     private void lamMoiForm() {
         if (idCurrentDienThoai == 0) {

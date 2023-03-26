@@ -218,6 +218,9 @@
                       <Image iconType="3" name="/Icon/icons8-microsoft-excel-25.png"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnImportExcelActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

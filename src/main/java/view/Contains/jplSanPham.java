@@ -110,15 +110,25 @@ public class jplSanPham extends javax.swing.JPanel {
         showActiveTable(activedienThoaiResponseList);
         showInactiveTable(inactivedienThoaiResponseList);
         getDataForComboBox();
-
-        showComboBoxHang();
-        showComboBoxMauSac();
-        showComboBoxHeDH();
-
     }
 
     // 1
     private void getDataForComboBox() {
+        // Hãng
+        cbHang.removeAllItems();
+        List<Hang> hangList = hangService.getAllEntityByStatus(true);
+        hangList.forEach(h -> cbHang.addItem(h));
+
+        // Màu sắc
+        cbMauSac.removeAllItems();
+        List<MauSac> mauSacList = mauSacService.getAllEntityByStatus(true);
+        mauSacList.forEach(ms -> cbMauSac.addItem(ms));
+
+        // Hệ điều hành
+        cbHeDieuHanh.removeAllItems();
+        List<HeDieuHanh> heDieuHanhList = heDieuHanhService.getAllEntityByStatus(true);
+        heDieuHanhList.forEach(hdh -> cbHeDieuHanh.addItem(hdh));
+
         // Ram
         List<String> ramList = List.of("4", "6", "8", "12", "16");
         ramList.forEach(r -> dcbmRam.addElement(r));
@@ -1083,6 +1093,15 @@ public class jplSanPham extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThemImeiMouseClicked
 
     private void cbHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbHangActionPerformed
+        Hang selectedHang = (Hang) cbHang.getSelectedItem();
+        int hangId = selectedHang.getId();
+        if (!selectedHang.isTrangThai()) {
+            return;
+        }
+
+        List<DongSanPham> dongSanPhamList = dongSanPhamService.getAllEntityByHang(hangId);
+        cbDongSanPham.removeAllItems();
+        dongSanPhamList.forEach(dsp -> cbDongSanPham.addItem(dsp));
     }//GEN-LAST:event_cbHangActionPerformed
 
     private void btnHeDieuHanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHeDieuHanhActionPerformed
@@ -1154,6 +1173,7 @@ public class jplSanPham extends javax.swing.JPanel {
         txtTenSanPham.setText("");
         txtGiaNhap.setText("");
         txtGiaBan.setText("");
+        txtMoTa.setText("");
         dcbmImei.removeAllElements();
 
         cbHang.setSelectedIndex(0);
@@ -1190,7 +1210,7 @@ public class jplSanPham extends javax.swing.JPanel {
         if (confirm != 0) {
             return;
         }
-        
+
         // Camera
         CameraChiTiet cam = new CameraChiTiet();
         String camChinh = txtCamChinh.getText().trim();
@@ -1344,19 +1364,18 @@ public class jplSanPham extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void cbMauSacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMauSacActionPerformed
-
     }//GEN-LAST:event_cbMauSacActionPerformed
 
     private void cbMauSacMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbMauSacMouseClicked
-        showComboBoxMauSac();
+//        showComboBoxMauSac();
     }//GEN-LAST:event_cbMauSacMouseClicked
 
     private void cbDongSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbDongSanPhamMouseClicked
-        showComboBoxDongSP();
+//        showComboBoxDongSP();
     }//GEN-LAST:event_cbDongSanPhamMouseClicked
 
     private void cbHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbHangMouseClicked
-        showComboBoxHang();
+//        showComboBoxHang();
     }//GEN-LAST:event_cbHangMouseClicked
 
     private void btnKhoiPhucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhoiPhucActionPerformed
