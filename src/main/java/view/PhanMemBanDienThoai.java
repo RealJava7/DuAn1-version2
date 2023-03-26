@@ -23,7 +23,7 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         panel = new jplTrangChu();
         setPanel(panel);
     }
-    
+
     public PhanMemBanDienThoai(JPanel panel) {
         setPanel(panel);
     }
@@ -364,8 +364,8 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
                 .addComponent(lblDoiMatKhau)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
