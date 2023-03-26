@@ -117,6 +117,11 @@ public class ThemImei extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tbImei.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbImeiMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbImei);
         if (tbImei.getColumnModel().getColumnCount() > 0) {
             tbImei.getColumnModel().getColumn(0).setMinWidth(70);
@@ -209,11 +214,21 @@ public class ThemImei extends javax.swing.JFrame {
         btnSua.setForeground(new java.awt.Color(255, 255, 255));
         btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-pencil-20 WHITE.png"))); // NOI18N
         btnSua.setText("SỬA");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         btnLamMoi.setBackground(new java.awt.Color(47, 85, 212));
         btnLamMoi.setForeground(new java.awt.Color(255, 255, 255));
         btnLamMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-new-20.png"))); // NOI18N
         btnLamMoi.setText("MỚI");
+        btnLamMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLamMoiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -291,6 +306,11 @@ public class ThemImei extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Thêm Imei?", "Xác nhận thêm Imei", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+        
         String imeiStr = txtImei.getText().trim();
         String checkResult = checkInput(0, imeiStr);
         if (!checkResult.equals("")) {
@@ -304,7 +324,72 @@ public class ThemImei extends javax.swing.JFrame {
         String addResult = imeiService.add(imei);
         JOptionPane.showMessageDialog(this, addResult);
 
-        // reset table
+        lamMoiForm();
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Xóa Imei?", "Xác nhận xóa Imei", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+
+        int clickedRow = tbImei.getSelectedRow();
+        if (clickedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn imei trước khi xóa!");
+            return;
+        }
+
+        ImeiResponse selectedImeiResponse = imeiResponseList.get(clickedRow);
+        String deleteResult = imeiService.delete(selectedImeiResponse);
+        JOptionPane.showMessageDialog(this, deleteResult);
+
+        lamMoiForm();
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
+        lamMoiForm();
+    }//GEN-LAST:event_btnLamMoiActionPerformed
+
+    private void tbImeiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbImeiMouseClicked
+        int clickedRow = tbImei.getSelectedRow();
+        if (clickedRow < 0) {
+            return;
+        }
+
+        ImeiResponse imeiResponse = imeiResponseList.get(clickedRow);
+        txtImei.setText(imeiResponse.getImei());
+    }//GEN-LAST:event_tbImeiMouseClicked
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Sửa Imei?", "Xác nhận sửa Imei", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+        
+        int clickedRow = tbImei.getSelectedRow();
+        if (clickedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn imei trước khi sửa!");
+            return;
+        }
+        
+        
+        String imeiStr = txtImei.getText().trim();
+        String checkResult = checkInput(0, imeiStr);
+        if (!checkResult.equals("")) {
+            JOptionPane.showMessageDialog(this, checkResult);
+            return;
+        }
+
+        ImeiResponse selectedImeiResponse = imeiResponseList.get(clickedRow);
+        selectedImeiResponse.setImei(imeiStr);
+
+        String updateResult = imeiService.updateImeiStr(selectedImeiResponse);
+        JOptionPane.showMessageDialog(this, updateResult);
+
+        lamMoiForm();
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void lamMoiForm() {
         if (idCurrentDienThoai == 0) {
             imeiResponseList = imeiService.getAllNoneDienThoaiImei();
             showDataTable(imeiResponseList);
@@ -316,13 +401,7 @@ public class ThemImei extends javax.swing.JFrame {
             showDataTable(imeiResponseList);
             txtImei.setText("");
         }
-
-    }//GEN-LAST:event_btnThemActionPerformed
-
-    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_btnXoaActionPerformed
+    }
 
     private String checkInput(int id, String imeiStr) {
         String message = "";

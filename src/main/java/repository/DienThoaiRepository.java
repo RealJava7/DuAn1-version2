@@ -1,9 +1,7 @@
 package repository;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import model.CameraChiTiet;
@@ -11,16 +9,13 @@ import model.DienThoai;
 import model.DongSanPham;
 import model.Hang;
 import model.HeDieuHanh;
-import model.Imei;
 import model.ManHinhChiTiet;
 import model.MauSac;
-import model.enums.LoaiManHinh;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import utility.HibernateUtil;
 import viewmodel.DienThoaiResponse;
-import viewmodel.HangResponse;
 
 public class DienThoaiRepository {
 
