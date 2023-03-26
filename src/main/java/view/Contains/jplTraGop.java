@@ -2,6 +2,7 @@ package view.Contains;
 
 import java.awt.FlowLayout;
 import java.util.List;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
@@ -41,6 +42,7 @@ public class jplTraGop extends javax.swing.JPanel {
         mnuChiTiet = new javax.swing.JMenuItem();
         mnuKhachHang = new javax.swing.JMenuItem();
         mnuDonHang = new javax.swing.JMenuItem();
+        mnuInPhieuSaoKe = new javax.swing.JMenuItem();
         jDialog1 = new javax.swing.JDialog();
         jDialog2 = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
@@ -79,6 +81,9 @@ public class jplTraGop extends javax.swing.JPanel {
             }
         });
         jPopupMenu1.add(mnuDonHang);
+
+        mnuInPhieuSaoKe.setText("In Phiếu Sao Kê");
+        jPopupMenu1.add(mnuInPhieuSaoKe);
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -295,13 +300,13 @@ public class jplTraGop extends javax.swing.JPanel {
 
     private void cbxTrangThaiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxTrangThaiItemStateChanged
         // TODO add your handling code here:
-        listView = service.getByTrangThai(cbxTrangThai.getSelectedIndex());
+        listView = service.getByTimeAndTrangThai(cbxThoiGian.getSelectedIndex(), cbxTrangThai.getSelectedIndex());
         showDataTable(listView);
     }//GEN-LAST:event_cbxTrangThaiItemStateChanged
 
     private void cbxThoiGianItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxThoiGianItemStateChanged
         // TODO add your handling code here:
-        listView = service.getByTime(cbxThoiGian.getSelectedIndex());
+        listView = service.getByTimeAndTrangThai(cbxThoiGian.getSelectedIndex(), cbxTrangThai.getSelectedIndex());
         showDataTable(listView);
     }//GEN-LAST:event_cbxThoiGianItemStateChanged
 
@@ -321,6 +326,7 @@ public class jplTraGop extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem mnuChiTiet;
     private javax.swing.JMenuItem mnuDonHang;
+    private javax.swing.JMenuItem mnuInPhieuSaoKe;
     private javax.swing.JMenuItem mnuKhachHang;
     private javax.swing.JTable tblDanhSachTraGop;
     private javax.swing.JTextField txtSearch;

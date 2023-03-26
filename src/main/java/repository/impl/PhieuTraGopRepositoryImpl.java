@@ -128,10 +128,10 @@ public class PhieuTraGopRepositoryImpl {
         }
     }
 
-    public List<PhieuTraGop> getByTime(int index) {
+    public List<PhieuTraGop> getByTimeAndTrangThai(int time, int trangThai) {
         LocalDate date = LocalDate.now();
         String hql = "";
-        switch (index) {
+        switch (time) {
             case 0:
                 //tất cả
                 hql = "From PhieuTraGop";
@@ -146,9 +146,9 @@ public class PhieuTraGopRepositoryImpl {
                 hql = "FROM PhieuTraGop Where NgayTao = '" + date.minusDays(1) + "'";
                 break;
             case 3:
-                //Tuần này
-                System.out.println(date);
-                System.out.println(date.minusDays(7));
+//                //Tuần này
+//                System.out.println(date);
+//                System.out.println(date.minusDays(7));
                 hql = "FROM PhieuTraGop\n"
                         + "WHERE NgayTao BETWEEN '" + date.minusDays(7) + "' and '" + date + "'";
                 break;
@@ -164,6 +164,15 @@ public class PhieuTraGopRepositoryImpl {
             default:
                 hql = "From PhieuTraGop";
         }
+        if (time != 0 && trangThai == 0) {
+            hql = hql;
+        }
+        if (time != 0 && trangThai == 1) {
+            hql = hql + "AND TrangThai = 0";
+        }
+        if (time != 0 && trangThai == 2) {
+            hql = hql + "AND TrangThai = 1";
+        }
 
         try (Session session = HibernateUtil.getFACTORY().openSession()) {
             session.beginTransaction();
@@ -177,36 +186,15 @@ public class PhieuTraGopRepositoryImpl {
             e.printStackTrace();
             return null;
         }
-    }
-
-    public List<PhieuTraGop> getByTrangThai(int index) {
-        if (index == 0) {
-            return getAll();
-        }
-
-        try (Session session = HibernateUtil.getFACTORY().openSession()) {
-            String hql = "From PhieuTraGop WHERE TrangThai = :index";
-            session.beginTransaction();
-            Query query = session.createQuery(hql);
-            query.setParameter("index", --index);
-            List<PhieuTraGop> listAll = query.getResultList();
-            session.getTransaction().commit();
-
-            return listAll;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
 
     }
 
-    public static void main(String[] args) {
-        PhieuTraGopRepositoryImpl repositoryImpl = new PhieuTraGopRepositoryImpl();
-
-        List<PhieuTraGop> listTime = repositoryImpl.getByTime(3);
-        for (PhieuTraGop phieuTraGop : listTime) {
-            System.out.println(phieuTraGop.toString());
-        }
-    }
+//    public static void main(String[] args) {
+//        PhieuTraGopRepositoryImpl repositoryImpl = new PhieuTraGopRepositoryImpl();
+//
+//        List<PhieuTraGop> listTime = repositoryImpl.getByTimeAndTrangThai(3, 2);
+//        for (PhieuTraGop phieuTraGop : listTime) {
+//            System.out.println(phieuTraGop.toString());
+//        }
+//    }
 }

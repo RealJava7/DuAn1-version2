@@ -32,6 +32,11 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuDonHangActionPerformed"/>
           </Events>
         </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="mnuInPhieuSaoKe">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="In Phi&#x1ebf;u Sao K&#xea;"/>
+          </Properties>
+        </MenuItem>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JDialog" name="jDialog1">
