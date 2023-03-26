@@ -1,20 +1,23 @@
 package view.Contains;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import service.PhieuBaoHanhService;
 import service.impl.PhieuBaoHanhServiceImpl;
 import view.Contains.entitybaohanh.QuanLyLoaiBaoHanh;
 import viewmodel.PhieuBaoHanhResponse;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class jplBaoHanh extends javax.swing.JPanel {
 
@@ -310,24 +313,60 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
     private void btnImportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportExcelActionPerformed
         // TODO add your handling code here:
-        File excelFile;
-        FileInputStream excelFIS = null;
-        BufferedInputStream excelBis = null;
-        //Select default path
-        String defaultCurrentDirectoryPath = "";
-        JFileChooser excelFileChooser = new JFileChooser(defaultCurrentDirectoryPath);
-        int excelChooser = excelFileChooser.showOpenDialog(null);
-        //if Open button is clicked
+        //chọn lơi lưu trữ
+        showDataTable(service.getAll());
+        FileOutputStream excelFOS = null;
+        BufferedOutputStream excelBOS = null;
+        XSSFWorkbook excelJtableExporter = null;
+        JFileChooser excelFileChooser = new JFileChooser("C:\\Users\\virus\\OneDrive\\My Desktop");
+        //dổi tên của dialog
+        excelFileChooser.setDialogTitle("Save As");
+        //định dạng file excel
+        FileNameExtensionFilter fnef = new FileNameExtensionFilter("EXCEL FILES", "xls", "xlsx", "xlsm");
+        excelFileChooser.setFileFilter(fnef);
+        int excelChooser = excelFileChooser.showSaveDialog(null);
         if (excelChooser == JFileChooser.APPROVE_OPTION) {
-            excelFile = excelFileChooser.getSelectedFile();
-            
             try {
-                excelFIS = new FileInputStream(excelFile);
-                excelBis = new BufferedInputStream(excelBis);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(jplBaoHanh.class.getName()).log(Level.SEVERE, null, ex);
-            }
 
+                excelJtableExporter = new XSSFWorkbook();
+                XSSFSheet excelSheet = excelJtableExporter.createSheet("JTable Sheet");
+
+                for (int i = 0; i < dtm.getRowCount(); i++) {
+                    XSSFRow excelRow = excelSheet.createRow(i);
+                    for (int j = 0; j < dtm.getColumnCount(); j++) {
+                        XSSFCell excelCell = excelRow.createCell(j);
+
+                        excelCell.setCellValue(dtm.getValueAt(i, j).toString());
+                    }
+                }
+
+                excelFOS = new FileOutputStream(excelFileChooser.getSelectedFile() + ".xlsx");
+                excelBOS = new BufferedOutputStream(excelFOS);
+                excelJtableExporter.write(excelBOS);
+
+                JOptionPane.showMessageDialog(rdConHan, "Xuất file excel thành công");
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(rdConHan, "Lỗi không tìm thấy file");
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(rdConHan, "Một lỗi gì đó!......");
+                ex.printStackTrace();
+            } finally {
+                try {
+                    if (excelFOS != null) {
+                        excelFOS.close();
+                    }
+                    if (excelBOS != null) {
+                        excelBOS.close();
+                    }
+                    if (excelJtableExporter != null) {
+                        excelJtableExporter.close();
+                    }
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(rdConHan, "Lỗi khi cố gắng đóng các class");
+                    ex.printStackTrace();
+                }
+            }
         }
     }//GEN-LAST:event_btnImportExcelActionPerformed
 
