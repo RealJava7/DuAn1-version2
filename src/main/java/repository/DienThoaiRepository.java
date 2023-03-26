@@ -54,6 +54,7 @@ public class DienThoaiRepository {
                                               INNER JOIN dt.cameraChiTiet c
                                               INNER JOIN dt.manHinhChiTiet mh
                                               WHERE dt.trangThai = :status
+                                              ORDER BY dt.tenDT
                                                """);
             query.setParameter("status", status);
             dienThoaiResponses = query.getResultList();
