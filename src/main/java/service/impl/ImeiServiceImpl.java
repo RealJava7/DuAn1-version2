@@ -41,4 +41,16 @@ public class ImeiServiceImpl implements ImeiService {
         imeiRepository.deleteImeiWithDienThoaiNull();
     }
 
+    @Override
+    public String delete(ImeiResponse imeiResponse) {
+        boolean deleteResult = imeiRepository.delete(imeiResponse);
+        return deleteResult ? "Xóa thành công!" : "Xóa thất bại!";
+    }
+
+    @Override
+    public String updateImeiStr(ImeiResponse imeiResponse) {
+        boolean updateResult = imeiRepository.updateImeiStr(imeiResponse);
+        return updateResult ? "Sửa thành công!" : "Sửa thất bại!";
+    }
+
 }

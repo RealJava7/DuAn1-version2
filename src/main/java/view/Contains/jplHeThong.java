@@ -29,65 +29,64 @@ public class jplHeThong extends javax.swing.JPanel {
     private QuanLyNhanVienService service;
     private int rowSelected;
     private String strHinhAnh = null;
-    
+
     public jplHeThong() {
         initComponents();
-        
+
         list1 = new ArrayList<>();
-        dtm1= (DefaultTableModel) tbLamViec.getModel();
+        dtm1 = (DefaultTableModel) tbLamViec.getModel();
         dtm2 = (DefaultTableModel) tbNghiViec.getModel();
         dcm1 = (DefaultComboBoxModel) cbLocGioiTinh.getModel();
         dcm2 = (DefaultComboBoxModel) cbLocChucVu.getModel();
         service = new QuanLyNhanVienServiceImpl();
-        
+
         showDataCboLocChucVu();
         showDataCboLocGioiTinh();
-        
+
         list1 = service.getAllLam();
         showDataTblLam(list1);
-        
+
         list2 = service.getAllNghi();
         showDataTblNghi(list2);
-        
-        
+
     }
 
     private void showDataTblLam(List<NhanVienResponse> lists) {
         dtm1.setRowCount(0);
         for (NhanVienResponse nv : lists) {
-            dtm1.addRow(new Object[]{nv.getHoTen(), nv.isGioiTinh()? "Nam" : "Nữ", nv.getSdt(), nv.getNgaySinh(), nv.getDiaChi(), 
-                                    nv.getEmail(),nv.isChucVu()? "Nhân Viên" : "Quản lý", nv.isTrangThai()? "Đang làm việc" : "Nghỉ việc",
-                                    nv.getHinhAnh(), nv.getTaiKhoan(), nv.getMatKhau()});
+            dtm1.addRow(new Object[]{nv.getHoTen(), nv.isGioiTinh() ? "Nam" : "Nữ", nv.getSdt(), nv.getNgaySinh(), nv.getDiaChi(),
+                nv.getEmail(), nv.isChucVu() ? "Nhân Viên" : "Quản lý", nv.isTrangThai() ? "Đang làm việc" : "Nghỉ việc",
+                nv.getHinhAnh(), nv.getTaiKhoan(), nv.getMatKhau()});
         }
     }
-    
+
     private void showDataTblNghi(List<NhanVienResponse> lists) {
         dtm2.setRowCount(0);
         for (NhanVienResponse nv : lists) {
-            dtm2.addRow(new Object[]{nv.getHoTen(), nv.isGioiTinh()? "Nam" : "Nữ", nv.getSdt(), nv.getNgaySinh(), nv.getDiaChi(), 
-                                    nv.getEmail(),nv.isChucVu()? "Nhân Viên" : "Quản lý", nv.isTrangThai()? "Đang làm việc" : "Nghỉ việc",
-                                    nv.getHinhAnh(), nv.getTaiKhoan(), nv.getMatKhau()});
+            dtm2.addRow(new Object[]{nv.getHoTen(), nv.isGioiTinh() ? "Nam" : "Nữ", nv.getSdt(), nv.getNgaySinh(), nv.getDiaChi(),
+                nv.getEmail(), nv.isChucVu() ? "Nhân Viên" : "Quản lý", nv.isTrangThai() ? "Đang làm việc" : "Nghỉ việc",
+                nv.getHinhAnh(), nv.getTaiKhoan(), nv.getMatKhau()});
         }
     }
-    
+
     private void showDataCboLocGioiTinh() {
         String[] gt = {"", "NAM", "NỮ"};
         for (String string : gt) {
             dcm1.addElement(string);
         }
     }
-    
+
     private void showDataCboLocChucVu() {
         String[] gt = {"", "NHÂN VIÊN", "QUẢN LÝ"};
         for (String string : gt) {
             dcm2.addElement(string);
         }
     }
-    
+
     private void showDetail(int rowSelected, List<NhanVienResponse> lists) {
         NhanVienResponse nv = lists.get(rowSelected);
         txtHoTen.setText(nv.getHoTen());
-        if(nv.isGioiTinh()) {
+        if (nv.isGioiTinh()) {
             rdBtnNam.setSelected(true);
         } else {
             rdBtnNu.setSelected(true);
@@ -96,24 +95,24 @@ public class jplHeThong extends javax.swing.JPanel {
         txtNgaySinh.setDate(Date.from(nv.getNgaySinh().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
         txtDiaChi.setText(nv.getDiaChi());
         txtEmail.setText(nv.getEmail());
-        if(nv.isChucVu()) {
+        if (nv.isChucVu()) {
             rdBtnNhanVien.setSelected(true);
         } else {
             rdBtnQuanLy.setSelected(true);
         }
-        if(nv.isTrangThai()) {
+        if (nv.isTrangThai()) {
             rdBtnLamViec.setSelected(true);
         } else {
             rdBtnNghiViec.setSelected(true);
         }
-        ImageIcon icon = new ImageIcon(getClass().getResource("/Icon/" + nv.getHinhAnh()));    
+        ImageIcon icon = new ImageIcon(getClass().getResource("/Icon/" + nv.getHinhAnh()));
         Image newImage = icon.getImage().getScaledInstance(169, 213, Image.SCALE_SMOOTH);
         lbAnh.setIcon(new ImageIcon(newImage));
         strHinhAnh = nv.getHinhAnh();
         txtTaiKhoan.setText(nv.getTaiKhoan());
         txtMatKhau.setText(nv.getMatKhau());
     }
-    
+
     private void clear() {
         txtHoTen.setText("");
         rdBtnNam.setSelected(true);
@@ -127,93 +126,93 @@ public class jplHeThong extends javax.swing.JPanel {
         txtTaiKhoan.setText("");
         txtMatKhau.setText("");
     }
-    
+
     private boolean validated() {
-        if(txtHoTen.getText().trim().isEmpty()) {
+        if (txtHoTen.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Phải điền họ tên");
             return false;
         }
-        if(txtHoTen.getText().trim().matches(".*[0-9].*")) {
+        if (txtHoTen.getText().trim().matches(".*[0-9].*")) {
             JOptionPane.showMessageDialog(this, "Họ tên chỉ chứa chữ");
             return false;
         }
-        if(txtHoTen.getText().trim().length() > 50) {
+        if (txtHoTen.getText().trim().length() > 50) {
             JOptionPane.showMessageDialog(this, "Họ tên không quá 50 kí tự");
             return false;
         }
-        if(txtSdt.getText().trim().isEmpty()) {
+        if (txtSdt.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Phải điền số điện thoại");
             return false;
         }
-        if(!txtSdt.getText().trim().matches("\\d{10}")) {
+        if (!txtSdt.getText().trim().matches("\\d{10}")) {
             JOptionPane.showMessageDialog(this, "Sđt chỉ chứa số và có 10 chữ số");
             return false;
         }
-        if(txtNgaySinh.getDate() == null) {
+        if (txtNgaySinh.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Phải điền ngày sinh");
             return false;
         }
-        if(txtDiaChi.getText().trim().isEmpty()) {
+        if (txtDiaChi.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Phải điền địa chỉ");
             return false;
         }
-        if(txtDiaChi.getText().trim().length() > 128) {
+        if (txtDiaChi.getText().trim().length() > 128) {
             JOptionPane.showMessageDialog(this, "Địa chỉ không quá 128 kí tự");
             return false;
         }
-        if(txtEmail.getText().trim().isEmpty()) {
+        if (txtEmail.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Phải điền email");
             return false;
         }
         String regexEmail = "\\w+@\\w+\\.+\\w+";
-        if(txtEmail.getText().trim().length() > 50) {
+        if (txtEmail.getText().trim().length() > 50) {
             JOptionPane.showMessageDialog(this, "Email không quá 50 kí tự");
             return false;
         }
-        if(strHinhAnh == null) {
+        if (strHinhAnh == null) {
             JOptionPane.showMessageDialog(this, "Phải chọn ảnh");
             return false;
         }
-        if(txtTaiKhoan.getText().trim().isEmpty()) {
+        if (txtTaiKhoan.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Phải điền tài khoản");
             return false;
         }
-        if(txtTaiKhoan.getText().trim().length() > 15) {
+        if (txtTaiKhoan.getText().trim().length() > 15) {
             JOptionPane.showMessageDialog(this, "Tài khoản không quá 15 kí tự");
             return false;
         }
-        if(txtMatKhau.getText().trim().isEmpty()) {
+        if (txtMatKhau.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Phải điền mật khẩu");
             return false;
         }
-        if(txtMatKhau.getText().trim().length() > 50) {
+        if (txtMatKhau.getText().trim().length() > 50) {
             JOptionPane.showMessageDialog(this, "Mật khẩu không quá 50 kí tự");
             return false;
         }
-        
+
         return true;
     }
-    
+
     private NhanVienResponse readForm() {
         Date date1 = txtNgaySinh.getDate();
         LocalDate ld1 = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        return new NhanVienResponse(txtHoTen.getText(), rdBtnNam.isSelected(), txtSdt.getText(), ld1, txtDiaChi.getText(),txtEmail.getText(), 
-                                    rdBtnNhanVien.isSelected(), rdBtnLamViec.isSelected(), strHinhAnh, txtTaiKhoan.getText(), txtMatKhau.getText());
+        return new NhanVienResponse(txtHoTen.getText(), rdBtnNam.isSelected(), txtSdt.getText(), ld1, txtDiaChi.getText(), txtEmail.getText(),
+                rdBtnNhanVien.isSelected(), rdBtnLamViec.isSelected(), strHinhAnh, txtTaiKhoan.getText(), txtMatKhau.getText());
     }
-    
+
     private void chooseImg() {
         JFileChooser chooser = new JFileChooser();
         FileFilter filter = new FileNameExtensionFilter("Tệp JPG", "jpg");
         chooser.setFileFilter(filter);
         int result = chooser.showOpenDialog(null);
-        if(result == JFileChooser.APPROVE_OPTION) {
+        if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = chooser.getSelectedFile();
-            strHinhAnh = selectedFile.getName(); 
+            strHinhAnh = selectedFile.getName();
             ImageIcon icon = new ImageIcon(selectedFile.getPath());
             Image newImage = icon.getImage().getScaledInstance(169, 213, Image.SCALE_SMOOTH);
             lbAnh.setIcon(new ImageIcon(newImage));
         }
-        
+
 //        JFileChooser chooser = new JFileChooser("D:\\NetBeansProjects\\DuAn1\\DuAn1\\src\\main\\resources\\Icon");
 //        JFileChooser chooser = new JFileChooser();
 //        FileFilter filter = new FileNameExtensionFilter("Tệp JPG", "jpg");
@@ -228,8 +227,8 @@ public class jplHeThong extends javax.swing.JPanel {
 //            Image newImage = icon.getImage().getScaledInstance(148, 184, Image.SCALE_SMOOTH);
 //            lbAnh.setIcon(new ImageIcon(newImage));
 //        }
-        
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -880,16 +879,16 @@ public class jplHeThong extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         for (NhanVienResponse nhanVienResponse : service.getAll()) {
-            if(nhanVienResponse.getTaiKhoan().equalsIgnoreCase(txtTaiKhoan.getText())) {
+            if (nhanVienResponse.getTaiKhoan().equalsIgnoreCase(txtTaiKhoan.getText())) {
                 JOptionPane.showMessageDialog(this, "Tài khoản này đã tồn tại");
                 return;
             }
         }
-        if(validated()) {
+        if (validated()) {
             JOptionPane.showMessageDialog(this, service.add(readForm()));
             list1 = service.getAllLam();
             showDataTblLam(list1);
-        
+
             list2 = service.getAllNghi();
             showDataTblNghi(list2);
         }
@@ -898,24 +897,24 @@ public class jplHeThong extends javax.swing.JPanel {
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         rowSelected = tbLamViec.getSelectedRow();
         System.out.println(list1.get(rowSelected).getId());
-        if(rowSelected >= 0) {
+        if (rowSelected >= 0) {
             for (NhanVienResponse nhanVienResponse : service.getAll()) {
-                if(list1.get(rowSelected).getTaiKhoan().equalsIgnoreCase(txtTaiKhoan.getText())) {
+                if (list1.get(rowSelected).getTaiKhoan().equalsIgnoreCase(txtTaiKhoan.getText())) {
                     break;
                 }
-                if(nhanVienResponse.getTaiKhoan().equalsIgnoreCase(txtTaiKhoan.getText())) {
+                if (nhanVienResponse.getTaiKhoan().equalsIgnoreCase(txtTaiKhoan.getText())) {
                     JOptionPane.showMessageDialog(this, "Tài khoản này đã tồn tại");
                     return;
                 }
             }
             int choice = JOptionPane.showConfirmDialog(this, "Confirm", "Bạn có chắc chắn không?", JOptionPane.YES_NO_CANCEL_OPTION);
-            if(choice == 0) {
+            if (choice == 0) {
                 int id = list1.get(rowSelected).getId();
                 JOptionPane.showMessageDialog(this, service.update(readForm(), id));
-                
+
                 list1 = service.getAllLam();
                 showDataTblLam(list1);
-        
+
                 list2 = service.getAllNghi();
                 showDataTblNghi(list2);
             }
@@ -926,14 +925,14 @@ public class jplHeThong extends javax.swing.JPanel {
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         rowSelected = tbLamViec.getSelectedRow();
-        if(rowSelected >= 0) {
+        if (rowSelected >= 0) {
             int choice = JOptionPane.showConfirmDialog(this, "Confirm", "Bạn có chắc chắn không?", JOptionPane.YES_NO_CANCEL_OPTION);
-            if(choice == 0) {
+            if (choice == 0) {
                 JOptionPane.showMessageDialog(this, service.delete(list1.get(rowSelected).getId()));
-                
+
                 list1 = service.getAllLam();
                 showDataTblLam(list1);
-        
+
                 list2 = service.getAllNghi();
                 showDataTblNghi(list2);
             }
@@ -972,14 +971,14 @@ public class jplHeThong extends javax.swing.JPanel {
 
     private void btnKhoiPhucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhoiPhucActionPerformed
         rowSelected = tbNghiViec.getSelectedRow();
-        if(rowSelected >= 0) {
+        if (rowSelected >= 0) {
             int choice = JOptionPane.showConfirmDialog(this, "Confirm", "Bạn có chắc chắn không?", JOptionPane.YES_NO_CANCEL_OPTION);
-            if(choice == 0) {
+            if (choice == 0) {
                 JOptionPane.showMessageDialog(this, service.recover(list2.get(rowSelected).getId()));
-                
+
                 list1 = service.getAllLam();
                 showDataTblLam(list1);
-        
+
                 list2 = service.getAllNghi();
                 showDataTblNghi(list2);
             }
@@ -996,7 +995,7 @@ public class jplHeThong extends javax.swing.JPanel {
     }//GEN-LAST:event_txtTimKiemKeyReleased
 
     private void cbLocGioiTinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbLocGioiTinhActionPerformed
-        if(cbLocGioiTinh.getSelectedIndex() == 0) {
+        if (cbLocGioiTinh.getSelectedIndex() == 0) {
             list1 = service.getAllLam();
             showDataTblLam(list1);
             list2 = service.getAllNghi();
@@ -1004,7 +1003,7 @@ public class jplHeThong extends javax.swing.JPanel {
             return;
         }
         boolean gt = false;
-        if(cbLocGioiTinh.getSelectedItem().toString().equalsIgnoreCase("Nam")) {
+        if (cbLocGioiTinh.getSelectedItem().toString().equalsIgnoreCase("Nam")) {
             gt = true;
         }
         list1 = service.findByGioiTinhNVLam(gt);
@@ -1014,7 +1013,7 @@ public class jplHeThong extends javax.swing.JPanel {
     }//GEN-LAST:event_cbLocGioiTinhActionPerformed
 
     private void cbLocChucVuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbLocChucVuActionPerformed
-        if(cbLocChucVu.getSelectedIndex() == 0) {
+        if (cbLocChucVu.getSelectedIndex() == 0) {
             list1 = service.getAllLam();
             showDataTblLam(list1);
             list2 = service.getAllNghi();
@@ -1022,7 +1021,7 @@ public class jplHeThong extends javax.swing.JPanel {
             return;
         }
         boolean cv = false;
-        if(cbLocChucVu.getSelectedItem().toString().equalsIgnoreCase("Nhân viên")) {
+        if (cbLocChucVu.getSelectedItem().toString().equalsIgnoreCase("Nhân viên")) {
             cv = true;
         }
         list1 = service.findByChucVuNVLam(cv);

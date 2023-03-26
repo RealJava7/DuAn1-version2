@@ -1,10 +1,16 @@
 package view.Contains;
 
+import java.awt.Image;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import model.CameraChiTiet;
 import model.DienThoai;
@@ -64,6 +70,8 @@ public class jplSanPham extends javax.swing.JPanel {
     private List<DienThoaiResponse> activedienThoaiResponseList;
     private List<DienThoaiResponse> inactivedienThoaiResponseList;
 
+    private String imagePath = "";
+
     private static ImeiService imeiService;
     private static DefaultComboBoxModel dcbmImei;
     private static List<ImeiResponse> imeiResponseList;
@@ -106,6 +114,7 @@ public class jplSanPham extends javax.swing.JPanel {
         showComboBoxHang();
         showComboBoxMauSac();
         showComboBoxHeDH();
+
     }
 
     // 1
@@ -187,6 +196,14 @@ public class jplSanPham extends javax.swing.JPanel {
         heDieuHanhList.forEach(hdh -> cbHeDieuHanh.addItem(hdh));
     }
 
+    // 9
+    private void setDefaultImage() {
+        imagePath = "";
+        ImageIcon icon = new ImageIcon(getClass().getResource("/phoneimage/default-thumbnail.jpg"));
+        Image newImage = icon.getImage().getScaledInstance(image.getWidth(), image.getHeight(), Image.SCALE_SMOOTH);
+        image.setIcon(new ImageIcon(newImage));
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -205,7 +222,7 @@ public class jplSanPham extends javax.swing.JPanel {
         tbInactive = new javax.swing.JTable();
         btnKhoiPhuc = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        image = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtMaSanPham = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -223,7 +240,7 @@ public class jplSanPham extends javax.swing.JPanel {
         btnLamMoi = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtMoTa = new javax.swing.JTextArea();
         jPanel4 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -294,6 +311,9 @@ public class jplSanPham extends javax.swing.JPanel {
         tbActive.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbActiveMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tbActiveMouseEntered(evt);
             }
         });
         jScrollPane1.setViewportView(tbActive);
@@ -437,7 +457,12 @@ public class jplSanPham extends javax.swing.JPanel {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        image.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        image.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imageMouseClicked(evt);
+            }
+        });
 
         jLabel2.setText("MÃ ĐIỆN THOẠI:");
 
@@ -484,6 +509,11 @@ public class jplSanPham extends javax.swing.JPanel {
         btnXoa.setForeground(new java.awt.Color(255, 255, 255));
         btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-trash-20.png"))); // NOI18N
         btnXoa.setText("XÓA");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         btnThemImei.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-pencil-20.png"))); // NOI18N
         btnThemImei.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -505,9 +535,9 @@ public class jplSanPham extends javax.swing.JPanel {
 
         jLabel7.setText("GHI CHÚ:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
+        txtMoTa.setColumns(20);
+        txtMoTa.setRows(5);
+        jScrollPane3.setViewportView(txtMoTa);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -515,7 +545,7 @@ public class jplSanPham extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(image, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
@@ -553,7 +583,7 @@ public class jplSanPham extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(11, 11, 11)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(image, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -730,6 +760,11 @@ public class jplSanPham extends javax.swing.JPanel {
         jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder("HỆ ĐIỀU HÀNH"));
 
         cbHeDieuHanh.setModel(new javax.swing.DefaultComboBoxModel<>(new HeDieuHanh[]{}));
+        cbHeDieuHanh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbHeDieuHanhMouseClicked(evt);
+            }
+        });
 
         btnHeDieuHanh.setBackground(new java.awt.Color(47, 85, 212));
         btnHeDieuHanh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-pencil-20 WHITE.png"))); // NOI18N
@@ -870,25 +905,25 @@ public class jplSanPham extends javax.swing.JPanel {
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel16))
                     .addComponent(txtCamChinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel17))
                     .addComponent(txtCamPhu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel18))
                     .addComponent(txtCamGocRong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel19))
@@ -926,23 +961,23 @@ public class jplSanPham extends javax.swing.JPanel {
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel16Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel20))
-                    .addComponent(txtKichThuoc))
+                    .addComponent(txtKichThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel16Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel21))
-                    .addComponent(txtDoPG))
+                    .addComponent(txtDoPG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel16Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel22))
-                    .addComponent(cbLoaiManHinh))
+                    .addComponent(cbLoaiManHinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27))
         );
 
@@ -1065,6 +1100,7 @@ public class jplSanPham extends javax.swing.JPanel {
         txtTenSanPham.setText(dienThoaiResponse.getTenDT());
         txtGiaNhap.setText(String.valueOf(dienThoaiResponse.getGiaNhap()));
         txtGiaBan.setText(String.valueOf(dienThoaiResponse.getGiaBan()));
+        txtMoTa.setText(dienThoaiResponse.getMoTa());
 
         dcbmRam.setSelectedItem(dienThoaiResponse.getRam());
         dcbmRom.setSelectedItem(dienThoaiResponse.getRom());
@@ -1102,6 +1138,10 @@ public class jplSanPham extends javax.swing.JPanel {
 
         dcbmImei.removeAllElements();
         imeiSet.forEach(i -> cbImei.addItem(i.getImei()));
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("/phoneimage/" + dienThoaiResponse.getHinhAnh()));
+        Image newImage = icon.getImage().getScaledInstance(image.getWidth(), image.getHeight(), Image.SCALE_SMOOTH);
+        image.setIcon(new ImageIcon(newImage));
     }//GEN-LAST:event_tbActiveMouseClicked
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
@@ -1109,6 +1149,7 @@ public class jplSanPham extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void lamMoiForm() {
+        setDefaultImage();
         txtMaSanPham.setText("");
         txtTenSanPham.setText("");
         txtGiaNhap.setText("");
@@ -1140,9 +1181,16 @@ public class jplSanPham extends javax.swing.JPanel {
 
         inactivedienThoaiResponseList = dienThoaiService.getAllResponseByStatus(false);
         showInactiveTable(inactivedienThoaiResponseList);
+
+        imeiService.deleteImeiWithDienThoaiNull();
     }
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Thêm điện thoại?", "Xác nhận thêm điện thoại", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+        
         // Camera
         CameraChiTiet cam = new CameraChiTiet();
         String camChinh = txtCamChinh.getText().trim();
@@ -1172,16 +1220,16 @@ public class jplSanPham extends javax.swing.JPanel {
         // Điện thoại
         DienThoai dienThoai = new DienThoai();
 
+        dienThoai.setHinhAnh(imagePath);
         dienThoai.setMaDT(txtMaSanPham.getText().trim());
         dienThoai.setTenDT(txtTenSanPham.getText().trim());
-        dienThoai.setMoTa("Dep");
+        dienThoai.setMoTa(txtMoTa.getText().trim());
         dienThoai.setDungLuongPin(Integer.valueOf(txtPin.getText().trim()));
         dienThoai.setRam(Integer.valueOf(String.valueOf(dcbmRam.getSelectedItem())));
         dienThoai.setRom(Integer.valueOf(String.valueOf(dcbmRom.getSelectedItem())));
         dienThoai.setCpu(txtCpu.getText().trim());
         dienThoai.setGiaNhap(Long.valueOf(txtGiaNhap.getText().trim()));
         dienThoai.setGiaBan(Long.valueOf(txtGiaBan.getText().trim()));
-        dienThoai.setHinhAnh("abc.png");
         dienThoai.setTrangThai(true);
 
         Hang hang = (Hang) dcbmHang.getSelectedItem();
@@ -1238,17 +1286,21 @@ public class jplSanPham extends javax.swing.JPanel {
             imeiResponse.setIdDienThoai(selectedDienThoai.getId());
             imeiService.update(imeiResponse);
         }
+        List<ImeiResponse> imeisWithSpecificDienThoaiId = imeiService.getAllDienThoaiId(selectedDienThoai.getId());
+        selectedDienThoai.setSoLuong(imeisWithSpecificDienThoaiId.size());
 
+        if (!imagePath.equals("")) {
+            selectedDienThoai.setHinhAnh(imagePath);
+        }
         selectedDienThoai.setMaDT(txtMaSanPham.getText().trim());
         selectedDienThoai.setTenDT(txtTenSanPham.getText().trim());
-        selectedDienThoai.setMoTa("Dep");
+        selectedDienThoai.setMoTa(txtMoTa.getText().trim());
         selectedDienThoai.setDungLuongPin(Integer.valueOf(txtPin.getText().trim()));
         selectedDienThoai.setRam(Integer.valueOf(String.valueOf(dcbmRam.getSelectedItem())));
         selectedDienThoai.setRom(Integer.valueOf(String.valueOf(dcbmRom.getSelectedItem())));
         selectedDienThoai.setCpu(txtCpu.getText().trim());
         selectedDienThoai.setGiaNhap(Long.valueOf(txtGiaNhap.getText().trim()));
         selectedDienThoai.setGiaBan(Long.valueOf(txtGiaBan.getText().trim()));
-        selectedDienThoai.setHinhAnh("abc.png");
 
         Hang hang = (Hang) dcbmHang.getSelectedItem();
         DongSanPham dsp = (DongSanPham) dcbmDongSP.getSelectedItem();
@@ -1376,6 +1428,10 @@ public class jplSanPham extends javax.swing.JPanel {
 
         dcbmImei.removeAllElements();
         imeiSet.forEach(i -> cbImei.addItem(i.getImei()));
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("/phoneimage/" + dienThoaiResponse.getHinhAnh()));
+        Image newImage = icon.getImage().getScaledInstance(image.getWidth(), image.getHeight(), Image.SCALE_SMOOTH);
+        image.setIcon(new ImageIcon(newImage));
     }//GEN-LAST:event_tbInactiveMouseClicked
 
     private void btnSapXepGiaTangDanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSapXepGiaTangDanActionPerformed
@@ -1393,6 +1449,35 @@ public class jplSanPham extends javax.swing.JPanel {
         activedienThoaiResponseList = dienThoaiService.searchAllResponseByName(keyword);
         showActiveTable(activedienThoaiResponseList);
     }//GEN-LAST:event_txtSearchByTenCaretUpdate
+
+    private void imageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageMouseClicked
+        JFileChooser chooser = new JFileChooser();
+        FileFilter filter = new FileNameExtensionFilter("Tệp JPG", "jpg");
+        chooser.setFileFilter(filter);
+        int result = chooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = chooser.getSelectedFile();
+            imagePath = selectedFile.getName();
+            System.out.println("Selected image path: " + imagePath);
+
+            // Hiển thị ảnh lên khung
+            ImageIcon icon = new ImageIcon(selectedFile.getPath());
+            Image newImage = icon.getImage().getScaledInstance(image.getWidth(), image.getHeight(), Image.SCALE_SMOOTH);
+            image.setIcon(new ImageIcon(newImage));
+        }
+    }//GEN-LAST:event_imageMouseClicked
+
+    private void tbActiveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbActiveMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbActiveMouseEntered
+
+    private void cbHeDieuHanhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbHeDieuHanhMouseClicked
+        showComboBoxHeDH();
+    }//GEN-LAST:event_cbHeDieuHanhMouseClicked
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnXoaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDongSanPham;
@@ -1415,7 +1500,7 @@ public class jplSanPham extends javax.swing.JPanel {
     private javax.swing.JComboBox<MauSac> cbMauSac;
     private javax.swing.JComboBox<String> cbRam;
     private javax.swing.JComboBox<String> cbRom;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel image;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1451,7 +1536,6 @@ public class jplSanPham extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTable tbActive;
     private javax.swing.JTable tbInactive;
     private javax.swing.JTextField txtCamChinh;
@@ -1464,6 +1548,7 @@ public class jplSanPham extends javax.swing.JPanel {
     private javax.swing.JTextField txtGiaNhap;
     private javax.swing.JTextField txtKichThuoc;
     private javax.swing.JTextField txtMaSanPham;
+    private javax.swing.JTextArea txtMoTa;
     private javax.swing.JTextField txtPin;
     private javax.swing.JTextField txtSearchByTen;
     private javax.swing.JTextField txtTenSanPham;
