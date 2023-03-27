@@ -1,13 +1,24 @@
 package view.Contains;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import view.Contains.tragop.jplFormThanhToan;
 
 public class jplBanHang extends javax.swing.JPanel {
 
     public jplBanHang() {
         initComponents();
+        //khởi tạo giở hàng
         int soDon = jTabbedPane1.getTabCount();
         jTabbedPane1.add(new jplDonHang(++soDon));
+        //Khởi tạo cách thanh toán
+        addFormThanhToan(new jplFormThanhToan());
+    }
+
+    private void addFormThanhToan(JPanel jpl) {
+        jplThanhToanContain.removeAll();
+        jplThanhToanContain.add(jpl);
+        jplThanhToanContain.updateUI();
     }
 
     @SuppressWarnings("unchecked")
@@ -23,9 +34,10 @@ public class jplBanHang extends javax.swing.JPanel {
         jplGioHang = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jplDeXuatSanPham = new javax.swing.JPanel();
-        jplFormThanhToan = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        Jpanel20 = new javax.swing.JPanel();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jplThanhToanContain = new javax.swing.JPanel();
+        jplFormThanhToan1 = new view.Contains.tragop.jplFormThanhToan();
 
         jpnFormBanHang.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -57,7 +69,7 @@ public class jplBanHang extends javax.swing.JPanel {
                 .addGap(8, 8, 8)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnTaoDonHang)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -119,39 +131,45 @@ public class jplBanHang extends javax.swing.JPanel {
             .addGap(0, 197, Short.MAX_VALUE)
         );
 
-        jplFormThanhToan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 290, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 741, Short.MAX_VALUE)
-        );
+        Jpanel20.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jCheckBox1.setText("Trả Góp");
 
-        javax.swing.GroupLayout jplFormThanhToanLayout = new javax.swing.GroupLayout(jplFormThanhToan);
-        jplFormThanhToan.setLayout(jplFormThanhToanLayout);
-        jplFormThanhToanLayout.setHorizontalGroup(
-            jplFormThanhToanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jplFormThanhToanLayout.createSequentialGroup()
+        jplThanhToanContain.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        javax.swing.GroupLayout jplThanhToanContainLayout = new javax.swing.GroupLayout(jplThanhToanContain);
+        jplThanhToanContain.setLayout(jplThanhToanContainLayout);
+        jplThanhToanContainLayout.setHorizontalGroup(
+            jplThanhToanContainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jplThanhToanContainLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jplFormThanhToan1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jplThanhToanContainLayout.setVerticalGroup(
+            jplThanhToanContainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jplThanhToanContainLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jplFormThanhToan1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(176, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout Jpanel20Layout = new javax.swing.GroupLayout(Jpanel20);
+        Jpanel20.setLayout(Jpanel20Layout);
+        Jpanel20Layout.setHorizontalGroup(
+            Jpanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jplThanhToanContain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(Jpanel20Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        jplFormThanhToanLayout.setVerticalGroup(
-            jplFormThanhToanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jplFormThanhToanLayout.createSequentialGroup()
+        Jpanel20Layout.setVerticalGroup(
+            Jpanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Jpanel20Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jCheckBox1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jplThanhToanContain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -163,7 +181,7 @@ public class jplBanHang extends javax.swing.JPanel {
                     .addComponent(jpnFormBanHang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jplDeXuatSanPham, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jplFormThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(Jpanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,7 +189,7 @@ public class jplBanHang extends javax.swing.JPanel {
                 .addComponent(jpnFormBanHang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jplDeXuatSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jplFormThanhToan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Jpanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -196,20 +214,18 @@ public class jplBanHang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnXoaDonHangActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Jpanel20;
     private javax.swing.JButton btnTaoDonHang;
     private javax.swing.JButton btnXoaDonHang;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel jplDeXuatSanPham;
-    private javax.swing.JPanel jplFormThanhToan;
+    private view.Contains.tragop.jplFormThanhToan jplFormThanhToan1;
     private javax.swing.JPanel jplGioHang;
+    private javax.swing.JPanel jplThanhToanContain;
     private javax.swing.JPanel jpnFormBanHang;
     // End of variables declaration//GEN-END:variables
 }
