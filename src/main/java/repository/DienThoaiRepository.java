@@ -63,6 +63,25 @@ public class DienThoaiRepository {
         }
         return dienThoaiResponses;
     }
+    //2.1 get Sản phẩm hết hàng
+
+    public List<DienThoaiResponse> get5SanPhamHetHang() {
+        List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.DienThoaiResponse
+                                              ( dt.maDT, dt.tenDT, dt.soLuong)
+                                              FROM DienThoai dt Where dt.soLuong <= 5
+                                               """);
+
+            dienThoaiResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return dienThoaiResponses;
+    }
 
     // 3. get by id
     public static DienThoai getById(int id) {

@@ -7,34 +7,53 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import service.DienThoaiService;
 import service.KhachHangService;
+import service.impl.DienThoaiServiceImpl;
 import service.impl.KhachHangServiceImpl;
+import viewmodel.DienThoaiResponse;
 import viewmodel.KhachHangResponse;
 
 public class jplTrangChu extends javax.swing.JPanel {
 
-    private List<KhachHangResponse> listKhachHang = new ArrayList<>();
-    private KhachHangService service;
-    private DefaultTableModel dtm;
+    private List<KhachHangResponse> listKhachHang;
+    private List<DienThoaiResponse> listDienThoai;
+    private DienThoaiService serviceDT;
+    private KhachHangService serviceKH;
+    private DefaultTableModel dtmKH;
+    private DefaultTableModel dtmSPHetHang;
 
     public jplTrangChu() {
         initComponents();
-        dtm = (DefaultTableModel) tblTopKhachHang.getModel();
-        service = new KhachHangServiceImpl();
-        listKhachHang = service.getTop3KhachHang();
+        dtmKH = (DefaultTableModel) tblTopKhachHang.getModel();
+        dtmSPHetHang = (DefaultTableModel) tblHetHang.getModel();
+        serviceDT = new DienThoaiServiceImpl();
+        serviceKH = new KhachHangServiceImpl();
+        listDienThoai = serviceDT.getSanPhamHetHang();
+        listKhachHang = serviceKH.getTop3KhachHang();
         viewTable();
         showData(listKhachHang);
+        showDataSPHetHang(listDienThoai);
     }
 
     private void showData(List<KhachHangResponse> lists) {
-        dtm.setRowCount(0);
+        dtmKH.setRowCount(0);
         int i = 1;
         for (KhachHangResponse s : lists) {
-            dtm.addRow(new Object[]{
+            dtmKH.addRow(new Object[]{
                 i, s.getHoTen(), s.getSoDiem()
 
             });
             i++;
+        }
+    }
+
+    private void showDataSPHetHang(List<DienThoaiResponse> list) {
+        dtmSPHetHang.setRowCount(0);
+        for (DienThoaiResponse s : list) {
+            dtmSPHetHang.addRow(new Object[]{
+                s.getMaDT(), s.getTenDT(), s.getSoLuong()
+            });
         }
     }
 
@@ -362,6 +381,7 @@ public class jplTrangChu extends javax.swing.JPanel {
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-sold-out-30.png"))); // NOI18N
         jLabel15.setText("HẾT HÀNG");
 
+        tblHetHang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblHetHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -370,7 +390,7 @@ public class jplTrangChu extends javax.swing.JPanel {
                 {null, null, null}
             },
             new String [] {
-                "ID", "TÊN SẢN PHẨM", "SỐ LƯỢNG"
+                "MÃ ĐT", "TÊN SẢN PHẨM", "SỐ LƯỢNG"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -382,6 +402,7 @@ public class jplTrangChu extends javax.swing.JPanel {
             }
         });
         tblHetHang.setGridColor(new java.awt.Color(204, 204, 204));
+        tblHetHang.setRowHeight(25);
         jScrollPane3.setViewportView(tblHetHang);
         if (tblHetHang.getColumnModel().getColumnCount() > 0) {
             tblHetHang.getColumnModel().getColumn(0).setPreferredWidth(0);

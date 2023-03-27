@@ -49,4 +49,9 @@ public class DienThoaiServiceImpl implements DienThoaiService {
         return dienThoaiRepository.searchAllResponseByName(keyword);
     }
 
+    @Override
+    public List<DienThoaiResponse> getSanPhamHetHang() {
+        return dienThoaiRepository.get5SanPhamHetHang();
+    }
+
 }
