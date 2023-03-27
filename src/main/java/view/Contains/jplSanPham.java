@@ -9,6 +9,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -48,7 +50,6 @@ import viewmodel.ImeiResponse;
 
 public class jplSanPham extends javax.swing.JPanel {
 
-//    public static int numberOfImei = 0;
     private DefaultTableModel dtmActive;
     private DefaultTableModel dtmInactive;
 
@@ -304,6 +305,11 @@ public class jplSanPham extends javax.swing.JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
 
         jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
 
         txtTimKiemTen.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -938,7 +944,7 @@ public class jplSanPham extends javax.swing.JPanel {
                     .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCamChinh, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                    .addComponent(txtCamChinh)
                     .addComponent(txtCamPhu)
                     .addComponent(txtCamGocRong)
                     .addComponent(txtCamTele))
@@ -999,6 +1005,12 @@ public class jplSanPham extends javax.swing.JPanel {
 
         jLabel22.setText("LOẠI MÀN HÌNH:");
 
+        txtDoPG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDoPGActionPerformed(evt);
+            }
+        });
+
         jLabel25.setText("(inches)");
 
         jLabel26.setText("(px)");
@@ -1008,50 +1020,48 @@ public class jplSanPham extends javax.swing.JPanel {
         jPanel16Layout.setHorizontalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel16Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel21, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel21)
+                            .addComponent(jLabel20))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtKichThuoc)
+                            .addComponent(txtDoPG))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel25)
+                            .addComponent(jLabel26)))
                     .addGroup(jPanel16Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel22)))
-                .addGap(10, 10, 10)
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtKichThuoc)
-                    .addComponent(txtDoPG)
-                    .addComponent(cbLoaiManHinh, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel25)
-                    .addComponent(jLabel26))
-                .addGap(0, 0, 0))
+                        .addComponent(jLabel22)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbLoaiManHinh, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(51, 51, 51))))
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel16Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel20))
-                    .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtKichThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel25)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel16Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel21))
-                    .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtDoPG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel26)))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbLoaiManHinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel22))
-                .addGap(27, 27, 27))
+                    .addComponent(txtKichThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel25)
+                    .addComponent(jLabel20))
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel16Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel21)
+                        .addGap(17, 17, 17)
+                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel22)
+                            .addComponent(cbLoaiManHinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel16Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtDoPG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel26))))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -1178,6 +1188,7 @@ public class jplSanPham extends javax.swing.JPanel {
         }
         DienThoaiResponse dienThoaiResponse = activedienThoaiResponseList.get(clickedRow);
 
+        imagePath = dienThoaiResponse.getHinhAnh();
         txtMaSanPham.setText(dienThoaiResponse.getMaDT());
         txtTenSanPham.setText(dienThoaiResponse.getTenDT());
         txtGiaNhap.setText(String.valueOf(dienThoaiResponse.getGiaNhap()));
@@ -1190,10 +1201,29 @@ public class jplSanPham extends javax.swing.JPanel {
         txtPin.setText(String.valueOf(dienThoaiResponse.getDungLuongPin()));
         txtCpu.setText(dienThoaiResponse.getCpu());
 
-        txtCamChinh.setText(String.valueOf(dienThoaiResponse.getCameraChinh()));
-        txtCamPhu.setText(String.valueOf(dienThoaiResponse.getCameraPhu()));
-        txtCamGocRong.setText(String.valueOf(dienThoaiResponse.getCameraGocRong()));
-        txtCamTele.setText(String.valueOf(dienThoaiResponse.getCameraTele()));
+        if (dienThoaiResponse.getCameraChinh() > 0) {
+            txtCamChinh.setText(String.valueOf(dienThoaiResponse.getCameraChinh()));
+        } else {
+            txtCamChinh.setText("không có");
+        }
+
+        if (dienThoaiResponse.getCameraPhu() > 0) {
+            txtCamPhu.setText(String.valueOf(dienThoaiResponse.getCameraPhu()));
+        } else {
+            txtCamPhu.setText("không có");
+        }
+
+        if (dienThoaiResponse.getCameraGocRong() > 0) {
+            txtCamGocRong.setText(String.valueOf(dienThoaiResponse.getCameraGocRong()));
+        } else {
+            txtCamGocRong.setText("không có");
+        }
+
+        if (dienThoaiResponse.getCameraTele() > 0) {
+            txtCamTele.setText(String.valueOf(dienThoaiResponse.getCameraTele()));
+        } else {
+            txtCamTele.setText("không có");
+        }
 
         txtKichThuoc.setText(String.valueOf(dienThoaiResponse.getKichThuoc()));
         txtDoPG.setText(dienThoaiResponse.getDoPhanGiai());
@@ -1215,12 +1245,14 @@ public class jplSanPham extends javax.swing.JPanel {
         HeDieuHanh hdh = HeDieuHanhRepository.getByTen(tenHeDH);
         dcbmHDH.setSelectedItem(hdh);
 
+        // imeis
         DienThoai dienThoai = DienThoaiRepository.getById(dienThoaiResponse.getId());
         Set<Imei> imeiSet = dienThoai.getImeis();
 
         dcbmImei.removeAllElements();
         imeiSet.forEach(i -> cbImei.addItem(i.getImei()));
 
+        // hình ảnh
         ImageIcon icon = new ImageIcon(getClass().getResource("/phoneimage/" + dienThoaiResponse.getHinhAnh()));
         Image newImage = icon.getImage().getScaledInstance(image.getWidth(), image.getHeight(), Image.SCALE_SMOOTH);
         image.setIcon(new ImageIcon(newImage));
@@ -1268,9 +1300,185 @@ public class jplSanPham extends javax.swing.JPanel {
         imeiService.deleteImeiWithDienThoaiNull();
     }
 
+    private String checkInput(int id) {
+        String message = "";
+
+        // hình ảnh
+        if (imagePath.isBlank()) {
+            message += "Hình ảnh điện thoại không được để trống\n";
+        }
+
+        // mã điện thoại
+        String maDT = txtMaSanPham.getText().trim();
+        if (maDT.isBlank()) {
+            message += "Mã điện thoại không được để trống\n";
+        } else {
+
+            // Check unique maDienThoai
+            DienThoai dienThoai = dienThoaiService.getByMaDT(maDT);
+            if (dienThoai != null) {
+                if (id == 0) {
+                    message += "Mã điện thoại đã bị trùng";
+                    if (!dienThoai.isTrangThai()) {
+                        message += " (trong mục đã xóa)";
+                    } else {
+                        message += "\n";
+                    }
+                } else if (id > 0) {
+                    if (dienThoai.getId() != id) {
+                        message += "Mã điện thoại đã bị trùng";
+                        if (!dienThoai.isTrangThai()) {
+                            message += " (trong mục đã xóa)";
+                        } else {
+                            message += "\n";
+                        }
+                    }
+                }
+            }
+
+            // Check pattern
+            String pattern = "[a-zA-Z0-9]{1,30}";
+            if (!maDT.matches(pattern)) {
+                message += "Mã điện thoại không đúng định dạng!\n";
+            }
+        }
+
+        // tên điện thoại
+        String tenDT = txtTenSanPham.getText().trim();
+        if (tenDT.isBlank()) {
+            message += "Tên điện thoại không được để trống\n";
+        } else {
+            String pattern = "[a-zA-Z0-9 ]{1,128}";
+            if (tenDT.length() > 128) {
+                message += "Tên điện thoại không đúng định dạng\n";
+            }
+        }
+
+        // giá nhập
+        String giaNhap = txtGiaNhap.getText().trim();
+        if (giaNhap.isBlank()) {
+            message += "Giá nhập không được để trống\n";
+        } else {
+            String pattern = "[1-9][0-9]*";
+            if (!giaNhap.matches(pattern)) {
+                message += "Giá nhập không đúng định dạng\n";
+            }
+        }
+
+        // giá bán
+        String giaBan = txtGiaBan.getText().trim();
+        if (giaBan.isBlank()) {
+            message += "Giá bán không được để trống\n";
+        } else {
+            String pattern = "[1-9][0-9]*";
+            if (!giaBan.matches(pattern)) {
+                message += "Giá bán không đúng định dạng\n";
+            }
+        }
+
+        // pin
+        String pin = txtPin.getText().trim();
+        if (pin.isBlank()) {
+            message += "Dung lượng Pin không được để trống\n";
+        } else {
+            String pattern = "[1-9][0-9]*";
+            if (!pin.matches(pattern)) {
+                message += "Dung lượng Pin không đúng định dạng\n";
+            }
+        }
+
+        // cpu
+        String cpu = txtCpu.getText().trim();
+        if (cpu.isBlank()) {
+            message += "CPU không được để trống\n";
+        } else {
+            String pattern = "[a-zA-Z0-9() ]{1,64}";
+            if (!cpu.matches(pattern)) {
+                message += "CPU không đúng định dạng\n";
+            }
+        }
+
+        // camera chính
+        String camChinh = txtCamChinh.getText().trim();
+        if (camChinh.equals("không có")) {
+            camChinh = "";
+        }
+        if (!camChinh.isBlank()) {
+            String pattern = "[1-9][0-9]*";
+            if (!camChinh.matches(pattern)) {
+                message += "Camera chính không đúng định dạng\n";
+            }
+        }
+
+        // camera phụ
+        String camPhu = txtCamPhu.getText().trim();
+        if (camPhu.equals("không có")) {
+            camPhu = "";
+        }
+        if (!camPhu.isBlank()) {
+            String pattern = "[1-9][0-9]*";
+            if (!camPhu.matches(pattern)) {
+                message += "Camera phụ không đúng định dạng\n";
+            }
+        }
+
+        // camera góc rộng
+        String camGocRong = txtCamGocRong.getText().trim();
+        if (camGocRong.equals("không có")) {
+            camGocRong = "";
+        }
+        if (!camGocRong.isBlank()) {
+            String pattern = "[1-9][0-9]*";
+            if (!camGocRong.matches(pattern)) {
+                message += "Camera góc rộng không đúng định dạng\n";
+            }
+        }
+
+        // camera tele
+        String camTele = txtCamTele.getText().trim();
+        if (camTele.equals("không có")) {
+            camTele = "";
+        }
+        if (!camTele.isBlank()) {
+            String pattern = "[1-9][0-9]*";
+            if (!camTele.matches(pattern)) {
+                message += "Camera tele không đúng định dạng\n";
+            }
+        }
+
+        // kích thước
+        String kichThuoc = txtKichThuoc.getText().trim();
+        if (kichThuoc.isBlank()) {
+            message += "Kích thước màn hình không được để trống\n";
+        } else {
+            String pattern = "[1-9][0-9]*[ ]*[.][ ]*[1-9][0-9]*";
+            if (!kichThuoc.matches(pattern)) {
+                message += "Kích thước màn hình không đúng định dạng\n";
+            }
+        }
+
+        // độ phân giải
+        String doPhanGiai = txtDoPG.getText().trim();
+        if (doPhanGiai.isBlank()) {
+            message += "Độ phân giải màn hình không được để trống\n";
+        } else {
+            String pattern = "[1-9][0-9]*[ ]*[x][ ]*[1-9][0-9]*";
+            if (!doPhanGiai.matches(pattern)) {
+                message += "Độ phân giải màn hình không đúng định dạng\n";
+            }
+        }
+        return message;
+    }
+
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         int confirm = JOptionPane.showConfirmDialog(this, "Thêm điện thoại?", "Xác nhận thêm điện thoại", JOptionPane.YES_NO_OPTION);
         if (confirm != 0) {
+            return;
+        }
+
+        String checkResult = checkInput(0);
+        if (!checkResult.equals("")) {
+            JOptionPane.showMessageDialog(this, checkResult);
             return;
         }
 
@@ -1281,17 +1489,38 @@ public class jplSanPham extends javax.swing.JPanel {
         String camTele = txtCamTele.getText().trim();
         String camGocRong = txtCamGocRong.getText().trim();
 
+        if (camChinh.equals("không có")) {
+            camChinh = "";
+        }
+        if (camPhu.equals("không có")) {
+            camPhu = "";
+        }
+        if (camTele.equals("không có")) {
+            camTele = "";
+        }
+        if (camGocRong.equals("không có")) {
+            camGocRong = "";
+        }
+
         if (!camChinh.isBlank()) {
             cam.setCameraChinh(Integer.valueOf(camChinh));
+        } else {
+            cam.setCameraChinh(0);
         }
         if (!camPhu.isBlank()) {
             cam.setCameraPhu(Integer.valueOf(camPhu));
+        } else {
+            cam.setCameraPhu(0);
         }
         if (!camTele.isBlank()) {
             cam.setCameraTele(Integer.valueOf(camTele));
+        } else {
+            cam.setCameraTele(0);
         }
         if (!camGocRong.isBlank()) {
             cam.setCameraGocRong(Integer.valueOf(camGocRong));
+        } else {
+            cam.setCameraGocRong(0);
         }
 
         // Màn hình
@@ -1363,6 +1592,12 @@ public class jplSanPham extends javax.swing.JPanel {
 
         DienThoaiResponse selectedDienThoai = activedienThoaiResponseList.get(clickedRow);
 
+        String checkResult = checkInput(selectedDienThoai.getId());
+        if (!checkResult.equals("")) {
+            JOptionPane.showMessageDialog(this, checkResult);
+            return;
+        }
+
         // xử lý imei mới
         List<ImeiResponse> noneDienThoaiImeis = imeiService.getAllNoneDienThoaiImei();
         for (ImeiResponse imeiResponse : noneDienThoaiImeis) {
@@ -1402,15 +1637,27 @@ public class jplSanPham extends javax.swing.JPanel {
         String camGocRong = txtCamGocRong.getText().trim();
 
         if (!camChinh.isBlank()) {
+            if (camChinh.equals("không có")) {
+                camChinh = "0";
+            }
             selectedDienThoai.setCameraChinh(Integer.valueOf(camChinh));
         }
         if (!camPhu.isBlank()) {
+            if (camPhu.equals("không có")) {
+                camPhu = "0";
+            }
             selectedDienThoai.setCameraPhu(Integer.valueOf(camPhu));
         }
         if (!camTele.isBlank()) {
+            if (camTele.equals("không có")) {
+                camTele = "0";
+            }
             selectedDienThoai.setCameraTele(Integer.valueOf(camTele));
         }
         if (!camGocRong.isBlank()) {
+            if (camGocRong.equals("không có")) {
+                camGocRong = "0";
+            }
             selectedDienThoai.setCameraGocRong(Integer.valueOf(camGocRong));
         }
 
@@ -1558,8 +1805,48 @@ public class jplSanPham extends javax.swing.JPanel {
     }//GEN-LAST:event_cbHeDieuHanhMouseClicked
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        // TODO add your handling code here:
+        int confirm = JOptionPane.showConfirmDialog(this, "Xóa điện thoại?", "Xác nhận xóa điện thoại", JOptionPane.YES_NO_OPTION);
+        if (confirm != 0) {
+            return;
+        }
+
+        int clickedRow = tbActive.getSelectedRow();
+        if (clickedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn điện thoại trước khi xóa!");
+            return;
+        }
+        DienThoaiResponse selectedDTResponse = activedienThoaiResponseList.get(clickedRow);
+        String deleteResult = dienThoaiService.changeStatus(selectedDTResponse, false);
+        JOptionPane.showMessageDialog(this, deleteResult);
+
+        lamMoiForm();
     }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        jTabbedPane1.getModel().addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int index = jTabbedPane1.getSelectedIndex();
+                System.out.println(index);
+                if (index == 0) {
+                    setButtons(true);
+                } else {
+                    setButtons(false);
+                }
+            }
+        });
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void txtDoPGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDoPGActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDoPGActionPerformed
+
+    private void setButtons(boolean boo) {
+        btnLamMoi.setEnabled(boo);
+        btnThem.setEnabled(boo);
+        btnSua.setEnabled(boo);
+        btnXoa.setEnabled(boo);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDongSanPham;
