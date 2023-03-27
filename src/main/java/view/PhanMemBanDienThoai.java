@@ -495,8 +495,8 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
     }//GEN-LAST:event_lblSanPhamMouseClicked
 
     private void lblBanHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBanHangMouseClicked
-//        panel = new jplBanHang();
-        panel = new ViewTraGopForm();
+        panel = new jplBanHang();
+//        panel = new ViewTraGopForm();
         setPanel(panel);
     }//GEN-LAST:event_lblBanHangMouseClicked
 
