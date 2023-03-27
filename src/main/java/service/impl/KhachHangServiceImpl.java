@@ -52,8 +52,8 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
-    public List<KhachHangResponse> findByMa(int id) {
-        return repo.findByMa(id);
+    public List<KhachHangResponse> findByMa(String maThe) {
+        return repo.findByMa(maThe);
 
     }
 
@@ -78,6 +78,11 @@ public class KhachHangServiceImpl implements KhachHangService {
             return "Sửa thành công";
         }
         return "Sửa thất bại";
+    }
+
+    @Override
+    public List<KhachHangResponse> getTop3KhachHang() {
+        return repo.getTop3();
     }
 
 }

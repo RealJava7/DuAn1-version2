@@ -254,18 +254,36 @@ public class KhachHangRepository {
         }
         return lists;
     }
-// find by Mã Tích Điểm
 
-    public static List<KhachHangResponse> findByMa(int id) {
+    // getTop 3 khách hàng
+    public List<KhachHangResponse> getTop3() {
+        List<KhachHangResponse> lists = new ArrayList<>();
+        try (Session session = HibernateUtil.getFACTORY().openSession()) {
+            String hql = """
+                        SELECT new viewmodel.KhachHangResponse(kh.hoTen,ttd.id, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
+                                                                       FROM KhachHang kh
+                                                                       INNER JOIN kh.theTichDiem ttd Order by ttd.soDiem DESC
+                         """;
+            Query query = session.createQuery(hql);
+            query.setMaxResults(5);
+            lists = query.getResultList();
+        }
+        return lists;
+    }
+
+// find by Mã Tích Điểm
+    public static List<KhachHangResponse> findByMa(String maThe) {
         List<KhachHangResponse> khachHangResponses = new ArrayList<>();
 
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
-                         SELECT new viewmodel.KhachHangResponse(kh.id,kh.maThe,kh.ngayKichHoat,kh.soDiem,kh.trangThai) FROM TheTichDiem kh WHERE kh.id = :id
+                         SELECT new viewmodel.KhachHangResponse(kh.hoTen,ttd.id, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
+                                                                                                FROM KhachHang kh
+                                                                                                INNER JOIN kh.theTichDiem ttd Where ttd.maThe like :maThe
                          """);
 
-            query.setParameter("id", id);
+            query.setParameter("maThe", maThe + "%");
             khachHangResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);

@@ -1,9 +1,54 @@
 package view.Contains;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import service.KhachHangService;
+import service.impl.KhachHangServiceImpl;
+import viewmodel.KhachHangResponse;
+
 public class jplTrangChu extends javax.swing.JPanel {
+
+    private List<KhachHangResponse> listKhachHang = new ArrayList<>();
+    private KhachHangService service;
+    private DefaultTableModel dtm;
 
     public jplTrangChu() {
         initComponents();
+        dtm = (DefaultTableModel) tblTopKhachHang.getModel();
+        service = new KhachHangServiceImpl();
+        listKhachHang = service.getTop3KhachHang();
+        viewTable();
+        showData(listKhachHang);
+    }
+
+    private void showData(List<KhachHangResponse> lists) {
+        dtm.setRowCount(0);
+        int i = 1;
+        for (KhachHangResponse s : lists) {
+            dtm.addRow(new Object[]{
+                i, s.getHoTen(), s.getSoDiem()
+
+            });
+            i++;
+        }
+    }
+
+    private void setMau(JTable tb) {
+        JTableHeader tbHead = tb.getTableHeader();
+        tbHead.setFont(new Font("tahoma", Font.BOLD, 15));
+        tbHead.setBackground(new Color(47, 85, 212));
+        tbHead.setForeground(Color.white);
+    }
+
+    private void viewTable() {
+        setMau(tblSanPhamBanChay);
+        setMau(tblHetHang);
+        setMau(tblTopKhachHang);
     }
 
     @SuppressWarnings("unchecked")
@@ -33,29 +78,31 @@ public class jplTrangChu extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel14 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblSanPhamBanChay = new javax.swing.JTable();
         jPanel8 = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel15 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tblHetHang = new javax.swing.JTable();
         jPanel9 = new javax.swing.JPanel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel16 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblTopKhachHang = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel1.setBackground(new java.awt.Color(246, 246, 246));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(102, 102, 102));
         jLabel1.setText("KẾT QUẢ KINH DOANH TRONG NGÀY");
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new java.awt.GridLayout(1, 4, 10, 10));
 
-        jPanel3.setBackground(new java.awt.Color(246, 246, 246));
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 1, new java.awt.Color(204, 204, 204)));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Doanh thu.png"))); // NOI18N
@@ -78,7 +125,7 @@ public class jplTrangChu extends javax.swing.JPanel {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -96,7 +143,7 @@ public class jplTrangChu extends javax.swing.JPanel {
 
         jPanel2.add(jPanel3);
 
-        jPanel4.setBackground(new java.awt.Color(246, 246, 246));
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 3, new java.awt.Color(204, 204, 204)));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -118,7 +165,7 @@ public class jplTrangChu extends javax.swing.JPanel {
                 .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(24, 24, 24)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -139,7 +186,7 @@ public class jplTrangChu extends javax.swing.JPanel {
 
         jPanel2.add(jPanel4);
 
-        jPanel5.setBackground(new java.awt.Color(246, 246, 246));
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 0, 3, new java.awt.Color(204, 204, 204)));
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/baohanh.png"))); // NOI18N
@@ -161,7 +208,7 @@ public class jplTrangChu extends javax.swing.JPanel {
                 .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(24, 24, 24)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -182,7 +229,7 @@ public class jplTrangChu extends javax.swing.JPanel {
 
         jPanel2.add(jPanel5);
 
-        jPanel6.setBackground(new java.awt.Color(246, 246, 246));
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/donhuy.png"))); // NOI18N
 
@@ -232,7 +279,7 @@ public class jplTrangChu extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 911, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -245,15 +292,15 @@ public class jplTrangChu extends javax.swing.JPanel {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jPanel7.setBackground(new java.awt.Color(246, 246, 246));
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(102, 102, 102));
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-total-sales-30.png"))); // NOI18N
-        jLabel14.setText("TOP SẢN PHẨM BÁN CHẠY");
+        jLabel14.setText("TOP 5 SẢN PHẨM BÁN CHẠY");
 
-        jTable1.setBackground(new java.awt.Color(246, 246, 246));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblSanPhamBanChay.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -272,12 +319,12 @@ public class jplTrangChu extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setGridColor(new java.awt.Color(204, 204, 204));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(0);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(150);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(50);
+        tblSanPhamBanChay.setGridColor(new java.awt.Color(204, 204, 204));
+        jScrollPane1.setViewportView(tblSanPhamBanChay);
+        if (tblSanPhamBanChay.getColumnModel().getColumnCount() > 0) {
+            tblSanPhamBanChay.getColumnModel().getColumn(0).setPreferredWidth(0);
+            tblSanPhamBanChay.getColumnModel().getColumn(1).setPreferredWidth(150);
+            tblSanPhamBanChay.getColumnModel().getColumn(2).setPreferredWidth(50);
         }
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -288,9 +335,12 @@ public class jplTrangChu extends javax.swing.JPanel {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(15, 15, 15))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
+                        .addGap(15, 15, 15))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -304,13 +354,15 @@ public class jplTrangChu extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(102, 102, 102));
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-sold-out-30.png"))); // NOI18N
         jLabel15.setText("HẾT HÀNG");
 
-        jTable3.setBackground(new java.awt.Color(246, 246, 246));
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tblHetHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -318,7 +370,7 @@ public class jplTrangChu extends javax.swing.JPanel {
                 {null, null, null}
             },
             new String [] {
-                "TOP", "TÊN SẢN PHẨM", "SỐ LƯỢNG BÁN"
+                "ID", "TÊN SẢN PHẨM", "SỐ LƯỢNG"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -329,12 +381,12 @@ public class jplTrangChu extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jTable3.setGridColor(new java.awt.Color(204, 204, 204));
-        jScrollPane3.setViewportView(jTable3);
-        if (jTable3.getColumnModel().getColumnCount() > 0) {
-            jTable3.getColumnModel().getColumn(0).setPreferredWidth(0);
-            jTable3.getColumnModel().getColumn(1).setPreferredWidth(150);
-            jTable3.getColumnModel().getColumn(2).setPreferredWidth(50);
+        tblHetHang.setGridColor(new java.awt.Color(204, 204, 204));
+        jScrollPane3.setViewportView(tblHetHang);
+        if (tblHetHang.getColumnModel().getColumnCount() > 0) {
+            tblHetHang.getColumnModel().getColumn(0).setPreferredWidth(0);
+            tblHetHang.getColumnModel().getColumn(1).setPreferredWidth(150);
+            tblHetHang.getColumnModel().getColumn(2).setPreferredWidth(50);
         }
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -359,7 +411,7 @@ public class jplTrangChu extends javax.swing.JPanel {
                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(153, Short.MAX_VALUE))
+                .addContainerGap(141, Short.MAX_VALUE))
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                     .addGap(53, 53, 53)
@@ -367,13 +419,16 @@ public class jplTrangChu extends javax.swing.JPanel {
                     .addContainerGap()))
         );
 
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(102, 102, 102));
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-warranty-30.png"))); // NOI18N
         jLabel16.setText("TOP 3 KHÁCH HÀNG");
 
-        jTable2.setBackground(new java.awt.Color(246, 246, 246));
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblTopKhachHang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tblTopKhachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -381,7 +436,7 @@ public class jplTrangChu extends javax.swing.JPanel {
                 {null, null, null}
             },
             new String [] {
-                "TOP", "TÊN SẢN PHẨM", "SỐ LƯỢNG BÁN"
+                "STT", "TÊN KHÁCH HÀNG", "ĐIỂM"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -392,12 +447,13 @@ public class jplTrangChu extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.setGridColor(new java.awt.Color(204, 204, 204));
-        jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setPreferredWidth(0);
-            jTable2.getColumnModel().getColumn(1).setPreferredWidth(150);
-            jTable2.getColumnModel().getColumn(2).setPreferredWidth(50);
+        tblTopKhachHang.setGridColor(new java.awt.Color(204, 204, 204));
+        tblTopKhachHang.setRowHeight(29);
+        jScrollPane2.setViewportView(tblTopKhachHang);
+        if (tblTopKhachHang.getColumnModel().getColumnCount() > 0) {
+            tblTopKhachHang.getColumnModel().getColumn(0).setPreferredWidth(0);
+            tblTopKhachHang.getColumnModel().getColumn(1).setPreferredWidth(150);
+            tblTopKhachHang.getColumnModel().getColumn(2).setPreferredWidth(50);
         }
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
@@ -411,7 +467,7 @@ public class jplTrangChu extends javax.swing.JPanel {
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -490,8 +546,8 @@ public class jplTrangChu extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
+    private javax.swing.JTable tblHetHang;
+    private javax.swing.JTable tblSanPhamBanChay;
+    private javax.swing.JTable tblTopKhachHang;
     // End of variables declaration//GEN-END:variables
 }

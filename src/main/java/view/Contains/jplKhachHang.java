@@ -104,8 +104,7 @@ public class jplKhachHang extends javax.swing.JPanel {
 
     public KhachHang getData() {
         TheTichDiem theTichDiem = new TheTichDiem();
-
-        theTichDiem.setMaThe(txtMathe.getText().trim());
+        theTichDiem.setMaThe(generateRandomNumericString(STRING_LENGTH));
         theTichDiem.setNgayKichHoat(LocalDate.now());
         theTichDiem.setSoDiem(0);
         theTichDiem.setTrangThai(true);
@@ -188,41 +187,41 @@ public class jplKhachHang extends javax.swing.JPanel {
             sb.append("Không để trống Địa Chỉ\n");
         }
         if (cldNgaySinh.getDate() == null) {
-            System.out.println("ALo");
+
             sb.append("Không để trống Ngày Sinh\n");
         }
         KhachHangResponse khId = service.getKhachHangByMaThe(maThe);
-        if (txtMathe.getText().isBlank()) {
-            sb.append("Không để trống thẻ tích điểm");
-        } else if (khId != null) {
-            if (id == 0) {
-                String str = "Mã Thẻ đã tồn tại\n";
-
-                if (khId.getTrangThai() == 0) {
-                    str = str + " trong phần đã xóa\n";
-                }
-                sb.append(str);
-            } else if (id > 0) {
-
-                String str = "";
-                for (KhachHangResponse s : listKhachHang) {
-                    if (s.getId() != id) {
-
-                        if (txtMathe.getText().trim().toLowerCase().equals(s.getMaThe().toLowerCase()) == true) {
-
-                            str = "Mã Thẻ đã tồn tại\n";
-                            if (s.getTrangThai() == 0) {
-                                str = str + " trong phần đã xóa\n";
-                            }
-                            sb.append(str);
-                            break;
-                        }
-                    }
-                }
-
-            }
-
-        }
+//        if (txtMathe.getText().isBlank()) {
+//            sb.append("Không để trống thẻ tích điểm");
+//        } else if (khId != null) {
+//            if (id == 0) {
+//                String str = "Mã Thẻ đã tồn tại\n";
+//
+//                if (khId.getTrangThai() == 0) {
+//                    str = str + " trong phần đã xóa\n";
+//                }
+//                sb.append(str);
+//            } else if (id > 0) {
+//
+//                String str = "";
+//                for (KhachHangResponse s : listKhachHang) {
+//                    if (s.getId() != id) {
+//
+//                        if (txtMathe.getText().trim().toLowerCase().equals(s.getMaThe().toLowerCase()) == true) {
+//
+//                            str = "Mã Thẻ đã tồn tại\n";
+//                            if (s.getTrangThai() == 0) {
+//                                str = str + " trong phần đã xóa\n";
+//                            }
+//                            sb.append(str);
+//                            break;
+//                        }
+//                    }
+//                }
+//
+//            }
+//
+//        }
         if (sb.length() > 0) {
             JOptionPane.showMessageDialog(this, sb);
             return false;
@@ -304,7 +303,6 @@ public class jplKhachHang extends javax.swing.JPanel {
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
         cldNgaySinh = new com.toedter.calendar.JDateChooser();
-        btnTaoMa = new javax.swing.JButton();
         btnNew = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
@@ -889,16 +887,6 @@ public class jplKhachHang extends javax.swing.JPanel {
         cldNgaySinh.setDateFormatString("yyyy-MM-dd");
         cldNgaySinh.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
-        btnTaoMa.setBackground(new java.awt.Color(47, 85, 212));
-        btnTaoMa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnTaoMa.setForeground(new java.awt.Color(255, 255, 255));
-        btnTaoMa.setText("TẠO MÃ");
-        btnTaoMa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTaoMaActionPerformed(evt);
-            }
-        });
-
         btnNew.setBackground(new java.awt.Color(47, 85, 212));
         btnNew.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnNew.setForeground(new java.awt.Color(255, 255, 255));
@@ -963,9 +951,7 @@ public class jplKhachHang extends javax.swing.JPanel {
                             .addComponent(txtDiaChi, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
                             .addComponent(txtMathe)
                             .addComponent(cldNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(30, 30, 30)
-                        .addComponent(btnTaoMa)
-                        .addGap(99, 99, 99))
+                        .addGap(205, 205, 205))
                     .addGroup(jplThongTinLayout.createSequentialGroup()
                         .addComponent(btnSua, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                         .addGap(73, 73, 73)
@@ -992,16 +978,14 @@ public class jplKhachHang extends javax.swing.JPanel {
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
-                .addGroup(jplThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jplThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jplThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(txtSdt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jplThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jplThongTinLayout.createSequentialGroup()
-                        .addGroup(jplThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(btnTaoMa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtMathe, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
+                        .addComponent(txtMathe, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(1, 1, 1)))
                 .addGroup(jplThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jplThongTinLayout.createSequentialGroup()
@@ -1017,9 +1001,8 @@ public class jplKhachHang extends javax.swing.JPanel {
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jplThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jplThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnSua)
-                        .addComponent(btnXoa))
+                    .addComponent(btnSua)
+                    .addComponent(btnXoa)
                     .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(41, Short.MAX_VALUE))
@@ -1061,7 +1044,6 @@ public class jplKhachHang extends javax.swing.JPanel {
 
     private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
         int rowIndex = tblKhachHang.getSelectedRow();
-        btnTaoMa.setVisible(false);
         showDataToText(rowIndex);
 
     }//GEN-LAST:event_tblKhachHangMouseClicked
@@ -1208,7 +1190,8 @@ public class jplKhachHang extends javax.swing.JPanel {
             showDataTichDiem(listTheTichDiem);
             return;
         }
-        listTheTichDiem = service.findByMa(Integer.parseInt(txtSearchTichDiem.getText().trim()));
+        System.out.println(txtSearchTichDiem.getText());
+        listTheTichDiem = service.findByMa(txtSearchTichDiem.getText().trim());
         showDataTichDiem(listTheTichDiem);
     }//GEN-LAST:event_txtSearchTichDiemCaretUpdate
 
@@ -1267,13 +1250,8 @@ public class jplKhachHang extends javax.swing.JPanel {
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         setDefault();
-        btnTaoMa.setVisible(true);
-    }//GEN-LAST:event_btnNewActionPerformed
 
-    private void btnTaoMaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoMaActionPerformed
-        String randomNumericString = generateRandomNumericString(STRING_LENGTH);
-        txtMathe.setText(randomNumericString);
-    }//GEN-LAST:event_btnTaoMaActionPerformed
+    }//GEN-LAST:event_btnNewActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ThemKhachHang;
@@ -1285,7 +1263,6 @@ public class jplKhachHang extends javax.swing.JPanel {
     private javax.swing.JButton btnSortDaXoaZA;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnTangDiem;
-    private javax.swing.JButton btnTaoMa;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTruDiem;
     private javax.swing.JButton btnXoa;
