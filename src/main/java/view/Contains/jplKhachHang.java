@@ -104,6 +104,7 @@ public class jplKhachHang extends javax.swing.JPanel {
 
     public KhachHang getData() {
         TheTichDiem theTichDiem = new TheTichDiem();
+
         theTichDiem.setMaThe(txtMathe.getText().trim());
         theTichDiem.setNgayKichHoat(LocalDate.now());
         theTichDiem.setSoDiem(0);
@@ -118,8 +119,13 @@ public class jplKhachHang extends javax.swing.JPanel {
         } else {
             khachHang.setGioiTinh(false);
         }
-        LocalDate localDate = cldNgaySinh.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        khachHang.setNgaySinh(localDate);
+        try {
+            LocalDate localDate = cldNgaySinh.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            khachHang.setNgaySinh(localDate);
+        } catch (Exception e) {
+            System.out.println("alo");
+        }
+
         khachHang.setDiaChi(txtDiaChi.getText().trim());
         if (chkTrangThai.isSelected()) {
             khachHang.setTrangThai(1);
@@ -299,6 +305,7 @@ public class jplKhachHang extends javax.swing.JPanel {
         btnXoa = new javax.swing.JButton();
         cldNgaySinh = new com.toedter.calendar.JDateChooser();
         btnTaoMa = new javax.swing.JButton();
+        btnNew = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -892,6 +899,19 @@ public class jplKhachHang extends javax.swing.JPanel {
             }
         });
 
+        btnNew.setBackground(new java.awt.Color(47, 85, 212));
+        btnNew.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnNew.setForeground(new java.awt.Color(255, 255, 255));
+        btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-new-20.png"))); // NOI18N
+        btnNew.setText("MỚI");
+        btnNew.setBorderPainted(false);
+        btnNew.setFocusable(false);
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jplThongTinLayout = new javax.swing.GroupLayout(jplThongTin);
         jplThongTin.setLayout(jplThongTinLayout);
         jplThongTinLayout.setHorizontalGroup(
@@ -904,7 +924,7 @@ public class jplKhachHang extends javax.swing.JPanel {
                             .addGroup(jplThongTinLayout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(28, 28, 28)
-                                .addComponent(txtHoTen, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE))
+                                .addComponent(txtHoTen))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jplThongTinLayout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addGap(68, 68, 68)
@@ -918,29 +938,24 @@ public class jplKhachHang extends javax.swing.JPanel {
                             .addComponent(jLabel8)
                             .addComponent(jLabel9)
                             .addComponent(jLabel10)))
-                    .addGroup(jplThongTinLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jplThongTinLayout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addGap(30, 30, 30)
                         .addComponent(cboNam)
                         .addGap(26, 26, 26)
-                        .addGroup(jplThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jplThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jplThongTinLayout.createSequentialGroup()
+                                .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(82, 82, 82)
+                                .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jplThongTinLayout.createSequentialGroup()
                                 .addComponent(cboNu)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel11)
-                                .addGap(32, 32, 32))
-                            .addGroup(jplThongTinLayout.createSequentialGroup()
-                                .addGap(0, 13, Short.MAX_VALUE)
-                                .addComponent(btnThem)
-                                .addGap(79, 79, 79)
-                                .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jLabel11)))
+                        .addGap(32, 32, 32)))
+                .addGap(30, 30, 30)
                 .addGroup(jplThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jplThongTinLayout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jplThongTinLayout.createSequentialGroup()
-                        .addGap(30, 30, 30)
                         .addGroup(jplThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jplThongTinLayout.createSequentialGroup()
                                 .addComponent(chkTrangThai)
@@ -950,7 +965,12 @@ public class jplKhachHang extends javax.swing.JPanel {
                             .addComponent(cldNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(30, 30, 30)
                         .addComponent(btnTaoMa)
-                        .addGap(99, 99, 99))))
+                        .addGap(99, 99, 99))
+                    .addGroup(jplThongTinLayout.createSequentialGroup()
+                        .addComponent(btnSua, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                        .addGap(73, 73, 73)
+                        .addComponent(btnXoa, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                        .addGap(111, 111, 111))))
         );
         jplThongTinLayout.setVerticalGroup(
             jplThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -995,12 +1015,14 @@ public class jplKhachHang extends javax.swing.JPanel {
                     .addGroup(jplThongTinLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jplThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSua)
-                    .addComponent(btnThem)
-                    .addComponent(btnXoa))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jplThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jplThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnSua)
+                        .addComponent(btnXoa))
+                    .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         ThemKhachHang.add(jplThongTin);
@@ -1039,6 +1061,7 @@ public class jplKhachHang extends javax.swing.JPanel {
 
     private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
         int rowIndex = tblKhachHang.getSelectedRow();
+        btnTaoMa.setVisible(false);
         showDataToText(rowIndex);
 
     }//GEN-LAST:event_tblKhachHangMouseClicked
@@ -1179,11 +1202,6 @@ public class jplKhachHang extends javax.swing.JPanel {
         }
         return sb.toString();
     }
-    private void btnTaoMaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoMaActionPerformed
-        String randomNumericString = generateRandomNumericString(STRING_LENGTH);
-        txtMathe.setText(randomNumericString);
-    }//GEN-LAST:event_btnTaoMaActionPerformed
-
     private void txtSearchTichDiemCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSearchTichDiemCaretUpdate
         if (txtSearchTichDiem.getText().isBlank()) {
             listTheTichDiem = service.getAllTheTichDiem();
@@ -1247,11 +1265,22 @@ public class jplKhachHang extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnTruDiemActionPerformed
 
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        setDefault();
+        btnTaoMa.setVisible(true);
+    }//GEN-LAST:event_btnNewActionPerformed
+
+    private void btnTaoMaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoMaActionPerformed
+        String randomNumericString = generateRandomNumericString(STRING_LENGTH);
+        txtMathe.setText(randomNumericString);
+    }//GEN-LAST:event_btnTaoMaActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ThemKhachHang;
     private javax.swing.JButton btnCongDiem;
     private javax.swing.JButton btnGiamDiem;
     private javax.swing.JButton btnKhoiPhuc;
+    private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSortDaXoaAZ;
     private javax.swing.JButton btnSortDaXoaZA;
     private javax.swing.JButton btnSua;

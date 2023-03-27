@@ -42,7 +42,7 @@ public class KhachHangRepository {
             Session session = HibernateUtil.getFACTORY().openSession();
 
             KhachHang khachHangInDB = session.get(KhachHang.class, khachHangResponse.getId());
-
+            TheTichDiem tichDiem = session.get(TheTichDiem.class, khachHangResponse.getIdThe());
             khachHangInDB.setHoTen(khachHangResponse.getHoTen());
             khachHangInDB.setEmail(khachHangResponse.getEmail());
             khachHangInDB.setSdt(khachHangResponse.getSdt());
@@ -50,7 +50,6 @@ public class KhachHangRepository {
             khachHangInDB.setNgaySinh(khachHangResponse.getNgaySinh());
             khachHangInDB.setDiaChi(khachHangResponse.getDiaChi());
             khachHangInDB.setTrangThai(khachHangResponse.getTrangThai());
-
             Transaction transaction = session.beginTransaction();
             session.update(khachHangInDB);
             transaction.commit();
@@ -244,7 +243,7 @@ public class KhachHangRepository {
     //6. getAll thẻ tích điểm
     public List<KhachHangResponse> getAllTheTichDiem() {
         List<KhachHangResponse> lists = new ArrayList<>();
-        try ( Session session = HibernateUtil.getFACTORY().openSession()) {
+        try (Session session = HibernateUtil.getFACTORY().openSession()) {
             String hql = """
                         SELECT new viewmodel.KhachHangResponse(kh.hoTen,ttd.id, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
                                                                        FROM KhachHang kh
