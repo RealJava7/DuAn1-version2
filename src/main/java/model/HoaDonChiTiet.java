@@ -36,4 +36,10 @@ public class HoaDonChiTiet {
 
     @Column(name = "DonGia")
     private long donGiaDT;
+
+    @Override
+    public String toString() {
+        return "HoaDonChiTiet{" + "id=" + id + ", hoaDon=" + hoaDon + ", imei=" + imei + ", donGiaDT=" + donGiaDT + '}';
+    }
+    
 }
