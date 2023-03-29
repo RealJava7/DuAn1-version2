@@ -17,10 +17,6 @@ import model.TheTichDiem;
 import service.impl.KhachHangServiceImpl;
 import viewmodel.KhachHangResponse;
 import service.KhachHangService;
-import view.Contains.cell.TableActionCellEditor;
-import view.Contains.cell.TableActionCellRender;
-import view.Contains.cell.TableActionEvent;
-import view.Contains.cell.panelKhoiPhuc;
 
 public class jplKhachHang extends javax.swing.JPanel {
 
@@ -43,19 +39,7 @@ public class jplKhachHang extends javax.swing.JPanel {
         showDataRemove(listKhachHang);
         listTheTichDiem = service.getAllTheTichDiem();
         showDataTichDiem(listTheTichDiem);
-        nutKhoiPhuc();
-    }
 
-    private void nutKhoiPhuc() {
-        TableActionEvent event = new TableActionEvent() {
-            @Override
-            public void onKhoiPhuc(int row) {
-
-                khoiPhuc();
-            }
-        };
-        tblKhachHangDaXoa.getColumnModel().getColumn(9).setCellRenderer(new TableActionCellRender());
-        tblKhachHangDaXoa.getColumnModel().getColumn(9).setCellEditor(new TableActionCellEditor(event));
     }
 
     private void khoiPhuc() {
@@ -306,6 +290,7 @@ public class jplKhachHang extends javax.swing.JPanel {
         jLabel14 = new javax.swing.JLabel();
         btnSortDaXoaAZ = new javax.swing.JButton();
         btnSortDaXoaZA = new javax.swing.JButton();
+        btnKhoiPhuc = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtSearchTichDiem = new javax.swing.JTextField();
@@ -678,6 +663,16 @@ public class jplKhachHang extends javax.swing.JPanel {
             }
         });
 
+        btnKhoiPhuc.setBackground(new java.awt.Color(47, 85, 212));
+        btnKhoiPhuc.setForeground(new java.awt.Color(255, 255, 255));
+        btnKhoiPhuc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-available-updates-20 (1).png"))); // NOI18N
+        btnKhoiPhuc.setText("KHÔI PHỤC");
+        btnKhoiPhuc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKhoiPhucActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -688,14 +683,15 @@ public class jplKhachHang extends javax.swing.JPanel {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtSearchDaXoa, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
+                        .addComponent(txtSearchDaXoa, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel14)
                         .addGap(35, 35, 35)
                         .addComponent(btnSortDaXoaAZ)
                         .addGap(18, 18, 18)
                         .addComponent(btnSortDaXoaZA)
-                        .addGap(127, 127, 127))
+                        .addGap(27, 27, 27)
+                        .addComponent(btnKhoiPhuc, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 906, Short.MAX_VALUE))
                 .addGap(11, 11, 11))
         );
@@ -708,7 +704,8 @@ public class jplKhachHang extends javax.swing.JPanel {
                     .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSortDaXoaAZ, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSortDaXoaZA, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnKhoiPhuc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -1044,7 +1041,7 @@ public class jplKhachHang extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ThemKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jTabbedPane1))
+                            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -1254,10 +1251,15 @@ public class jplKhachHang extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnNewActionPerformed
 
+    private void btnKhoiPhucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhoiPhucActionPerformed
+        khoiPhuc();
+    }//GEN-LAST:event_btnKhoiPhucActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ThemKhachHang;
     private javax.swing.JButton btnCongDiem;
     private javax.swing.JButton btnGiamDiem;
+    private javax.swing.JButton btnKhoiPhuc;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSortDaXoaAZ;
     private javax.swing.JButton btnSortDaXoaZA;
