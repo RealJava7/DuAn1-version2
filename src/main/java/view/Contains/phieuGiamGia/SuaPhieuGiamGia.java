@@ -12,6 +12,7 @@ import repository.PhieuGiamGiaRepository;
 import service.impl.PhieuGiamGiaServiceImpl;
 import viewmodel.PhieuGiamGiaResponse;
 import service.PhieuGiamGiaService;
+import view.Contains.jplGiamGia;
 
 public class SuaPhieuGiamGia extends javax.swing.JFrame {
 
@@ -21,6 +22,7 @@ public class SuaPhieuGiamGia extends javax.swing.JFrame {
     PhieuGiamGiaResponse phieuGiamGiaResponse;
     int id;
     int vali;
+    public static boolean check = false;
 
     public SuaPhieuGiamGia(PhieuGiamGiaResponse phieu) {
         initComponents();
@@ -32,6 +34,25 @@ public class SuaPhieuGiamGia extends javax.swing.JFrame {
         loadForm(phieu);
         id = phieu.getId();
         vali = 0;
+       long millis = System.currentTimeMillis();
+        Date now = new Date(millis);
+        txtNgayBatDau.setMinSelectableDate(now);
+        txtNgayKetThuc.setMinSelectableDate(now);
+        if(phieu.getTrangThai()==0){
+            txtMaVoucher.disable();
+            txtTenPhieu.disable();
+            txtNgayBatDau.setEnabled(false);
+            txtMucGiam.disable();
+            txtGiaTriToiThieu.disable();
+        }else  if(phieu.getTrangThai()==1){
+            txtMaVoucher.disable();
+            txtTenPhieu.disable();
+            txtNgayBatDau.setEnabled(false);
+            txtMucGiam.disable();
+            txtGiaTriToiThieu.disable();
+            txtLuotDung.disable();
+            txtNgayKetThuc.setEnabled(false);
+        }
     }
 
     public void loadForm(PhieuGiamGiaResponse phieu) {
@@ -48,7 +69,6 @@ public class SuaPhieuGiamGia extends javax.swing.JFrame {
 
     public int getStatus(LocalDate ngayBatDau, LocalDate ngayKetThuc) {
         LocalDate homNay = LocalDate.now();
-
         if (homNay.compareTo(ngayBatDau) >= 0 && homNay.compareTo(ngayKetThuc) < 0) {
             return 0;
         } else if (homNay.compareTo(ngayBatDau) < 0) {
@@ -88,9 +108,7 @@ public class SuaPhieuGiamGia extends javax.swing.JFrame {
             vali = 1;
             return;
         }
-        long millis = System.currentTimeMillis();
-        Date now = new Date(millis);
-        System.out.println(now);
+        
         if (bd.compareTo(kt) >= 0) {
             JOptionPane.showMessageDialog(this, "Chương trình giảm giá phải kéo dài ít nhất 1 ngày");
             vali = 1;
@@ -124,7 +142,7 @@ public class SuaPhieuGiamGia extends javax.swing.JFrame {
         btnHuy = new javax.swing.JButton();
         btnXacNhan = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel3.setText("Tạo mã giảm giá mới");
@@ -312,15 +330,15 @@ public class SuaPhieuGiamGia extends javax.swing.JFrame {
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
         dispose();
-
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
         // TODO add your handling code here:
         validates();
-        if(vali==1){
+        if (vali == 1) {
             return;
         }
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String batDau = sdf.format(txtNgayBatDau.getDate());
         String ketThuc = sdf.format(txtNgayKetThuc.getDate());
@@ -362,29 +380,22 @@ public class SuaPhieuGiamGia extends javax.swing.JFrame {
         phieuGiamGiaResponse.setNgayBatDau(LocalDate.parse(batDau));
         phieuGiamGiaResponse.setNgayKetThuc(LocalDate.parse(ketThuc));
         trangThai = getStatus(LocalDate.parse(batDau), LocalDate.parse(ketThuc));
-        if(luot==0){
-            trangThai=1;
-        }
+//        if (luot == 0) {
+//            trangThai = 1;
+//        }
         phieuGiamGiaResponse.setLuotSuDung(luot);
         phieuGiamGiaResponse.setDieuKien(dieuKien);
         phieuGiamGiaResponse.setGiaTri(mucGiam);
         phieuGiamGiaResponse.setTrangThai(trangThai);
-        phieuGiamGiaResponse.setMaPhieu(txtMaVoucher.getText());
-        phieuGiamGiaResponse.setTenPhieu(txtTenPhieu.getText());
+        String ma = txtMaVoucher.getText();
+        String ten = txtTenPhieu.getText();
+        phieuGiamGiaResponse.setMaPhieu(ma);
+        phieuGiamGiaResponse.setTenPhieu(ten);
         phieuGiamGiaResponse.setId(id);
-        System.out.println(phieuGiamGiaResponse);
-//        phieuGiamGiaChiTiet.setNgayKetThuc(phieuGiamGiaResponse.getNgayKetThuc());
-//        phieuGiamGiaChiTiet.setLuotSuDung(phieuGiamGiaResponse.getLuotSuDung());
-//        phieuGiamGiaChiTiet.setDieuKien(phieuGiamGiaResponse.getDieuKien());
-//        phieuGiamGiaChiTiet.setGiaTri(phieuGiamGiaResponse.getGiaTri());
-//        phieuGiamGiaChiTiet.setTrangThai(phieuGiamGiaResponse.getTrangThai());
-//        phieuGiamGia.setMaPhieu(phieuGiamGiaResponse.getMaPhieu());
-//        phieuGiamGia.setTenPhieu(phieuGiamGiaResponse.getTenPhieu());
-//        phieuGiamGia.setId(phieuGiamGiaResponse.getId());
-//        phieuGiamGia.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
-//
         JOptionPane.showMessageDialog(this, qs.update(phieuGiamGiaResponse));
+        check = true;
         dispose();
+        jplGiamGia.loadTable(new PhieuGiamGiaServiceImpl().getall());
 
     }//GEN-LAST:event_btnXacNhanActionPerformed
 
