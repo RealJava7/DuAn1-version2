@@ -33,6 +33,7 @@ public class jplHeThong extends javax.swing.JPanel {
     private List<NhanVienResponse> list2;
     private DefaultTableModel dtm1;
     private DefaultTableModel dtm2;
+    private DefaultTableModel dtm3;
     private DefaultComboBoxModel dcm1;
     private DefaultComboBoxModel dcm2;
     private QuanLyNhanVienService service;
@@ -46,6 +47,7 @@ public class jplHeThong extends javax.swing.JPanel {
         list1 = new ArrayList<>();
         dtm1 = (DefaultTableModel) tbLamViec.getModel();
         dtm2 = (DefaultTableModel) tbNghiViec.getModel();
+        dtm3 = (DefaultTableModel) tblSanPhamTK.getModel();
         dcm1 = (DefaultComboBoxModel) cbLocGioiTinh.getModel();
         dcm2 = (DefaultComboBoxModel) cbLocChucVu.getModel();
         service = new QuanLyNhanVienServiceImpl();
@@ -62,7 +64,7 @@ public class jplHeThong extends javax.swing.JPanel {
  
         int month = jmonth.getMonth() + 1;
         int year = jyear.getYear();
-        setDataToSanPhamTKThang(pnlSanPhamTK, month, year);
+        setDataToSanPhamTKThang(pnlSPTKCot, month, year);
     }
 
     private void showDataTblLam(List<NhanVienResponse> lists) {
@@ -263,7 +265,7 @@ public class jplHeThong extends javax.swing.JPanel {
         }
     }
     
-        private void setDataToSanPhamTKNam(JPanel jpn, int year) {
+    private void setDataToSanPhamTKNam(JPanel jpn, int year) {
         List<SanPhamThongKeResponse> listSP = serviceTK.getSPTKNam(year);
         if(listSP != null) {
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -280,6 +282,13 @@ public class jplHeThong extends javax.swing.JPanel {
             jpn.add(chartPanel);
             jpn.validate();
             jpn.repaint();
+        }
+    }
+    
+    private void showDataToTableSanPhamTK(List<SanPhamThongKeResponse> lists) {
+        dtm3.setRowCount(0);
+        for (SanPhamThongKeResponse sptk : lists) {
+            dtm3.addRow(new Object[]{sptk.getTenSp(), sptk.getSlSanPham()});
         }
     }
         
@@ -346,6 +355,11 @@ public class jplHeThong extends javax.swing.JPanel {
         rdoNam = new javax.swing.JRadioButton();
         jTabbedPane3 = new javax.swing.JTabbedPane();
         pnlSanPhamTK = new javax.swing.JPanel();
+        jTabbedPane4 = new javax.swing.JTabbedPane();
+        pnlSPTKCot = new javax.swing.JPanel();
+        pnlSPTKBang = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblSanPhamTK = new javax.swing.JTable();
         pnlDoanhThuTK = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -975,15 +989,79 @@ public class jplHeThong extends javax.swing.JPanel {
 
         jTabbedPane3.setBackground(new java.awt.Color(255, 255, 255));
 
+        pnlSanPhamTK.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTabbedPane4.setBackground(new java.awt.Color(255, 255, 255));
+
+        pnlSPTKCot.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout pnlSPTKCotLayout = new javax.swing.GroupLayout(pnlSPTKCot);
+        pnlSPTKCot.setLayout(pnlSPTKCotLayout);
+        pnlSPTKCotLayout.setHorizontalGroup(
+            pnlSPTKCotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        pnlSPTKCotLayout.setVerticalGroup(
+            pnlSPTKCotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jTabbedPane4.addTab("CỘT", pnlSPTKCot);
+
+        pnlSPTKBang.setBackground(new java.awt.Color(255, 255, 255));
+
+        tblSanPhamTK.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        tblSanPhamTK.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "TÊN SẢN PHẨM", "SỐ LƯỢNG"
+            }
+        ));
+        tblSanPhamTK.setFocusable(false);
+        tblSanPhamTK.setGridColor(new java.awt.Color(47, 85, 212));
+        tblSanPhamTK.setRowHeight(25);
+        tblSanPhamTK.setShowGrid(true);
+        jScrollPane3.setViewportView(tblSanPhamTK);
+
+        javax.swing.GroupLayout pnlSPTKBangLayout = new javax.swing.GroupLayout(pnlSPTKBang);
+        pnlSPTKBang.setLayout(pnlSPTKBangLayout);
+        pnlSPTKBangLayout.setHorizontalGroup(
+            pnlSPTKBangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSPTKBangLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 717, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlSPTKBangLayout.setVerticalGroup(
+            pnlSPTKBangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSPTKBangLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane4.addTab("BẢNG", pnlSPTKBang);
+
         javax.swing.GroupLayout pnlSanPhamTKLayout = new javax.swing.GroupLayout(pnlSanPhamTK);
         pnlSanPhamTK.setLayout(pnlSanPhamTKLayout);
         pnlSanPhamTKLayout.setHorizontalGroup(
             pnlSanPhamTKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 770, Short.MAX_VALUE)
+            .addGroup(pnlSanPhamTKLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane4)
+                .addContainerGap())
         );
         pnlSanPhamTKLayout.setVerticalGroup(
             pnlSanPhamTKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 395, Short.MAX_VALUE)
+            .addGroup(pnlSanPhamTKLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane3.addTab("SẢN PHẨM", pnlSanPhamTK);
@@ -1205,22 +1283,11 @@ public class jplHeThong extends javax.swing.JPanel {
     }//GEN-LAST:event_lbAnhMouseClicked
 
     private void rdoThangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoThangActionPerformed
-        // TODO add your handling code here:
-        //int month = jmonth.getMonth();
-        //int year = jyear.getYear();       
-        //setDataToSanPhamTKThang(pnlSanPhamTK, month, year);
-        
+
     }//GEN-LAST:event_rdoThangActionPerformed
 
     private void jmonthMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmonthMouseClicked
-        // TODO add your handling code here:
-        //System.out.println(jmonth.getMonth()+ 1 );
-        //System.out.println(jyear.getYear()-1);
-        //if(rdoThang.isSelected()) {
-        //    int month = jmonth.getMonth() + 1;
-        //    int year = jyear.getYear()-1;       
-        //    setDataToSanPhamTKThang(pnlSanPhamTK, month, year);
-        //}
+
     }//GEN-LAST:event_jmonthMouseClicked
 
     private void jmonthPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jmonthPropertyChange
@@ -1231,7 +1298,8 @@ public class jplHeThong extends javax.swing.JPanel {
             int month = jmonth.getMonth() + 1;
             int year = jyear.getYear(); 
              System.out.println("tháng: " + month + " năm: " + year);
-            setDataToSanPhamTKThang(pnlSanPhamTK, month, year);
+            setDataToSanPhamTKThang(pnlSPTKCot, month, year);
+            showDataToTableSanPhamTK(serviceTK.getSPTKThang(month, year));
         }
     }//GEN-LAST:event_jmonthPropertyChange
 
@@ -1240,13 +1308,15 @@ public class jplHeThong extends javax.swing.JPanel {
         if(rdoNam.isSelected()) {
             int year = jyear.getYear();
             System.out.println("năm: " + year);
-            setDataToSanPhamTKNam(pnlSanPhamTK, year);
+            setDataToSanPhamTKNam(pnlSPTKCot, year);
+            showDataToTableSanPhamTK(serviceTK.getSPTKNam(year));
         }
         if(rdoThang.isSelected()) {
             int month = jmonth.getMonth() + 1;
             int year = jyear.getYear();    
              System.out.println("tháng: " + month + " năm: " + year);
-            setDataToSanPhamTKThang(pnlSanPhamTK, month, year);
+            setDataToSanPhamTKThang(pnlSPTKCot, month, year);
+            showDataToTableSanPhamTK(serviceTK.getSPTKThang(month, year));
         }
     }//GEN-LAST:event_jyearPropertyChange
 
@@ -1284,14 +1354,18 @@ public class jplHeThong extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTabbedPane jTabbedPane3;
+    private javax.swing.JTabbedPane jTabbedPane4;
     private com.toedter.calendar.JMonthChooser jmonth;
     private javax.swing.JPanel jplThongTin;
     private com.toedter.calendar.JYearChooser jyear;
     private javax.swing.JLabel lbAnh;
     private javax.swing.JPanel pnlDoanhThuTK;
+    private javax.swing.JPanel pnlSPTKBang;
+    private javax.swing.JPanel pnlSPTKCot;
     private javax.swing.JPanel pnlSanPhamTK;
     private javax.swing.JRadioButton rdBtnLamViec;
     private javax.swing.JRadioButton rdBtnNam;
@@ -1303,6 +1377,7 @@ public class jplHeThong extends javax.swing.JPanel {
     private javax.swing.JRadioButton rdoThang;
     private javax.swing.JTable tbLamViec;
     private javax.swing.JTable tbNghiViec;
+    private javax.swing.JTable tblSanPhamTK;
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtHoTen;
