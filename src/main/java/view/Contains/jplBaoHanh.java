@@ -87,6 +87,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -170,7 +171,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Lọc Phiếu Bảo Hành CT"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Lọc Phiếu Bảo Hành"));
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Trạng Thái:");
@@ -202,14 +203,14 @@ public class jplBaoHanh extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(rdConHan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(37, 37, 37)
+                .addGap(30, 30, 30)
                 .addComponent(rdHetHan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(53, 53, 53))
+                .addGap(60, 60, 60))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(11, 11, 11)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(rdConHan)
@@ -218,7 +219,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Tìm Kiếm Phiếu Bảo Hành CT"));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Tìm Kiếm Phiếu Bảo Hành"));
 
         jLabel2.setText("Tên KH:");
 
@@ -259,7 +260,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
                     .addComponent(txtSearchTenKH, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         btnImportExcel.setBackground(new java.awt.Color(47, 85, 212));
@@ -287,6 +288,8 @@ public class jplBaoHanh extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(47, 85, 212));
         jLabel3.setText("BẢO HÀNH");
+
+        jButton2.setText("Cập Nhật");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -316,6 +319,8 @@ public class jplBaoHanh extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(46, 46, 46)
                         .addComponent(jButton1)
                         .addGap(13, 13, 13)))
                 .addContainerGap())
@@ -339,7 +344,9 @@ public class jplBaoHanh extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jButton1))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(jButton2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -447,6 +454,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbbLBH;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
