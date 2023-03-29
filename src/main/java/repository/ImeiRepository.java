@@ -37,7 +37,7 @@ public class ImeiRepository {
     // 2. get all with idDienThoai null
     public List<ImeiResponse> getAllNoneDienThoaiImei() {
         List<ImeiResponse> imeis = new ArrayList<>();
-
+        
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
@@ -46,7 +46,7 @@ public class ImeiRepository {
                                               FROM Imei i
                                               WHERE i.dienThoai IS NULL
                                                """);
-
+            
             imeis = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
@@ -57,7 +57,7 @@ public class ImeiRepository {
     // 3. get all imeis by dienThoaiID
     public List<ImeiResponse> getAllDienThoaiId(int dienThoaiId) {
         List<ImeiResponse> imeis = new ArrayList<>();
-
+        
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
@@ -96,14 +96,14 @@ public class ImeiRepository {
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Transaction transaction = session.beginTransaction();
-
+            
             Imei imei = session.get(Imei.class, imeiResponse.getId());
             DienThoai dt = DienThoaiRepository.getById(imeiResponse.getIdDienThoai());
             imei.setDienThoai(dt);
-
+            
             session.update(imei);
             transaction.commit();
-
+            
             check = true;
             session.close();
         } catch (HibernateException e) {
@@ -117,7 +117,7 @@ public class ImeiRepository {
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Transaction transaction = session.beginTransaction();
-
+            
             Query query = session.createQuery("""
                                               DELETE Imei i
                                               WHERE i.dienThoai IS NULL
@@ -130,19 +130,42 @@ public class ImeiRepository {
         }
     }
 
-    public static void main(String[] args) {
-//        deleteImeiWithDienThoaiNull();
-//        System.out.println("ok");
-        // 5. get all imeis by dienThoaiID
-//        List<ImeiResponse> list = getAllDienThoaiId(1);
-//        list.forEach(i -> System.out.println(i.getImei()));
-
-//        List<ImeiResponse> imeiResponses = getAllNoneDienThoaiImei();
-//        imeiResponses.forEach(i -> System.out.println(i.toString()));
-//        Imei imei = getByImei("111111111122222");
-//        System.out.println(imei.getId());
-//        Imei imei1 = new Imei();
-//        imei1.setImei("111221111122222");
-//        System.out.println(add(imei1));
+    // 7. delete
+    public boolean delete(ImeiResponse imeiResponse) {
+        boolean check = false;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Imei imei = session.get(Imei.class, imeiResponse.getId());
+            
+            Transaction transaction = session.beginTransaction();
+            session.delete(imei);
+            transaction.commit();
+            session.close();
+            check = true;
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+        return check;
+    }
+    
+    // 8. update
+    public boolean updateImeiStr(ImeiResponse imeiResponse) {
+        boolean check = false;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
+            
+            Imei imei = session.get(Imei.class, imeiResponse.getId());
+            imei.setImei(imeiResponse.getImei());
+            
+            session.update(imei);
+            transaction.commit();
+            
+            check = true;
+            session.close();
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+        return check;
     }
 }

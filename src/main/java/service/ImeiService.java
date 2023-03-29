@@ -17,4 +17,8 @@ public interface ImeiService {
     List<ImeiResponse> getAllDienThoaiId(int dienThoaiId);
     
     void deleteImeiWithDienThoaiNull();
+    
+    String delete(ImeiResponse imeiResponse);
+    
+    String updateImeiStr(ImeiResponse imeiResponse);
 }

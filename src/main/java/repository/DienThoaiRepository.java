@@ -1,9 +1,7 @@
 package repository;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import model.CameraChiTiet;
@@ -11,16 +9,13 @@ import model.DienThoai;
 import model.DongSanPham;
 import model.Hang;
 import model.HeDieuHanh;
-import model.Imei;
 import model.ManHinhChiTiet;
 import model.MauSac;
-import model.enums.LoaiManHinh;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import utility.HibernateUtil;
 import viewmodel.DienThoaiResponse;
-import viewmodel.HangResponse;
 
 public class DienThoaiRepository {
 
@@ -59,8 +54,28 @@ public class DienThoaiRepository {
                                               INNER JOIN dt.cameraChiTiet c
                                               INNER JOIN dt.manHinhChiTiet mh
                                               WHERE dt.trangThai = :status
+                                              ORDER BY dt.tenDT
                                                """);
             query.setParameter("status", status);
+            dienThoaiResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return dienThoaiResponses;
+    }
+    //2.1 get Sản phẩm hết hàng
+
+    public List<DienThoaiResponse> get5SanPhamHetHang() {
+        List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.DienThoaiResponse
+                                              ( dt.maDT, dt.tenDT, dt.soLuong)
+                                              FROM DienThoai dt Where dt.soLuong <= 5
+                                               """);
+
             dienThoaiResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);

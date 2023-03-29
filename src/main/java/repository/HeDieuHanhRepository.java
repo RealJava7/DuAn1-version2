@@ -13,8 +13,8 @@ import viewmodel.HeDieuHanhResponse;
 
 public class HeDieuHanhRepository {
 
-    // 1. get all by trangThai
-    public List<HeDieuHanh> getAllEntityByStatus(boolean status) {
+    // 1. get all entity by trangThai
+    public static List<HeDieuHanh> getAllEntityByStatus(boolean status) {
         List<HeDieuHanh> heDieuHanhs = new ArrayList<>();
 
         try {
@@ -32,6 +32,11 @@ public class HeDieuHanhRepository {
             ex.printStackTrace(System.out);
         }
         return heDieuHanhs;
+    }
+    
+    public static void main(String[] args) {
+       List<HeDieuHanh> heDieuHanhs = getAllEntityByStatus(true);
+        System.out.println(heDieuHanhs.size());
     }
 
     // 2. get by id
@@ -140,27 +145,4 @@ public class HeDieuHanhRepository {
         }
     }
 
-    public static void main(String[] args) {
-        // change status
-//        HeDieuHanhResponse hdhResponse = new HeDieuHanhResponse();
-//        hdhResponse.setId(5);
-//        changeStatus(hdhResponse, false);
-        
-//        List<HeDieuHanh> heDieuHanhs = getAllEntity();
-//        heDieuHanhs.forEach(h -> System.out.println(h.toString()));
-
-//        HeDieuHanh hdh1 = getById(1);
-//        System.out.println(hdh1.getTen());
-        // add
-//        HeDieuHanh hdh = new HeDieuHanh();
-//        hdh.setTen("He dieu hanh 1");
-//        hdh.setTrangThai(true);
-//        System.out.println(add(hdh));
-        // update
-//        HeDieuHanhResponse hdhResponse = new HeDieuHanhResponse();
-//        hdhResponse.setId(5);
-//        hdhResponse.setTenHDH("He dieu hanh b");
-//        
-//        System.out.println(update(hdhResponse));
-    }
 }
