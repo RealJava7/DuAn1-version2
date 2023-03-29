@@ -23,8 +23,7 @@ public class ThemPhieuGiamGia extends javax.swing.JFrame {
     PhieuGiamGiaChiTiet phieuGiamGiaChiTiet;
     PhieuGiamGia phieuGiamGia;
     PhieuGiamGiaService qs;
-//    SimpleDateFormat sdf;
-    SimpleDateFormat checkDate;
+    public static boolean check = false;
     int vali;
 
     public ThemPhieuGiamGia() {
@@ -33,8 +32,10 @@ public class ThemPhieuGiamGia extends javax.swing.JFrame {
         phieuGiamGiaChiTiet = new PhieuGiamGiaChiTiet();
         phieuGiamGia = new PhieuGiamGia();
         qs = new PhieuGiamGiaServiceImpl();
-//        sdf = new SimpleDateFormat("yyyy-MM-dd");
-        checkDate = new SimpleDateFormat("yyyy-MM-dd 00 00");
+        long millis = System.currentTimeMillis();
+        Date now = new Date(millis);
+        txtNgayBatDau.setMinSelectableDate(now);
+        txtNgayKetThuc.setMinSelectableDate(now);
         vali = 0;
     }
 
@@ -372,11 +373,28 @@ public class ThemPhieuGiamGia extends javax.swing.JFrame {
         phieuGiamGiaChiTiet.setDieuKien(dieuKien);
         phieuGiamGiaChiTiet.setGiaTri(mucGiam);
         phieuGiamGiaChiTiet.setTrangThai(trangThai);
-        phieuGiamGia.setMaPhieu(txtMaVoucher.getText());
-        phieuGiamGia.setTenPhieu(txtTenPhieu.getText());
+        String ma = txtMaVoucher.getText();
+        for (PhieuGiamGiaResponse pr : qs.getall()) {
+            if (ma.equalsIgnoreCase(pr.getMaPhieu())) {
+                JOptionPane.showMessageDialog(this, "Mã đã tồn tại");
+                return;
+            }
+        }
+        String ten = txtTenPhieu.getText();
+        for (PhieuGiamGiaResponse pr : qs.getall()) {
+            if (ten.equalsIgnoreCase(pr.getTenPhieu())) {
+                JOptionPane.showMessageDialog(this, "Tên đã tồn tại");
+                return;
+            }
+        }
+        phieuGiamGia.setMaPhieu(ma);
+        phieuGiamGia.setTenPhieu(ten);
         phieuGiamGia.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
         JOptionPane.showMessageDialog(this, qs.add(phieuGiamGia));
+        check = true;
         dispose();
+        jplGiamGia.loadTable(new PhieuGiamGiaServiceImpl().getall());
+
 
     }//GEN-LAST:event_btnXacNhanActionPerformed
 
