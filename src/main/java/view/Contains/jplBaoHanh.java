@@ -6,6 +6,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
@@ -87,6 +88,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -170,7 +172,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Lọc Phiếu Bảo Hành CT"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Lọc Phiếu Bảo Hành"));
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Trạng Thái:");
@@ -181,6 +183,11 @@ public class jplBaoHanh extends javax.swing.JPanel {
         rdConHan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 rdConHanMouseClicked(evt);
+            }
+        });
+        rdConHan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdConHanActionPerformed(evt);
             }
         });
 
@@ -202,14 +209,14 @@ public class jplBaoHanh extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(rdConHan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(37, 37, 37)
+                .addGap(30, 30, 30)
                 .addComponent(rdHetHan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(53, 53, 53))
+                .addGap(60, 60, 60))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(11, 11, 11)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(rdConHan)
@@ -218,7 +225,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Tìm Kiếm Phiếu Bảo Hành CT"));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Tìm Kiếm Phiếu Bảo Hành"));
 
         jLabel2.setText("Tên KH:");
 
@@ -259,7 +266,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
                     .addComponent(txtSearchTenKH, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         btnImportExcel.setBackground(new java.awt.Color(47, 85, 212));
@@ -287,6 +294,8 @@ public class jplBaoHanh extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(47, 85, 212));
         jLabel3.setText("BẢO HÀNH");
+
+        jButton2.setText("Cập Nhật");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -316,6 +325,8 @@ public class jplBaoHanh extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(46, 46, 46)
                         .addComponent(jButton1)
                         .addGap(13, 13, 13)))
                 .addContainerGap())
@@ -339,7 +350,9 @@ public class jplBaoHanh extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jButton1))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(jButton2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -379,12 +392,12 @@ public class jplBaoHanh extends javax.swing.JPanel {
                 excelBOS = new BufferedOutputStream(excelFOS);
                 excelJtableExporter.write(excelBOS);
 
-                JOptionPane.showMessageDialog(rdConHan, "Xuất file excel thành công");
+                JOptionPane.showMessageDialog(this, "Xuất file excel thành công");
             } catch (FileNotFoundException ex) {
-                JOptionPane.showMessageDialog(rdConHan, "Lỗi không tìm thấy file");
+                JOptionPane.showMessageDialog(this, "Lỗi không tìm thấy file");
                 ex.printStackTrace();
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(rdConHan, "Một lỗi gì đó!......");
+                JOptionPane.showMessageDialog(this, "Một lỗi gì đó!......");
                 ex.printStackTrace();
             } finally {
                 try {
@@ -398,7 +411,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
                         excelJtableExporter.close();
                     }
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(rdConHan, "Lỗi khi cố gắng đóng các class");
+                    JOptionPane.showMessageDialog(this, "Lỗi khi cố gắng đóng các class");
                     ex.printStackTrace();
                 }
             }
@@ -413,10 +426,15 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        if (txtSearchTenKH.getText().matches("\\s+") && txtSearchTenKH.getText().matches("\\s")) {
-            JOptionPane.showMessageDialog(rdConHan, "Không được để trống tìm kiếm");
+        if (txtSearchTenKH.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Không được để trống tìm kiếm");
         } else {
-            showDataTable(service.getAllListSearch(txtSearchTenKH.getText()));
+            if (service.getAllListSearch(txtSearchTenKH.getText()).isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng!");
+                dtm.setRowCount(0);
+            } else {
+                showDataTable(service.getAllListSearch(txtSearchTenKH.getText()));
+            }
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
@@ -428,17 +446,43 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
     private void rdConHanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdConHanMouseClicked
         // TODO add your handling code here:
-        showDataTable(service.getAllStatus(true));
+        List<PhieuBaoHanhResponse> listPBH = service.getAll();
+        List<PhieuBaoHanhResponse> list = new ArrayList<>();
+        if (listPBH.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không có phiếu bảo hành nào ở trong cửa hàng!!");
+        } else {
+            for (PhieuBaoHanhResponse pbh : listPBH) {
+                if ("Còn Hạn".equals(pbh.getStatus(pbh.getNgayHetHan()))) {
+                    list.add(pbh);
+                }
+            }
+            showDataTable(list);
+        }
     }//GEN-LAST:event_rdConHanMouseClicked
 
     private void rdHetHanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdHetHanMouseClicked
         // TODO add your handling code here:
-        showDataTable(service.getAllStatus(false));
+        List<PhieuBaoHanhResponse> listPBH = service.getAll();
+        List<PhieuBaoHanhResponse> list = new ArrayList<>();
+        if (listPBH.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không có phiếu bảo hành nào ở trong cửa hàng!!");
+        } else {
+            for (PhieuBaoHanhResponse pbh : listPBH) {
+                if ("Hết Hạn".equals(pbh.getStatus(pbh.getNgayHetHan()))) {
+                    list.add(pbh);
+                }
+            }
+            showDataTable(list);
+        }
     }//GEN-LAST:event_rdHetHanMouseClicked
 
     private void txtSearchTenKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchTenKHActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchTenKHActionPerformed
+
+    private void rdConHanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdConHanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdConHanActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddLoaiBaoHanh;
@@ -447,6 +491,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbbLBH;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -1,8 +1,6 @@
 package viewmodel;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,10 +37,12 @@ public class PhieuBaoHanhResponse {
     public Object[] toRowData() {
         return new Object[]{this.id, this.tenLoaiBH, this.dieuKienBH, this.tenKhachHang,
             this.tenDienThoai, this.imei, this.giaSanPham, this.thoiHanBaoHanh,
-            this.ngayMuaHang, this.ngayHetHan, this.moTa, getStatus(this.trangThai)};
+            this.ngayMuaHang, this.ngayHetHan, this.moTa, getStatus(this.ngayHetHan)};
     }
 
-    private String getStatus(boolean trangThai) {
-        return trangThai == true ? "Còn Hạn" : "Hết Hạn";
+    public String getStatus(LocalDate ngayHetHan) {
+        LocalDate now = LocalDate.now();
+        return ngayHetHan.compareTo(now) <= 0 ? "Hết Hạn" : "Còn Hạn";
     }
+
 }

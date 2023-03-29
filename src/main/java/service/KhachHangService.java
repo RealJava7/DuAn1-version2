@@ -26,7 +26,9 @@ public interface KhachHangService {
 
     List<KhachHangResponse> getAllTheTichDiem();
 
-    List<KhachHangResponse> findByMa(int id);
+    List<KhachHangResponse> getTop3KhachHang();
+
+    List<KhachHangResponse> findByMa(String maThe);
 
     String updateDiem(KhachHangResponse kh, int soDiem);
 

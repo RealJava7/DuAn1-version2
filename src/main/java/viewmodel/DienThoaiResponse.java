@@ -41,13 +41,19 @@ public class DienThoaiResponse {
     private String doPhanGiai;
     private LoaiManHinh loaiManHinh;
 
+    public DienThoaiResponse(String maDT, String tenDT, int soLuong) {
+        this.maDT = maDT;
+        this.tenDT = tenDT;
+        this.soLuong = soLuong;
+    }
+
     @Override
     public String toString() {
         return "DienThoaiResponse{" + "id=" + id + ", maDT=" + maDT + ", tenDT=" + tenDT + ", moTa=" + moTa + ", dungLuongPin=" + dungLuongPin
                 + ", rom=" + rom + ", ram=" + ram + ", cpu=" + cpu + ", giaNhap=" + giaNhap + ", giaBan=" + giaBan + ", soLuong=" + soLuong + ", hinhAnh=" + hinhAnh
                 + ", heDieuHanh=" + heDieuHanh + ", hang=" + hang + ", dongSanPham=" + dongSanPham + ", mauSac=" + mauSac + ", cameraChinh="
                 + cameraChinh + ", cameraPhu=" + cameraPhu + ", cameraGocRong=" + cameraGocRong + ", cameraTele=" + cameraTele + ", kichThuoc="
-               + kichThuoc + ", doPhanGiai=" + doPhanGiai + ", loaiManHinh=" + loaiManHinh + '}';
+                + kichThuoc + ", doPhanGiai=" + doPhanGiai + ", loaiManHinh=" + loaiManHinh + '}';
     }
 
     public Object[] toDataRow() {

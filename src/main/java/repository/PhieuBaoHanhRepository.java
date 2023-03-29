@@ -14,7 +14,7 @@ import viewmodel.PhieuBaoHanhResponse;
 public class PhieuBaoHanhRepository {
 
     // 1. add
-    public static boolean add(PhieuBaoHanh phieuBaoHanh) {
+    public boolean add(PhieuBaoHanh phieuBaoHanh) {
         boolean check = false;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
@@ -25,12 +25,13 @@ public class PhieuBaoHanhRepository {
             check = true;
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
+            return false;
         }
         return check;
     }
 
     // 2. get all
-    public static List<PhieuBaoHanhResponse> getAll() {
+    public List<PhieuBaoHanhResponse> getAll() {
         List<PhieuBaoHanhResponse> phieuBaoHanhResponses = new ArrayList<>();
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
@@ -97,28 +98,14 @@ public class PhieuBaoHanhRepository {
         return phieuBaoHanhResponses;
     }
 
-    public static void main(String[] args) {
-        List<PhieuBaoHanhResponse> phieuBaoHanhReponses = getAll();
-        phieuBaoHanhReponses.forEach(p -> System.out.println(p.toString()));
+    public boolean updatePhieuBH(PhieuBaoHanhResponse pbh, int id) {
+        boolean check;
+        try {
 
-//        LoaiBaoHanh lbh1 = LoaiBaoHanhRepository.getById(1);
-//
-//        ChiTietPhieuBaoHanh ctpbh = new ChiTietPhieuBaoHanh();
-//        ctpbh.setTenKhachHang("Pham Anh Tuan");
-//        ctpbh.setTenDienThoai("iphone 14");
-//        ctpbh.setImei("12321312321345");
-//        ctpbh.setGiaSanPham(23_000_000L);
-//        ctpbh.setThoiHanBaoHanh(3);
-//        ctpbh.setNgayMuaHang(LocalDate.of(2023, 3, 12));
-//        ctpbh.setNgayHetHan(LocalDate.of(2024, 3, 12));
-//        ctpbh.setMoTa("ko biet ... x2");
-//        ctpbh.setTrangThai(true);
-//
-//        PhieuBaoHanh phieuBaoHanh = new PhieuBaoHanh();
-//        phieuBaoHanh.setHoaDonChiTiet(null);
-//        phieuBaoHanh.setLoaiBaoHanh(lbh1);
-//        phieuBaoHanh.setChiTietPhieuBaoHanh(ctpbh);
-//
-//        System.out.println(add(phieuBaoHanh));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return check = false;
     }
+
 }

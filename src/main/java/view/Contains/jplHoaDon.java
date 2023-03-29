@@ -18,17 +18,17 @@ public class jplHoaDon extends javax.swing.JPanel {
         JTableHeader headerImei = tblImei.getTableHeader();
 
         //Header table hóa đơn
-        headerHoaDon.setFont(new Font("tahoma", Font.BOLD, 15));
+        headerHoaDon.setFont(new Font("tahoma", Font.BOLD, 11));
         headerHoaDon.setBackground(new Color(47, 85, 212));
         headerHoaDon.setForeground(Color.white);
 
         //Header table hóa đơn ct
-        headerHoaDonCT.setFont(new Font("tahoma", Font.BOLD, 15));
+        headerHoaDonCT.setFont(new Font("tahoma", Font.BOLD, 11));
         headerHoaDonCT.setBackground(new Color(47, 85, 212));
         headerHoaDonCT.setForeground(Color.white);
 
         //Header table imei
-        headerImei.setFont(new Font("tahoma", Font.BOLD, 15));
+        headerImei.setFont(new Font("tahoma", Font.BOLD, 11));
         headerImei.setBackground(new Color(47, 85, 212));
         headerImei.setForeground(Color.white);
 
@@ -229,16 +229,27 @@ public class jplHoaDon extends javax.swing.JPanel {
 
         tblHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "TÊN KHÁCH HÀNG", "NGÀY TẠO", "NGÀY THANH TOÁN", "TỔNG TIỀN", "PHẾU GIẢM GIÁ", "TIỀN GIẢM", "HT THANH TOÁN", "GHI CHÚ", "TÊN NHÂN VIÊN", "TRẠNG THÁI"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblHoaDon);
+        if (tblHoaDon.getColumnModel().getColumnCount() > 0) {
+            tblHoaDon.getColumnModel().getColumn(0).setPreferredWidth(10);
+        }
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
