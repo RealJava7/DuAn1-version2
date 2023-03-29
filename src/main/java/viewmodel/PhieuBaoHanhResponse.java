@@ -40,7 +40,7 @@ public class PhieuBaoHanhResponse {
             this.ngayMuaHang, this.ngayHetHan, this.moTa, getStatus(this.ngayHetHan)};
     }
 
-    private String getStatus(LocalDate ngayHetHan) {
+    public String getStatus(LocalDate ngayHetHan) {
         LocalDate now = LocalDate.now();
         return ngayHetHan.compareTo(now) <= 0 ? "Hết Hạn" : "Còn Hạn";
     }

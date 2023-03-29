@@ -6,6 +6,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
@@ -182,6 +183,11 @@ public class jplBaoHanh extends javax.swing.JPanel {
         rdConHan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 rdConHanMouseClicked(evt);
+            }
+        });
+        rdConHan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdConHanActionPerformed(evt);
             }
         });
 
@@ -386,12 +392,12 @@ public class jplBaoHanh extends javax.swing.JPanel {
                 excelBOS = new BufferedOutputStream(excelFOS);
                 excelJtableExporter.write(excelBOS);
 
-                JOptionPane.showMessageDialog(rdConHan, "Xuất file excel thành công");
+                JOptionPane.showMessageDialog(this, "Xuất file excel thành công");
             } catch (FileNotFoundException ex) {
-                JOptionPane.showMessageDialog(rdConHan, "Lỗi không tìm thấy file");
+                JOptionPane.showMessageDialog(this, "Lỗi không tìm thấy file");
                 ex.printStackTrace();
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(rdConHan, "Một lỗi gì đó!......");
+                JOptionPane.showMessageDialog(this, "Một lỗi gì đó!......");
                 ex.printStackTrace();
             } finally {
                 try {
@@ -405,7 +411,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
                         excelJtableExporter.close();
                     }
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(rdConHan, "Lỗi khi cố gắng đóng các class");
+                    JOptionPane.showMessageDialog(this, "Lỗi khi cố gắng đóng các class");
                     ex.printStackTrace();
                 }
             }
@@ -420,10 +426,15 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        if (txtSearchTenKH.getText().matches("\\s+") && txtSearchTenKH.getText().matches("\\s")) {
-            JOptionPane.showMessageDialog(rdConHan, "Không được để trống tìm kiếm");
+        if (txtSearchTenKH.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Không được để trống tìm kiếm");
         } else {
-            showDataTable(service.getAllListSearch(txtSearchTenKH.getText()));
+            if (service.getAllListSearch(txtSearchTenKH.getText()).isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng!");
+                dtm.setRowCount(0);
+            } else {
+                showDataTable(service.getAllListSearch(txtSearchTenKH.getText()));
+            }
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
@@ -435,17 +446,43 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
     private void rdConHanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdConHanMouseClicked
         // TODO add your handling code here:
-        showDataTable(service.getAllStatus(true));
+        List<PhieuBaoHanhResponse> listPBH = service.getAll();
+        List<PhieuBaoHanhResponse> list = new ArrayList<>();
+        if (listPBH.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không có phiếu bảo hành nào ở trong cửa hàng!!");
+        } else {
+            for (PhieuBaoHanhResponse pbh : listPBH) {
+                if ("Còn Hạn".equals(pbh.getStatus(pbh.getNgayHetHan()))) {
+                    list.add(pbh);
+                }
+            }
+            showDataTable(list);
+        }
     }//GEN-LAST:event_rdConHanMouseClicked
 
     private void rdHetHanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdHetHanMouseClicked
         // TODO add your handling code here:
-        showDataTable(service.getAllStatus(false));
+        List<PhieuBaoHanhResponse> listPBH = service.getAll();
+        List<PhieuBaoHanhResponse> list = new ArrayList<>();
+        if (listPBH.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không có phiếu bảo hành nào ở trong cửa hàng!!");
+        } else {
+            for (PhieuBaoHanhResponse pbh : listPBH) {
+                if ("Hết Hạn".equals(pbh.getStatus(pbh.getNgayHetHan()))) {
+                    list.add(pbh);
+                }
+            }
+            showDataTable(list);
+        }
     }//GEN-LAST:event_rdHetHanMouseClicked
 
     private void txtSearchTenKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchTenKHActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchTenKHActionPerformed
+
+    private void rdConHanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdConHanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdConHanActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddLoaiBaoHanh;
