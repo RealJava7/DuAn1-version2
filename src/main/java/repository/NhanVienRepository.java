@@ -76,7 +76,7 @@ public class NhanVienRepository {
         }
         return check;
     }
-    
+
     public boolean recover(int id) {
         boolean check = false;
         try {
@@ -173,7 +173,7 @@ public class NhanVienRepository {
         }
         return nhanVienResponses;
     }
-    
+
     public List<NhanVienResponse> findByNameNVNghi(String name) {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
 
@@ -194,7 +194,7 @@ public class NhanVienRepository {
         }
         return nhanVienResponses;
     }
-    
+
     public List<NhanVienResponse> findByGioiTinhNVLam(boolean gt) {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
 
@@ -215,7 +215,7 @@ public class NhanVienRepository {
         }
         return nhanVienResponses;
     }
-    
+
     public List<NhanVienResponse> findByGioiTinhNVNghi(boolean gt) {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
 
@@ -236,7 +236,7 @@ public class NhanVienRepository {
         }
         return nhanVienResponses;
     }
-    
+
     public List<NhanVienResponse> findByChucVuNVLam(boolean cv) {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
 
@@ -257,7 +257,7 @@ public class NhanVienRepository {
         }
         return nhanVienResponses;
     }
-    
+
     public List<NhanVienResponse> findByChucVuNVNghi(boolean cv) {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
 
@@ -272,6 +272,26 @@ public class NhanVienRepository {
                                               AND nv.trangThai = false
                                                """);
             query.setParameter("chucVu", cv);
+            nhanVienResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return nhanVienResponses;
+    }
+
+    // get tài tài khoản mật khẩu nhân viên
+    public List<NhanVienResponse> getTaiKhoanNhanVien() {
+        List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.NhanVienResponse
+                                              (nv.id, nv.hoTen, nv.gioiTinh, nv.sdt, nv.ngaySinh, nv.diaChi, nv.email, nv.chucVu, nv.trangThai, nv.hinhAnh, tk.taiKhoan, tk.matKhau)
+                                              FROM NhanVien nv
+                                              INNER JOIN nv.taiKhoan tk Where nv.trangThai = true
+                                               """);
+
             nhanVienResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);

@@ -19,24 +19,27 @@ public interface QuanLyNhanVienService {
     String update(NhanVienResponse nhanVienResponse, int id);
 
     String delete(int id);
-    
+
     String recover(int id);
-    
+
     List<NhanVienResponse> getAll();
 
     List<NhanVienResponse> getAllLam();
 
     List<NhanVienResponse> getAllNghi();
 
+    List<NhanVienResponse> getTaiKhoanNhanVien();
+
     List<NhanVienResponse> findByNameNVLam(String name);
-    
+
     List<NhanVienResponse> findByNameNVNghi(String name);
-    
+
     List<NhanVienResponse> findByGioiTinhNVLam(boolean gt);
-    
+
     List<NhanVienResponse> findByGioiTinhNVNghi(boolean gt);
-    
+
     List<NhanVienResponse> findByChucVuNVLam(boolean cv);
-    
+
     List<NhanVienResponse> findByChucVuNVNghi(boolean cv);
+
 }

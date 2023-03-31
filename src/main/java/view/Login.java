@@ -1,13 +1,39 @@
 package view;
 
+import java.util.List;
 import javax.swing.JOptionPane;
+import service.QuanLyNhanVienService;
+import service.impl.QuanLyNhanVienServiceImpl;
+import viewmodel.NhanVienResponse;
 
 public class Login extends javax.swing.JFrame {
 
+    private List<NhanVienResponse> listNhanVien;
+    private QuanLyNhanVienService service;
+
     public Login() {
         initComponents();
-
         setLocationRelativeTo(null);
+        service = new QuanLyNhanVienServiceImpl();
+        listNhanVien = service.getTaiKhoanNhanVien();
+
+    }
+
+    private Boolean kiemTra() {
+        StringBuilder sb = new StringBuilder();
+        if (txtUser.getText().isBlank()) {
+            sb.append("Không để trống User\n");
+        } else if (!txtUser.getText().matches("[a-zA-z0-9]+")) {
+            sb.append("Vui lòng nhập đúng định dạng User\n");
+        }
+        if (txtPass.getText().isBlank()) {
+            sb.append("Không bỏ trống Pass\n");
+        }
+        if (sb.length() > 0) {
+            JOptionPane.showMessageDialog(this, sb);
+            return false;
+        }
+        return true;
 
     }
 
@@ -119,7 +145,31 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        JOptionPane.showMessageDialog(this, "Alo");
+        if (kiemTra()) {
+            String user = txtUser.getText().trim().toLowerCase();
+            String pass = txtPass.getText().trim().toLowerCase();
+            int check = 0;
+            for (NhanVienResponse s : listNhanVien) {
+                if (s.getTaiKhoan().equals(user) && s.getMatKhau().equals(pass)) {
+
+                    check = 1;
+
+                } else {
+                    check = 0;
+
+                }
+            }
+
+            if (check == 1) {
+                JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
+                new PhanMemBanDienThoai().setVisible(true);
+
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Sai tài khoản mật khẩu");
+
+            }
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     public static void main(String args[]) {
