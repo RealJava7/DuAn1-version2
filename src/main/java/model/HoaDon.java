@@ -32,6 +32,9 @@ public class HoaDon {
 
     @Column(name = "NgayThanhToan")
     private LocalDateTime ngayThanhToan;
+    
+    @Column(name = "TienGiam")
+    private long tienGiam;
 
     @Column(name = "TongTien")
     private long tongTien;
@@ -41,9 +44,6 @@ public class HoaDon {
 
     @Column(name = "TienThua")
     private long tienThua;
-
-    @Column(name = "TienGiam")
-    private long tienGiam;
 
     @Column(name = "HinhThucThanhToan")
     private boolean hinhThucThanhToan;
