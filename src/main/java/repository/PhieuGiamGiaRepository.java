@@ -108,9 +108,9 @@ public class PhieuGiamGiaRepository {
                                             SELECT new viewmodel.PhieuGiamGiaResponse
                                                                                             (pgg.id, pgg.maPhieu, pgg.tenPhieu, pct.ngayBatDau, pct.ngayKetThuc, pct.luotSuDung, pct.dieuKien, pct.giaTri, pct.trangThai)
                                                                                             FROM PhieuGiamGia pgg
-                                              INNER JOIN pgg.phieuGiamGiaChiTiet pct where pgg.tenPhieu= :name
+                                              INNER JOIN pgg.phieuGiamGiaChiTiet pct where pgg.tenPhieu like :name
                                                """);
-            query.setParameter("name", name);
+            query.setParameter("name","%"+name+"%");
             phieuGiamGiaResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
@@ -126,16 +126,16 @@ public class PhieuGiamGiaRepository {
                                             SELECT new viewmodel.PhieuGiamGiaResponse
                                                                                             (pgg.id, pgg.maPhieu, pgg.tenPhieu, pct.ngayBatDau, pct.ngayKetThuc, pct.luotSuDung, pct.dieuKien, pct.giaTri, pct.trangThai)
                                                                                             FROM PhieuGiamGia pgg
-                                              INNER JOIN pgg.phieuGiamGiaChiTiet pct where pgg.maPhieu= :ma
+                                              INNER JOIN pgg.phieuGiamGiaChiTiet pct where pgg.maPhieu like :ma
                                                """);
-            query.setParameter("ma", ma);
+            query.setParameter("ma", "%"+ma+"%");
             phieuGiamGiaResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
         }
         return phieuGiamGiaResponses;
     }
-
+   
     public static void main(String[] args) {
         // add
 //        PhieuGiamGiaChiTiet phieuGiamGiaChiTiet = new PhieuGiamGiaChiTiet();
