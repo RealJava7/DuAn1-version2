@@ -34,12 +34,9 @@ public class HoaDonChiTiet {
     @JoinColumn(name = "IdImei")
     private Imei imei;
 
-    @Column(name = "DonGia")
-    private long donGiaDT;
-
     @Override
     public String toString() {
-        return "HoaDonChiTiet{" + "id=" + id + ", hoaDon=" + hoaDon + ", imei=" + imei + ", donGiaDT=" + donGiaDT + '}';
+        return "HoaDonChiTiet{" + "id=" + id + ", hoaDon=" + hoaDon + ", imei=" + imei + '}';
     }
-    
+
 }
