@@ -1017,7 +1017,7 @@
                           <Component id="btnThem" alignment="0" max="32767" attributes="0"/>
                           <Component id="btnNew" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="41" max="32767" attributes="0"/>
+                      <EmptySpace pref="44" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
