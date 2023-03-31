@@ -26,7 +26,7 @@ public class PhieuTraGopServiceImpl implements PhieuTraGopService {
             traGopViewModel.setMaPhieu(phieuTraGop.getMaPhieu());
 //            traGopViewModel.setKhachHang(phieuTraGop.getHoaDon().getKhachHang().getHoTen());
 //            traGopViewModel.setMaDon(phieuTraGop.getHoaDon().get);
-//            traGopViewModel.setTongTien(phieuTraGop.getHoaDon().getTongTien() - phieuTraGop.getHoaDon().getTienGiam()); // tổng tiền - tiền giảm
+            traGopViewModel.setTongTien(phieuTraGop.getTongPhaiTra()); // tổng tiền - tiền giảm
             traGopViewModel.setDaTra(phieuTraGop.getTongTienDaTra());
 
             traGopViewModel.setConNo(0);
@@ -50,7 +50,7 @@ public class PhieuTraGopServiceImpl implements PhieuTraGopService {
             traGopViewModel.setMaPhieu(phieuTraGop.getMaPhieu());
 //            traGopViewModel.setKhachHang(phieuTraGop.getHoaDon().getKhachHang().getHoTen());
 //            traGopViewModel.setMaDon(phieuTraGop.getHoaDon().get);
-//            traGopViewModel.setTongTien(phieuTraGop.getHoaDon().getTongTien() - phieuTraGop.getHoaDon().getTienGiam()); // tổng tiền - tiền giảm
+            traGopViewModel.setTongTien(phieuTraGop.getTongPhaiTra()); // tổng tiền - tiền giảm
             traGopViewModel.setDaTra(phieuTraGop.getTongTienDaTra());
 
             traGopViewModel.setConNo(0);
@@ -99,7 +99,7 @@ public class PhieuTraGopServiceImpl implements PhieuTraGopService {
             traGopViewModel.setMaPhieu(phieuTraGop.getMaPhieu());
 //            traGopViewModel.setKhachHang(phieuTraGop.getHoaDon().getKhachHang().getHoTen());
 //            traGopViewModel.setMaDon(phieuTraGop.getHoaDon().get);
-//            traGopViewModel.setTongTien(phieuTraGop.getHoaDon().getTongTien() - phieuTraGop.getHoaDon().getTienGiam()); // tổng tiền - tiền giảm
+            traGopViewModel.setTongTien(phieuTraGop.getTongPhaiTra()); // tổng tiền - tiền giảm
             traGopViewModel.setDaTra(phieuTraGop.getTongTienDaTra());
 
             traGopViewModel.setConNo(0);
