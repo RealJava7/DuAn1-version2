@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
+import model.ChiTietPhieuBaoHanh;
 import model.PhieuBaoHanh;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -98,14 +99,41 @@ public class PhieuBaoHanhRepository {
         return phieuBaoHanhResponses;
     }
 
-    public boolean updatePhieuBH(PhieuBaoHanhResponse pbh, int id) {
-        boolean check;
+    public PhieuBaoHanhResponse getPBHByID(int id) {
+        PhieuBaoHanhResponse pbh = null;
         try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                       SELECT new viewmodel.PhieuBaoHanhResponse
+                                       (pbh.id, lbh.ten, lbh.dieuKien,
+                                       ct.tenKhachHang, ct.tenDienThoai, ct.imei, ct.giaSanPham, ct.thoiHanBaoHanh, ct.ngayMuaHang, ct.ngayHetHan, ct.moTa, ct.trangThai)
+                                       FROM PhieuBaoHanh pbh
+                                       INNER JOIN pbh.loaiBaoHanh lbh
+                                       INNER JOIN pbh.chiTietPhieuBaoHanh ct
+                                       WHERE pbh.id = :id
+                                              """);
+            query.setParameter("id", id);
+            pbh = (PhieuBaoHanhResponse) query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return pbh;
+        }
+    }
 
+    public static boolean updateMotaPBH(PhieuBaoHanhResponse pbh, int id) {
+        boolean check = false;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
+            ChiTietPhieuBaoHanh newCTPBH = session.get(ChiTietPhieuBaoHanh.class, id);
+            newCTPBH.setMoTa(pbh.getMoTa());
+            session.update(newCTPBH);
+            transaction.commit();
+            check = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return check = false;
+        return check;
     }
-
 }

@@ -30,7 +30,7 @@ public class NhanVienRepository {
     }
 
     // 2. update
-    public boolean update(NhanVienResponse nhanVienResponse, int id) {
+    public static boolean update(NhanVienResponse nhanVienResponse, int id) {
         boolean check = false;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
@@ -61,6 +61,7 @@ public class NhanVienRepository {
         return check;
     }
 
+
     public boolean delete(int id) {
         boolean check = false;
         try {
@@ -76,7 +77,7 @@ public class NhanVienRepository {
         }
         return check;
     }
-    
+
     public boolean recover(int id) {
         boolean check = false;
         try {
@@ -173,7 +174,7 @@ public class NhanVienRepository {
         }
         return nhanVienResponses;
     }
-    
+
     public List<NhanVienResponse> findByNameNVNghi(String name) {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
 
@@ -194,7 +195,7 @@ public class NhanVienRepository {
         }
         return nhanVienResponses;
     }
-    
+
     public List<NhanVienResponse> findByGioiTinhNVLam(boolean gt) {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
 
@@ -215,7 +216,7 @@ public class NhanVienRepository {
         }
         return nhanVienResponses;
     }
-    
+
     public List<NhanVienResponse> findByGioiTinhNVNghi(boolean gt) {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
 
@@ -236,7 +237,7 @@ public class NhanVienRepository {
         }
         return nhanVienResponses;
     }
-    
+
     public List<NhanVienResponse> findByChucVuNVLam(boolean cv) {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
 
@@ -257,7 +258,7 @@ public class NhanVienRepository {
         }
         return nhanVienResponses;
     }
-    
+
     public List<NhanVienResponse> findByChucVuNVNghi(boolean cv) {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
 
