@@ -45,11 +45,20 @@ public class HoaDon {
     @Column(name = "TienThua")
     private long tienThua;
 
-    @Column(name = "HinhThucThanhToan")
-    private boolean hinhThucThanhToan;
+    @Column(name = "TraGop")
+    private boolean traGop;
+    
+    @Column(name = "TienTraTruoc")
+    private long tienTraTruoc;
+    
+    @Column(name = "TienThieu")
+    private long tienThieu;
 
     @Column(name = "GhiChu")
     private String ghiChu;
+    
+    @Column(name = "HinhThucThanhToan")
+    private boolean hinhThucThanhToan;
 
     @ManyToOne
     @JoinColumn(name = "IdNhanVien")
