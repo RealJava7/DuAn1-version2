@@ -56,9 +56,15 @@ public class DienThoaiResponse {
                 + kichThuoc + ", doPhanGiai=" + doPhanGiai + ", loaiManHinh=" + loaiManHinh + '}';
     }
 
+    // dùng trong view sản phẩm
     public Object[] toDataRow() {
         NumberFormat nf = NumberFormat.getInstance(new Locale("vn", "VN"));
         return new Object[]{tenDT, hang, ram + " GB", rom + " GB", dungLuongPin + " mAh", soLuong, nf.format(giaBan) + " VND"};
     }
 
+    // dùng trong view bán hàng
+    public Object[] toDataRow2() {
+        NumberFormat nf = NumberFormat.getInstance(new Locale("vn", "VN"));
+        return new Object[]{maDT, tenDT, nf.format(giaBan) + " VND", soLuong};
+    }
 }

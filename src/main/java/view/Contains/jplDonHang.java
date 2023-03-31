@@ -1,33 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package view.Contains;
 
+import java.util.ArrayList;
 import java.util.List;
 import model.DienThoai;
+import model.HoaDonChiTiet;
 import model.KhachHang;
 
-/**
- *
- * @author Administrator
- */
 public class jplDonHang extends javax.swing.JPanel {
 
     // list Lưu danh sách sản phẩm mà khách chọn
     private List<DienThoai> list;
     // lưu khách hàng
     private KhachHang kh;
+    private List<HoaDonChiTiet> hoaDonChiTiets;
 
-    /**
-     * Creates new form jplDonHang
-     */
     public jplDonHang(int donSo) {
         initComponents();
         this.setName("Đơn" + donSo);
-
+        hoaDonChiTiets  = new ArrayList<>();
     }
 
+    public List<HoaDonChiTiet> getHoaDonChiTiets() {
+        return hoaDonChiTiets;
+    }
+
+    public void setHoaDonChiTiets(List<HoaDonChiTiet> hoaDonChiTiets) {
+        this.hoaDonChiTiets = hoaDonChiTiets;
+    }
+    
     public List<DienThoai> getList() {
         return list;
     }
@@ -53,12 +53,11 @@ public class jplDonHang extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbHoaDonChiTiet = new javax.swing.JTable();
 
-        jTable1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbHoaDonChiTiet.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tbHoaDonChiTiet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null}
@@ -75,50 +74,40 @@ public class jplDonHang extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(30);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(30);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(30);
-            jTable1.getColumnModel().getColumn(2).setMinWidth(70);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(70);
-            jTable1.getColumnModel().getColumn(2).setMaxWidth(70);
-            jTable1.getColumnModel().getColumn(3).setMinWidth(120);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(120);
-            jTable1.getColumnModel().getColumn(4).setMinWidth(120);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(120);
+        jScrollPane1.setViewportView(tbHoaDonChiTiet);
+        if (tbHoaDonChiTiet.getColumnModel().getColumnCount() > 0) {
+            tbHoaDonChiTiet.getColumnModel().getColumn(0).setMinWidth(30);
+            tbHoaDonChiTiet.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tbHoaDonChiTiet.getColumnModel().getColumn(0).setMaxWidth(30);
+            tbHoaDonChiTiet.getColumnModel().getColumn(2).setMinWidth(70);
+            tbHoaDonChiTiet.getColumnModel().getColumn(2).setPreferredWidth(70);
+            tbHoaDonChiTiet.getColumnModel().getColumn(2).setMaxWidth(70);
+            tbHoaDonChiTiet.getColumnModel().getColumn(3).setMinWidth(120);
+            tbHoaDonChiTiet.getColumnModel().getColumn(3).setPreferredWidth(120);
+            tbHoaDonChiTiet.getColumnModel().getColumn(4).setMinWidth(120);
+            tbHoaDonChiTiet.getColumnModel().getColumn(4).setPreferredWidth(120);
         }
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
-        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tbHoaDonChiTiet;
     // End of variables declaration//GEN-END:variables
 }

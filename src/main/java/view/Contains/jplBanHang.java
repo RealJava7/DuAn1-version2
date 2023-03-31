@@ -1,58 +1,98 @@
 package view.Contains;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Panel;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import javax.swing.JDialog;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import model.HoaDonChiTiet;
+import model.Imei;
 import model.KhachHang;
 import model.TheTichDiem;
+import service.DienThoaiService;
+import service.ImeiService;
 import service.KhachHangService;
+import service.impl.DienThoaiServiceImpl;
+import service.impl.ImeiServiceImpl;
 import service.impl.KhachHangServiceImpl;
 import static view.Contains.jplKhachHang.generateRandomNumericString;
 import view.Contains.tragop.ViewTraGopForm;
 import view.Contains.tragop.jplFormThanhToan;
+import viewmodel.DienThoaiResponse;
+import viewmodel.ImeiResponse;
 import viewmodel.KhachHangResponse;
 
 public class jplBanHang extends javax.swing.JPanel {
 
-    private List<KhachHangResponse> listKhachHang;
-    private KhachHangService service;
+    private DefaultTableModel dtmDienThoai;
+
+    private List<DienThoaiResponse> dienThoaiResponseList;
+    private List<KhachHangResponse> khachHangResponseList;
+    private List<HoaDonChiTiet> hoaDonChiTietList;
+
+    private DienThoaiService dienThoaiService;
+    private KhachHangService khachHangService;
+    private ImeiService imeiService;
 
     public jplBanHang() {
         initComponents();
+
+        dtmDienThoai = (DefaultTableModel) tbDienThoai.getModel();
+
+        dienThoaiResponseList = new ArrayList<>();
+
+        dienThoaiService = new DienThoaiServiceImpl();
+        khachHangService = new KhachHangServiceImpl();
+        imeiService = new ImeiServiceImpl();
+
+        dienThoaiResponseList = dienThoaiService.getAllResponseByStatus(true);
+        khachHangResponseList = khachHangService.getAllResponseByStatus(1);
+
+        showKhachHangCombobox();
+        showDienThoaiTable(dienThoaiResponseList);
+
         //khởi tạo giở hàng
         int soDon = jTabbedPane1.getTabCount();
         jTabbedPane1.add(new jplDonHang(++soDon));
         //Khởi tạo cách thanh toán
 //        addFormThanhToan(new jplFormThanhToan());
         viewTable();
-        service = new KhachHangServiceImpl();
-        listKhachHang = service.getAll();
-        //showData combox khách hàng
-        showComboboxKhachHang();
     }
 
-    private void showComboboxKhachHang() {
-        cboKhachHang.removeAllItems();
-        for (KhachHangResponse s : listKhachHang) {
-            cboKhachHang.addItem(s.getHoTen() + " - " + s.getSdt());
+    // 1. hiển thị điện thoại trạng thái = true
+    private void showDienThoaiTable(List<DienThoaiResponse> dienThoaiResponses) {
+        dtmDienThoai.setRowCount(0);
+        dienThoaiResponses.forEach(dt -> dtmDienThoai.addRow(dt.toDataRow2()));
+    }
+
+    // 2. hiển thị combobox khách hàng
+    private void showKhachHangCombobox() {
+        cbKhachHang.removeAllItems();
+        for (KhachHangResponse s : khachHangResponseList) {
+            cbKhachHang.addItem(s.getHoTen() + " - " + s.getSdt());
         }
     }
 
     private void viewTable() {
-        JTableHeader Theader = jTable1.getTableHeader();
+        JTableHeader Theader = tbDienThoai.getTableHeader();
 
         Theader.setFont(new Font("tahoma", Font.BOLD, 15));
         Theader.setBackground(new Color(47, 85, 212));
         Theader.setForeground(Color.white);
-
     }
 
 //    private void addFormThanhToan(JPanel jpl) {
@@ -73,7 +113,7 @@ public class jplBanHang extends javax.swing.JPanel {
     private Boolean kiemTra(int id, String email) {
 
         StringBuilder sb = new StringBuilder();
-        KhachHangResponse kh = service.getKhachHangByEmail(email);
+        KhachHangResponse kh = khachHangService.getKhachHangByEmail(email);
         if (txtHoTen.getText().isBlank()) {
             sb.append("Không để trống họ và tên\n");
 
@@ -93,7 +133,7 @@ public class jplBanHang extends javax.swing.JPanel {
             } else if (id > 0) {
 
                 String str = "";
-                for (KhachHangResponse s : listKhachHang) {
+                for (KhachHangResponse s : khachHangResponseList) {
                     if (s.getId() != id) {
 
                         if (txtEmail.getText().trim().toLowerCase().equals(s.getEmail().toLowerCase()) == true) {
@@ -107,9 +147,7 @@ public class jplBanHang extends javax.swing.JPanel {
                         }
                     }
                 }
-
             }
-
         }
 
         if (txtSdt.getText().trim().isBlank()) {
@@ -144,7 +182,6 @@ public class jplBanHang extends javax.swing.JPanel {
         }
         return sb.toString();
     }
-    // getData trên txt
 
     public KhachHang getData() {
         TheTichDiem theTichDiem = new TheTichDiem();
@@ -204,6 +241,13 @@ public class jplBanHang extends javax.swing.JPanel {
         btnThem = new javax.swing.JButton();
         jdateNgaySinh = new com.toedter.calendar.JDateChooser();
         buttonGroup2 = new javax.swing.ButtonGroup();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        menuItem1 = new javax.swing.JMenuItem();
+        menuItem2 = new javax.swing.JMenuItem();
+        imeiDialog = new javax.swing.JDialog();
+        jLabel48 = new javax.swing.JLabel();
+        cbImeiInDialog = new javax.swing.JComboBox<>();
+        btnOkImei = new javax.swing.JButton();
         jpnFormBanHang = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
@@ -218,11 +262,11 @@ public class jplBanHang extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         btnXoaDonHang = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbDienThoai = new javax.swing.JTable();
         Jpanel20 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        cboKhachHang = new javax.swing.JComboBox<>();
+        cbKhachHang = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -444,6 +488,57 @@ public class jplBanHang extends javax.swing.JPanel {
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
+        menuItem1.setText("Xem chi tiết");
+        menuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItem1ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(menuItem1);
+
+        menuItem2.setText("Thêm vào giỏ");
+        menuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItem2ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(menuItem2);
+
+        jLabel48.setText("Chọn IMEI");
+
+        btnOkImei.setText("OK");
+        btnOkImei.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOkImeiActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout imeiDialogLayout = new javax.swing.GroupLayout(imeiDialog.getContentPane());
+        imeiDialog.getContentPane().setLayout(imeiDialogLayout);
+        imeiDialogLayout.setHorizontalGroup(
+            imeiDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(imeiDialogLayout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addGroup(imeiDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel48, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(imeiDialogLayout.createSequentialGroup()
+                        .addComponent(cbImeiInDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnOkImei)))
+                .addContainerGap(91, Short.MAX_VALUE))
+        );
+        imeiDialogLayout.setVerticalGroup(
+            imeiDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(imeiDialogLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLabel48)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(imeiDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbImeiInDialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnOkImei))
+                .addContainerGap(237, Short.MAX_VALUE))
+        );
+
         setBackground(new java.awt.Color(255, 255, 255));
 
         jpnFormBanHang.setBackground(new java.awt.Color(255, 255, 255));
@@ -573,18 +668,26 @@ public class jplBanHang extends javax.swing.JPanel {
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbDienThoai.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã ĐT", "Tên ĐT", "Giá Bán", "Số Lượng"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tbDienThoai.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbDienThoaiMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbDienThoai);
+        if (tbDienThoai.getColumnModel().getColumnCount() > 0) {
+            tbDienThoai.getColumnModel().getColumn(1).setResizable(false);
+            tbDienThoai.getColumnModel().getColumn(1).setPreferredWidth(150);
+            tbDienThoai.getColumnModel().getColumn(3).setResizable(false);
+            tbDienThoai.getColumnModel().getColumn(3).setPreferredWidth(20);
+        }
 
         javax.swing.GroupLayout jpnFormBanHangLayout = new javax.swing.GroupLayout(jpnFormBanHang);
         jpnFormBanHang.setLayout(jpnFormBanHangLayout);
@@ -619,8 +722,7 @@ public class jplBanHang extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel5.setText("Khách Hàng:");
 
-        cboKhachHang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cboKhachHang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbKhachHang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jButton1.setBackground(new java.awt.Color(47, 85, 212));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-pencil-20 WHITE.png"))); // NOI18N
@@ -977,7 +1079,7 @@ public class jplBanHang extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(Jpanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(Jpanel20Layout.createSequentialGroup()
-                                .addComponent(cboKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton1))
                             .addGroup(Jpanel20Layout.createSequentialGroup()
@@ -1004,7 +1106,7 @@ public class jplBanHang extends javax.swing.JPanel {
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addGroup(Jpanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cboKhachHang)
+                    .addComponent(cbKhachHang)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1051,13 +1153,11 @@ public class jplBanHang extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTaoDonHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoDonHangActionPerformed
-        // TODO add your handling code here:
         int soDon = jTabbedPane1.getTabCount();
         jTabbedPane1.add(new jplDonHang(soDon + 1));
     }//GEN-LAST:event_btnTaoDonHangActionPerformed
 
     private void btnXoaDonHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaDonHangActionPerformed
-        // TODO add your handling code here:
         int indexDon = jTabbedPane1.getSelectedIndex();
         //sẽ không thể xóa đơn duy nhất (Phải để lại ít nhất 1 đơn)
         if (jTabbedPane1.getTabCount() > 1) {
@@ -1093,20 +1193,66 @@ public class jplBanHang extends javax.swing.JPanel {
         setDefault();
         KhachHang kh = getData();
         if (kiemTra(0, txtEmail.getText().trim())) {
-            JOptionPane.showMessageDialog(this, service.add(kh));
+            JOptionPane.showMessageDialog(this, khachHangService.add(kh));
 
-            listKhachHang = service.getAll();
-            KhachHangResponse s = service.getKhachHangById(kh.getId());
-            service.updateKhoiPhuc(s, chkTrangThai.isSelected() ? 1 : 0);
-            showComboboxKhachHang();
+            khachHangResponseList = khachHangService.getAll();
+            KhachHangResponse s = khachHangService.getKhachHangById(kh.getId());
+            khachHangService.updateKhoiPhuc(s, chkTrangThai.isSelected() ? 1 : 0);
+            showKhachHangCombobox();
             ThemKhachHang.dispose();
         }
 
     }//GEN-LAST:event_btnThemActionPerformed
 
+    private void tbDienThoaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDienThoaiMouseClicked
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            int row = tbDienThoai.rowAtPoint(evt.getPoint());
+            if (row >= 0 && row < tbDienThoai.getRowCount()) {
+                tbDienThoai.setRowSelectionInterval(row, row);
+                jPopupMenu1.show(evt.getComponent(), evt.getX(), evt.getY());
+            }
+        }
+    }//GEN-LAST:event_tbDienThoaiMouseClicked
+
+    private void menuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItem1ActionPerformed
+        System.out.println("Xem chi tiết");
+    }//GEN-LAST:event_menuItem1ActionPerformed
+
+    private void menuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItem2ActionPerformed
+        int clickedRowInDienThoaiTable = tbDienThoai.getSelectedRow();
+        if (clickedRowInDienThoaiTable < 0) {
+            return;
+        }
+        DienThoaiResponse dienThoaiResponse = dienThoaiResponseList.get(clickedRowInDienThoaiTable);
+        System.out.println("Id dt: " + dienThoaiResponse.getId());
+        List<ImeiResponse> imeiResponses = imeiService.getAllDienThoaiId(dienThoaiResponse.getId());
+
+        cbImeiInDialog.removeAllItems();
+        imeiResponses.forEach(i -> cbImeiInDialog.addItem(i.getImei()));
+
+        imeiDialog.setSize(450, 150);
+        imeiDialog.setResizable(false);
+        imeiDialog.setLocationRelativeTo(null);
+        imeiDialog.setVisible(true);
+    }//GEN-LAST:event_menuItem2ActionPerformed
+
+    private void btnOkImeiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkImeiActionPerformed
+        String selectedImei = (String) cbImeiInDialog.getSelectedItem();
+        Imei imei = imeiService.getByImei(selectedImei);
+        System.out.println(selectedImei);
+        imeiDialog.setVisible(false);
+        
+        HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
+        hoaDonChiTiet.setImei(imei);
+        
+//      hoaDonChiTietList = jTabbedPane1.getComponents()
+        
+    }//GEN-LAST:event_btnOkImeiActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Jpanel20;
     private javax.swing.JDialog ThemKhachHang;
+    private javax.swing.JButton btnOkImei;
     private javax.swing.JButton btnSapXepGiaGiamDan;
     private javax.swing.JButton btnSapXepGiaTangDan;
     private javax.swing.JButton btnTaoDonHang;
@@ -1114,10 +1260,12 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JButton btnXoaDonHang;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.JComboBox<String> cboKhachHang;
+    private javax.swing.JComboBox<String> cbImeiInDialog;
+    private javax.swing.JComboBox<String> cbKhachHang;
     private javax.swing.JRadioButton cboNam;
     private javax.swing.JRadioButton cboNu;
     private javax.swing.JCheckBox chkTrangThai;
+    private javax.swing.JDialog imeiDialog;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -1167,6 +1315,7 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1176,6 +1325,7 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -1183,7 +1333,6 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
@@ -1191,6 +1340,9 @@ public class jplBanHang extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser jdateNgaySinh;
     private javax.swing.JPanel jplGioHang;
     private javax.swing.JPanel jpnFormBanHang;
+    private javax.swing.JMenuItem menuItem1;
+    private javax.swing.JMenuItem menuItem2;
+    private javax.swing.JTable tbDienThoai;
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextArea txtGhiChu;
