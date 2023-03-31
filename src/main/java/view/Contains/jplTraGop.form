@@ -153,15 +153,15 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="txtSearch" pref="448" max="32767" attributes="0"/>
-                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                  <Component id="cbxThoiGian" pref="182" max="32767" attributes="0"/>
-                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="txtSearch" min="-2" pref="448" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="cbxThoiGian" min="-2" pref="182" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="cbxTrangThai" pref="235" max="32767" attributes="0"/>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -351,7 +351,7 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="btnTaoPhieuTra">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t EXCEL"/>
+            <Property name="text" type="java.lang.String" value="T&#x1ea1;o Phi&#x1ebf;u Tr&#x1ea3; G&#xf3;p"/>
           </Properties>
         </Component>
       </SubComponents>

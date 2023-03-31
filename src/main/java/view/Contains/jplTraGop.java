@@ -154,9 +154,9 @@ public class jplTraGop extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
+                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(cbxThoiGian, 0, 182, Short.MAX_VALUE)
+                .addComponent(cbxThoiGian, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(cbxTrangThai, 0, 235, Short.MAX_VALUE)
                 .addContainerGap())
@@ -210,7 +210,7 @@ public class jplTraGop extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        btnTaoPhieuTra.setText("Xuất EXCEL");
+        btnTaoPhieuTra.setText("Tạo Phiếu Trả Góp");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
