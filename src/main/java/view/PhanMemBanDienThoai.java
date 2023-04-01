@@ -16,6 +16,7 @@ import view.Contains.tragop.ViewTraGopForm;
 public class PhanMemBanDienThoai extends javax.swing.JFrame {
 
     private JPanel panel;
+    private JPanel panelBanHang = new jplBanHang();
 
     public PhanMemBanDienThoai() {
         initComponents();
@@ -495,9 +496,9 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
     }//GEN-LAST:event_lblSanPhamMouseClicked
 
     private void lblBanHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBanHangMouseClicked
-        panel = new jplBanHang();
+
 //        panel = new ViewTraGopForm();
-        setPanel(panel);
+        setPanel(panelBanHang);
     }//GEN-LAST:event_lblBanHangMouseClicked
 
     private void lblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHoaDonMouseClicked
