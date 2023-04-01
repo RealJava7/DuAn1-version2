@@ -16,7 +16,6 @@ public class Login extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         service = new QuanLyNhanVienServiceImpl();
         listNhanVien = service.getTaiKhoanNhanVien();
-
     }
 
     private Boolean kiemTra() {

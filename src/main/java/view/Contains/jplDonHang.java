@@ -2,30 +2,37 @@ package view.Contains;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
 import model.DienThoai;
 import model.HoaDonChiTiet;
 import model.KhachHang;
+import viewmodel.HoaDonChiTietResponse;
 
 public class jplDonHang extends javax.swing.JPanel {
 
-    // list Lưu danh sách sản phẩm mà khách chọn
     private List<DienThoai> list;
-    // lưu khách hàng
     private KhachHang kh;
-    private List<HoaDonChiTiet> hoaDonChiTiets;
+    private List<HoaDonChiTietResponse> hoaDonChiTietResponseList;
+    private DefaultTableModel dtmHDChiTiet;
 
     public jplDonHang(int donSo) {
         initComponents();
         this.setName("Đơn" + donSo);
-        hoaDonChiTiets  = new ArrayList<>();
+        hoaDonChiTietResponseList  = new ArrayList<>();
+        dtmHDChiTiet = (DefaultTableModel) tbHoaDonChiTiet.getModel();
+    }
+    
+    public void load() {
+        dtmHDChiTiet.setRowCount(0);
+        hoaDonChiTietResponseList.forEach(hd -> dtmHDChiTiet.addRow(hd.toDataRow()));
     }
 
-    public List<HoaDonChiTiet> getHoaDonChiTiets() {
-        return hoaDonChiTiets;
+    public List<HoaDonChiTietResponse> getHoaDonChiTiets() {
+        return hoaDonChiTietResponseList;
     }
 
-    public void setHoaDonChiTiets(List<HoaDonChiTiet> hoaDonChiTiets) {
-        this.hoaDonChiTiets = hoaDonChiTiets;
+    public void setHoaDonChiTiets(List<HoaDonChiTietResponse> hoaDonChiTiets) {
+        this.hoaDonChiTietResponseList = hoaDonChiTiets;
     }
     
     public List<DienThoai> getList() {
@@ -59,15 +66,14 @@ public class jplDonHang extends javax.swing.JPanel {
         tbHoaDonChiTiet.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tbHoaDonChiTiet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "STT", "Tên", "Số lượng", "Đơn giá", "Thành tiền"
+                "Tên ĐT", "Đơn giá", "Imei"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -76,16 +82,10 @@ public class jplDonHang extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tbHoaDonChiTiet);
         if (tbHoaDonChiTiet.getColumnModel().getColumnCount() > 0) {
-            tbHoaDonChiTiet.getColumnModel().getColumn(0).setMinWidth(30);
-            tbHoaDonChiTiet.getColumnModel().getColumn(0).setPreferredWidth(30);
-            tbHoaDonChiTiet.getColumnModel().getColumn(0).setMaxWidth(30);
-            tbHoaDonChiTiet.getColumnModel().getColumn(2).setMinWidth(70);
+            tbHoaDonChiTiet.getColumnModel().getColumn(1).setResizable(false);
+            tbHoaDonChiTiet.getColumnModel().getColumn(1).setPreferredWidth(70);
+            tbHoaDonChiTiet.getColumnModel().getColumn(2).setResizable(false);
             tbHoaDonChiTiet.getColumnModel().getColumn(2).setPreferredWidth(70);
-            tbHoaDonChiTiet.getColumnModel().getColumn(2).setMaxWidth(70);
-            tbHoaDonChiTiet.getColumnModel().getColumn(3).setMinWidth(120);
-            tbHoaDonChiTiet.getColumnModel().getColumn(3).setPreferredWidth(120);
-            tbHoaDonChiTiet.getColumnModel().getColumn(4).setMinWidth(120);
-            tbHoaDonChiTiet.getColumnModel().getColumn(4).setPreferredWidth(120);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

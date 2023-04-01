@@ -6,10 +6,6 @@ import repository.PhieuGiamGiaRepository;
 import viewmodel.PhieuGiamGiaResponse;
 import service.PhieuGiamGiaService;
 
-/**
- *
- * @author DELL
- */
 public class PhieuGiamGiaServiceImpl implements PhieuGiamGiaService {
 
     PhieuGiamGiaRepository pr = new PhieuGiamGiaRepository();
@@ -53,5 +49,10 @@ public class PhieuGiamGiaServiceImpl implements PhieuGiamGiaService {
     @Override
     public List<PhieuGiamGiaResponse> getByMa(String ma) {
         return pr.getByMa(ma);
+    }
+
+    @Override
+    public List<PhieuGiamGiaResponse> getAllForView(long tongTien) {
+        return pr.getAllForView(tongTien);
     }
 }

@@ -18,4 +18,6 @@ public interface PhieuGiamGiaService {
 
     List<PhieuGiamGiaResponse> getByMa(String ma);
 
+    List<PhieuGiamGiaResponse> getAllForView(long tongTien);
+
 }
