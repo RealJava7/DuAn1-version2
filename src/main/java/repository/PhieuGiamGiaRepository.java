@@ -81,18 +81,18 @@ public class PhieuGiamGiaRepository {
         }
         return phieuGiamGiaResponses;
     }
+    
     // 4. get by status
-
     public static List<PhieuGiamGiaResponse> getByStatus(int tt) {
         List<PhieuGiamGiaResponse> phieuGiamGiaResponses = new ArrayList<>();
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                             SELECT new viewmodel.PhieuGiamGiaResponse
-                                                                                            (pgg.id, pgg.maPhieu, pgg.tenPhieu, pct.ngayBatDau, pct.ngayKetThuc, pct.luotSuDung, pct.dieuKien, pct.giaTri, pct.trangThai)
-                                                                                            FROM PhieuGiamGia pgg
-                                              INNER JOIN pgg.phieuGiamGiaChiTiet pct where  pct.trangThai = :tt
-                                               """);
+                                            (pgg.id, pgg.maPhieu, pgg.tenPhieu, pct.ngayBatDau, pct.ngayKetThuc, pct.luotSuDung, pct.dieuKien, pct.giaTri, pct.trangThai)
+                                            FROM PhieuGiamGia pgg
+                                            INNER JOIN pgg.phieuGiamGiaChiTiet pct where  pct.trangThai = :tt
+                                            """);
             query.setParameter("tt", tt);
             phieuGiamGiaResponses = query.getResultList();
         } catch (HibernateException ex) {
@@ -197,7 +197,19 @@ public class PhieuGiamGiaRepository {
         }
         return phieuGiamGia;
     }
-
-    public static void main(String[] args) {
+    
+    // 9. update lượt sử dụng sau khi tạo hóa đơn thành công (trong view bán hàng)
+    public static void updateLuotSuDung(PhieuGiamGiaChiTiet phieuChiTiet) {
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
+            
+            session.update(phieuChiTiet);
+            transaction.commit();
+            session.close();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
     }
+
 }
