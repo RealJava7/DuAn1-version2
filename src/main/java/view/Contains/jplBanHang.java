@@ -268,7 +268,7 @@ public class jplBanHang extends javax.swing.JPanel {
         jplGioHang = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jLabel3 = new javax.swing.JLabel();
-        btnXoaDonHang = new javax.swing.JButton();
+        btnXoaHDChiTiet = new javax.swing.JButton();
         btnXoaDonHang1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbDienThoai = new javax.swing.JTable();
@@ -654,13 +654,13 @@ public class jplBanHang extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(47, 85, 212));
         jLabel3.setText("DANH SÁCH HÓA ĐƠN CHỜ");
 
-        btnXoaDonHang.setBackground(new java.awt.Color(47, 85, 212));
-        btnXoaDonHang.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnXoaDonHang.setForeground(new java.awt.Color(255, 255, 255));
-        btnXoaDonHang.setText("Xóa");
-        btnXoaDonHang.addActionListener(new java.awt.event.ActionListener() {
+        btnXoaHDChiTiet.setBackground(new java.awt.Color(47, 85, 212));
+        btnXoaHDChiTiet.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnXoaHDChiTiet.setForeground(new java.awt.Color(255, 255, 255));
+        btnXoaHDChiTiet.setText("Xóa");
+        btnXoaHDChiTiet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXoaDonHangActionPerformed(evt);
+                btnXoaHDChiTietActionPerformed(evt);
             }
         });
 
@@ -683,7 +683,7 @@ public class jplBanHang extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnXoaDonHang)
+                .addComponent(btnXoaHDChiTiet)
                 .addGap(26, 26, 26)
                 .addComponent(btnXoaDonHang1)
                 .addGap(20, 20, 20))
@@ -694,7 +694,7 @@ public class jplBanHang extends javax.swing.JPanel {
                 .addGap(0, 0, 0)
                 .addGroup(jplGioHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnXoaDonHang, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnXoaHDChiTiet, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnXoaDonHang1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3)
                 .addComponent(jTabbedPane1)
@@ -1254,18 +1254,41 @@ public class jplBanHang extends javax.swing.JPanel {
         jTabbedPane1.add(new jplDonHang(soDon + 1));
     }//GEN-LAST:event_btnTaoDonHangActionPerformed
 
-    private void btnXoaDonHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaDonHangActionPerformed
-        int indexDon = jTabbedPane1.getSelectedIndex();
-        //sẽ không thể xóa đơn duy nhất (Phải để lại ít nhất 1 đơn)
-        if (jTabbedPane1.getTabCount() > 1) {
-            //System.out.println(jTabbedPane1.getTabCount());
-            int check = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa đơn hàng chờ này không ?",
-                    "Xóa Đơn Hàng Chờ?", JOptionPane.YES_NO_OPTION);
-            if (check == JOptionPane.YES_OPTION) {
-                jTabbedPane1.remove(indexDon);
-            }
+    private void btnXoaHDChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaHDChiTietActionPerformed
+        /*
+        - chọn 1 dòng HĐCT (chính là một đt) trong giỏ hàng rồi ấn xóa
+        - HĐCT sẽ bị xóa khỏi giỏ hàng
+        - sau đó cần cập nhật lại trạng thại imei từ 1 -> 0
+           cập nhật lại số lượng đt
+        */
+        
+        jplDonHang jplDonHang = (jplDonHang) jTabbedPane1.getSelectedComponent();
+        int index = jplDonHang.globalClickedRow;
+
+        if (index < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn trước khi xóa!");
+            return;
         }
-    }//GEN-LAST:event_btnXoaDonHangActionPerformed
+
+        HoaDonChiTietResponse hdctResponse = hoaDonChiTietResponseList.get(index);
+        hoaDonChiTietResponseList.remove(hdctResponse);
+
+        jplDonHang.setHoaDonChiTiets(hoaDonChiTietResponseList);
+        jplDonHang.load();
+
+        // khi xóa khỏi giỏ hàng thì phải:
+        // 1. cập nhật lại trạng thái của imei từ 1 về 0
+        String imeiStr = hdctResponse.getImei();
+        ImeiRepository.updateImeiTrangThai(imeiStr, 0);
+
+        // 2. cập nhật lại số lượng của điện thoại và show lại bảng điện thoại
+        DienThoaiRepository.updateSoLuongDienThoai(imeiStr, 1);
+        dienThoaiResponseList = dienThoaiService.getAllResponseByStatus(true);
+        showDienThoaiTable(dienThoaiResponseList);
+        
+        showHoaDonInfo1();
+        showHoaDonInfo2();
+    }//GEN-LAST:event_btnXoaHDChiTietActionPerformed
 
     private void btnSapXepGiaTangDanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSapXepGiaTangDanActionPerformed
         dienThoaiResponseList = dienThoaiService.getAllResponseByGiaBan("ASC");
@@ -1337,7 +1360,7 @@ public class jplBanHang extends javax.swing.JPanel {
         // thay đổi trạng thái imei về 'đang trong giỏ hang(1)
         imeiService.updateImeiTrangThai(selectedImei, 1);
         // thay đổi số lượng tồn kho của điện thoại vừa chọn
-        DienThoaiRepository.updateSoLuongDienThoai(selectedImei);
+        DienThoaiRepository.updateSoLuongDienThoai(selectedImei, -1);
 
         int clickedRowInDienThoaiTable = tbDienThoai.getSelectedRow();
         DienThoaiResponse dienThoaiResponse = dienThoaiResponseList.get(clickedRowInDienThoaiTable);
@@ -1350,8 +1373,7 @@ public class jplBanHang extends javax.swing.JPanel {
         hoaDonChiTietResponseList.add(hoaDonChiTietResponse);
 
         jplDonHang jDonHang = (jplDonHang) jTabbedPane1.getSelectedComponent();
-        List<HoaDonChiTietResponse> list = jDonHang.getHoaDonChiTiets();
-        list.add(hoaDonChiTietResponse);
+        jDonHang.setHoaDonChiTiets(hoaDonChiTietResponseList);
         jDonHang.load();
 
         showHoaDonInfo1();
@@ -1363,6 +1385,7 @@ public class jplBanHang extends javax.swing.JPanel {
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+
         jTabbedPane1.getModel().addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -1374,10 +1397,15 @@ public class jplBanHang extends javax.swing.JPanel {
                 hoaDonChiTietResponseList = new ArrayList<>();
                 hoaDonChiTietResponseList.addAll(currentList);
 
-                showHoaDonInfo1();
-                showHoaDonInfo2();
+                try {
+                    showHoaDonInfo1();
+                    showHoaDonInfo2();
+                } catch (Exception ex) {
+                    System.out.println("exception in jTabbedPane1StateChanged");
+                }
             }
         });
+
     }//GEN-LAST:event_jTabbedPane1StateChanged
 
     private void txtTienKhachDuaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtTienKhachDuaCaretUpdate
@@ -1551,7 +1579,7 @@ public class jplBanHang extends javax.swing.JPanel {
             hoaDon.setHinhThucThanhToan(false);
         }
 
-        // khách hàng, nhân viên, phiếu giảm giá tạm thời null
+        // khách hàng, nhân viên tạm thời null
         // 1. khách hàng
         // 2. nhân viên
         // 3. phiếu giảm giá
@@ -1603,6 +1631,7 @@ public class jplBanHang extends javax.swing.JPanel {
         lamMoiForm1();
 
         // 4. tạo phiếu bảo hành
+        
         // 5. trừ lượt sử dụng của phiếu giảm giá
         if (clickPhieu != null) {
             String maPhieu = clickPhieu.split(" - ")[0];
@@ -1641,10 +1670,10 @@ public class jplBanHang extends javax.swing.JPanel {
         hoaDon.setTongTien(tongTien);
 
         long tienTraTruoc = Long.valueOf(txtTienTraTruoc.getText().trim());
-        hoaDon.setTienKhachDua(tienTraTruoc);
+        hoaDon.setTienTraTruoc(tienTraTruoc);
 
         long tienThieu = Long.valueOf(lbConNo.getText().trim().replaceAll(",", ""));
-        hoaDon.setTienThua(tienThieu);
+        hoaDon.setTienThieu(tienThieu);
 
         if (rdbtnTienMat.isSelected()) {
             hoaDon.setHinhThucThanhToan(true);
@@ -1665,7 +1694,7 @@ public class jplBanHang extends javax.swing.JPanel {
         hoaDon.setTraGop(true);
         hoaDon.setTienKhachDua(0L);
         hoaDon.setTienThua(0);
-        hoaDon.setGhiChu(txtGhiChu.getText().trim());
+        hoaDon.setGhiChu(txtGhiChu2.getText().trim());
 
         hoaDonChiTietResponseList.forEach(h -> {
             HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
@@ -1701,7 +1730,7 @@ public class jplBanHang extends javax.swing.JPanel {
         // 3. làm mới form
         lamMoiForm2();
 
-        // 4. tạo phiếu bảo hành
+        // 4. tạo phiếu bảo hành (Hiếu)
         // 5. trừ lượt sử dụng của phiếu giảm giá
         if (clickPhieu != null) {
             String maPhieu = clickPhieu.split(" - ")[0];
@@ -1712,7 +1741,7 @@ public class jplBanHang extends javax.swing.JPanel {
             PhieuGiamGiaRepository.updateLuotSuDung(phieuChiTiet);
         }
 
-        // 6. tạo phiếu trả góp, lịch sử trả góp
+        // 6. tạo phiếu trả góp, lịch sử trả góp (Hùng)
     }//GEN-LAST:event_btnThanhToan2ActionPerformed
 
     private void btnXoaDonHang1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaDonHang1ActionPerformed
@@ -1830,8 +1859,8 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JButton btnThanhToan1;
     private javax.swing.JButton btnThanhToan2;
     private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnXoaDonHang;
     private javax.swing.JButton btnXoaDonHang1;
+    private javax.swing.JButton btnXoaHDChiTiet;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JComboBox<String> cbImeiInDialog;

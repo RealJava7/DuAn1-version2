@@ -3,15 +3,11 @@ package view.Contains;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import model.DienThoai;
-import model.HoaDonChiTiet;
-import model.KhachHang;
 import viewmodel.HoaDonChiTietResponse;
 
 public class jplDonHang extends javax.swing.JPanel {
 
-    private List<DienThoai> list;
-    private KhachHang kh;
+    public static int globalClickedRow = -1;
     private List<HoaDonChiTietResponse> hoaDonChiTietResponseList;
     private DefaultTableModel dtmHDChiTiet;
 
@@ -33,22 +29,6 @@ public class jplDonHang extends javax.swing.JPanel {
 
     public void setHoaDonChiTiets(List<HoaDonChiTietResponse> hoaDonChiTiets) {
         this.hoaDonChiTietResponseList = hoaDonChiTiets;
-    }
-
-    public List<DienThoai> getList() {
-        return list;
-    }
-
-    public void setList(List<DienThoai> list) {
-        this.list = list;
-    }
-
-    public KhachHang getKh() {
-        return kh;
-    }
-
-    public void setKh(KhachHang kh) {
-        this.kh = kh;
     }
 
     @SuppressWarnings("unchecked")
@@ -107,7 +87,11 @@ public class jplDonHang extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tbHoaDonChiTietMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHoaDonChiTietMouseClicked
-        System.out.println("here");
+        int clickedRow = tbHoaDonChiTiet.getSelectedRow();
+        globalClickedRow = clickedRow;
+//        HoaDonChiTietResponse hdct = hoaDonChiTietResponseList.get(clickRow);
+//        hoaDonChiTietResponseList.remove(hdct);
+
     }//GEN-LAST:event_tbHoaDonChiTietMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

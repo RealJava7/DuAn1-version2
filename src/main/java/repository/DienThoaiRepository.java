@@ -2,6 +2,8 @@ package repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import model.CameraChiTiet;
@@ -254,7 +256,7 @@ public class DienThoaiRepository {
     }
 
     // 8
-    public static void updateSoLuongDienThoai(String imeiStr) {
+    public static void updateSoLuongDienThoai(String imeiStr, int tangGiam) {
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Transaction transaction = session.beginTransaction();
@@ -263,12 +265,44 @@ public class DienThoaiRepository {
             int idDienThoai = imei.getDienThoai().getId();
 
             DienThoai dienThoai = session.get(DienThoai.class, idDienThoai);
-            dienThoai.setSoLuong(dienThoai.getSoLuong() - 1);
+            if (tangGiam == -1) {
+                dienThoai.setSoLuong(dienThoai.getSoLuong() - 1);
+            } else if (tangGiam == 1) {
+                dienThoai.setSoLuong(dienThoai.getSoLuong() + 1);
+            }
 
             session.update(dienThoai);
             transaction.commit();
         } catch (HibernateException e) {
             e.printStackTrace(System.out);
         }
+    }
+
+    public static void update1(int id) {
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            DienThoai dienThoai = session.get(DienThoai.class, id);
+            Set<Imei> imeis = dienThoai.getImeis();
+            imeis = imeis.stream().filter(i -> i.getTrangThai() == 0).collect(Collectors.toSet());
+            dienThoai.setSoLuong(imeis.size());
+
+            session.update(dienThoai);
+            transaction.commit();
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+    }
+
+    public static void main(String[] args) {
+        update1(1);
+        update1(2);
+        update1(6);
+        update1(7);
+        update1(8);
+        update1(9);
+        update1(11);
+        System.out.println("true");
     }
 }

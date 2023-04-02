@@ -649,7 +649,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btnXoaDonHang" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnXoaHDChiTiet" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Component id="btnXoaDonHang1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
@@ -662,7 +662,7 @@
                       <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel3" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
-                          <Component id="btnXoaDonHang" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                          <Component id="btnXoaHDChiTiet" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                           <Component id="btnXoaDonHang1" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
@@ -703,7 +703,7 @@
                 <Property name="text" type="java.lang.String" value="DANH S&#xc1;CH H&#xd3;A &#x110;&#x1a0;N CH&#x1edc;"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btnXoaDonHang">
+            <Component class="javax.swing.JButton" name="btnXoaHDChiTiet">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="d4" green="55" red="2f" type="rgb"/>
@@ -717,7 +717,7 @@
                 <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaDonHangActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaHDChiTietActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnXoaDonHang1">
