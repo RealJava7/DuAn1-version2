@@ -53,4 +53,10 @@ public class ImeiServiceImpl implements ImeiService {
         return updateResult ? "Sửa thành công!" : "Sửa thất bại!";
     }
 
+    @Override
+    public String updateImeiTrangThai(String imeiStr, int trangThai) {
+        boolean updateImeiTrangThai = imeiRepository.updateImeiTrangThai(imeiStr, trangThai);
+        return updateImeiTrangThai ? "Sửa thành công!" : "Sửa thất bại!";
+    }
+
 }

@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Panel;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +24,22 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import model.HoaDon;
 import model.HoaDonChiTiet;
 import model.Imei;
 import model.KhachHang;
 import model.PhieuGiamGia;
 import model.TheTichDiem;
+import repository.DienThoaiRepository;
+import repository.ImeiRepository;
 import repository.PhieuGiamGiaRepository;
 import service.DienThoaiService;
+import service.HoaDonService;
 import service.ImeiService;
 import service.KhachHangService;
 import service.PhieuGiamGiaService;
 import service.impl.DienThoaiServiceImpl;
+import service.impl.HoaDonServiceImpl;
 import service.impl.ImeiServiceImpl;
 import service.impl.KhachHangServiceImpl;
 import service.impl.PhieuBaoHanhServiceImpl;
@@ -59,6 +65,7 @@ public class jplBanHang extends javax.swing.JPanel {
     private KhachHangService khachHangService;
     private ImeiService imeiService;
     private PhieuGiamGiaService phieuGiamGiaService;
+    private HoaDonService hoaDonService;
 
     private NumberFormat numberFormat = NumberFormat.getInstance(new Locale("vn", "VN"));
 
@@ -75,6 +82,7 @@ public class jplBanHang extends javax.swing.JPanel {
         khachHangService = new KhachHangServiceImpl();
         imeiService = new ImeiServiceImpl();
         phieuGiamGiaService = new PhieuGiamGiaServiceImpl();
+        hoaDonService = new HoaDonServiceImpl();
 
         dienThoaiResponseList = dienThoaiService.getAllResponseByStatus(true);
         khachHangResponseList = khachHangService.getAllResponseByStatus(1);
@@ -267,13 +275,13 @@ public class jplBanHang extends javax.swing.JPanel {
         btnOkImei = new javax.swing.JButton();
         jpnFormBanHang = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
         btnSapXepGiaTangDan = new javax.swing.JButton();
         btnSapXepGiaGiamDan = new javax.swing.JButton();
         jComboBox2 = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        txtSearchByTen = new javax.swing.JTextField();
         jplGioHang = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jLabel3 = new javax.swing.JLabel();
@@ -566,12 +574,6 @@ public class jplBanHang extends javax.swing.JPanel {
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
         btnSapXepGiaTangDan.setBackground(new java.awt.Color(47, 85, 212));
         btnSapXepGiaTangDan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-sort-amount-up-reversed-20.png"))); // NOI18N
         btnSapXepGiaTangDan.addActionListener(new java.awt.event.ActionListener() {
@@ -596,21 +598,27 @@ public class jplBanHang extends javax.swing.JPanel {
 
         jLabel10.setText("Lọc Theo Giá:");
 
+        txtSearchByTen.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtSearchByTenCaretUpdate(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jTextField1))
+                    .addComponent(txtSearchByTen))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
@@ -627,17 +635,18 @@ public class jplBanHang extends javax.swing.JPanel {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
                             .addComponent(jLabel9)
                             .addComponent(jLabel10))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnSapXepGiaGiamDan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnSapXepGiaTangDan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jComboBox2)
+                                .addComponent(txtSearchByTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
 
@@ -801,6 +810,11 @@ public class jplBanHang extends javax.swing.JPanel {
         btnThanhToan1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnThanhToan1.setForeground(new java.awt.Color(255, 255, 255));
         btnThanhToan1.setText("Thanh Toán");
+        btnThanhToan1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThanhToan1ActionPerformed(evt);
+            }
+        });
 
         lbTongTien.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lbTongTien.setForeground(new java.awt.Color(255, 0, 0));
@@ -1252,16 +1266,14 @@ public class jplBanHang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnXoaDonHangActionPerformed
 
     private void btnSapXepGiaTangDanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSapXepGiaTangDanActionPerformed
-
+        dienThoaiResponseList = dienThoaiService.getAllResponseByGiaBan("ASC");
+        showDienThoaiTable(dienThoaiResponseList);
     }//GEN-LAST:event_btnSapXepGiaTangDanActionPerformed
 
     private void btnSapXepGiaGiamDanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSapXepGiaGiamDanActionPerformed
-
+        dienThoaiResponseList = dienThoaiService.getAllResponseByGiaBan("DESC");
+        showDienThoaiTable(dienThoaiResponseList);
     }//GEN-LAST:event_btnSapXepGiaGiamDanActionPerformed
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         ThemKhachHang.setSize(610, 350);
@@ -1306,7 +1318,7 @@ public class jplBanHang extends javax.swing.JPanel {
             return;
         }
         DienThoaiResponse dienThoaiResponse = dienThoaiResponseList.get(clickedRowInDienThoaiTable);
-        List<ImeiResponse> imeiResponses = imeiService.getAllDienThoaiId(dienThoaiResponse.getId());
+        List<ImeiResponse> imeiResponses = imeiService.getAllDienThoaiId(dienThoaiResponse.getId()); // trangThai IMEI ở đây = 0
 
         cbImeiInDialog.removeAllItems();
         imeiResponses.forEach(i -> cbImeiInDialog.addItem(i.getImei()));
@@ -1320,6 +1332,11 @@ public class jplBanHang extends javax.swing.JPanel {
     private void btnOkImeiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkImeiActionPerformed
         String selectedImei = (String) cbImeiInDialog.getSelectedItem();
         imeiDialog.setVisible(false);
+
+        // thay đổi trạng thái imei về 'đang trong giỏ hang(1)
+        imeiService.updateImeiTrangThai(selectedImei, 1);
+        // thay đổi số lượng tồn kho của điện thoại vừa chọn
+        DienThoaiRepository.updateSoLuongDienThoai(selectedImei);
 
         int clickedRowInDienThoaiTable = tbDienThoai.getSelectedRow();
         DienThoaiResponse dienThoaiResponse = dienThoaiResponseList.get(clickedRowInDienThoaiTable);
@@ -1499,6 +1516,88 @@ public class jplBanHang extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_cbKyHanActionPerformed
 
+    private void txtSearchByTenCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSearchByTenCaretUpdate
+        String keyword = txtSearchByTen.getText().trim();
+        dienThoaiResponseList = dienThoaiService.searchAllResponseByName(keyword);
+        showDienThoaiTable(dienThoaiResponseList);
+    }//GEN-LAST:event_txtSearchByTenCaretUpdate
+
+    private void btnThanhToan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToan1ActionPerformed
+        HoaDon hoaDon = new HoaDon();
+        hoaDon.setNgayTao(LocalDateTime.now());
+        hoaDon.setNgayThanhToan(LocalDateTime.now());
+
+        long tienGiam = Long.valueOf(lbTienGiam.getText().trim().replaceAll(",", ""));
+        hoaDon.setTienGiam(tienGiam);
+
+        long tongTien = Long.valueOf(lbTongTien.getText().trim().replaceAll(",", ""));
+        hoaDon.setTongTien(tongTien);
+
+        long tienKhachDua = Long.valueOf(txtTienKhachDua.getText().trim());
+        hoaDon.setTienKhachDua(tienKhachDua);
+
+        long tienThua = Long.valueOf(lbTienThua.getText().trim().replaceAll(",", ""));
+        hoaDon.setTienThua(tienThua);
+
+        if (rdbtnTienMat.isSelected()) {
+            hoaDon.setHinhThucThanhToan(true);
+        } else {
+            hoaDon.setHinhThucThanhToan(false);
+        }
+
+        // khách hàng, nhân viên, phiếu giảm giá tạm thời null
+        // đây là hóa đơn 'không trả góp'
+        hoaDon.setTraGop(false);
+        hoaDon.setTienTraTruoc(0L);
+        hoaDon.setTienThieu(0);
+        hoaDon.setGhiChu(txtGhiChu.getText().trim());
+
+        hoaDonChiTietResponseList.forEach(h -> {
+            HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
+
+            hoaDonChiTiet.setHoaDon(hoaDon);
+            Imei imei = ImeiRepository.getByImei(h.getImei());
+            hoaDonChiTiet.setImei(imei);
+            hoaDon.addHoaDonChiTiet(hoaDonChiTiet);
+        });
+
+        // add
+        String addResult = hoaDonService.add(hoaDon);
+        JOptionPane.showMessageDialog(this, addResult);
+
+        // sau khi add hóa đơn thành công thì phải:
+        // 1. update trạng thái của tất cả imei trong hóa đơn về 2 - 'đã bán'
+        hoaDonChiTietResponseList.forEach(h -> {
+            imeiService.updateImeiTrangThai(h.getImei(), 2);
+        });
+
+        // 2. xóa giỏ hàng
+        hoaDonChiTietResponseList = new ArrayList<>();
+        jplDonHang jDonHang = (jplDonHang) jTabbedPane1.getSelectedComponent();
+        jDonHang.setHoaDonChiTiets(new ArrayList<>());
+        jDonHang.load();
+
+        int indexDon = jTabbedPane1.getSelectedIndex();
+        //sẽ không thể xóa khi còn 1 đơn duy nhất
+        if (jTabbedPane1.getTabCount() > 1) {
+            jTabbedPane1.remove(indexDon);
+        }
+
+        // 3. làm mới form
+        lamMoiForm1();
+        
+        // 4. tạo phiếu bảo hành
+        // 5. trừ lượt sử dụng của phiếu giảm giá
+    }//GEN-LAST:event_btnThanhToan1ActionPerformed
+
+    private void lamMoiForm1() {
+        lbTienGiam.setText("0");
+        lbKhachPhaiTra.setText("0");
+        txtTienKhachDua.setText("");
+        lbTienThua.setText("0");
+        txtGhiChu.setText("");
+    }
+
     private void showHoaDonInfo1() {
         // Tab 1
         // Thêm ĐT/ Xóa ĐT -> 1. Tổng tiền -> 2. Combo box phiếu GG -> 3. Tiền giảm -> 4. Tiền khách phải trả
@@ -1658,7 +1757,6 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTextField jTextField1;
     private com.toedter.calendar.JDateChooser jdateNgaySinh;
     private javax.swing.JPanel jplGioHang;
     private javax.swing.JPanel jpnFormBanHang;
@@ -1685,6 +1783,7 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JTextField txtHoTen;
     private javax.swing.JTextField txtLaiSuat;
     private javax.swing.JTextField txtSdt;
+    private javax.swing.JTextField txtSearchByTen;
     private javax.swing.JTextField txtTienKhachDua;
     private javax.swing.JTextField txtTienTraTruoc;
     // End of variables declaration//GEN-END:variables

@@ -12,14 +12,20 @@ import lombok.Setter;
 @Getter
 @Setter
 public class HoaDonChiTietResponse {
-    
+
     private int id;
     private String tenDienThoai;
     private long donGia;
     private String imei;
-    
+
     public Object[] toDataRow() {
         NumberFormat nf = NumberFormat.getInstance(new Locale("vn", "VN"));
         return new Object[]{tenDienThoai, nf.format(donGia) + " VND", imei};
     }
+
+    @Override
+    public String toString() {
+        return "HoaDonChiTietResponse{" + "id=" + id + ", tenDienThoai=" + tenDienThoai + ", donGia=" + donGia + ", imei=" + imei + '}';
+    }
+
 }

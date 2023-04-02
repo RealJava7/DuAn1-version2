@@ -15,7 +15,7 @@ import viewmodel.ImeiResponse;
 public class ImeiRepository {
 
     // 1. get by imei
-    public Imei getByImei(String imeiStr) {
+    public static Imei getByImei(String imeiStr) {
         Imei imei = null;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
@@ -37,7 +37,7 @@ public class ImeiRepository {
     // 2. get all with idDienThoai null
     public List<ImeiResponse> getAllNoneDienThoaiImei() {
         List<ImeiResponse> imeis = new ArrayList<>();
-        
+
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
@@ -46,7 +46,7 @@ public class ImeiRepository {
                                               FROM Imei i
                                               WHERE i.dienThoai IS NULL
                                                """);
-            
+
             imeis = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
@@ -57,7 +57,7 @@ public class ImeiRepository {
     // 3. get all imeis by dienThoaiID
     public List<ImeiResponse> getAllDienThoaiId(int dienThoaiId) {
         List<ImeiResponse> imeis = new ArrayList<>();
-        
+
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
@@ -65,6 +65,7 @@ public class ImeiRepository {
                                               (i.id, i.imei)
                                               FROM Imei i
                                               WHERE i.dienThoai.id = :dienThoaiId
+                                              AND i.trangThai = 0
                                                """);
             query.setParameter("dienThoaiId", dienThoaiId);
             imeis = query.getResultList();
@@ -96,14 +97,14 @@ public class ImeiRepository {
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Transaction transaction = session.beginTransaction();
-            
+
             Imei imei = session.get(Imei.class, imeiResponse.getId());
             DienThoai dt = DienThoaiRepository.getById(imeiResponse.getIdDienThoai());
             imei.setDienThoai(dt);
-            
+
             session.update(imei);
             transaction.commit();
-            
+
             check = true;
             session.close();
         } catch (HibernateException e) {
@@ -117,7 +118,7 @@ public class ImeiRepository {
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Transaction transaction = session.beginTransaction();
-            
+
             Query query = session.createQuery("""
                                               DELETE Imei i
                                               WHERE i.dienThoai IS NULL
@@ -136,7 +137,7 @@ public class ImeiRepository {
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Imei imei = session.get(Imei.class, imeiResponse.getId());
-            
+
             Transaction transaction = session.beginTransaction();
             session.delete(imei);
             transaction.commit();
@@ -147,20 +148,20 @@ public class ImeiRepository {
         }
         return check;
     }
-    
+
     // 8. update
     public boolean updateImeiStr(ImeiResponse imeiResponse) {
         boolean check = false;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Transaction transaction = session.beginTransaction();
-            
+
             Imei imei = session.get(Imei.class, imeiResponse.getId());
             imei.setImei(imeiResponse.getImei());
-            
+
             session.update(imei);
             transaction.commit();
-            
+
             check = true;
             session.close();
         } catch (HibernateException e) {
@@ -168,4 +169,26 @@ public class ImeiRepository {
         }
         return check;
     }
+
+    // 9
+    public static boolean updateImeiTrangThai(String imeiStr, int trangThai) {
+        boolean check = false;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            Imei imei = getByImei(imeiStr);
+            imei.setTrangThai(trangThai);
+
+            session.update(imei);
+            transaction.commit();
+
+            check = true;
+            session.close();
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+        }
+        return check;
+    }
+
 }
