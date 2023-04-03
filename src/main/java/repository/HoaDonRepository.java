@@ -1,7 +1,6 @@
 package repository;
 
 import model.HoaDon;
-import model.Imei;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
