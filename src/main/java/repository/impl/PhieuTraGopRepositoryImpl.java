@@ -24,7 +24,6 @@ public class PhieuTraGopRepositoryImpl {
     public boolean update(int id, PhieuTraGop phieuTraGop) {
         boolean check = false;
         PhieuTraGop ptg = getByID(id);
-        ptg.setNgayDong(phieuTraGop.getNgayDong());
         ptg.setTrangThai(phieuTraGop.isTrangThai());
         try (Session session = HibernateUtil.getFACTORY().openSession()) {
             session.beginTransaction();

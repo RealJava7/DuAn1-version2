@@ -40,8 +40,6 @@ public class jplTraGop extends javax.swing.JPanel {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         mnuChiTiet = new javax.swing.JMenuItem();
-        mnuKhachHang = new javax.swing.JMenuItem();
-        mnuDonHang = new javax.swing.JMenuItem();
         mnuInPhieuSaoKe = new javax.swing.JMenuItem();
         jDialog1 = new javax.swing.JDialog();
         jDialog2 = new javax.swing.JDialog();
@@ -65,22 +63,6 @@ public class jplTraGop extends javax.swing.JPanel {
             }
         });
         jPopupMenu1.add(mnuChiTiet);
-
-        mnuKhachHang.setText("Thông tin khách hàng");
-        mnuKhachHang.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuKhachHangActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(mnuKhachHang);
-
-        mnuDonHang.setText("Thông tin đơn hàng");
-        mnuDonHang.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuDonHangActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(mnuDonHang);
 
         mnuInPhieuSaoKe.setText("In Phiếu Sao Kê");
         jPopupMenu1.add(mnuInPhieuSaoKe);
@@ -210,7 +192,7 @@ public class jplTraGop extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        btnTaoPhieuTra.setText("Tạo Phiếu Trả Góp");
+        btnTaoPhieuTra.setText("Xuất Danh Sách Trả Góp");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -223,9 +205,7 @@ public class jplTraGop extends javax.swing.JPanel {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addComponent(btnTaoPhieuTra, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(btnTaoPhieuTra, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -274,24 +254,6 @@ public class jplTraGop extends javax.swing.JPanel {
         new ViewLichSuTraGop(id).setVisible(true);
     }//GEN-LAST:event_mnuChiTietActionPerformed
 
-    private void mnuKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuKhachHangActionPerformed
-        JPanel panel = new jplKhachHang();
-        jDialog1.setLayout(new FlowLayout());
-        jDialog1.add(panel);
-        jDialog1.pack();
-        jDialog1.setLocationRelativeTo(this);
-        jDialog1.setVisible(true);
-    }//GEN-LAST:event_mnuKhachHangActionPerformed
-
-    private void mnuDonHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDonHangActionPerformed
-        JPanel panel = new jplHoaDon();
-        jDialog2.setLayout(new FlowLayout());
-        jDialog2.add(panel);
-        jDialog2.pack();
-        jDialog2.setLocationRelativeTo(this);
-        jDialog2.setVisible(true);
-    }//GEN-LAST:event_mnuDonHangActionPerformed
-
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         // TODO add your handling code here:
 //        listView = service.getByString(txtSearch.getText().trim());
@@ -325,9 +287,7 @@ public class jplTraGop extends javax.swing.JPanel {
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem mnuChiTiet;
-    private javax.swing.JMenuItem mnuDonHang;
     private javax.swing.JMenuItem mnuInPhieuSaoKe;
-    private javax.swing.JMenuItem mnuKhachHang;
     private javax.swing.JTable tblDanhSachTraGop;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables

@@ -16,22 +16,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuChiTietActionPerformed"/>
           </Events>
         </MenuItem>
-        <MenuItem class="javax.swing.JMenuItem" name="mnuKhachHang">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Th&#xf4;ng tin kh&#xe1;ch h&#xe0;ng"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuKhachHangActionPerformed"/>
-          </Events>
-        </MenuItem>
-        <MenuItem class="javax.swing.JMenuItem" name="mnuDonHang">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Th&#xf4;ng tin &#x111;&#x1a1;n h&#xe0;ng"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuDonHangActionPerformed"/>
-          </Events>
-        </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="mnuInPhieuSaoKe">
           <Properties>
             <Property name="text" type="java.lang.String" value="In Phi&#x1ebf;u Sao K&#xea;"/>
@@ -341,17 +325,14 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <Component id="btnTaoPhieuTra" pref="42" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
+              <Component id="btnTaoPhieuTra" alignment="0" pref="52" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JButton" name="btnTaoPhieuTra">
           <Properties>
-            <Property name="text" type="java.lang.String" value="T&#x1ea1;o Phi&#x1ebf;u Tr&#x1ea3; G&#xf3;p"/>
+            <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t Danh S&#xe1;ch Tr&#x1ea3; G&#xf3;p"/>
           </Properties>
         </Component>
       </SubComponents>
