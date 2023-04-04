@@ -4,11 +4,14 @@
  */
 package view.Contains.tragop;
 
+import java.io.File;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.List;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import model.LichSuTraGop;
 import model.PhieuTraGop;
@@ -16,6 +19,7 @@ import service.LichSuTraGopService;
 import service.PhieuTraGopService;
 import service.impl.LichSuTraGopServiceImpl;
 import service.impl.PhieuTraGopServiceImpl;
+import utility.PhieuTraGopUtil;
 
 /**
  *
@@ -582,7 +586,26 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
 
     private void mnuXuatPhieuThuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuXuatPhieuThuActionPerformed
         // TODO add your handling code here:
+// Tạo đối tượng JFileChooser
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Save Excel File");
 
+        // Chỉ cho phép chọn tập tin với định dạng .xlsx
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel file (*.pdf)", "pdf");
+        fileChooser.setFileFilter(filter);
+        //set Tên cho File
+
+        fileChooser.setSelectedFile(new File("Phieu Thu No " + LocalDate.now() + ".pdf"));
+        // Hiển thị hộp thoại chọn vị trí và tên tập tin
+        int userSelection = fileChooser.showSaveDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String path = fileToSave.getAbsolutePath();
+            // LSTG
+            LichSuTraGop lstg = listView.get(tblLichSuThuNo.getSelectedRow());
+            PhieuTraGopUtil.xuatPhieuThuPDF(lstg, path);
+        }
     }//GEN-LAST:event_mnuXuatPhieuThuActionPerformed
 
     /**

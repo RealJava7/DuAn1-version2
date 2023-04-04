@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import model.PhieuTraGop;
 import service.PhieuTraGopService;
 import service.impl.PhieuTraGopServiceImpl;
-import utility.TraGopUtil;
+import utility.PhieuTraGopUtil;
 import view.Contains.tragop.ViewLichSuTraGop;
 import viewmodel.PhieuTraGopViewModel;
 
@@ -348,7 +348,7 @@ public class jplTraGop extends javax.swing.JPanel {
             String path = fileToSave.getAbsolutePath();
             JTable table = tblDanhSachTraGop;
 
-            TraGopUtil.xuatEXCEL(table, path);
+            PhieuTraGopUtil.xuatEXCEL(table, path);
         }
     }//GEN-LAST:event_btnTaoPhieuTraActionPerformed
 
