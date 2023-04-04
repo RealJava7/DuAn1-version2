@@ -8,7 +8,7 @@ import service.KhachHangService;
 
 public class KhachHangServiceImpl implements KhachHangService {
 
-    KhachHangRepository repo = new KhachHangRepository();
+    private KhachHangRepository repo = new KhachHangRepository();
 
     @Override
     public List<KhachHangResponse> getAll() {
@@ -83,6 +83,11 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Override
     public List<KhachHangResponse> getTop3KhachHang() {
         return repo.getTop3();
+    }
+
+    @Override
+    public List<KhachHangResponse> getAllResponseByStatus(int status) {
+        return repo.getAllResponseByStatus(status);
     }
 
 }

@@ -29,6 +29,14 @@ public class Imei {
     @Column(name = "IMEI")
     private String imei;
     
+    @Column(name = "TrangThai")
+    private int trangThai;
+    /*
+    0 - chưa bán
+    1 - đã bán
+    2 - đang trong giỏ
+    */
+    
     @ManyToOne
     @JoinColumn(name = "IdDienThoai")
     private DienThoai dienThoai;

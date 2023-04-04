@@ -47,9 +47,6 @@ public class PhieuTraGop {
     @Column(name = "NgayTao")
     private LocalDate ngayTao;
 
-    @Column(name = "NgayDong")
-    private int ngayDong;
-
     @Column(name = "PhaiTra")
     private long phaiTra;
 
@@ -63,13 +60,12 @@ public class PhieuTraGop {
     @OneToMany(mappedBy = "phieuTraGop", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<LichSuTraGop> lichSuSet = new HashSet<>();
 
-    public PhieuTraGop(String maPhieu, long tongPhaiTra, float laiSuat, int kyHan, LocalDate ngayTao, int ngayDong, long phaiTra, boolean trangThai, HoaDon hoaDon) {
+    public PhieuTraGop(String maPhieu, long tongPhaiTra, float laiSuat, int kyHan, LocalDate ngayTao, long phaiTra, boolean trangThai, HoaDon hoaDon) {
         this.maPhieu = maPhieu;
         this.tongPhaiTra = tongPhaiTra;
         this.laiSuat = laiSuat;
         this.kyHan = kyHan;
         this.ngayTao = ngayTao;
-        this.ngayDong = ngayDong;
         this.phaiTra = phaiTra;
         this.trangThai = trangThai;
         this.hoaDon = hoaDon;
@@ -84,7 +80,7 @@ public class PhieuTraGop {
 
     @Override
     public String toString() {
-        return "PhieuTraGop{" + "id=" + id + ", maPhieu=" + maPhieu + ", tongPhaiTra=" + tongPhaiTra + ", laiSuat=" + laiSuat + ", kyHan=" + kyHan + ", ngayTao=" + ngayTao + ", ngayDong=" + ngayDong + ", phaiTra=" + phaiTra + ", trangThai=" + trangThai + ", hoaDon=" + hoaDon + '}';
+        return "PhieuTraGop{" + "id=" + id + ", maPhieu=" + maPhieu + ", tongPhaiTra=" + tongPhaiTra + ", laiSuat=" + laiSuat + ", kyHan=" + kyHan + ", ngayTao=" + ngayTao + ", phaiTra=" + phaiTra + ", trangThai=" + trangThai + ", hoaDon=" + hoaDon + '}';
     }
 
     public long getTongTienDaTra() {

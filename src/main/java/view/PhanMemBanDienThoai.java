@@ -16,6 +16,7 @@ import view.Contains.tragop.ViewTraGopForm;
 public class PhanMemBanDienThoai extends javax.swing.JFrame {
 
     private JPanel panel;
+    private JPanel panelBanHang = new jplBanHang();
 
     public PhanMemBanDienThoai() {
         initComponents();
@@ -55,7 +56,7 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         btnHeThong = new javax.swing.JPanel();
         lblHeThong = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblTaiKhoan = new javax.swing.JLabel();
         lblDoiMatKhau = new javax.swing.JLabel();
         lblDangXuat = new javax.swing.JLabel();
         jplContain = new javax.swing.JPanel();
@@ -293,9 +294,9 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Xin Chào,");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Bình");
+        lblTaiKhoan.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        lblTaiKhoan.setForeground(new java.awt.Color(255, 255, 255));
+        lblTaiKhoan.setText("Bình");
 
         lblDoiMatKhau.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblDoiMatKhau.setForeground(new java.awt.Color(255, 255, 255));
@@ -335,7 +336,7 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addComponent(lblTaiKhoan)
                 .addGap(32, 32, 32))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -359,7 +360,7 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(lblTaiKhoan))
                 .addGap(18, 18, 18)
                 .addComponent(lblDoiMatKhau)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -495,9 +496,9 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
     }//GEN-LAST:event_lblSanPhamMouseClicked
 
     private void lblBanHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBanHangMouseClicked
-        panel = new jplBanHang();
+
 //        panel = new ViewTraGopForm();
-        setPanel(panel);
+        setPanel(panelBanHang);
     }//GEN-LAST:event_lblBanHangMouseClicked
 
     private void lblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHoaDonMouseClicked
@@ -579,7 +580,6 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
     private javax.swing.JPanel btnTrangChu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -593,6 +593,7 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
     private javax.swing.JLabel lblHoaDon;
     private javax.swing.JLabel lblKhachHang;
     private javax.swing.JLabel lblSanPham;
+    private javax.swing.JLabel lblTaiKhoan;
     private javax.swing.JLabel lblTraGop;
     private javax.swing.JLabel lblTrangChu;
     // End of variables declaration//GEN-END:variables

@@ -4,6 +4,7 @@
  */
 package viewmodel;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 
 /**
@@ -108,7 +109,13 @@ public class PhieuTraGopViewModel {
         this.trangThai = trangThai;
     }
 
+    public String convertVND(long value) {
+        NumberFormat numberFormat = NumberFormat.getInstance();
+        String fomatValue = numberFormat.format(value);
+        return fomatValue;
+    }
+
     public Object[] toDataRow() {
-        return new Object[]{ngayDong, maPhieu, khachHang, maDon, tongTien, daTra, conNo, trangThai == true ? "Hoàn Thành" : "Chưa Hoàn Thành"};
+        return new Object[]{ngayDong, maPhieu, khachHang, maDon, convertVND(tongTien), convertVND(daTra), convertVND(tongTien - daTra), trangThai == true ? "Hoàn Thành" : "Chưa Hoàn Thành"};
     }
 }

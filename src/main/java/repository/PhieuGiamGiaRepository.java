@@ -1,8 +1,10 @@
 package repository;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.Query;
 import model.PhieuGiamGia;
 import model.PhieuGiamGiaChiTiet;
@@ -79,18 +81,18 @@ public class PhieuGiamGiaRepository {
         }
         return phieuGiamGiaResponses;
     }
+    
     // 4. get by status
-
     public static List<PhieuGiamGiaResponse> getByStatus(int tt) {
         List<PhieuGiamGiaResponse> phieuGiamGiaResponses = new ArrayList<>();
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                             SELECT new viewmodel.PhieuGiamGiaResponse
-                                                                                            (pgg.id, pgg.maPhieu, pgg.tenPhieu, pct.ngayBatDau, pct.ngayKetThuc, pct.luotSuDung, pct.dieuKien, pct.giaTri, pct.trangThai)
-                                                                                            FROM PhieuGiamGia pgg
-                                              INNER JOIN pgg.phieuGiamGiaChiTiet pct where  pct.trangThai = :tt
-                                               """);
+                                            (pgg.id, pgg.maPhieu, pgg.tenPhieu, pct.ngayBatDau, pct.ngayKetThuc, pct.luotSuDung, pct.dieuKien, pct.giaTri, pct.trangThai)
+                                            FROM PhieuGiamGia pgg
+                                            INNER JOIN pgg.phieuGiamGiaChiTiet pct where  pct.trangThai = :tt
+                                            """);
             query.setParameter("tt", tt);
             phieuGiamGiaResponses = query.getResultList();
         } catch (HibernateException ex) {
@@ -98,7 +100,7 @@ public class PhieuGiamGiaRepository {
         }
         return phieuGiamGiaResponses;
     }
-    
+
     // 5. get by name
     public static List<PhieuGiamGiaResponse> getByName(String name) {
         List<PhieuGiamGiaResponse> phieuGiamGiaResponses = new ArrayList<>();
@@ -110,72 +112,104 @@ public class PhieuGiamGiaRepository {
                                                                                             FROM PhieuGiamGia pgg
                                               INNER JOIN pgg.phieuGiamGiaChiTiet pct where pgg.tenPhieu like :name
                                                """);
-            query.setParameter("name","%"+name+"%");
+            query.setParameter("name", "%" + name + "%");
             phieuGiamGiaResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
         }
         return phieuGiamGiaResponses;
     }
-    // 6. get by name
-    public static List<PhieuGiamGiaResponse> getByMa(String ma) {
+
+    // 6
+    public List<PhieuGiamGiaResponse> getByMa(String ma) {
         List<PhieuGiamGiaResponse> phieuGiamGiaResponses = new ArrayList<>();
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                             SELECT new viewmodel.PhieuGiamGiaResponse
-                                                                                            (pgg.id, pgg.maPhieu, pgg.tenPhieu, pct.ngayBatDau, pct.ngayKetThuc, pct.luotSuDung, pct.dieuKien, pct.giaTri, pct.trangThai)
-                                                                                            FROM PhieuGiamGia pgg
-                                              INNER JOIN pgg.phieuGiamGiaChiTiet pct where pgg.maPhieu like :ma
-                                               """);
-            query.setParameter("ma", "%"+ma+"%");
+                                            (pgg.id, pgg.maPhieu, pgg.tenPhieu, pct.ngayBatDau, pct.ngayKetThuc, pct.luotSuDung, pct.dieuKien, pct.giaTri, pct.trangThai)
+                                            FROM PhieuGiamGia pgg
+                                            INNER JOIN pgg.phieuGiamGiaChiTiet pct where pgg.maPhieu like :ma
+                                            """);
+            query.setParameter("ma", "%" + ma + "%");
             phieuGiamGiaResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
         }
         return phieuGiamGiaResponses;
     }
-   
-    public static void main(String[] args) {
-        // add
-//        PhieuGiamGiaChiTiet phieuGiamGiaChiTiet = new PhieuGiamGiaChiTiet();
-//        
-//        phieuGiamGiaChiTiet.setNgayBatDau(LocalDate.of(2023, 2, 10));
-//        phieuGiamGiaChiTiet.setNgayKetThuc(LocalDate.of(2023, 4, 15));
-//        phieuGiamGiaChiTiet.setLuotSuDung(25);  
-//        phieuGiamGiaChiTiet.setDieuKien(9_000_000L);
-//        phieuGiamGiaChiTiet.setGiaTri(2.6f);
-//        phieuGiamGiaChiTiet.setTrangThai(1);
-//
-//        PhieuGiamGia phieuGiamGia = new PhieuGiamGia();
-//
-//        phieuGiamGia.setMaPhieu("GG002");
-//        phieuGiamGia.setTenPhieu("ten phieu gg 2");
-//        phieuGiamGia.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
-//
-//        System.out.println(add(phieuGiamGia));
 
-        // update
-//        PhieuGiamGiaResponse phieuGiamGiaResponse = new PhieuGiamGiaResponse();
-//        PhieuGiamGia phieuInDB = new PhieuGiamGia();
-        // 'phieuInDB' là thằng trong db mà mình get ra bằng id của response
-//
-//        phieuInDB.setMaPhieu("up");
-//        phieuInDB.setTenPhieu("up");
-//        phieuGiamGiaResponse.setId(11);
-//        phieuGiamGiaResponse.setMaPhieu("up");
-//        phieuGiamGiaResponse.setTenPhieu("up");
-//
-//        phieuGiamGiaResponse.setNgayKetThuc(LocalDate.of(2022, 11, 13));
-//        phieuGiamGiaResponse.setLuotSuDung(13);
-//        phieuGiamGiaResponse.setDieuKien(13_000_000L);
-//        phieuGiamGiaResponse.setGiaTri(3.5f);
-//        phieuGiamGiaResponse.setTrangThai(2);
-//        phieuInDB.setPhieuGiamGiaChiTiet(phieuGiamGiaChiTiet);
-//        System.out.println(update(phieuGiamGiaResponse));
-        // get all
-        List<PhieuGiamGiaResponse> phieuGiamGiaResponses = getByName("up");
-        phieuGiamGiaResponses.forEach(p -> System.out.println(p.toString()));
+    // 7. lấy phiếu giảm giá cho view banHang
+    /*
+    - Điều kiện
+    + ngày bắt đầu <= ngày hiện tại <= ngày kết thúc
+    + lượt sử dụng > 0
+    + đk truyền vào >= dieuKien
+    + trangThai = 1
+     */
+    public List<PhieuGiamGiaResponse> getAllForView(long tongTien) {
+        List<PhieuGiamGiaResponse> phieuGiamGiaResponses = new ArrayList<>();
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                            SELECT new viewmodel.PhieuGiamGiaResponse
+                                            (pgg.id, pgg.maPhieu, pgg.tenPhieu, pct.ngayBatDau, pct.ngayKetThuc, pct.luotSuDung, pct.dieuKien, pct.giaTri, pct.trangThai)
+                                            FROM PhieuGiamGia pgg
+                                            INNER JOIN pgg.phieuGiamGiaChiTiet pct
+                                            WHERE pct.luotSuDung > 0
+                                            AND pct.dieuKien <= :tongTien
+                                            AND pct.trangThai = 1
+                                            """);
+            query.setParameter("tongTien", tongTien);
+            phieuGiamGiaResponses = query.getResultList();
+
+            phieuGiamGiaResponses = phieuGiamGiaResponses.stream().filter(p -> {
+                LocalDate now = LocalDate.now();
+                LocalDate ngayBatDau = p.getNgayBatDau();
+                LocalDate ngayKetThuc = p.getNgayKetThuc();
+                int compare1 = ngayBatDau.compareTo(now);
+                int compare2 = now.compareTo(ngayKetThuc);
+                if (compare1 <= 0 && compare2 <= 0) {
+                    return true;
+                }
+                return false;
+            }).collect(Collectors.toList());
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return phieuGiamGiaResponses;
+    }
+
+    // 8
+    public static PhieuGiamGia getPhieuByMa(String ma) {
+        PhieuGiamGia phieuGiamGia = null;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                            SELECT pgg
+                                            FROM PhieuGiamGia pgg
+                                            WHERE pgg.maPhieu = :ma
+                                            """);
+            query.setParameter("ma", ma);
+            phieuGiamGia = (PhieuGiamGia) query.getSingleResult();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return phieuGiamGia;
+    }
+    
+    // 9. update lượt sử dụng sau khi tạo hóa đơn thành công (trong view bán hàng)
+    public static void updateLuotSuDung(PhieuGiamGiaChiTiet phieuChiTiet) {
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
+            
+            session.update(phieuChiTiet);
+            transaction.commit();
+            session.close();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
     }
 
 }

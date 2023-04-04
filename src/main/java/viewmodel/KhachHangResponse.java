@@ -49,7 +49,7 @@ public class KhachHangResponse {
 
     @Override
     public String toString() {
-        return "KhachHangResponse{" + "id=" + id + ", hoTen=" + hoTen + ", email=" + email + ", sdt=" + sdt + ", gioiTinh=" + gioiTinh + ", ngaySinh=" + ngaySinh + ", diaChi=" + diaChi + ", trangThai=" + trangThai + ", maThe=" + maThe + ", ngayKichHoat=" + ngayKichHoat + ", soDiem=" + soDiem + ", trangThaiThe=" + trangThaiThe + '}';
+        return hoTen + " - " + sdt;
     }
 
     public Object[] toDataRow() {

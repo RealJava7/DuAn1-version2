@@ -60,7 +60,7 @@ public class KhachHangRepository {
         return check;
     }
 
-    //update trạng thái thẻ tích điểm
+    // update trạng thái thẻ tích điểm
     public static boolean updateTichDiem(KhachHangResponse kh, int trangThai) {
         boolean check = false;
         try {
@@ -98,7 +98,7 @@ public class KhachHangRepository {
         return check;
     }
 
-    // 3. get all
+    // get all
     public static List<KhachHangResponse> getAll() {
         List<KhachHangResponse> khachHangResponses = new ArrayList<>();
 
@@ -118,7 +118,28 @@ public class KhachHangRepository {
         return khachHangResponses;
     }
 
-    //get khách hàng by email
+    //
+    public List<KhachHangResponse> getAllResponseByStatus(int status) {
+        List<KhachHangResponse> khachHangResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.KhachHangResponse
+                                              (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.id, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
+                                              FROM KhachHang kh
+                                              INNER JOIN kh.theTichDiem ttd
+                                              WHERE kh.trangThai = :status
+                                               """);
+            query.setParameter("status", status);
+            khachHangResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return khachHangResponses;
+    }
+
+    // get khách hàng by email
     public static KhachHangResponse getKhachHangByEmail(String email) {
         KhachHangResponse kh = null;
 
@@ -138,10 +159,9 @@ public class KhachHangRepository {
             kh = null;
         }
         return kh;
-
     }
 
-    //get Khách hàng by mã thẻ
+    // get Khách hàng by mã thẻ
     public static KhachHangResponse getKhachHangByMaThe(String maThe) {
         KhachHangResponse kh = null;
 
@@ -163,11 +183,10 @@ public class KhachHangRepository {
         return kh;
 
     }
-//get khách hàng by id
 
+    // get khách hàng by id
     public static KhachHangResponse getKhachHangById(int id) {
         KhachHangResponse kh = null;
-
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
@@ -184,10 +203,9 @@ public class KhachHangRepository {
             kh = null;
         }
         return kh;
-
     }
 
-    // 4. get by SDT và trạng thái
+    // get by SDT và trạng thái
     public static List<KhachHangResponse> findBySDT(String sdt, int trangThai) {
         List<KhachHangResponse> khachHangResponses = new ArrayList<>();
 
@@ -207,8 +225,8 @@ public class KhachHangRepository {
         }
         return khachHangResponses;
     }
-//5. lọc theo tên
 
+    // lọc theo tên
     public static List<KhachHangResponse> sortByName(Boolean c, int trangThai) {
         List<KhachHangResponse> khachHangResponses = new ArrayList<>();
         String sql = null;
@@ -217,10 +235,10 @@ public class KhachHangRepository {
             if (c == true) {
                 sql = """
                        SELECT new viewmodel.KhachHangResponse
-                                                                    (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.id, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
-                                                                    FROM KhachHang kh
-                                                                    INNER JOIN kh.theTichDiem ttd  WHERE kh.trangThai = :trangThai Order by kh.hoTen ASC
-                      """;
+                       (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.id, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
+                       FROM KhachHang kh
+                       INNER JOIN kh.theTichDiem ttd  WHERE kh.trangThai = :trangThai Order by kh.hoTen ASC
+                       """;
 
             } else {
                 sql = """
@@ -240,10 +258,10 @@ public class KhachHangRepository {
         return khachHangResponses;
     }
 
-    //6. getAll thẻ tích điểm
+    // getAll thẻ tích điểm
     public List<KhachHangResponse> getAllTheTichDiem() {
         List<KhachHangResponse> lists = new ArrayList<>();
-        try (Session session = HibernateUtil.getFACTORY().openSession()) {
+        try ( Session session = HibernateUtil.getFACTORY().openSession()) {
             String hql = """
                         SELECT new viewmodel.KhachHangResponse(kh.hoTen,ttd.id, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
                                                                        FROM KhachHang kh
@@ -258,7 +276,7 @@ public class KhachHangRepository {
     // getTop 3 khách hàng
     public List<KhachHangResponse> getTop3() {
         List<KhachHangResponse> lists = new ArrayList<>();
-        try (Session session = HibernateUtil.getFACTORY().openSession()) {
+        try ( Session session = HibernateUtil.getFACTORY().openSession()) {
             String hql = """
                         SELECT new viewmodel.KhachHangResponse(kh.hoTen,ttd.id, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
                                                                        FROM KhachHang kh
@@ -290,8 +308,8 @@ public class KhachHangRepository {
         }
         return khachHangResponses;
     }
-//tangdiem khách hàng
 
+    // tangdiem khách hàng
     public static boolean UpdateDiem(KhachHangResponse kh, int soDiem) {
         boolean check = false;
         try {
@@ -310,56 +328,25 @@ public class KhachHangRepository {
         return check;
     }
 
-    public static void main(String[] args) {
-        // add
-
-//        TheTichDiem theTichDiem = new TheTichDiem();
-//        theTichDiem.setMaThe("1209 0232 2290");
-//        theTichDiem.setNgayKichHoat(LocalDate.now());
-//        theTichDiem.setSoDiem(0);
-//        theTichDiem.setTrangThai(true);
-//
-//        KhachHang khachHang = new KhachHang();
-//        khachHang.setHoTen("Nguyễn Khắc Thịnh");
-//        khachHang.setEmail("thinh112@gmail.com");
-//        khachHang.setSdt("09782561833");
-//        khachHang.setGioiTinh(true);
-//        khachHang.setNgaySinh(LocalDate.of(1997, 2, 7));
-//        khachHang.setDiaChi("123 Trần Nhân Tông");
-//        khachHang.setTheTichDiem(theTichDiem);
-//
-//        System.out.println(add(khachHang));
-//        TheTichDiem theTichDiem = new TheTichDiem();
-//        theTichDiem.setMaThe("9082 1109 2376");
-//        theTichDiem.setNgayKichHoat(LocalDate.now());
-//        theTichDiem.setSoDiem(0);
-//        theTichDiem.setTrangThai(true);
-//
-//        KhachHang khachHang = new KhachHang();
-//        khachHang.setHoTen("Nguyễn Đình Hiếu");
-//        khachHang.setEmail("hieupham09@gmail.com");
-//        khachHang.setSdt("0934129828");
-//        khachHang.setGioiTinh(true);
-//        khachHang.setNgaySinh(LocalDate.of(1998, 2, 7));
-//        khachHang.setDiaChi("2 Trần Nhân Tông");
-//        khachHang.setTheTichDiem(theTichDiem);
-//
-//        System.out.println(add(khachHang));
-        // update
-//        KhachHangResponse khachHangResponse = new KhachHangResponse();
-//
-//        khachHangResponse.setId(2);
-//        khachHangResponse.setHoTen("Nguyễn Văn An - 2");
-//        khachHangResponse.setEmail("an123@gmail.com");
-//        khachHangResponse.setSdt("0934875159");
-//        khachHangResponse.setGioiTinh(true);
-//        khachHangResponse.setNgaySinh(LocalDate.of(2003, 12, 12));
-//        khachHangResponse.setDiaChi("77 Trần Nhân Tông");
-//        khachHangResponse.setTrangThai(false);
-//
-//        System.out.println(update(khachHangResponse));
-        // get all
-//        List<KhachHangResponse> khachHangResponses = getAll();
-//        khachHangResponses.forEach(kh -> System.out.println(kh.toString()));
+    // get khachHang entity by id
+    public static KhachHang getKhachHangEntityById(int id) {
+        KhachHang khachHang = null;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT kh
+                                              FROM KhachHang kh
+                                              WHERE kh.id = :id
+                                               """);
+            query.setParameter("id", id);
+            khachHang = (KhachHang) query.getSingleResult();
+            session.close();
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        } catch (NoResultException e) {
+            khachHang = null;
+        }
+        return khachHang;
     }
+
 }

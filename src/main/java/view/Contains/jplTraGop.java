@@ -1,14 +1,21 @@
 package view.Contains;
 
 import java.awt.FlowLayout;
+import java.io.File;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import model.PhieuTraGop;
 import service.PhieuTraGopService;
 import service.impl.PhieuTraGopServiceImpl;
+import utility.PhieuTraGopUtil;
 import view.Contains.tragop.ViewLichSuTraGop;
 import viewmodel.PhieuTraGopViewModel;
 
@@ -40,8 +47,6 @@ public class jplTraGop extends javax.swing.JPanel {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         mnuChiTiet = new javax.swing.JMenuItem();
-        mnuKhachHang = new javax.swing.JMenuItem();
-        mnuDonHang = new javax.swing.JMenuItem();
         mnuInPhieuSaoKe = new javax.swing.JMenuItem();
         jDialog1 = new javax.swing.JDialog();
         jDialog2 = new javax.swing.JDialog();
@@ -50,8 +55,12 @@ public class jplTraGop extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtSearch = new javax.swing.JTextField();
-        cbxThoiGian = new javax.swing.JComboBox<>();
         cbxTrangThai = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        dateNgayBatDau = new com.toedter.calendar.JDateChooser();
+        jLabel4 = new javax.swing.JLabel();
+        dateNgayKetThuc = new com.toedter.calendar.JDateChooser();
+        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDanhSachTraGop = new javax.swing.JTable();
@@ -65,22 +74,6 @@ public class jplTraGop extends javax.swing.JPanel {
             }
         });
         jPopupMenu1.add(mnuChiTiet);
-
-        mnuKhachHang.setText("Thông tin khách hàng");
-        mnuKhachHang.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuKhachHangActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(mnuKhachHang);
-
-        mnuDonHang.setText("Thông tin đơn hàng");
-        mnuDonHang.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuDonHangActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(mnuDonHang);
 
         mnuInPhieuSaoKe.setText("In Phiếu Sao Kê");
         jPopupMenu1.add(mnuInPhieuSaoKe);
@@ -132,17 +125,21 @@ public class jplTraGop extends javax.swing.JPanel {
             }
         });
 
-        cbxThoiGian.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Hôm nay", "Hôm qua", "Tuần này", "Tháng này", "Năm nay" }));
-        cbxThoiGian.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbxThoiGianItemStateChanged(evt);
-            }
-        });
-
         cbxTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Chưa Hoàn thành", "Hoàn Thành" }));
         cbxTrangThai.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbxTrangThaiItemStateChanged(evt);
+            }
+        });
+
+        jLabel3.setText("Từ :");
+
+        jLabel4.setText("Đến :");
+
+        jButton1.setText("Tìm Kiếm");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -152,13 +149,21 @@ public class jplTraGop extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(cbxThoiGian, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(cbxTrangThai, 0, 235, Short.MAX_VALUE)
+                .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dateNgayBatDau, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dateNgayKetThuc, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
+                .addComponent(cbxTrangThai, 0, 136, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -166,10 +171,20 @@ public class jplTraGop extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbxTrangThai)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtSearch)
-                    .addComponent(cbxThoiGian))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dateNgayBatDau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dateNgayKetThuc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(cbxTrangThai)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(2, 2, 2)))))
                 .addContainerGap())
         );
 
@@ -210,7 +225,12 @@ public class jplTraGop extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        btnTaoPhieuTra.setText("Tạo Phiếu Trả Góp");
+        btnTaoPhieuTra.setText("Xuất Danh Sách Trả Góp");
+        btnTaoPhieuTra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTaoPhieuTraActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -223,9 +243,7 @@ public class jplTraGop extends javax.swing.JPanel {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addComponent(btnTaoPhieuTra, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(btnTaoPhieuTra, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -274,24 +292,6 @@ public class jplTraGop extends javax.swing.JPanel {
         new ViewLichSuTraGop(id).setVisible(true);
     }//GEN-LAST:event_mnuChiTietActionPerformed
 
-    private void mnuKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuKhachHangActionPerformed
-        JPanel panel = new jplKhachHang();
-        jDialog1.setLayout(new FlowLayout());
-        jDialog1.add(panel);
-        jDialog1.pack();
-        jDialog1.setLocationRelativeTo(this);
-        jDialog1.setVisible(true);
-    }//GEN-LAST:event_mnuKhachHangActionPerformed
-
-    private void mnuDonHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuDonHangActionPerformed
-        JPanel panel = new jplHoaDon();
-        jDialog2.setLayout(new FlowLayout());
-        jDialog2.add(panel);
-        jDialog2.pack();
-        jDialog2.setLocationRelativeTo(this);
-        jDialog2.setVisible(true);
-    }//GEN-LAST:event_mnuDonHangActionPerformed
-
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         // TODO add your handling code here:
 //        listView = service.getByString(txtSearch.getText().trim());
@@ -300,24 +300,70 @@ public class jplTraGop extends javax.swing.JPanel {
 
     private void cbxTrangThaiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxTrangThaiItemStateChanged
         // TODO add your handling code here:
-        listView = service.getByTimeAndTrangThai(cbxThoiGian.getSelectedIndex(), cbxTrangThai.getSelectedIndex());
-        showDataTable(listView);
+//        LocalDate ngayBat
+//        listView = service.getByTimeAndTrangThai(, cbxTrangThai.getSelectedIndex());
+//        showDataTable(listView);
     }//GEN-LAST:event_cbxTrangThaiItemStateChanged
 
-    private void cbxThoiGianItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxThoiGianItemStateChanged
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        listView = service.getByTimeAndTrangThai(cbxThoiGian.getSelectedIndex(), cbxTrangThai.getSelectedIndex());
+
+        LocalDate ngayBatDau;
+        LocalDate ngayKetThuc;
+
+        try {
+            ngayBatDau = dateNgayBatDau.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ngày bắt đầu không hợp lệ");
+            return;
+        }
+        try {
+            ngayKetThuc = dateNgayKetThuc.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ngày kết thúc không hợp lệ");
+            return;
+        }
+
+        listView = service.getByTimeAndTrangThai(ngayBatDau, ngayKetThuc, cbxTrangThai.getSelectedIndex());
         showDataTable(listView);
-    }//GEN-LAST:event_cbxThoiGianItemStateChanged
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnTaoPhieuTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoPhieuTraActionPerformed
+        // TODO add your handling code here:
+        // Tạo đối tượng JFileChooser
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Save Excel File");
+
+        // Chỉ cho phép chọn tập tin với định dạng .xlsx
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel file (*.xlsx)", "xlsx");
+        fileChooser.setFileFilter(filter);
+        //set Tên cho File
+
+        fileChooser.setSelectedFile(new File("DS Tra Gop " + LocalDate.now() + ".xlsx"));
+        // Hiển thị hộp thoại chọn vị trí và tên tập tin
+        int userSelection = fileChooser.showSaveDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String path = fileToSave.getAbsolutePath();
+            JTable table = tblDanhSachTraGop;
+
+            PhieuTraGopUtil.xuatEXCEL(table, path);
+        }
+    }//GEN-LAST:event_btnTaoPhieuTraActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTaoPhieuTra;
-    private javax.swing.JComboBox<String> cbxThoiGian;
     private javax.swing.JComboBox<String> cbxTrangThai;
+    private com.toedter.calendar.JDateChooser dateNgayBatDau;
+    private com.toedter.calendar.JDateChooser dateNgayKetThuc;
+    private javax.swing.JButton jButton1;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -325,9 +371,7 @@ public class jplTraGop extends javax.swing.JPanel {
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem mnuChiTiet;
-    private javax.swing.JMenuItem mnuDonHang;
     private javax.swing.JMenuItem mnuInPhieuSaoKe;
-    private javax.swing.JMenuItem mnuKhachHang;
     private javax.swing.JTable tblDanhSachTraGop;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables

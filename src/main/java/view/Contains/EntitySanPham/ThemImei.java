@@ -337,6 +337,7 @@ public class ThemImei extends javax.swing.JFrame {
 
         Imei imei = new Imei();
         imei.setImei(imeiStr);
+        imei.setTrangThai(0);
 
         String addResult = imeiService.add(imei);
         JOptionPane.showMessageDialog(this, addResult);

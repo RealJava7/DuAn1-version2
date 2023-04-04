@@ -280,6 +280,26 @@ public class NhanVienRepository {
         return nhanVienResponses;
     }
 
+    // get tài tài khoản mật khẩu nhân viên
+    public List<NhanVienResponse> getTaiKhoanNhanVien() {
+        List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.NhanVienResponse
+                                              (nv.id, nv.hoTen, nv.gioiTinh, nv.sdt, nv.ngaySinh, nv.diaChi, nv.email, nv.chucVu, nv.trangThai, nv.hinhAnh, tk.taiKhoan, tk.matKhau)
+                                              FROM NhanVien nv
+                                              INNER JOIN nv.taiKhoan tk Where nv.trangThai = true
+                                               """);
+
+            nhanVienResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return nhanVienResponses;
+    }
+
     // Test
     //public static void main(String[] args) {
     // getAll

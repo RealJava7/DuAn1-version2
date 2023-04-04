@@ -4,6 +4,7 @@
  */
 package service;
 
+import java.time.LocalDate;
 import java.util.List;
 import model.PhieuTraGop;
 import viewmodel.PhieuTraGopViewModel;
@@ -26,5 +27,5 @@ public interface PhieuTraGopService {
 
 //    List<PhieuTraGopViewModel> getByTime(int index);
 //    List<PhieuTraGopViewModel> getByTrangThai(int index);
-    List<PhieuTraGopViewModel> getByTimeAndTrangThai(int time, int trangThai);
+    List<PhieuTraGopViewModel> getByTimeAndTrangThai(LocalDate ngayBatDauDate, LocalDate ngayKetThuc, int trangThai);
 }

@@ -2,6 +2,8 @@ package repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import model.CameraChiTiet;
@@ -9,6 +11,7 @@ import model.DienThoai;
 import model.DongSanPham;
 import model.Hang;
 import model.HeDieuHanh;
+import model.Imei;
 import model.ManHinhChiTiet;
 import model.MauSac;
 import org.hibernate.HibernateException;
@@ -252,54 +255,54 @@ public class DienThoaiRepository {
         return check;
     }
 
-    public static void main(String[] args) {
-//        DienThoai dt = getById(1);
-//        System.out.println(dt.toString());
+    // 8
+    public static void updateSoLuongDienThoai(String imeiStr, int tangGiam) {
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
 
-        // get all
-//        List<DienThoaiResponse> dienThoaiResponses = getAll();
-//        dienThoaiResponses.forEach(dt -> System.out.println(dt.toString()));
-        // add
-//        CameraChiTiet cam = new CameraChiTiet();
-//        cam.setCameraChinh(48);
-//        cam.setCameraPhu(36);
-//        cam.setCameraTele(48);
-//
-//        ManHinhChiTiet man = new ManHinhChiTiet();
-//        man.setKichThuoc(6.7f);
-//        man.setDoPhanGiai("3600x1200");
-//        man.setLoaiManHinh(LoaiManHinh.SUPER_AMOLED);
-//
-//        DienThoai dienThoai = new DienThoai();
-//
-//        dienThoai.setMaDT("IP109");
-//        dienThoai.setTenDT("iPhone 14 Pro Max 128GB chính hãng");
-//        dienThoai.setMoTa("Đẹp long lanh");
-//        dienThoai.setDungLuongPin(3400);
-//        dienThoai.setRam(128);
-//        dienThoai.setRom(6);
-//        dienThoai.setCpu("Apple A16 Bionic");
-//        dienThoai.setGiaNhap(23_000_000L);
-//        dienThoai.setGiaBan(27_000_000L);
-//        dienThoai.setSoLuong(5);
-//        dienThoai.setHinhAnh("abc.png");
-//
-//        Hang hang1 = HangRepository.getById(1);
-//        DongSanPham dsp3 = DongSanPhamRepository.getById(3);
-//        MauSac ms1 = MauSacRepository.getById(1);
-//        HeDieuHanh hdh1 = HeDieuHanhRepository.getById(1);
-//
-//        dienThoai.setHang(hang1);
-//        dienThoai.setDongSanPham(dsp3);
-//        dienThoai.setMauSac(ms1);
-//        dienThoai.setHeDieuHanh(hdh1);
-//
-//        dienThoai.setCameraChiTiet(cam);
-//        dienThoai.setManHinhChiTiet(man);
-//
-//        Set<Imei> imeis = new HashSet<>();
-//        dienThoai.setImeis(imeis);
-//
-//        System.out.println(add(dienThoai));
+            Imei imei = ImeiRepository.getByImei(imeiStr);
+            int idDienThoai = imei.getDienThoai().getId();
+
+            DienThoai dienThoai = session.get(DienThoai.class, idDienThoai);
+            if (tangGiam == -1) {
+                dienThoai.setSoLuong(dienThoai.getSoLuong() - 1);
+            } else if (tangGiam == 1) {
+                dienThoai.setSoLuong(dienThoai.getSoLuong() + 1);
+            }
+
+            session.update(dienThoai);
+            transaction.commit();
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+    }
+
+    public static void update1(int id) {
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            DienThoai dienThoai = session.get(DienThoai.class, id);
+            Set<Imei> imeis = dienThoai.getImeis();
+            imeis = imeis.stream().filter(i -> i.getTrangThai() == 0).collect(Collectors.toSet());
+            dienThoai.setSoLuong(imeis.size());
+
+            session.update(dienThoai);
+            transaction.commit();
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+    }
+
+    public static void main(String[] args) {
+        update1(1);
+        update1(2);
+        update1(6);
+        update1(7);
+        update1(8);
+        update1(9);
+        update1(11);
+        System.out.println("true");
     }
 }

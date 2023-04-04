@@ -7,6 +7,8 @@ import viewmodel.KhachHangResponse;
 public interface KhachHangService {
 
     List<KhachHangResponse> getAll();
+    
+    List<KhachHangResponse> getAllResponseByStatus(int status);
 
     KhachHangResponse getKhachHangByEmail(String email);
 
