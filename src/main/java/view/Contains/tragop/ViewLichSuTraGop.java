@@ -8,6 +8,7 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import model.LichSuTraGop;
 import model.PhieuTraGop;
@@ -100,6 +101,8 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        mnuXuatPhieuThu = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -137,6 +140,14 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
         lblTongTien = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         lblNgayDong = new javax.swing.JLabel();
+
+        mnuXuatPhieuThu.setText("Xuất Phiếu Thu");
+        mnuXuatPhieuThu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuXuatPhieuThuActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(mnuXuatPhieuThu);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -485,6 +496,14 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
         txtGhiChu.setText(lstg.getGhiChu());
         txtMaLSTG.setText(lstg.getMa());
         txtTienThanhToan.setText(String.valueOf(lstg.getTongTien()));
+
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            int row = tblLichSuThuNo.rowAtPoint(evt.getPoint());
+            if (row >= 0 && row < tblLichSuThuNo.getRowCount()) {
+                tblLichSuThuNo.setRowSelectionInterval(row, row);//đánh dấu
+                jPopupMenu1.show(evt.getComponent(), evt.getX(), evt.getY());
+            }
+        }
     }//GEN-LAST:event_tblLichSuThuNoMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -561,6 +580,11 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
         showDataTable(listView);
     }//GEN-LAST:event_btnXoaPhieuThuActionPerformed
 
+    private void mnuXuatPhieuThuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuXuatPhieuThuActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_mnuXuatPhieuThuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -619,6 +643,7 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblKiHan;
@@ -628,6 +653,7 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
     private javax.swing.JLabel lblNgayTao;
     private javax.swing.JLabel lblPhaiTraHangThang;
     private javax.swing.JLabel lblTongTien;
+    private javax.swing.JMenuItem mnuXuatPhieuThu;
     private javax.swing.JRadioButton rdoChuaHoanThanh;
     private javax.swing.JRadioButton rdoHoanThanh;
     private javax.swing.JTable tblLichSuThuNo;

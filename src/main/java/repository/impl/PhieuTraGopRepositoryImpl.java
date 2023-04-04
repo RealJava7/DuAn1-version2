@@ -123,52 +123,23 @@ public class PhieuTraGopRepositoryImpl {
         }
     }
 
-    public List<PhieuTraGop> getByTimeAndTrangThai(int time, int trangThai) {
-        LocalDate date = LocalDate.now();
-        String hql = "";
-        switch (time) {
+    public List<PhieuTraGop> getByTimeAndTrangThai(LocalDate ngayBatDauDate, LocalDate ngayKetThuc, int trangThai) {
+        String hql = "FROM PhieuTraGop\n"
+                + "WHERE NgayTao BETWEEN '" + ngayBatDauDate + "' and '" + ngayKetThuc + "' ";
+        switch (trangThai) {
             case 0:
-                //tất cả
-                hql = "From PhieuTraGop";
+                hql = hql;
                 break;
             case 1:
-                //Hôm nay
-                hql = "FROM PhieuTraGop Where NgayTao = '" + date + "'";
+                hql = hql + "AND TrangThai = 0";
                 break;
             case 2:
-                //Hôm qua
-
-                hql = "FROM PhieuTraGop Where NgayTao = '" + date.minusDays(1) + "'";
-                break;
-            case 3:
-//                //Tuần này
-//                System.out.println(date);
-//                System.out.println(date.minusDays(7));
-                hql = "FROM PhieuTraGop\n"
-                        + "WHERE NgayTao BETWEEN '" + date.minusDays(7) + "' and '" + date + "'";
-                break;
-            case 4:
-                //tháng này
-                System.out.println(date.getMonthValue());
-                hql = "FROM PhieuTraGop Where MONTH(NgayTao) = '" + date.getMonthValue() + "'";
-                break;
-            case 5:
-                //năm này
-                hql = "FROM PhieuTraGop Where Year(NgayTao) = " + date.getYear();
+                hql = hql + "AND TrangThai = 1";
                 break;
             default:
-                hql = "From PhieuTraGop";
+                hql = hql;
         }
-        if (time != 0 && trangThai == 0) {
-            hql = hql;
-        }
-        if (time != 0 && trangThai == 1) {
-            hql = hql + "AND TrangThai = 0";
-        }
-        if (time != 0 && trangThai == 2) {
-            hql = hql + "AND TrangThai = 1";
-        }
-
+        System.out.println(trangThai);
         try (Session session = HibernateUtil.getFACTORY().openSession()) {
             session.beginTransaction();
             Query query = session.createQuery(hql);
@@ -187,7 +158,7 @@ public class PhieuTraGopRepositoryImpl {
 //    public static void main(String[] args) {
 //        PhieuTraGopRepositoryImpl repositoryImpl = new PhieuTraGopRepositoryImpl();
 //
-//        List<PhieuTraGop> listTime = repositoryImpl.getByTimeAndTrangThai(3, 2);
+//        List<PhieuTraGop> listTime = repositoryImpl.getByTimeAndTrangThai(LocalDate.now().minusDays(7), LocalDate.now(), 2);
 //        for (PhieuTraGop phieuTraGop : listTime) {
 //            System.out.println(phieuTraGop.toString());
 //        }
