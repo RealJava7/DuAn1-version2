@@ -54,4 +54,9 @@ public class DienThoaiServiceImpl implements DienThoaiService {
         return dienThoaiRepository.get5SanPhamHetHang();
     }
 
+    @Override
+    public List<DienThoaiResponse> getResponsesByHang(String tenHang) {
+        return dienThoaiRepository.getResponsesByHang(tenHang);
+    }
+
 }

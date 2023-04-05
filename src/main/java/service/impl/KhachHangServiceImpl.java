@@ -74,7 +74,7 @@ public class KhachHangServiceImpl implements KhachHangService {
 
     @Override
     public String updateDiem(KhachHangResponse kh, int soDiem) {
-        if (repo.UpdateDiem(kh, soDiem) == true) {
+        if (repo.updateDiemTichLuy(kh, soDiem) == true) {
             return "Sửa thành công";
         }
         return "Sửa thất bại";

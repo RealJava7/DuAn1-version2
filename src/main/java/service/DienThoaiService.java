@@ -21,4 +21,6 @@ public interface DienThoaiService {
     List<DienThoaiResponse> getAllResponseByGiaBan(String order);
 
     List<DienThoaiResponse> searchAllResponseByName(String keyword);
+    
+    List<DienThoaiResponse> getResponsesByHang(String tenHang);
 }

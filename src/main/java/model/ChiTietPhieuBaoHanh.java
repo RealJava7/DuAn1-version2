@@ -25,12 +25,6 @@ public class ChiTietPhieuBaoHanh {
     @Column(name = "ID")
     private int id;
     
-    @Column(name = "TenKH")
-    private String tenKhachHang;
-    
-    @Column(name = "TenDT")
-    private String tenDienThoai;
-    
     @Column(name = "Imei")
     private String imei;
     

@@ -161,6 +161,30 @@ public class KhachHangRepository {
         return kh;
     }
 
+    // get khách hàng by email or sdt
+    public static KhachHangResponse getKhachHangByEmailOrSDT(String keyword) {
+        KhachHangResponse kh = null;
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.KhachHangResponse
+                                              (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.id, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
+                                              FROM KhachHang kh
+                                              INNER JOIN kh.theTichDiem ttd
+                                              WHERE kh.email = :keyword
+                                              OR kh.sdt = :keyword
+                                               """);
+            query.setParameter("keyword", keyword);
+            kh = (KhachHangResponse) query.getSingleResult();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        } catch (NoResultException e) {
+            kh = null;
+        }
+        return kh;
+    }
+
     // get Khách hàng by mã thẻ
     public static KhachHangResponse getKhachHangByMaThe(String maThe) {
         KhachHangResponse kh = null;
@@ -242,11 +266,11 @@ public class KhachHangRepository {
 
             } else {
                 sql = """
-                                              SELECT new viewmodel.KhachHangResponse
-                                              (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.id, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
-                                              FROM KhachHang kh
-                                              INNER JOIN kh.theTichDiem ttd  WHERE kh.trangThai = :trangThai Order by kh.hoTen DESC
-                                               """;
+                        SELECT new viewmodel.KhachHangResponse
+                        (kh.id, kh.hoTen, kh.email, kh.sdt, kh.gioiTinh, kh.ngaySinh, kh.diaChi, kh.trangThai, ttd.id, ttd.maThe, ttd.ngayKichHoat, ttd.soDiem, ttd.trangThai)
+                        FROM KhachHang kh
+                        INNER JOIN kh.theTichDiem ttd  WHERE kh.trangThai = :trangThai Order by kh.hoTen DESC
+                         """;
             }
             Query query = session.createQuery(sql);
             query.setParameter("trangThai", trangThai);
@@ -309,8 +333,8 @@ public class KhachHangRepository {
         return khachHangResponses;
     }
 
-    // tangdiem khách hàng
-    public static boolean UpdateDiem(KhachHangResponse kh, int soDiem) {
+    // updateDiem thẻ tích lũy của khách hàng
+    public static boolean updateDiemTichLuy(KhachHangResponse kh, int soDiem) {
         boolean check = false;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();

@@ -66,8 +66,8 @@ public class DienThoaiRepository {
         }
         return dienThoaiResponses;
     }
-    //2.1 get Sản phẩm hết hàng
-
+    
+    // 2.1 get sản phẩm hết hàng
     public List<DienThoaiResponse> get5SanPhamHetHang() {
         List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
 
@@ -147,7 +147,7 @@ public class DienThoaiRepository {
         return dienThoaiResponses;
     }
 
-    // 6. get by name
+    // 6. search by name
     public List<DienThoaiResponse> searchAllResponseByName(String keyword) {
         List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
 
@@ -170,6 +170,36 @@ public class DienThoaiRepository {
                                               AND dt.tenDT like :keyword
                                                """);
             query.setParameter("keyword", "%" + keyword + "%");
+            dienThoaiResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return dienThoaiResponses;
+    }
+    
+    // get List<DienThoaiResponse> by tenHang
+    public List<DienThoaiResponse> getResponsesByHang(String tenHang) {
+        List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT new viewmodel.DienThoaiResponse
+                                              (dt.id, dt.maDT, dt.tenDT, dt.moTa, dt.dungLuongPin, dt.rom, dt.ram, dt.cpu, dt.giaNhap, dt.giaBan, dt.soLuong, dt.hinhAnh,
+                                              hdh.ten, h.tenHang, dsp.ten, ms.tenMauSac,
+                                              c.cameraChinh, c.cameraPhu, c.cameraGocRong, c.cameraTele,
+                                              mh.kichThuoc, mh.doPhanGiai, mh.loaiManHinh)
+                                              FROM DienThoai dt
+                                              INNER JOIN dt.hang h
+                                              INNER JOIN dt.dongSanPham dsp
+                                              INNER JOIN dt.mauSac ms
+                                              INNER JOIN dt.heDieuHanh hdh
+                                              INNER JOIN dt.cameraChiTiet c
+                                              INNER JOIN dt.manHinhChiTiet mh
+                                              WHERE dt.hang.tenHang = :tenHang
+                                              AND dt.trangThai = true
+                                               """);
+            query.setParameter("tenHang", tenHang);
             dienThoaiResponses = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
@@ -234,7 +264,7 @@ public class DienThoaiRepository {
         return check;
     }
 
-    // 7. delete
+    // 7. thay đổi trạng thái điện thoại
     public boolean changeStatus(DienThoaiResponse dienThoaiResponse, boolean newStatus) {
         boolean check = false;
         try {
@@ -255,7 +285,7 @@ public class DienThoaiRepository {
         return check;
     }
 
-    // 8
+    // 8. tăng/giảm số lượng điện thoại đi 1 (dùng nhiều trong view bán hàng)
     public static void updateSoLuongDienThoai(String imeiStr, int tangGiam) {
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
