@@ -65,9 +65,9 @@ public class jplTraGop extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDanhSachTraGop = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
-        btnTaoPhieuTra = new javax.swing.JButton();
+        btnXuatDanhSach = new javax.swing.JButton();
 
-        mnuChiTiet.setText("Xem lịch sử trả góp");
+        mnuChiTiet.setText("Xem chi tiết");
         mnuChiTiet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuChiTietActionPerformed(evt);
@@ -225,10 +225,15 @@ public class jplTraGop extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        btnTaoPhieuTra.setText("Xuất Danh Sách Trả Góp");
-        btnTaoPhieuTra.addActionListener(new java.awt.event.ActionListener() {
+        btnXuatDanhSach.setBackground(new java.awt.Color(47, 85, 212));
+        btnXuatDanhSach.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnXuatDanhSach.setForeground(new java.awt.Color(255, 255, 255));
+        btnXuatDanhSach.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-microsoft-excel-30.png"))); // NOI18N
+        btnXuatDanhSach.setText("Xuất Danh Sách");
+        btnXuatDanhSach.setBorderPainted(false);
+        btnXuatDanhSach.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTaoPhieuTraActionPerformed(evt);
+                btnXuatDanhSachActionPerformed(evt);
             }
         });
 
@@ -238,12 +243,12 @@ public class jplTraGop extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnTaoPhieuTra)
+                .addComponent(btnXuatDanhSach)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnTaoPhieuTra, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
+            .addComponent(btnXuatDanhSach, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -266,9 +271,9 @@ public class jplTraGop extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(0, 0, 0)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -328,8 +333,7 @@ public class jplTraGop extends javax.swing.JPanel {
         showDataTable(listView);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void btnTaoPhieuTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoPhieuTraActionPerformed
-        // TODO add your handling code here:
+    private void btnXuatDanhSachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatDanhSachActionPerformed
         // Tạo đối tượng JFileChooser
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Save Excel File");
@@ -350,10 +354,10 @@ public class jplTraGop extends javax.swing.JPanel {
 
             PhieuTraGopUtil.xuatEXCEL(table, path);
         }
-    }//GEN-LAST:event_btnTaoPhieuTraActionPerformed
+    }//GEN-LAST:event_btnXuatDanhSachActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnTaoPhieuTra;
+    private javax.swing.JButton btnXuatDanhSach;
     private javax.swing.JComboBox<String> cbxTrangThai;
     private com.toedter.calendar.JDateChooser dateNgayBatDau;
     private com.toedter.calendar.JDateChooser dateNgayKetThuc;
