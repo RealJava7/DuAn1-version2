@@ -487,7 +487,7 @@
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="jplGioHang" max="32767" attributes="0"/>
                       <Component id="jPanel8" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jScrollPane1" pref="557" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -876,7 +876,6 @@
                                       <Group type="102" attributes="0">
                                           <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                                           <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -888,13 +887,6 @@
                           </Group>
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       </Group>
-                  </Group>
-              </Group>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
-                      <Component id="jScrollPane6" min="-2" pref="123" max="-2" attributes="0"/>
-                      <EmptySpace pref="113" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -934,15 +926,8 @@
                       <Component id="jLabel7" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jTabbedPane2" min="-2" pref="482" max="-2" attributes="0"/>
-                  <EmptySpace pref="11" max="32767" attributes="0"/>
-              </Group>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="320" max="-2" attributes="0"/>
-                      <Component id="jScrollPane6" min="-2" pref="49" max="-2" attributes="0"/>
-                      <EmptySpace pref="320" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="jTabbedPane2" min="-2" pref="575" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -1022,11 +1007,6 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="btnThanhToan2" min="-2" pref="134" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
-                      </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -1034,7 +1014,7 @@
                                   <Component id="jLabel44" min="-2" pref="76" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                       <Component id="jLabel37" max="32767" attributes="0"/>
                                       <Component id="jLabel43" alignment="1" max="32767" attributes="0"/>
@@ -1047,25 +1027,51 @@
                                       <Component id="jLabel32" alignment="1" max="32767" attributes="0"/>
                                       <Component id="jLabel38" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jLabel41" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel28" alignment="0" min="-2" pref="96" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="cbKyHan" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
-                                          <Component id="lbMaGiamGia2" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="lbTraHangThang" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
-                                          <Component id="jScrollPane5" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
-                                          <Component id="lbTongNo" min="-2" pref="160" max="-2" attributes="0"/>
-                                          <Component id="lbTongTien2" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="lbTienGiam2" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="lbKhachPhaiTra2" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="lbTraTruocToiThieu" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="txtTienTraTruoc" alignment="0" pref="161" max="32767" attributes="0"/>
-                                          <Component id="lbConNo" alignment="0" max="32767" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="cbKyHan" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
+                                                  <Component id="lbMaGiamGia2" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="lbTraHangThang" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
+                                                  <Component id="jScrollPane5" alignment="0" min="-2" pref="160" max="-2" attributes="0"/>
+                                                  <Component id="lbTongNo" min="-2" pref="160" max="-2" attributes="0"/>
+                                                  <Component id="lbTongTien2" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="lbTienGiam2" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="lbKhachPhaiTra2" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="lbTraTruocToiThieu" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="txtTienTraTruoc" alignment="0" pref="161" max="32767" attributes="0"/>
+                                                  <Component id="lbConNo" alignment="0" max="32767" attributes="0"/>
+                                              </Group>
+                                              <Component id="txtLaiSuat" min="-2" pref="160" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="txtLaiSuat" min="-2" pref="160" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                                          <Component id="lbSoDiem1" min="-2" pref="189" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
-                                  <EmptySpace pref="37" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="btnThanhToan2" min="-2" pref="134" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="lbSoTienTuDiem1" alignment="0" min="-2" pref="189" max="-2" attributes="0"/>
+                                              <Component id="chkboxSuDungDiem1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
@@ -1084,7 +1090,16 @@
                               <Component id="jLabel32" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lbMaGiamGia2" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel28" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbSoDiem1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="lbSoTienTuDiem1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                          <Component id="chkboxSuDungDiem1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel33" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lbTienGiam2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1099,7 +1114,7 @@
                               <Component id="jLabel38" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lbTraTruocToiThieu" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel39" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtTienTraTruoc" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1134,7 +1149,7 @@
                               <Component id="jLabel37" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jScrollPane5" alignment="0" min="-2" pref="46" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btnThanhToan2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       </Group>
@@ -1363,6 +1378,41 @@
                     <Property name="text" type="java.lang.String" value="M&#xe3; GG"/>
                   </Properties>
                 </Component>
+                <Component class="javax.swing.JLabel" name="jLabel28">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Th&#x1ebb; t&#xed;ch &#x111;i&#x1ec3;m:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lbSoDiem1">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="13" style="1"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="33" green="33" red="ff" type="rgb"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="S&#x1ed1; &#x111;i&#x1ec3;m"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lbSoTienTuDiem1">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="13" style="1"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="33" green="33" red="ff" type="rgb"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="S&#x1ed1; ti&#x1ec1;n quy &#x111;&#x1ed5;i t&#x1eeb; &#x111;i&#x1ec3;m"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="chkboxSuDungDiem1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="S&#x1eed; d&#x1ee5;ng &#x111;i&#x1ec3;m"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkboxSuDungDiem1ActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="jPanel2">
@@ -1406,6 +1456,7 @@
                                       <Component id="lbSoDiem" alignment="0" min="-2" pref="189" max="-2" attributes="0"/>
                                       <Component id="lbSoTienTuDiem" alignment="0" min="-2" pref="189" max="-2" attributes="0"/>
                                       <Component id="chkboxSuDungDiem" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jScrollPane7" min="-2" pref="187" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -1420,14 +1471,7 @@
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace pref="37" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="118" max="32767" attributes="0"/>
-                              <Component id="jScrollPane7" min="-2" pref="187" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                          </Group>
+                          <EmptySpace pref="38" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1474,17 +1518,13 @@
                               <Component id="lbTienThua" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
+                              <Component id="jScrollPane7" min="-2" pref="49" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                           <Component id="btnThanhToan" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="304" max="32767" attributes="0"/>
-                              <Component id="jScrollPane7" min="-2" pref="49" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
-                          </Group>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1674,21 +1714,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTimKHActionPerformed"/>
           </Events>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane6">
-          <AuxValues>
-            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-          </AuxValues>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-          <SubComponents>
-            <Component class="javax.swing.JTextArea" name="txtGhiChu1">
-              <Properties>
-                <Property name="columns" type="int" value="1"/>
-                <Property name="rows" type="int" value="5"/>
-              </Properties>
-            </Component>
-          </SubComponents>
-        </Container>
         <Component class="javax.swing.JLabel" name="lbTenKhachHang">
           <Properties>
             <Property name="text" type="java.lang.String" value="T&#xea;n kh&#xe1;ch h&#xe0;ng"/>
