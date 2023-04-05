@@ -229,17 +229,17 @@ public class jplHoaDon extends javax.swing.JPanel {
 
         tblHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "TÊN KHÁCH HÀNG", "NGÀY TẠO", "NGÀY THANH TOÁN", "TỔNG TIỀN", "PHẾU GIẢM GIÁ", "TIỀN GIẢM", "HT THANH TOÁN", "GHI CHÚ", "TÊN NHÂN VIÊN", "TRẠNG THÁI"
+                "Tên KH", "Ngày tạo", "Ngày thanh toán", "Tổng tiền", "Số tiền giảm", "Thu ngân"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -247,9 +247,6 @@ public class jplHoaDon extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(tblHoaDon);
-        if (tblHoaDon.getColumnModel().getColumnCount() > 0) {
-            tblHoaDon.getColumnModel().getColumn(0).setPreferredWidth(10);
-        }
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -273,15 +270,20 @@ public class jplHoaDon extends javax.swing.JPanel {
 
         tblHoaDonChiTiet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Tên ĐT", "Đơn giá", "IMEI"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tblHoaDonChiTiet);
 
         tblImei.setModel(new javax.swing.table.DefaultTableModel(
