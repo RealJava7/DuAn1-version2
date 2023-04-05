@@ -61,7 +61,7 @@ public class jplHeThong extends javax.swing.JPanel {
 
         list2 = service.getAllNghi();
         showDataTblNghi(list2);
- 
+
         int month = jmonth.getMonth() + 1;
         int year = jyear.getYear();
         setDataToSanPhamTKThang(pnlSPTKCot, month, year);
@@ -238,7 +238,7 @@ public class jplHeThong extends javax.swing.JPanel {
 //            File selectedFile = chooser.getSelectedFile();
 //            strHinhAnh = selectedFile.getName();
 //            File newFile = new File("D:\\NetBeansProjects\\DuAn1\\DuAn1\\src\\main\\resources\\Icon\\" + strHinhAnh);
-//            selectedFile.renameTo(newFile);  
+//            selectedFile.renameTo(newFile);
 //            ImageIcon icon = new ImageIcon(newFile.getPath());
 //            Image newImage = icon.getImage().getScaledInstance(148, 184, Image.SCALE_SMOOTH);
 //            lbAnh.setIcon(new ImageIcon(newImage));
@@ -247,16 +247,16 @@ public class jplHeThong extends javax.swing.JPanel {
 
     private void setDataToSanPhamTKThang(JPanel jpn, int month, int year) {
         List<SanPhamThongKeResponse> listSP = serviceTK.getSPTKThang(month, year);
-        if(listSP != null) {
+        if (listSP != null) {
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
             for (SanPhamThongKeResponse sptk : listSP) {
                 dataset.addValue(sptk.getSlSanPham(), "  Sản phẩm", sptk.getTenSp());
             }
-            
+
             JFreeChart chart = ChartFactory.createBarChart("Biểu đồ thống kê số lượng sản phẩm bán được trong tháng " + month + " năm " + year, "Tên sản phẩm", "Số lượng", dataset);
-            
+
             ChartPanel chartPanel = new ChartPanel(chart);
-            
+
             jpn.removeAll();
             jpn.setLayout(new CardLayout());
             jpn.add(chartPanel);
@@ -264,19 +264,19 @@ public class jplHeThong extends javax.swing.JPanel {
             jpn.repaint();
         }
     }
-    
+
     private void setDataToSanPhamTKNam(JPanel jpn, int year) {
         List<SanPhamThongKeResponse> listSP = serviceTK.getSPTKNam(year);
-        if(listSP != null) {
+        if (listSP != null) {
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
             for (SanPhamThongKeResponse sptk : listSP) {
                 dataset.addValue(sptk.getSlSanPham(), "  Sản phẩm", sptk.getTenSp());
             }
-            
+
             JFreeChart chart = ChartFactory.createBarChart("Biểu đồ thống kê số lượng sản phẩm bán được trong năm " + year, "Tên sản phẩm", "Số lượng", dataset);
-            
+
             ChartPanel chartPanel = new ChartPanel(chart);
-            
+
             jpn.removeAll();
             jpn.setLayout(new CardLayout());
             jpn.add(chartPanel);
@@ -284,14 +284,14 @@ public class jplHeThong extends javax.swing.JPanel {
             jpn.repaint();
         }
     }
-    
+
     private void showDataToTableSanPhamTK(List<SanPhamThongKeResponse> lists) {
         dtm3.setRowCount(0);
         for (SanPhamThongKeResponse sptk : lists) {
             dtm3.addRow(new Object[]{sptk.getTenSp(), sptk.getSlSanPham()});
         }
     }
-        
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -1041,7 +1041,7 @@ public class jplHeThong extends javax.swing.JPanel {
             pnlSPTKBangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSPTKBangLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1060,8 +1060,8 @@ public class jplHeThong extends javax.swing.JPanel {
             pnlSanPhamTKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSanPhamTKLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("SẢN PHẨM", pnlSanPhamTK);
@@ -1074,7 +1074,7 @@ public class jplHeThong extends javax.swing.JPanel {
         );
         pnlDoanhThuTKLayout.setVerticalGroup(
             pnlDoanhThuTKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 395, Short.MAX_VALUE)
+            .addGap(0, 723, Short.MAX_VALUE)
         );
 
         jTabbedPane3.addTab("DOANH THU", pnlDoanhThuTK);
@@ -1093,14 +1093,10 @@ public class jplHeThong extends javax.swing.JPanel {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(302, Short.MAX_VALUE))
+                .addGap(57, 57, 57)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jTabbedPane3, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         jTabbedPane3.getAccessibleContext().setAccessibleName("Sản phẩm");
@@ -1294,10 +1290,10 @@ public class jplHeThong extends javax.swing.JPanel {
         // TODO add your handling code here:
         //System.out.println(jmoChooser.getMonth() + 1 );
         //System.out.println(jyeChooser.getYear() + 1);
-        if(rdoThang.isSelected()) {
+        if (rdoThang.isSelected()) {
             int month = jmonth.getMonth() + 1;
-            int year = jyear.getYear(); 
-             System.out.println("tháng: " + month + " năm: " + year);
+            int year = jyear.getYear();
+            System.out.println("tháng: " + month + " năm: " + year);
             setDataToSanPhamTKThang(pnlSPTKCot, month, year);
             showDataToTableSanPhamTK(serviceTK.getSPTKThang(month, year));
         }
@@ -1305,16 +1301,16 @@ public class jplHeThong extends javax.swing.JPanel {
 
     private void jyearPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jyearPropertyChange
         // TODO add your handling code here:
-        if(rdoNam.isSelected()) {
+        if (rdoNam.isSelected()) {
             int year = jyear.getYear();
             System.out.println("năm: " + year);
             setDataToSanPhamTKNam(pnlSPTKCot, year);
             showDataToTableSanPhamTK(serviceTK.getSPTKNam(year));
         }
-        if(rdoThang.isSelected()) {
+        if (rdoThang.isSelected()) {
             int month = jmonth.getMonth() + 1;
-            int year = jyear.getYear();    
-             System.out.println("tháng: " + month + " năm: " + year);
+            int year = jyear.getYear();
+            System.out.println("tháng: " + month + " năm: " + year);
             setDataToSanPhamTKThang(pnlSPTKCot, month, year);
             showDataToTableSanPhamTK(serviceTK.getSPTKThang(month, year));
         }
