@@ -2,6 +2,8 @@ package service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.ChiTietPhieuBaoHanh;
+import model.PhieuBaoHanh;
 import repository.LoaiBaoHanhRepository;
 import repository.PhieuBaoHanhRepository;
 import service.PhieuBaoHanhService;
@@ -16,11 +18,6 @@ public class PhieuBaoHanhServiceImpl implements PhieuBaoHanhService {
     @Override
     public List<PhieuBaoHanhResponse> getAll() {
         return repository.getAll();
-    }
-
-    @Override
-    public String add(PhieuBaoHanhResponse pbh) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -41,6 +38,22 @@ public class PhieuBaoHanhServiceImpl implements PhieuBaoHanhService {
             listString.add(lbh.getTen());
         }
         return listString;
+    }
+
+    @Override
+    public String add(PhieuBaoHanh pbh, ChiTietPhieuBaoHanh ctPBH) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String updateMoTa(PhieuBaoHanhResponse pbh, int id) {
+        boolean check = repository.updateMotaPBH(pbh, id);
+        return check == true ? "Update thành công" : "Update thất bại";
+    }
+
+    @Override
+    public PhieuBaoHanhResponse getPBHByID(int id) {
+        return repository.getPBHByID(id);
     }
 
 }

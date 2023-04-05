@@ -30,7 +30,7 @@ public class NhanVienRepository {
     }
 
     // 2. update
-    public boolean update(NhanVienResponse nhanVienResponse, int id) {
+    public static boolean update(NhanVienResponse nhanVienResponse, int id) {
         boolean check = false;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
@@ -60,6 +60,7 @@ public class NhanVienRepository {
         }
         return check;
     }
+
 
     public boolean delete(int id) {
         boolean check = false;

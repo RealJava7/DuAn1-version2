@@ -4,10 +4,14 @@
  */
 package view.Contains.tragop;
 
+import java.io.File;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.List;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import model.LichSuTraGop;
 import model.PhieuTraGop;
@@ -15,6 +19,7 @@ import service.LichSuTraGopService;
 import service.PhieuTraGopService;
 import service.impl.LichSuTraGopServiceImpl;
 import service.impl.PhieuTraGopServiceImpl;
+import utility.PhieuTraGopUtil;
 
 /**
  *
@@ -51,7 +56,7 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
         lblNgayTao.setText(String.valueOf(ptg.getNgayTao()));
         lblPhaiTraHangThang.setText(convertVND(ptg.getPhaiTra()));
         lblTongTien.setText(convertVND(ptg.getTongPhaiTra()));
-        cbxNgayDong.setSelectedItem(String.valueOf(ptg.getNgayDong()));
+        lblNgayDong.setText(String.valueOf(ptg.getNgayTao().getDayOfMonth()));
         rdoChuaHoanThanh.setSelected(true);
         if (ptg.isTrangThai()) {
             rdoHoanThanh.setSelected(true);
@@ -60,7 +65,6 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
 
     private PhieuTraGop newPhieuTraGop() {
         PhieuTraGop ptg = new PhieuTraGop();
-        ptg.setNgayDong(Integer.parseInt(cbxNgayDong.getSelectedItem().toString()));
         ptg.setTrangThai(false);
         if (rdoHoanThanh.isSelected()) {
             ptg.setTrangThai(true);
@@ -101,6 +105,8 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        mnuXuatPhieuThu = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -137,7 +143,15 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         lblTongTien = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
-        cbxNgayDong = new javax.swing.JComboBox<>();
+        lblNgayDong = new javax.swing.JLabel();
+
+        mnuXuatPhieuThu.setText("Xuất Phiếu Thu");
+        mnuXuatPhieuThu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuXuatPhieuThuActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(mnuXuatPhieuThu);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -362,7 +376,7 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
         jLabel21.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel21.setText("Ngày Đóng :");
 
-        cbxNgayDong.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+        lblNgayDong.setText("0");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -394,7 +408,7 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblNgayTao, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
                             .addComponent(lblTongTien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cbxNgayDong, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lblNgayDong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(75, 75, 75))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(lblPhaiTraHangThang, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -410,34 +424,37 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(lblMaPhieu)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel17)
-                        .addComponent(lblNgayTao)))
+                        .addComponent(lblNgayTao))
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(lblMaPhieu)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(lblLaiSuat)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel19)
-                        .addComponent(lblTongTien)))
-                .addGap(23, 23, 23)
+                        .addComponent(lblTongTien))
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(lblLaiSuat)))
+                .addGap(24, 24, 24)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(lblKiHan)
                     .addComponent(jLabel21)
-                    .addComponent(cbxNgayDong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblNgayDong))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdoHoanThanh)
-                    .addComponent(rdoChuaHoanThanh)
-                    .addComponent(jLabel11)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel10)
-                        .addComponent(lblPhaiTraHangThang)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                        .addComponent(lblPhaiTraHangThang))
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(rdoHoanThanh)
+                        .addComponent(rdoChuaHoanThanh)
+                        .addComponent(jLabel11)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -461,7 +478,7 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 17, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 19, Short.MAX_VALUE)
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -483,6 +500,14 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
         txtGhiChu.setText(lstg.getGhiChu());
         txtMaLSTG.setText(lstg.getMa());
         txtTienThanhToan.setText(String.valueOf(lstg.getTongTien()));
+
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            int row = tblLichSuThuNo.rowAtPoint(evt.getPoint());
+            if (row >= 0 && row < tblLichSuThuNo.getRowCount()) {
+                tblLichSuThuNo.setRowSelectionInterval(row, row);//đánh dấu
+                jPopupMenu1.show(evt.getComponent(), evt.getX(), evt.getY());
+            }
+        }
     }//GEN-LAST:event_tblLichSuThuNoMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -559,6 +584,30 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
         showDataTable(listView);
     }//GEN-LAST:event_btnXoaPhieuThuActionPerformed
 
+    private void mnuXuatPhieuThuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuXuatPhieuThuActionPerformed
+        // TODO add your handling code here:
+// Tạo đối tượng JFileChooser
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Save Excel File");
+
+        // Chỉ cho phép chọn tập tin với định dạng .xlsx
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel file (*.pdf)", "pdf");
+        fileChooser.setFileFilter(filter);
+        //set Tên cho File
+
+        fileChooser.setSelectedFile(new File("Phieu Thu No " + LocalDate.now() + ".pdf"));
+        // Hiển thị hộp thoại chọn vị trí và tên tập tin
+        int userSelection = fileChooser.showSaveDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String path = fileToSave.getAbsolutePath();
+            // LSTG
+            LichSuTraGop lstg = listView.get(tblLichSuThuNo.getSelectedRow());
+            PhieuTraGopUtil.xuatPhieuThuPDF(lstg, path);
+        }
+    }//GEN-LAST:event_mnuXuatPhieuThuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -598,7 +647,6 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
     private javax.swing.JButton btnTaoPhieuThu;
     private javax.swing.JButton btnXoaPhieuThu;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<String> cbxNgayDong;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -618,14 +666,17 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblKiHan;
     private javax.swing.JLabel lblLaiSuat;
     private javax.swing.JLabel lblMaPhieu;
+    private javax.swing.JLabel lblNgayDong;
     private javax.swing.JLabel lblNgayTao;
     private javax.swing.JLabel lblPhaiTraHangThang;
     private javax.swing.JLabel lblTongTien;
+    private javax.swing.JMenuItem mnuXuatPhieuThu;
     private javax.swing.JRadioButton rdoChuaHoanThanh;
     private javax.swing.JRadioButton rdoHoanThanh;
     private javax.swing.JTable tblLichSuThuNo;
