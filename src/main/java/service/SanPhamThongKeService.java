@@ -4,6 +4,7 @@
  */
 package service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import viewmodel.SanPhamThongKeResponse;
 
@@ -15,4 +16,6 @@ public interface SanPhamThongKeService {
     List<SanPhamThongKeResponse> getSPTKThang(int month, int year);
     
     List<SanPhamThongKeResponse> getSPTKNam(int year);
+    
+    List<SanPhamThongKeResponse> getSPTKNgay(LocalDateTime ngayDau, LocalDateTime ngayCuoi);
 }
