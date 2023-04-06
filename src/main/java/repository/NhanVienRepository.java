@@ -61,6 +61,26 @@ public class NhanVienRepository {
         return check;
     }
 
+    // 2.1 update Mật khẩu
+    public static boolean updateMatKhau(NhanVienResponse nhanVienResponse, String mk) {
+        boolean check = false;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            NhanVien nhanVien = session.get(NhanVien.class, nhanVienResponse.getId());
+            TaiKhoan taiKhoan = nhanVien.getTaiKhoan();
+            taiKhoan.setMatKhau(mk);
+            nhanVien.setTaiKhoan(taiKhoan);
+
+            session.update(nhanVien);
+            transaction.commit();
+            check = true;
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+        return check;
+    }
 
     public boolean delete(int id) {
         boolean check = false;

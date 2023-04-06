@@ -1,8 +1,10 @@
 package view.Contains;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,6 +16,11 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import service.PhieuBaoHanhService;
 import service.impl.PhieuBaoHanhServiceImpl;
 import view.Contains.entitybaohanh.QuanLyLoaiBaoHanh;
@@ -62,6 +69,16 @@ public class jplBaoHanh extends javax.swing.JPanel {
         dtm.setRowCount(0);
         for (PhieuBaoHanhResponse pbh : list) {
             dtm.addRow(pbh.toRowData());
+        }
+    }
+
+    private void openFileExcel(String file) {
+        try {
+            File path = new File(file);
+            Desktop.getDesktop().open(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Lỗi khi cố gắng mở file Excel");
         }
     }
 
@@ -411,61 +428,43 @@ public class jplBaoHanh extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportExcelActionPerformed
-        // TODO add your handling code here:
-        //chọn lơi lưu trữ
         showDataTable(service.getAll());
-        FileOutputStream excelFOS = null;
-        BufferedOutputStream excelBOS = null;
-        XSSFWorkbook excelJtableExporter = null;
-        JFileChooser excelFileChooser = new JFileChooser("C:\\Users\\virus\\OneDrive\\My Desktop");
-        //dổi tên của dialog
-        excelFileChooser.setDialogTitle("Save As");
-        //định dạng file excel
-        FileNameExtensionFilter fnef = new FileNameExtensionFilter("EXCEL FILES", "xls", "xlsx", "xlsm");
-        excelFileChooser.setFileFilter(fnef);
-        int excelChooser = excelFileChooser.showSaveDialog(null);
-        if (excelChooser == JFileChooser.APPROVE_OPTION) {
-            try {
-
-                excelJtableExporter = new XSSFWorkbook();
-                XSSFSheet excelSheet = excelJtableExporter.createSheet("JTable Sheet");
-
-                for (int i = 0; i < dtm.getRowCount(); i++) {
-                    XSSFRow excelRow = excelSheet.createRow(i);
-                    for (int j = 0; j < dtm.getColumnCount(); j++) {
-                        XSSFCell excelCell = excelRow.createCell(j);
-
-                        excelCell.setCellValue(dtm.getValueAt(i, j).toString());
+        try {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.showSaveDialog(this);
+            File saveFile = fileChooser.getSelectedFile();
+            if (saveFile != null) {
+                saveFile = new File(saveFile.toString() + ".xlsx");
+                Workbook wb = new SXSSFWorkbook();
+                Sheet sheet = wb.createSheet("Phiếu Bảo Hành");
+                Row rowCol = sheet.createRow(0);
+                for (int i = 0; i < tbCTPBH.getColumnCount(); i++) {
+                    Cell cell = rowCol.createCell(i);
+                    cell.setCellValue(tbCTPBH.getColumnName(i));
+                }
+                for (int i = 0; i < tbCTPBH.getRowCount(); i++) {
+                    Row row = sheet.createRow(i);
+                    for (int j = 0; j < tbCTPBH.getColumnCount(); j++) {
+                        Cell cell = row.createCell(i);
+                        if (tbCTPBH.getValueAt(j, i) != null) {
+                            cell.setCellValue(tbCTPBH.getValueAt(i, j).toString());
+                        }
                     }
                 }
-
-                excelFOS = new FileOutputStream(excelFileChooser.getSelectedFile() + ".xlsx");
-                excelBOS = new BufferedOutputStream(excelFOS);
-                excelJtableExporter.write(excelBOS);
-
-                JOptionPane.showMessageDialog(this, "Xuất file excel thành công");
-            } catch (FileNotFoundException ex) {
-                JOptionPane.showMessageDialog(this, "Lỗi không tìm thấy file");
-                ex.printStackTrace();
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Một lỗi gì đó!......");
-                ex.printStackTrace();
-            } finally {
-                try {
-                    if (excelFOS != null) {
-                        excelFOS.close();
-                    }
-                    if (excelBOS != null) {
-                        excelBOS.close();
-                    }
-                    if (excelJtableExporter != null) {
-                        excelJtableExporter.close();
-                    }
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(this, "Lỗi khi cố gắng đóng các class");
-                    ex.printStackTrace();
-                }
+                FileOutputStream fos = new FileOutputStream(new File(saveFile.toString()));
+                wb.write(fos);
+                wb.close();
+                fos.close();
+                openFileExcel(saveFile.toString());
+            }else{
+                JOptionPane.showMessageDialog(fileChooser, "Lỗi khi khởi tạo các dữ liệu file");
             }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Không tìm thấy file!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Có lỗi khi khởi tạo hoặc đóng các class, file");
         }
     }//GEN-LAST:event_btnImportExcelActionPerformed
 
@@ -542,7 +541,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
             if (txtMoTa.getText().isBlank()) {
                 JOptionPane.showMessageDialog(null, "Không được để trống mô tả!");
             } else {
-                
+
             }
         }
     }//GEN-LAST:event_btnUpdateMotaActionPerformed

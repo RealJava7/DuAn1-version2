@@ -611,7 +611,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Icon/icons8-sold-out-30.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="H&#x1ebe;T H&#xc0;NG"/>
+            <Property name="text" type="java.lang.String" value="S&#x1eae;P H&#x1ebe;T H&#xc0;NG"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane3">
@@ -722,7 +722,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Icon/icons8-warranty-30.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="TOP 3 KH&#xc1;CH H&#xc0;NG"/>
+            <Property name="text" type="java.lang.String" value="TOP 5 KH&#xc1;CH H&#xc0;NG"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane2">
