@@ -45,6 +45,7 @@ import viewmodel.HangResponse;
 import viewmodel.HoaDonChiTietResponse;
 import viewmodel.ImeiResponse;
 import viewmodel.KhachHangResponse;
+import viewmodel.NhanVienResponse;
 import viewmodel.PhieuGiamGiaResponse;
 
 public class jplBanHang extends javax.swing.JPanel {
@@ -63,7 +64,7 @@ public class jplBanHang extends javax.swing.JPanel {
 
     private NumberFormat numberFormat = NumberFormat.getInstance(new Locale("vn", "VN"));
 
-    public jplBanHang() {
+    public jplBanHang(NhanVienResponse nv) {
         initComponents();
 
         dtmDienThoai = (DefaultTableModel) tbDienThoai.getModel();
@@ -90,6 +91,12 @@ public class jplBanHang extends javax.swing.JPanel {
         //Khởi tạo cách thanh toán
 //        addFormThanhToan(new jplFormThanhToan());
         viewTable();
+        setNhanVien(nv);
+    }
+
+    //0. Set thông tin nhân viên khi đăng nhập
+    private void setNhanVien(NhanVienResponse nv) {
+        lbNhanVien.setText(nv.getHoTen().substring(nv.getHoTen().lastIndexOf(" ") + 1) + " " + nv.getId());
     }
 
     // 1. hiển thị điện thoại trạng thái = true
@@ -315,7 +322,7 @@ public class jplBanHang extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lbNhanVien = new javax.swing.JLabel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jLabel30 = new javax.swing.JLabel();
@@ -849,9 +856,9 @@ public class jplBanHang extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel6.setText("Nhân Viên:");
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 0, 51));
-        jLabel7.setText("Mã + tên NV");
+        lbNhanVien.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lbNhanVien.setForeground(new java.awt.Color(255, 0, 51));
+        lbNhanVien.setText("Mã + tên NV");
 
         jTabbedPane2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1294,7 +1301,7 @@ public class jplBanHang extends javax.swing.JPanel {
                                     .addGroup(Jpanel20Layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(btnTimKH, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))))
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lbNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(27, 27, 27))))
         );
         Jpanel20Layout.setVerticalGroup(
@@ -1324,7 +1331,7 @@ public class jplBanHang extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(Jpanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 575, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -2028,7 +2035,6 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -2050,6 +2056,7 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JLabel lbKhachPhaiTra2;
     private javax.swing.JLabel lbMaGiamGia;
     private javax.swing.JLabel lbMaGiamGia2;
+    private javax.swing.JLabel lbNhanVien;
     private javax.swing.JLabel lbSdtKhachHang;
     private javax.swing.JLabel lbSoDiem;
     private javax.swing.JLabel lbSoDiem1;

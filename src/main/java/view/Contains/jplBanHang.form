@@ -883,7 +883,7 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <Component id="jLabel7" max="32767" attributes="0"/>
+                              <Component id="lbNhanVien" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       </Group>
@@ -923,7 +923,7 @@
                   </Group>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel6" alignment="3" min="-2" pref="19" max="-2" attributes="0"/>
-                      <Component id="jLabel7" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                      <Component id="lbNhanVien" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jTabbedPane2" min="-2" pref="575" max="-2" attributes="0"/>
@@ -970,7 +970,7 @@
             <Property name="text" type="java.lang.String" value="Nh&#xe2;n Vi&#xea;n:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel7">
+        <Component class="javax.swing.JLabel" name="lbNhanVien">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
