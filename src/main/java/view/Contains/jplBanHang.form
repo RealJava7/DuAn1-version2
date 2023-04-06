@@ -869,8 +869,8 @@
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="txtTimKH" max="32767" attributes="0"/>
                                       <Component id="lbTenKhachHang" max="32767" attributes="0"/>
-                                      <Component id="lbSdtKhachHang" alignment="0" pref="140" max="32767" attributes="0"/>
-                                      <Component id="lbEmailKhachHang" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="lbEmailKhachHang" alignment="0" pref="140" max="32767" attributes="0"/>
+                                      <Component id="lbSdtKhachHang" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
@@ -915,9 +915,9 @@
                               <Component id="lbTenKhachHang" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="lbSdtKhachHang" min="-2" pref="22" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="lbEmailKhachHang" min="-2" pref="22" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="lbSdtKhachHang" min="-2" pref="22" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -1708,6 +1708,12 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnTimKH">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="d4" green="55" red="2f" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="T&#xec;m"/>
           </Properties>
           <Events>
@@ -1719,12 +1725,12 @@
             <Property name="text" type="java.lang.String" value="T&#xea;n kh&#xe1;ch h&#xe0;ng"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lbSdtKhachHang">
+        <Component class="javax.swing.JLabel" name="lbEmailKhachHang">
           <Properties>
             <Property name="text" type="java.lang.String" value="Email kh&#xe1;ch h&#xe0;ng"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lbEmailKhachHang">
+        <Component class="javax.swing.JLabel" name="lbSdtKhachHang">
           <Properties>
             <Property name="text" type="java.lang.String" value="S&#x110;T kh&#xe1;ch h&#xe0;ng"/>
           </Properties>

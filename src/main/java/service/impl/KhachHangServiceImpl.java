@@ -90,4 +90,9 @@ public class KhachHangServiceImpl implements KhachHangService {
         return repo.getAllResponseByStatus(status);
     }
 
+    @Override
+    public KhachHangResponse getKhachHangBySdt(String sdt) {
+        return repo.getKhachHangByEmailOrSDT(sdt);
+    }
+
 }
