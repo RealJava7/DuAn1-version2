@@ -10,6 +10,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.Normalizer;
 import java.text.NumberFormat;
 import javax.swing.JTable;
 import model.LichSuTraGop;
@@ -71,38 +72,44 @@ public class PhieuTraGopUtil {
             Font boldFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
             Font normalFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL);
 
-            Paragraph title = new Paragraph("PHIẾU THU", boldFont);
+            Paragraph title = new Paragraph("PHIEU THU", boldFont);
             title.setAlignment(Paragraph.ALIGN_CENTER);
             document.add(title);
 
             document.add(new Paragraph("\n"));
 
-            Paragraph maPhieu = new Paragraph("Mã phiếu: " + lstg.getMa(), normalFont);
+            Paragraph maPhieu = new Paragraph("Ma phieu: " + lstg.getMa(), normalFont);
             document.add(maPhieu);
 
             document.add(new Paragraph("\n"));
 
-            Paragraph date = new Paragraph("Ngày: " + lstg.getNgayThanhToan(), normalFont);
+            Paragraph date = new Paragraph("Ngay: " + lstg.getNgayThanhToan(), normalFont);
             document.add(date);
 
             document.add(new Paragraph("\n"));
 
-            Paragraph customerInfo = new Paragraph("Khách hàng: " + lstg.getPhieuTraGop().getHoaDon().getKhachHang().getHoTen() + " - " + lstg.getPhieuTraGop().getHoaDon().getKhachHang().getSdt(), normalFont);
+            String khachHangStr = lstg.getPhieuTraGop().getHoaDon().getKhachHang().getHoTen() + " - " + lstg.getPhieuTraGop().getHoaDon().getKhachHang().getSdt();
+            khachHangStr = Normalizer.normalize(khachHangStr, Normalizer.Form.NFD)
+                    .replaceAll("\\p{M}", "");
+            Paragraph customerInfo = new Paragraph("Khach hang: " + khachHangStr, normalFont);
             document.add(customerInfo);
 
             document.add(new Paragraph("\n"));
 
-            Paragraph soTien = new Paragraph("Số tiền: " + convertVND(lstg.getTongTien()) + " VNĐ", normalFont);
+            Paragraph soTien = new Paragraph("So tien: " + convertVND(lstg.getTongTien()) + " VND", normalFont);
             document.add(soTien);
 
             document.add(new Paragraph("\n"));
 
-            Paragraph ghiChu = new Paragraph("Ghi chú: " + lstg.getGhiChu(), normalFont);
+            String ghiChuStr = lstg.getGhiChu();
+            ghiChuStr = Normalizer.normalize(ghiChuStr, Normalizer.Form.NFD)
+                    .replaceAll("\\p{M}", "");
+            Paragraph ghiChu = new Paragraph("Ghi chu: " + ghiChuStr, normalFont);
             document.add(ghiChu);
 
             document.add(new Paragraph("\n"));
 
-            Paragraph chuKy = new Paragraph("                 Khách Hàng                                              Đại Diện", normalFont);
+            Paragraph chuKy = new Paragraph("                 Khach Hang                                              Dai Dien", normalFont);
             document.add(chuKy);
 
             document.close();
