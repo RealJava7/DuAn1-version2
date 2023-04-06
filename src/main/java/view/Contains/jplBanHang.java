@@ -316,9 +316,9 @@ public class jplBanHang extends javax.swing.JPanel {
         lbTongNo = new javax.swing.JLabel();
         lbMaGiamGia2 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
-        lbSoDiem1 = new javax.swing.JLabel();
-        lbSoTienTuDiem1 = new javax.swing.JLabel();
-        chkboxSuDungDiem1 = new javax.swing.JCheckBox();
+        lbSoDiem2 = new javax.swing.JLabel();
+        lbSoTienTuDiem2 = new javax.swing.JLabel();
+        chkboxSuDungDiem2 = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -336,7 +336,7 @@ public class jplBanHang extends javax.swing.JPanel {
         jLabel26 = new javax.swing.JLabel();
         lbTienGiam = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        txtGhiChu3 = new javax.swing.JTextArea();
+        txtGhiChu = new javax.swing.JTextArea();
         lbMaGiamGia = new javax.swing.JLabel();
         chkboxSuDungDiem = new javax.swing.JCheckBox();
         lbSoTienTuDiem = new javax.swing.JLabel();
@@ -919,18 +919,18 @@ public class jplBanHang extends javax.swing.JPanel {
 
         jLabel28.setText("Thẻ tích điểm:");
 
-        lbSoDiem1.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        lbSoDiem1.setForeground(new java.awt.Color(255, 51, 51));
-        lbSoDiem1.setText("Số điểm");
+        lbSoDiem2.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        lbSoDiem2.setForeground(new java.awt.Color(255, 51, 51));
+        lbSoDiem2.setText("Số điểm");
 
-        lbSoTienTuDiem1.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        lbSoTienTuDiem1.setForeground(new java.awt.Color(255, 51, 51));
-        lbSoTienTuDiem1.setText("Số tiền quy đổi từ điểm");
+        lbSoTienTuDiem2.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        lbSoTienTuDiem2.setForeground(new java.awt.Color(255, 51, 51));
+        lbSoTienTuDiem2.setText("Số tiền quy đổi từ điểm");
 
-        chkboxSuDungDiem1.setText("Sử dụng điểm");
-        chkboxSuDungDiem1.addActionListener(new java.awt.event.ActionListener() {
+        chkboxSuDungDiem2.setText("Sử dụng điểm");
+        chkboxSuDungDiem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkboxSuDungDiem1ActionPerformed(evt);
+                chkboxSuDungDiem2ActionPerformed(evt);
             }
         });
 
@@ -978,7 +978,7 @@ public class jplBanHang extends javax.swing.JPanel {
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addGap(33, 33, 33)
-                                .addComponent(lbSoDiem1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lbSoDiem2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -988,8 +988,8 @@ public class jplBanHang extends javax.swing.JPanel {
                                 .addGap(92, 92, 92))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbSoTienTuDiem1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(chkboxSuDungDiem1))
+                                    .addComponent(lbSoTienTuDiem2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(chkboxSuDungDiem2))
                                 .addContainerGap())))))
         );
         jPanel3Layout.setVerticalGroup(
@@ -1006,11 +1006,11 @@ public class jplBanHang extends javax.swing.JPanel {
                 .addGap(13, 13, 13)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel28)
-                    .addComponent(lbSoDiem1))
+                    .addComponent(lbSoDiem2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbSoTienTuDiem1)
+                .addComponent(lbSoTienTuDiem2)
                 .addGap(9, 9, 9)
-                .addComponent(chkboxSuDungDiem1)
+                .addComponent(chkboxSuDungDiem2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel33)
@@ -1113,9 +1113,9 @@ public class jplBanHang extends javax.swing.JPanel {
         lbTienGiam.setForeground(new java.awt.Color(255, 51, 51));
         lbTienGiam.setText("0");
 
-        txtGhiChu3.setColumns(1);
-        txtGhiChu3.setRows(5);
-        jScrollPane7.setViewportView(txtGhiChu3);
+        txtGhiChu.setColumns(1);
+        txtGhiChu.setRows(5);
+        jScrollPane7.setViewportView(txtGhiChu);
 
         lbMaGiamGia.setText("Mã GG");
 
@@ -1369,6 +1369,11 @@ public class jplBanHang extends javax.swing.JPanel {
 
         showHoaDonInfo1();
         showHoaDonInfo2();
+
+        if(hoaDonChiTietResponseList.size() == 0) {
+            lamMoiForm1();
+            lamMoiForm2();
+        }
     }//GEN-LAST:event_btnXoaHDChiTietActionPerformed
 
     private void btnSapXepGiaTangDanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSapXepGiaTangDanActionPerformed
@@ -1468,7 +1473,7 @@ public class jplBanHang extends javax.swing.JPanel {
         jDonHang.load();
 
         showHoaDonInfo1();
-//        showHoaDonInfo2();
+        showHoaDonInfo2();
         showDienThoaiTable(dienThoaiResponseList);
     }//GEN-LAST:event_btnOkImeiActionPerformed
 
@@ -1490,7 +1495,7 @@ public class jplBanHang extends javax.swing.JPanel {
 
                 try {
                     showHoaDonInfo1();
-//                    showHoaDonInfo2();
+                    showHoaDonInfo2();
                 } catch (Exception ex) {
                     System.out.println("exception in jTabbedPane1StateChanged");
                 }
@@ -1596,13 +1601,14 @@ public class jplBanHang extends javax.swing.JPanel {
         hoaDon.setTraGop(false);
         hoaDon.setTienTraTruoc(0L);
         hoaDon.setTienThieu(0);
-        hoaDon.setGhiChu(txtGhiChu3.getText().trim());
+        hoaDon.setGhiChu(txtGhiChu.getText().trim());
 
         // khách hàng, nhân viên, phiếu giảm giá
         // 1. khách hàng
         KhachHangResponse khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(txtTimKH.getText().trim());
         KhachHang khachHang = KhachHangRepository.getKhachHangEntityById(khResponse.getId());
         hoaDon.setKhachHang(khachHang);
+
         // 2. nhân viên (đang login)
         // 3. phiếu giảm giá
         String maPhieu = lbMaGiamGia.getText().split(" - ")[0];
@@ -1680,7 +1686,7 @@ public class jplBanHang extends javax.swing.JPanel {
         lbKhachPhaiTra.setText("0");
         txtTienKhachDua.setText("");
         lbTienThua.setText("0");
-        txtGhiChu3.setText("");
+        txtGhiChu.setText("");
     }
 
     private void btnThanhToan2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToan2ActionPerformed
@@ -1705,18 +1711,24 @@ public class jplBanHang extends javax.swing.JPanel {
         long tienThieu = Long.valueOf(lbConNo.getText().trim().replaceAll(",", ""));
         hoaDon.setTienThieu(tienThieu);
 
-        // khách hàng, nhân viên, phiếu giảm giá
-        // 1. khách hàng
-//        KhachHangResponse khResponse = (KhachHangResponse) cbKhachHang.getSelectedItem();
-//        KhachHang khachHang = KhachHangRepository.getKhachHangEntityById(khResponse.getId());
-//        hoaDon.setKhachHang(khachHang);
-        // 2. nhân viên (đang login)
-        // 3. phiếu giảm giá
-        // đây là hóa đơn 'trả góp'
         hoaDon.setTraGop(true);
         hoaDon.setTienKhachDua(0L);
         hoaDon.setTienThua(0);
         hoaDon.setGhiChu(txtGhiChu2.getText().trim());
+
+        // khách hàng, nhân viên, phiếu giảm giá
+        // 1. khách hàng
+        KhachHangResponse khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(txtTimKH.getText().trim());
+        KhachHang khachHang = KhachHangRepository.getKhachHangEntityById(khResponse.getId());
+        hoaDon.setKhachHang(khachHang);
+
+        // 2. nhân viên (đang login)
+        // 3. phiếu giảm giá
+        String maPhieu = lbMaGiamGia2.getText().split(" - ")[0];
+        PhieuGiamGia phieuGiamGia = PhieuGiamGiaRepository.getPhieuByMa(maPhieu);
+        if (phieuGiamGia != null) {
+            hoaDon.setPhieuGiamGia(phieuGiamGia);
+        }
 
         hoaDonChiTietResponseList.forEach(h -> {
             HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
@@ -1727,7 +1739,6 @@ public class jplBanHang extends javax.swing.JPanel {
             hoaDon.addHoaDonChiTiet(hoaDonChiTiet);
         });
 
-        // add
         String addResult = hoaDonService.add(hoaDon);
         JOptionPane.showMessageDialog(this, addResult);
 
@@ -1749,16 +1760,42 @@ public class jplBanHang extends javax.swing.JPanel {
             jTabbedPane1.remove(indexDon);
         }
 
-        // 3. làm mới form
-        lamMoiForm2();
+        // 3. trừ lượt sử dụng của phiếu giảm giá
+        if (phieuGiamGia != null) {
+            PhieuGiamGiaChiTiet phieuChiTiet = phieuGiamGia.getPhieuGiamGiaChiTiet();
+            phieuChiTiet.setLuotSuDung(phieuChiTiet.getLuotSuDung() - 1);
+            PhieuGiamGiaRepository.updateLuotSuDung(phieuChiTiet);
+        }
 
-        // 4. tạo phiếu bảo hành (Hiếu)
-        // 5. trừ lượt sử dụng của phiếu giảm giá
-        // 6. tạo phiếu trả góp, lịch sử trả góp (Hùng)
+        // 4. trừ điểm tích lũy (trừ nếu đã dùng)
+        if (chkboxSuDungDiem2.isSelected()) {
+            KhachHangRepository.updateDiemTichLuy(khResponse, 0);
+        }
+
+        // 5. cộng điểm tích lũy
+        double diemTichLuy = (tongTien - tienGiam) / 50000;
+        Double diemTichLuyDou = Double.valueOf(diemTichLuy);
+        int diemTichLuyInt = diemTichLuyDou.intValue();
+        KhachHangRepository.updateDiemTichLuy(khResponse, diemTichLuyInt);
+
+        // 6. tạo phiếu bảo hành (Hiếu)
+        // 7. tạo phiếu trả góp, lịch sử trả góp (Hùng)
+        // 8. làm mới form
+        lamMoiForm2();
     }//GEN-LAST:event_btnThanhToan2ActionPerformed
 
     private void lamMoiForm2() {
+        txtTimKH.setText("");
+        lbTenKhachHang.setText("Tên khách hàng");
+        lbEmailKhachHang.setText("Email khách hàng");
+        lbSdtKhachHang.setText("SĐT khách hàng");
+
         lbTongTien2.setText("0");
+        lbMaGiamGia2.setText("Mã GG");
+        lbSoDiem2.setText("Số điểm");
+        lbSoTienTuDiem2.setText("Số tiền quy đổi từ điểm");
+        chkboxSuDungDiem2.setSelected(false);
+
         lbTienGiam2.setText("0");
         lbKhachPhaiTra2.setText("0");
         lbTraTruocToiThieu.setText("0");
@@ -1807,8 +1844,11 @@ public class jplBanHang extends javax.swing.JPanel {
 
         int soDiem = khachHangResponse.getSoDiem();
         lbSoDiem.setText(String.valueOf(soDiem));
+        lbSoDiem2.setText(String.valueOf(soDiem));
+
         long soTienTuDiem = soDiem * 1000;
         lbSoTienTuDiem.setText("(" + numberFormat.format(soTienTuDiem) + ")");
+        lbSoTienTuDiem2.setText("(" + numberFormat.format(soTienTuDiem) + ")");
     }//GEN-LAST:event_btnTimKHActionPerformed
 
     private void chkboxSuDungDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkboxSuDungDiemActionPerformed
@@ -1831,9 +1871,33 @@ public class jplBanHang extends javax.swing.JPanel {
         lbKhachPhaiTra.setText(numberFormat.format(khachPhaiTra));
     }//GEN-LAST:event_chkboxSuDungDiemActionPerformed
 
-    private void chkboxSuDungDiem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkboxSuDungDiem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chkboxSuDungDiem1ActionPerformed
+    private void chkboxSuDungDiem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkboxSuDungDiem2ActionPerformed
+        if (lbSoDiem2.getText().equals("Số điểm")) {
+            return;
+        }
+
+        float soTienTuDiem = Float.valueOf(lbSoDiem2.getText()) * 1000;
+        float tienGiam = Float.valueOf(lbTienGiam2.getText().trim().replaceAll(",", ""));
+
+        if (chkboxSuDungDiem2.isSelected()) {
+            tienGiam += soTienTuDiem;
+        } else {
+            tienGiam -= soTienTuDiem;
+        }
+        lbTienGiam2.setText(numberFormat.format(tienGiam));
+
+        long tongTien = Long.valueOf(lbTongTien2.getText().replaceAll(",", ""));
+        long khachPhaiTra = tongTien - Long.valueOf(lbTienGiam2.getText().replaceAll(",", ""));
+        lbKhachPhaiTra2.setText(numberFormat.format(khachPhaiTra));
+
+        long traTruocToiThieu = Long.valueOf(lbKhachPhaiTra2.getText().replaceAll(",", "")) / 2;
+        lbTraTruocToiThieu.setText(numberFormat.format(traTruocToiThieu));
+
+        String traTruocToiThieuStr = lbTraTruocToiThieu.getText().replaceAll(",", "");
+        traTruocToiThieuStr = traTruocToiThieuStr.substring(0, traTruocToiThieuStr.length() - 3).concat("000");
+        traTruocToiThieu = Long.valueOf(traTruocToiThieuStr);
+        lbTraTruocToiThieu.setText(numberFormat.format(traTruocToiThieu));
+    }//GEN-LAST:event_chkboxSuDungDiem2ActionPerformed
 
     private void showHoaDonInfo1() {
         // Tab 1
@@ -1887,50 +1951,64 @@ public class jplBanHang extends javax.swing.JPanel {
     }
 
     private void showHoaDonInfo2() {
-        // Tab 2
-        // Thêm ĐT/ Xóa ĐT -> 1. Tổng tiền -> 2. Combo box phiếu GG -> 3. Tiền giảm -> 4. Tiền khách phải trả -> 5.Trả trước tối thiều
+//         Tab 2
+        // Thêm ĐT/ Xóa ĐT -> 1. Tổng tiền -> 2. phiếu GG -> 3. Tiền giảm -> 4. Tiền khách phải trả -> 5.Trả trước tối thiều
 
         // 1. Tổng tiền
-        long tongTien2 = 0L;
+        long tongTien = 0L;
         for (int i = 0; i < hoaDonChiTietResponseList.size(); ++i) {
-            tongTien2 += hoaDonChiTietResponseList.get(i).getDonGia();
+            tongTien += hoaDonChiTietResponseList.get(i).getDonGia();
         }
-        lbTongTien2.setText(numberFormat.format(tongTien2));
+        lbTongTien2.setText(numberFormat.format(tongTien));
 
-        // 2. Combo box phiếu GG
-//        List<PhieuGiamGiaResponse> phieuGiamGiaResponseList = phieuGiamGiaService.getAllForView(tongTien2);
-//        cbMaGiamGia2.removeAllItems();
-//        phieuGiamGiaResponseList.forEach(p -> cbMaGiamGia2.addItem(p.getMaPhieu() + " - " + p.getGiaTri()));
+        // 2. Phiếu giảm giá
+        List<PhieuGiamGiaResponse> phieuGiamGiaResponseList = phieuGiamGiaService.getAllForView(tongTien);
+        PhieuGiamGiaResponse pgg = phieuGiamGiaResponseList
+                .stream()
+                .max(Comparator.comparing(PhieuGiamGiaResponse::getGiaTri))
+                .orElse(null);
+        if (pgg != null) {
+            lbMaGiamGia2.setText(pgg.getMaPhieu() + " - " + pgg.getGiaTri() + "%");
+        }
+
         // 3. Tiền giảm
-//        String clickPhieu = (String) cbMaGiamGia2.getSelectedItem();
-//        if (clickPhieu != null) {
-//            String maPhieu = clickPhieu.split(" - ")[0];
-//            PhieuGiamGia phieuGiamGia = PhieuGiamGiaRepository.getPhieuByMa(maPhieu);
-//            float giaTri = phieuGiamGia.getPhieuGiamGiaChiTiet().getGiaTri();
-//
-//            float tienGiam = Math.round(Float.valueOf(tongTien2) * giaTri / 100);
-//            lbTienGiam2.setText(numberFormat.format(tienGiam));
-//
-//            // làm tròn tiền giảm để tiền không bị lẻ
-//            String tienGiamStr = lbTienGiam2.getText().replaceAll(",", "");
-//            tienGiamStr = tienGiamStr.substring(0, tienGiamStr.length() - 3).concat("000");
-//            tienGiam = Float.valueOf(tienGiamStr);
-//            lbTienGiam2.setText(numberFormat.format(tienGiam));
-//
-//            // 4. Tiền khách phải trả
-//            long khachPhaiTra2 = tongTien2 - Long.valueOf(lbTienGiam2.getText().replaceAll(",", ""));
-//            lbKhachPhaiTra2.setText(numberFormat.format(khachPhaiTra2));
-//        }
-//
-//        // 5. Trả trước tối thiểu
-//        long traTruocToiThieu = Long.valueOf(lbKhachPhaiTra2.getText().replaceAll(",", "")) / 2;
-//        lbTraTruocToiThieu.setText(numberFormat.format(traTruocToiThieu));
-//
-//        // làm tròn tiền trả trước tối thiểu để không bị lẻ
-//        String traTruocToiThieuStr = lbTraTruocToiThieu.getText().replaceAll(",", "");
-//        traTruocToiThieuStr = traTruocToiThieuStr.substring(0, traTruocToiThieuStr.length() - 3).concat("000");
-//        traTruocToiThieu = Long.valueOf(traTruocToiThieu);
-//        lbTraTruocToiThieu.setText(numberFormat.format(traTruocToiThieu));
+        if (pgg != null) {
+            // tiền giảm từ điểm
+            float soTienTuDiem = 0.0f;
+            if (!lbSoDiem2.getText().equals("Số điểm")) {
+                soTienTuDiem = Float.valueOf(lbSoDiem2.getText()) * 1000;
+            }
+
+            // tiền giảm từ mã
+            float giaTri = pgg.getGiaTri();
+            float tienGiam = Math.round(Float.valueOf(tongTien) * giaTri / 100);
+
+            // check xem có dùng điểm tích lũy hay không:
+            if (chkboxSuDungDiem2.isSelected()) {
+                tienGiam += soTienTuDiem;
+            }
+            lbTienGiam2.setText(numberFormat.format(tienGiam));
+
+            // làm tròn tiền giảm để tiền không bị lẻ
+            String tienGiamStr = lbTienGiam2.getText().replaceAll(",", "");
+            tienGiamStr = tienGiamStr.substring(0, tienGiamStr.length() - 3).concat("000");
+            tienGiam = Float.valueOf(tienGiamStr);
+            lbTienGiam2.setText(numberFormat.format(tienGiam));
+
+            // 4. Tiền khách phải trả
+            long khachPhaiTra2 = tongTien - Long.valueOf(lbTienGiam2.getText().replaceAll(",", ""));
+            lbKhachPhaiTra2.setText(numberFormat.format(khachPhaiTra2));
+        }
+
+        // 5. Trả trước tối thiểu
+        long traTruocToiThieu = Long.valueOf(lbKhachPhaiTra2.getText().replaceAll(",", "")) / 2;
+        lbTraTruocToiThieu.setText(numberFormat.format(traTruocToiThieu));
+
+        // làm tròn tiền trả trước tối thiểu để không bị lẻ
+        String traTruocToiThieuStr = lbTraTruocToiThieu.getText().replaceAll(",", "");
+        traTruocToiThieuStr = traTruocToiThieuStr.substring(0, traTruocToiThieuStr.length() - 3).concat("000");
+        traTruocToiThieu = Long.valueOf(traTruocToiThieu);
+        lbTraTruocToiThieu.setText(numberFormat.format(traTruocToiThieu));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1955,7 +2033,7 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JRadioButton cboNu;
     private javax.swing.JCheckBox chkTrangThai;
     private javax.swing.JCheckBox chkboxSuDungDiem;
-    private javax.swing.JCheckBox chkboxSuDungDiem1;
+    private javax.swing.JCheckBox chkboxSuDungDiem2;
     private javax.swing.JDialog imeiDialog;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel10;
@@ -2018,9 +2096,9 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JLabel lbMaGiamGia2;
     private javax.swing.JLabel lbSdtKhachHang;
     private javax.swing.JLabel lbSoDiem;
-    private javax.swing.JLabel lbSoDiem1;
+    private javax.swing.JLabel lbSoDiem2;
     private javax.swing.JLabel lbSoTienTuDiem;
-    private javax.swing.JLabel lbSoTienTuDiem1;
+    private javax.swing.JLabel lbSoTienTuDiem2;
     private javax.swing.JLabel lbTenKhachHang;
     private javax.swing.JLabel lbTienGiam;
     private javax.swing.JLabel lbTienGiam2;
@@ -2035,8 +2113,8 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JTable tbDienThoai;
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextArea txtGhiChu;
     private javax.swing.JTextArea txtGhiChu2;
-    private javax.swing.JTextArea txtGhiChu3;
     private javax.swing.JTextField txtHoTen;
     private javax.swing.JTextField txtImei;
     private javax.swing.JTextField txtLaiSuat;

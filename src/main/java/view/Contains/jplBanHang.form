@@ -1052,7 +1052,7 @@
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
                                           <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                                          <Component id="lbSoDiem1" min="-2" pref="189" max="-2" attributes="0"/>
+                                          <Component id="lbSoDiem2" min="-2" pref="189" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -1066,8 +1066,8 @@
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="lbSoTienTuDiem1" alignment="0" min="-2" pref="189" max="-2" attributes="0"/>
-                                              <Component id="chkboxSuDungDiem1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lbSoTienTuDiem2" alignment="0" min="-2" pref="189" max="-2" attributes="0"/>
+                                              <Component id="chkboxSuDungDiem2" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                       </Group>
@@ -1093,12 +1093,12 @@
                           <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel28" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lbSoDiem1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbSoDiem2" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="lbSoTienTuDiem1" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbSoTienTuDiem2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-                          <Component id="chkboxSuDungDiem1" min="-2" max="-2" attributes="0"/>
+                          <Component id="chkboxSuDungDiem2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel33" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1383,7 +1383,7 @@
                     <Property name="text" type="java.lang.String" value="Th&#x1ebb; t&#xed;ch &#x111;i&#x1ec3;m:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lbSoDiem1">
+                <Component class="javax.swing.JLabel" name="lbSoDiem2">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="13" style="1"/>
@@ -1394,7 +1394,7 @@
                     <Property name="text" type="java.lang.String" value="S&#x1ed1; &#x111;i&#x1ec3;m"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lbSoTienTuDiem1">
+                <Component class="javax.swing.JLabel" name="lbSoTienTuDiem2">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="13" style="1"/>
@@ -1405,12 +1405,12 @@
                     <Property name="text" type="java.lang.String" value="S&#x1ed1; ti&#x1ec1;n quy &#x111;&#x1ed5;i t&#x1eeb; &#x111;i&#x1ec3;m"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JCheckBox" name="chkboxSuDungDiem1">
+                <Component class="javax.swing.JCheckBox" name="chkboxSuDungDiem2">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="S&#x1eed; d&#x1ee5;ng &#x111;i&#x1ec3;m"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkboxSuDungDiem1ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkboxSuDungDiem2ActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -1663,7 +1663,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTextArea" name="txtGhiChu3">
+                    <Component class="javax.swing.JTextArea" name="txtGhiChu">
                       <Properties>
                         <Property name="columns" type="int" value="1"/>
                         <Property name="rows" type="int" value="5"/>
