@@ -23,10 +23,13 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
+import service.DoanhThuThongKeService;
 import service.QuanLyNhanVienService;
 import service.SanPhamThongKeService;
+import service.impl.DoanhThuThongKeServiceImpl;
 import service.impl.QuanLyNhanVienServiceImpl;
 import service.impl.SanPhamThongKeServiceImpl;
+import viewmodel.DoanhThuThongKeResponse;
 import viewmodel.NhanVienResponse;
 import viewmodel.SanPhamThongKeResponse;
 
@@ -37,10 +40,12 @@ public class jplHeThong extends javax.swing.JPanel {
     private DefaultTableModel dtm1;
     private DefaultTableModel dtm2;
     private DefaultTableModel dtm3;
+    private DefaultTableModel dtm4;
     private DefaultComboBoxModel dcm1;
     private DefaultComboBoxModel dcm2;
     private QuanLyNhanVienService service;
-    private SanPhamThongKeService serviceTK;
+    private SanPhamThongKeService serviceSPTK;
+    private DoanhThuThongKeService serviceDTTK;
     private int rowSelected;
     private String strHinhAnh = null;
 
@@ -51,10 +56,12 @@ public class jplHeThong extends javax.swing.JPanel {
         dtm1 = (DefaultTableModel) tbLamViec.getModel();
         dtm2 = (DefaultTableModel) tbNghiViec.getModel();
         dtm3 = (DefaultTableModel) tblSanPhamTK.getModel();
+        dtm4 = (DefaultTableModel) tblDoanhThuTK.getModel();
         dcm1 = (DefaultComboBoxModel) cbLocGioiTinh.getModel();
         dcm2 = (DefaultComboBoxModel) cbLocChucVu.getModel();
         service = new QuanLyNhanVienServiceImpl();
-        serviceTK = new SanPhamThongKeServiceImpl();
+        serviceSPTK = new SanPhamThongKeServiceImpl();
+        serviceDTTK = new DoanhThuThongKeServiceImpl();
 
         showDataCboLocChucVu();
         showDataCboLocGioiTinh();
@@ -249,7 +256,7 @@ public class jplHeThong extends javax.swing.JPanel {
     }
 
     private void setDataToSanPhamTKThang(JPanel jpn, int month, int year) {
-        List<SanPhamThongKeResponse> listSP = serviceTK.getSPTKThang(month, year);
+        List<SanPhamThongKeResponse> listSP = serviceSPTK.getSPTKThang(month, year);
         if (listSP != null) {
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
             for (SanPhamThongKeResponse sptk : listSP) {
@@ -269,7 +276,7 @@ public class jplHeThong extends javax.swing.JPanel {
     }
 
     private void setDataToSanPhamTKNam(JPanel jpn, int year) {
-        List<SanPhamThongKeResponse> listSP = serviceTK.getSPTKNam(year);
+        List<SanPhamThongKeResponse> listSP = serviceSPTK.getSPTKNam(year);
         if (listSP != null) {
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
             for (SanPhamThongKeResponse sptk : listSP) {
@@ -289,7 +296,7 @@ public class jplHeThong extends javax.swing.JPanel {
     }
     
     private void setDataToSanPhamTKNgay(JPanel jpn, LocalDateTime ngayDau, LocalDateTime ngayCuoi) {
-        List<SanPhamThongKeResponse> listSP = serviceTK.getSPTKNgay(ngayDau, ngayCuoi);
+        List<SanPhamThongKeResponse> listSP = serviceSPTK.getSPTKNgay(ngayDau, ngayCuoi);
         if (listSP != null) {
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
             for (SanPhamThongKeResponse sptk : listSP) {
@@ -307,7 +314,7 @@ public class jplHeThong extends javax.swing.JPanel {
             jpn.repaint();
         }
     }
-
+       
     private void showDataToTableSanPhamTK(List<SanPhamThongKeResponse> lists) {
         dtm3.setRowCount(0);
         for (SanPhamThongKeResponse sptk : lists) {
@@ -315,6 +322,60 @@ public class jplHeThong extends javax.swing.JPanel {
         }
     }
 
+    private void setDataToDoanhThuTKThang(JPanel jpn, int nam) {
+        List<DoanhThuThongKeResponse> listDT = serviceDTTK.getDTTKThang(nam);
+        if (listDT != null) {
+            DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+            for (DoanhThuThongKeResponse dttk : listDT) {
+                dataset.addValue(dttk.getDoanhThu(), "  Doanh thu", "Tháng " + dttk.getThangNam());
+            }
+
+            JFreeChart chart = ChartFactory.createBarChart("Biểu đồ thống kê doanh thu theo các tháng trong năm " + nam, "Thời gian", "Doanh thu", dataset);
+
+            ChartPanel chartPanel = new ChartPanel(chart);
+
+            jpn.removeAll();
+            jpn.setLayout(new CardLayout());
+            jpn.add(chartPanel);
+            jpn.validate();
+            jpn.repaint();
+        }
+    }
+    
+    private void setDataToDoanhThuTKNam(JPanel jpn) {
+        List<DoanhThuThongKeResponse> listDT = serviceDTTK.getDTTKNam();
+        if (listDT != null) {
+            DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+            for (DoanhThuThongKeResponse dttk : listDT) {
+                dataset.addValue(dttk.getDoanhThu(), "  Doanh thu", "Năm " + dttk.getThangNam());
+            }
+
+            JFreeChart chart = ChartFactory.createBarChart("Biểu đồ thống kê doanh thu theo các năm ", "Thời gian", "Doanh thu", dataset);
+
+            ChartPanel chartPanel = new ChartPanel(chart);
+
+            jpn.removeAll();
+            jpn.setLayout(new CardLayout());
+            jpn.add(chartPanel);
+            jpn.validate();
+            jpn.repaint();
+        }
+    }
+    
+    private void showDataToTableDoanhThuTK1(List<DoanhThuThongKeResponse> lists) {
+        dtm4.setRowCount(0);
+        for (DoanhThuThongKeResponse dttk : lists) {
+            dtm4.addRow(new Object[]{dttk.getThangNam(), dttk.getDoanhThu()});
+        }
+    }
+    
+    private void showDataToTableDoanhThuTK2(List<DoanhThuThongKeResponse> lists) {
+        dtm4.setRowCount(0);
+        for (DoanhThuThongKeResponse sptk : lists) {
+            dtm4.addRow(new Object[]{sptk.getThangNam(), sptk.getDoanhThu()});
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -389,6 +450,11 @@ public class jplHeThong extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         tblSanPhamTK = new javax.swing.JTable();
         pnlDoanhThuTK = new javax.swing.JPanel();
+        jTabbedPane5 = new javax.swing.JTabbedPane();
+        pnlDTTKCot = new javax.swing.JPanel();
+        pnlSPTKBang1 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblDoanhThuTK = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -983,6 +1049,11 @@ public class jplHeThong extends javax.swing.JPanel {
         rdoNam.setBackground(new java.awt.Color(255, 255, 255));
         grpThoiGian.add(rdoNam);
         rdoNam.setText("NĂM");
+        rdoNam.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rdoNamMouseClicked(evt);
+            }
+        });
 
         rdoNgay.setBackground(new java.awt.Color(255, 255, 255));
         grpThoiGian.add(rdoNgay);
@@ -1137,15 +1208,77 @@ public class jplHeThong extends javax.swing.JPanel {
 
         jTabbedPane3.addTab("SẢN PHẨM", pnlSanPhamTK);
 
+        jTabbedPane5.setBackground(new java.awt.Color(255, 255, 255));
+
+        pnlDTTKCot.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout pnlDTTKCotLayout = new javax.swing.GroupLayout(pnlDTTKCot);
+        pnlDTTKCot.setLayout(pnlDTTKCotLayout);
+        pnlDTTKCotLayout.setHorizontalGroup(
+            pnlDTTKCotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        pnlDTTKCotLayout.setVerticalGroup(
+            pnlDTTKCotLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jTabbedPane5.addTab("CỘT", pnlDTTKCot);
+
+        pnlSPTKBang1.setBackground(new java.awt.Color(255, 255, 255));
+
+        tblDoanhThuTK.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        tblDoanhThuTK.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "THỜI GIAN", "DOANH THU"
+            }
+        ));
+        tblDoanhThuTK.setFocusable(false);
+        tblDoanhThuTK.setGridColor(new java.awt.Color(47, 85, 212));
+        tblDoanhThuTK.setRowHeight(25);
+        tblDoanhThuTK.setShowGrid(true);
+        jScrollPane4.setViewportView(tblDoanhThuTK);
+
+        javax.swing.GroupLayout pnlSPTKBang1Layout = new javax.swing.GroupLayout(pnlSPTKBang1);
+        pnlSPTKBang1.setLayout(pnlSPTKBang1Layout);
+        pnlSPTKBang1Layout.setHorizontalGroup(
+            pnlSPTKBang1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSPTKBang1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlSPTKBang1Layout.setVerticalGroup(
+            pnlSPTKBang1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlSPTKBang1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane5.addTab("BẢNG", pnlSPTKBang1);
+
         javax.swing.GroupLayout pnlDoanhThuTKLayout = new javax.swing.GroupLayout(pnlDoanhThuTK);
         pnlDoanhThuTK.setLayout(pnlDoanhThuTKLayout);
         pnlDoanhThuTKLayout.setHorizontalGroup(
             pnlDoanhThuTKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 742, Short.MAX_VALUE)
+            .addGroup(pnlDoanhThuTKLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane5)
+                .addContainerGap())
         );
         pnlDoanhThuTKLayout.setVerticalGroup(
             pnlDoanhThuTKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 723, Short.MAX_VALUE)
+            .addGroup(pnlDoanhThuTKLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("DOANH THU", pnlDoanhThuTK);
@@ -1366,7 +1499,7 @@ public class jplHeThong extends javax.swing.JPanel {
             int year = jyear.getYear();
             System.out.println("tháng: " + month + " năm: " + year);
             setDataToSanPhamTKThang(pnlSPTKCot, month, year);
-            showDataToTableSanPhamTK(serviceTK.getSPTKThang(month, year));
+            showDataToTableSanPhamTK(serviceSPTK.getSPTKThang(month, year));
         }
     }//GEN-LAST:event_jmonthPropertyChange
 
@@ -1376,14 +1509,18 @@ public class jplHeThong extends javax.swing.JPanel {
             int year = jyear.getYear();
             System.out.println("năm: " + year);
             setDataToSanPhamTKNam(pnlSPTKCot, year);
-            showDataToTableSanPhamTK(serviceTK.getSPTKNam(year));
+            showDataToTableSanPhamTK(serviceSPTK.getSPTKNam(year));
         }
         if (rdoThang.isSelected()) {
             int month = jmonth.getMonth() + 1;
             int year = jyear.getYear();
             System.out.println("tháng: " + month + " năm: " + year);
+            
             setDataToSanPhamTKThang(pnlSPTKCot, month, year);
-            showDataToTableSanPhamTK(serviceTK.getSPTKThang(month, year));
+            showDataToTableSanPhamTK(serviceSPTK.getSPTKThang(month, year));
+            
+            setDataToDoanhThuTKThang(pnlDTTKCot, year);
+            showDataToTableDoanhThuTK1(serviceDTTK.getDTTKThang(year));
         }
     }//GEN-LAST:event_jyearPropertyChange
 
@@ -1397,6 +1534,7 @@ public class jplHeThong extends javax.swing.JPanel {
                 System.out.println("Nháp 2: " + ngayDau);
                 
                 setDataToSanPhamTKNgay(pnlSPTKCot, ngayDau, ngayCuoi); 
+                showDataToTableSanPhamTK(serviceSPTK.getSPTKNgay(ngayDau, ngayCuoi));
             } catch (Exception e) {
                 System.out.println("Tại null ý");
             }
@@ -1413,11 +1551,18 @@ public class jplHeThong extends javax.swing.JPanel {
                 LocalDateTime ngayCuoi = jDateCuoi.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().atTime(LocalTime.of(23, 59, 59));
                 
                 setDataToSanPhamTKNgay(pnlSPTKCot, ngayDau, ngayCuoi); 
+                showDataToTableSanPhamTK(serviceSPTK.getSPTKNgay(ngayDau, ngayCuoi));
             } catch (Exception e) {
                 System.out.println("Tại null ý");
             }     
         }
     }//GEN-LAST:event_jDateDauPropertyChange
+
+    private void rdoNamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdoNamMouseClicked
+        // TODO add your handling code here:
+        setDataToDoanhThuTKNam(pnlDTTKCot);
+        showDataToTableDoanhThuTK1(serviceDTTK.getDTTKNam());
+    }//GEN-LAST:event_rdoNamMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnKhoiPhuc;
@@ -1458,16 +1603,20 @@ public class jplHeThong extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTabbedPane jTabbedPane4;
+    private javax.swing.JTabbedPane jTabbedPane5;
     private com.toedter.calendar.JMonthChooser jmonth;
     private javax.swing.JPanel jplThongTin;
     private com.toedter.calendar.JYearChooser jyear;
     private javax.swing.JLabel lbAnh;
+    private javax.swing.JPanel pnlDTTKCot;
     private javax.swing.JPanel pnlDoanhThuTK;
     private javax.swing.JPanel pnlSPTKBang;
+    private javax.swing.JPanel pnlSPTKBang1;
     private javax.swing.JPanel pnlSPTKCot;
     private javax.swing.JPanel pnlSanPhamTK;
     private javax.swing.JRadioButton rdBtnLamViec;
@@ -1481,6 +1630,7 @@ public class jplHeThong extends javax.swing.JPanel {
     private javax.swing.JRadioButton rdoThang;
     private javax.swing.JTable tbLamViec;
     private javax.swing.JTable tbNghiViec;
+    private javax.swing.JTable tblDoanhThuTK;
     private javax.swing.JTable tblSanPhamTK;
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtEmail;
