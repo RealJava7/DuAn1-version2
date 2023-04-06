@@ -379,7 +379,7 @@ public class jplTrangChu extends javax.swing.JPanel {
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(102, 102, 102));
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-sold-out-30.png"))); // NOI18N
-        jLabel15.setText("HẾT HÀNG");
+        jLabel15.setText("SẮP HẾT HÀNG");
 
         tblHetHang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblHetHang.setModel(new javax.swing.table.DefaultTableModel(
@@ -446,7 +446,7 @@ public class jplTrangChu extends javax.swing.JPanel {
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(102, 102, 102));
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-warranty-30.png"))); // NOI18N
-        jLabel16.setText("TOP 3 KHÁCH HÀNG");
+        jLabel16.setText("TOP 5 KHÁCH HÀNG");
 
         tblTopKhachHang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblTopKhachHang.setModel(new javax.swing.table.DefaultTableModel(
