@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package repository.impl;
 
 import java.time.LocalDate;
@@ -10,13 +6,8 @@ import javax.persistence.Query;
 import model.PhieuTraGop;
 import org.hibernate.Session;
 import repository.LichSuTraGopRepository;
-//import repository.PhieuTraGopRepository;
 import utility.HibernateUtil;
 
-/**
- *
- * @author Administrator
- */
 public class PhieuTraGopRepositoryImpl {
 
     private LichSuTraGopRepository lstgRepository = new LichSuTraGopRepositoryImpl();

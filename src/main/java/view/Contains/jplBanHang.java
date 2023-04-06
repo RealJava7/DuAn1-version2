@@ -22,10 +22,12 @@ import model.HoaDon;
 import model.HoaDonChiTiet;
 import model.Imei;
 import model.KhachHang;
+import model.LichSuTraGop;
 import model.LoaiBaoHanh;
 import model.PhieuBaoHanh;
 import model.PhieuGiamGia;
 import model.PhieuGiamGiaChiTiet;
+import model.PhieuTraGop;
 import model.TheTichDiem;
 import repository.DienThoaiRepository;
 import repository.HoaDonRepository;
@@ -40,6 +42,7 @@ import service.ImeiService;
 import service.KhachHangService;
 import service.PhieuBaoHanhService;
 import service.PhieuGiamGiaService;
+import service.PhieuTraGopService;
 import service.impl.DienThoaiServiceImpl;
 import service.impl.HangServiceImpl;
 import service.impl.HoaDonServiceImpl;
@@ -47,6 +50,7 @@ import service.impl.ImeiServiceImpl;
 import service.impl.KhachHangServiceImpl;
 import service.impl.PhieuBaoHanhServiceImpl;
 import service.impl.PhieuGiamGiaServiceImpl;
+import service.impl.PhieuTraGopServiceImpl;
 import viewmodel.DienThoaiResponse;
 import viewmodel.HangResponse;
 import viewmodel.HoaDonChiTietResponse;
@@ -69,6 +73,7 @@ public class jplBanHang extends javax.swing.JPanel {
     private PhieuGiamGiaService phieuGiamGiaService;
     private HoaDonService hoaDonService;
     private PhieuBaoHanhService phieuBaoHanhService;
+    private PhieuTraGopService phieuTraGopService;
 
     private NumberFormat numberFormat = NumberFormat.getInstance(new Locale("vn", "VN"));
 
@@ -87,6 +92,7 @@ public class jplBanHang extends javax.swing.JPanel {
         phieuGiamGiaService = new PhieuGiamGiaServiceImpl();
         hoaDonService = new HoaDonServiceImpl();
         phieuBaoHanhService = new PhieuBaoHanhServiceImpl();
+        phieuTraGopService = new PhieuTraGopServiceImpl();
 
         dienThoaiResponseList = dienThoaiService.getAllResponseByStatus(true);
         khachHangResponseList = khachHangService.getAllResponseByStatus(1);
@@ -1634,7 +1640,7 @@ public class jplBanHang extends javax.swing.JPanel {
         }
 
         HoaDon hoaDon = new HoaDon();
-        String maHoaDon = getMaHoaDon();
+        String maHoaDon = getMa("HD");
         hoaDon.setMaHoaDon(maHoaDon);
         hoaDon.setNgayTao(LocalDateTime.now());
         hoaDon.setNgayThanhToan(LocalDateTime.now());
@@ -1748,7 +1754,7 @@ public class jplBanHang extends javax.swing.JPanel {
         KhachHangRepository.updateDiemTichLuy(khResponse, diemTichLuyInt);
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
-    private String getMaHoaDon() {
+    private String getMa(String loaiMa) {
         LocalDateTime ldt = LocalDateTime.now();
         String year = String.valueOf(ldt.getYear());
         String month = String.valueOf(ldt.getMonthValue());
@@ -1757,7 +1763,7 @@ public class jplBanHang extends javax.swing.JPanel {
         String minute = String.valueOf(ldt.getMinute());
         String second = String.valueOf(ldt.getSecond());
 
-        String ma = "HD" + year;
+        String ma = loaiMa + year;
         if (month.length() < 2) {
             month = "0" + month;
             ma += month;
@@ -1821,7 +1827,7 @@ public class jplBanHang extends javax.swing.JPanel {
         }
 
         HoaDon hoaDon = new HoaDon();
-        String maHoaDon = getMaHoaDon();
+        String maHoaDon = getMa("HD");
         hoaDon.setMaHoaDon(maHoaDon);
         hoaDon.setNgayTao(LocalDateTime.now());
         hoaDon.setNgayThanhToan(LocalDateTime.now());
@@ -1900,9 +1906,12 @@ public class jplBanHang extends javax.swing.JPanel {
         }
 
         // 5. cộng điểm tích lũy
-        double diemTichLuy = (tongTien - tienGiam) / 50000;
+        double diemTichLuy = tienTraTruoc / 50000;
         Double diemTichLuyDou = Double.valueOf(diemTichLuy);
         int diemTichLuyInt = diemTichLuyDou.intValue();
+        if (!chkboxSuDungDiem2.isSelected()) {
+            diemTichLuyInt += khachHang.getTheTichDiem().getSoDiem();
+        }
         KhachHangRepository.updateDiemTichLuy(khResponse, diemTichLuyInt);
 
         // 6. tạo phiếu bảo hành (Hiếu)
@@ -1928,7 +1937,28 @@ public class jplBanHang extends javax.swing.JPanel {
             
             phieuBaoHanhService.add(phieuBaoHanh);
         }
+        
         // 7. tạo phiếu trả góp, lịch sử trả góp (Hùng)
+        LichSuTraGop lichSuTraGop = new LichSuTraGop();
+        lichSuTraGop.setMa(getMa("LS"));
+        lichSuTraGop.setNgayThanhToan(LocalDate.now());
+        lichSuTraGop.setTongTien(tienTraTruoc);
+        lichSuTraGop.setGhiChu("...");
+        
+        PhieuTraGop phieuTraGop = new PhieuTraGop();
+        phieuTraGop.setMaPhieu(getMa("PTG"));
+        phieuTraGop.setTongPhaiTra(Long.valueOf(lbKhachPhaiTra2.getText().trim().replaceAll(",", "")));
+        phieuTraGop.setLaiSuat(Float.valueOf(txtLaiSuat.getText().trim()));
+        String kyHanItem = String.valueOf(cbKyHan.getSelectedItem()).substring(0, 1);
+        phieuTraGop.setKyHan(Integer.valueOf(kyHanItem));
+        phieuTraGop.setNgayTao(LocalDate.now());
+        phieuTraGop.setPhaiTra(Long.valueOf(lbTraHangThang.getText().trim().replaceAll(",", "")));
+        phieuTraGop.setTrangThai(true);
+        phieuTraGop.setHoaDon(hoaDonByMa);
+        phieuTraGop.addLichSuTraGop(lichSuTraGop);
+        
+        phieuTraGopService.insert(phieuTraGop);
+        
         // 8. làm mới form
         lamMoiForm2();
     }//GEN-LAST:event_btnThanhToan2ActionPerformed
