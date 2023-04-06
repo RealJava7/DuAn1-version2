@@ -4,6 +4,7 @@
  */
 package service.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import repository.SanPhamThongKeRepository;
@@ -47,4 +48,16 @@ public class SanPhamThongKeServiceImpl implements SanPhamThongKeService{
         return listRe;
     }
     
+    @Override
+    public List<SanPhamThongKeResponse> getSPTKNgay(LocalDateTime ngayDau, LocalDateTime ngayCuoi) {
+        List<Object[]> lists = repo.getSPTKNgay(ngayDau, ngayCuoi);
+        List<SanPhamThongKeResponse> listRe = new ArrayList<>();
+        for (Object[] list : lists) {
+            String tenDT = (String) list[0];
+            Long count =  (Long) list[1];
+            listRe.add(new SanPhamThongKeResponse(tenDT, count));
+        }
+        return listRe;
+    }
+
 }

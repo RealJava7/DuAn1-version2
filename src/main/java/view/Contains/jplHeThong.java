@@ -4,7 +4,10 @@ import java.awt.CardLayout;
 import java.awt.Image;
 import java.io.File;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -284,6 +287,26 @@ public class jplHeThong extends javax.swing.JPanel {
             jpn.repaint();
         }
     }
+    
+    private void setDataToSanPhamTKNgay(JPanel jpn, LocalDateTime ngayDau, LocalDateTime ngayCuoi) {
+        List<SanPhamThongKeResponse> listSP = serviceTK.getSPTKNgay(ngayDau, ngayCuoi);
+        if (listSP != null) {
+            DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+            for (SanPhamThongKeResponse sptk : listSP) {
+                dataset.addValue(sptk.getSlSanPham(), "  Sản phẩm", sptk.getTenSp());
+            }
+
+            JFreeChart chart = ChartFactory.createBarChart("Biểu đồ thống kê số lượng sản phẩm bán được từ " + ngayDau.toLocalDate() + " đến " + ngayCuoi.toLocalDate(), "Tên sản phẩm", "Số lượng", dataset);
+
+            ChartPanel chartPanel = new ChartPanel(chart);
+
+            jpn.removeAll();
+            jpn.setLayout(new CardLayout());
+            jpn.add(chartPanel);
+            jpn.validate();
+            jpn.repaint();
+        }
+    }
 
     private void showDataToTableSanPhamTK(List<SanPhamThongKeResponse> lists) {
         dtm3.setRowCount(0);
@@ -353,6 +376,11 @@ public class jplHeThong extends javax.swing.JPanel {
         jyear = new com.toedter.calendar.JYearChooser();
         rdoThang = new javax.swing.JRadioButton();
         rdoNam = new javax.swing.JRadioButton();
+        rdoNgay = new javax.swing.JRadioButton();
+        jDateCuoi = new com.toedter.calendar.JDateChooser();
+        jDateDau = new com.toedter.calendar.JDateChooser();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
         jTabbedPane3 = new javax.swing.JTabbedPane();
         pnlSanPhamTK = new javax.swing.JPanel();
         jTabbedPane4 = new javax.swing.JTabbedPane();
@@ -796,7 +824,7 @@ public class jplHeThong extends javax.swing.JPanel {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -869,7 +897,7 @@ public class jplHeThong extends javax.swing.JPanel {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(btnKhoiPhuc, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -956,6 +984,26 @@ public class jplHeThong extends javax.swing.JPanel {
         grpThoiGian.add(rdoNam);
         rdoNam.setText("NĂM");
 
+        rdoNgay.setBackground(new java.awt.Color(255, 255, 255));
+        grpThoiGian.add(rdoNgay);
+        rdoNgay.setText("NGÀY");
+
+        jDateCuoi.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDateCuoiPropertyChange(evt);
+            }
+        });
+
+        jDateDau.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDateDauPropertyChange(evt);
+            }
+        });
+
+        jLabel1.setText("NGÀY  ĐẦU");
+
+        jLabel12.setText("NGÀY CUỐI");
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -964,25 +1012,48 @@ public class jplHeThong extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(rdoThang)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(rdoNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(rdoThang, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)
                         .addComponent(rdoNam))
                     .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
                         .addComponent(jmonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                        .addComponent(jyear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jyear, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 16, Short.MAX_VALUE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel12))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jDateCuoi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jDateDau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
+                .addGap(19, 19, 19)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rdoThang)
-                    .addComponent(rdoNam))
+                    .addComponent(rdoNam)
+                    .addComponent(rdoNgay))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jDateDau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel12)
+                    .addComponent(jDateCuoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jmonth, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jmonth, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jyear, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35))
         );
@@ -1034,7 +1105,7 @@ public class jplHeThong extends javax.swing.JPanel {
             pnlSPTKBangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSPTKBangLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 717, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlSPTKBangLayout.setVerticalGroup(
@@ -1070,7 +1141,7 @@ public class jplHeThong extends javax.swing.JPanel {
         pnlDoanhThuTK.setLayout(pnlDoanhThuTKLayout);
         pnlDoanhThuTKLayout.setHorizontalGroup(
             pnlDoanhThuTKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 770, Short.MAX_VALUE)
+            .addGap(0, 742, Short.MAX_VALUE)
         );
         pnlDoanhThuTKLayout.setVerticalGroup(
             pnlDoanhThuTKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1092,11 +1163,11 @@ public class jplHeThong extends javax.swing.JPanel {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane3, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jTabbedPane3, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         jTabbedPane3.getAccessibleContext().setAccessibleName("Sản phẩm");
@@ -1316,6 +1387,38 @@ public class jplHeThong extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jyearPropertyChange
 
+    private void jDateCuoiPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateCuoiPropertyChange
+        // TODO add your handling code here:
+        if(rdoNgay.isSelected()) {
+            try {
+                LocalDateTime ngayDau = jDateDau.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().atTime(LocalTime.of(0, 0, 0));
+                LocalDateTime ngayCuoi = jDateCuoi.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().atTime(LocalTime.of(23, 59, 59));
+                System.out.println("Nháp : " + jDateDau.getDate());
+                System.out.println("Nháp 2: " + ngayDau);
+                
+                setDataToSanPhamTKNgay(pnlSPTKCot, ngayDau, ngayCuoi); 
+            } catch (Exception e) {
+                System.out.println("Tại null ý");
+            }
+            //LocalDateTime ngayDau = LocalDateTime.parse(jDateDau.getDate() + " 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            //LocalDateTime ngayCuoi = LocalDateTime.parse(jDateCuoi.getDate() + " 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));        
+        }
+    }//GEN-LAST:event_jDateCuoiPropertyChange
+
+    private void jDateDauPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateDauPropertyChange
+        // TODO add your handling code here:
+        if(rdoNgay.isSelected()) {
+            try {
+                LocalDateTime ngayDau = jDateDau.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().atTime(LocalTime.of(0, 0, 0));
+                LocalDateTime ngayCuoi = jDateCuoi.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().atTime(LocalTime.of(23, 59, 59));
+                
+                setDataToSanPhamTKNgay(pnlSPTKCot, ngayDau, ngayCuoi); 
+            } catch (Exception e) {
+                System.out.println("Tại null ý");
+            }     
+        }
+    }//GEN-LAST:event_jDateDauPropertyChange
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnKhoiPhuc;
     private javax.swing.JButton btnLamMoi;
@@ -1328,8 +1431,12 @@ public class jplHeThong extends javax.swing.JPanel {
     private javax.swing.ButtonGroup grpGioiTinh;
     private javax.swing.ButtonGroup grpThoiGian;
     private javax.swing.ButtonGroup grpTrangThai;
+    private com.toedter.calendar.JDateChooser jDateCuoi;
+    private com.toedter.calendar.JDateChooser jDateDau;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -1370,6 +1477,7 @@ public class jplHeThong extends javax.swing.JPanel {
     private javax.swing.JRadioButton rdBtnNu;
     private javax.swing.JRadioButton rdBtnQuanLy;
     private javax.swing.JRadioButton rdoNam;
+    private javax.swing.JRadioButton rdoNgay;
     private javax.swing.JRadioButton rdoThang;
     private javax.swing.JTable tbLamViec;
     private javax.swing.JTable tbNghiViec;

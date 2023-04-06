@@ -12,17 +12,30 @@ import javax.swing.JPanel;
 import view.Contains.jplKhachHang;
 import view.Contains.jplTraGop;
 import view.Contains.tragop.ViewTraGopForm;
+import viewmodel.NhanVienResponse;
 
 public class PhanMemBanDienThoai extends javax.swing.JFrame {
 
     private JPanel panel;
-    private JPanel panelBanHang = new jplBanHang();
+    private JPanel panelBanHang;
 
-    public PhanMemBanDienThoai() {
+    public PhanMemBanDienThoai(NhanVienResponse nv) {
         initComponents();
         setLocationRelativeTo(null);
         panel = new jplTrangChu();
         setPanel(panel);
+        setQuyen(nv);
+        panelBanHang = new jplBanHang(nv);
+
+    }
+
+    private void setQuyen(NhanVienResponse nv) {
+        lblTaiKhoan.setText(nv.getHoTen().substring(nv.getHoTen().lastIndexOf(" ") + 1));
+        if (nv.isChucVu() == false) {
+            btnHeThong.setVisible(true);
+        } else {
+            btnHeThong.setVisible(false);
+        }
     }
 
     public PhanMemBanDienThoai(JPanel panel) {
@@ -560,14 +573,13 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         lblDangXuat.setForeground(Color.WHITE);
     }//GEN-LAST:event_lblDangXuatMouseExited
 
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PhanMemBanDienThoai().setVisible(true);
-            }
-        });
-    }
-
+//    public static void main(String args[]) {
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new PhanMemBanDienThoai().setVisible(true);
+//            }
+//        });
+//    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnBanHang;
     private javax.swing.JPanel btnBaoHanh;

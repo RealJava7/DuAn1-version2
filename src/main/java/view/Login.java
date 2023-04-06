@@ -148,11 +148,13 @@ public class Login extends javax.swing.JFrame {
             String user = txtUser.getText().trim().toLowerCase();
             String pass = txtPass.getText().trim().toLowerCase();
             int check = 0;
+            NhanVienResponse nv = new NhanVienResponse();
             for (NhanVienResponse s : listNhanVien) {
                 if (s.getTaiKhoan().equals(user) && s.getMatKhau().equals(pass)) {
-
+                    nv = s;
                     check = 1;
-
+                    System.out.println(s.getTaiKhoan());
+                    break;
                 } else {
                     check = 0;
 
@@ -161,7 +163,7 @@ public class Login extends javax.swing.JFrame {
 
             if (check == 1) {
                 JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
-                new PhanMemBanDienThoai().setVisible(true);
+                new PhanMemBanDienThoai(nv).setVisible(true);
 
                 this.dispose();
             } else {

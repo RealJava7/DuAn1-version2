@@ -153,7 +153,7 @@ public class jplKhachHang extends javax.swing.JPanel {
         return khachHang;
     }
 
-    private Boolean kiemTra(int id, String email) {
+    private Boolean kiemTra(int id, String email, String sdt) {
 
         StringBuilder sb = new StringBuilder();
         KhachHangResponse kh = service.getKhachHangByEmail(email);
@@ -195,10 +195,39 @@ public class jplKhachHang extends javax.swing.JPanel {
 
         }
 
+        KhachHangResponse khSdt = service.getKhachHangBySdt(txtSdt.getText().trim());
         if (txtSdt.getText().trim().isBlank()) {
             sb.append("Không để trống SĐT\n");
         } else if (!txtSdt.getText().trim().matches("^(0|\\+84)[1-9][0-9]{8}$")) {
             sb.append("vui lòng nhập đúng định dạng SĐT\n");
+        } else if (khSdt != null) {
+            if (id == 0) {
+                String str = "Sdt đã tồn tại\n";
+
+                if (khSdt.getTrangThai() == 0) {
+                    str = str + " trong phần đã xóa\n";
+                }
+                sb.append(str);
+            } else if (id > 0) {
+
+                String str = "";
+                for (KhachHangResponse s : listKhachHang) {
+                    if (s.getId() != id) {
+
+                        if (txtSdt.getText().trim().toLowerCase().equals(s.getEmail()) == true) {
+
+                            str = "Sdt đã tồn tại\n";
+                            if (s.getTrangThai() == 0) {
+                                str = str + " trong phần đã xóa\n";
+                            }
+                            sb.append(str);
+                            break;
+                        }
+                    }
+                }
+
+            }
+
         }
         if (txtDiaChi.getText().isBlank()) {
             sb.append("Không để trống Địa Chỉ\n");
@@ -1033,7 +1062,8 @@ public class jplKhachHang extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         KhachHang kh = getData();
-        if (kiemTra(0, txtEmail.getText().trim())) {
+
+        if (kiemTra(0, txtEmail.getText().trim(), txtSdt.getText().trim())) {
             JOptionPane.showMessageDialog(this, service.add(kh));
 
             listKhachHang = service.getAll();
@@ -1053,7 +1083,7 @@ public class jplKhachHang extends javax.swing.JPanel {
         int id = (int) tblKhachHang.getValueAt(rowIndex, 0);
         KhachHangResponse kh = service.getKhachHangById(id);
 
-        if (kiemTra(kh.getId(), txtEmail.getText().trim())) {
+        if (kiemTra(kh.getId(), txtEmail.getText().trim(), txtSdt.getText().trim())) {
             int choose = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn sửa khách hàng này không?", "UPDATE", JOptionPane.YES_NO_CANCEL_OPTION);
             if (choose == 0) {
                 KhachHang s = getData();
