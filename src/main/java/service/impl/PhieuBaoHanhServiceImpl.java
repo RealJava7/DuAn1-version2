@@ -56,4 +56,9 @@ public class PhieuBaoHanhServiceImpl implements PhieuBaoHanhService {
         return repository.getPBHByID(id);
     }
 
+    @Override
+    public void add(PhieuBaoHanh phieuBaoHanh) {
+        repository.add(phieuBaoHanh);
+    }
+
 }

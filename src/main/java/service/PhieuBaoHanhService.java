@@ -21,4 +21,6 @@ public interface PhieuBaoHanhService {
 
     PhieuBaoHanhResponse getPBHByID(int id);
     
+    void add(PhieuBaoHanh phieuBaoHanh);
+    
 }

@@ -30,7 +30,10 @@ public class HoaDon {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
-
+    
+    @Column(name = "MaHoaDon")
+    private String maHoaDon;
+    
     @Column(name = "NgayTao")
     private LocalDateTime ngayTao;
 
@@ -63,6 +66,9 @@ public class HoaDon {
     
     @Column(name = "HinhThucThanhToan")
     private boolean hinhThucThanhToan;
+    
+    @Column(name = "MaGiaoDichChuyenKhoan")
+    private String maGiaoDichChuyenKhoan;
 
     @ManyToOne
     @JoinColumn(name = "IdNhanVien")

@@ -2,7 +2,9 @@ package repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import model.HoaDon;
 import model.LoaiBaoHanh;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -81,16 +83,26 @@ public class LoaiBaoHanhRepository {
         return loaiBaoHanh;
     }
 
-    public static void main(String[] args) {
-//        LoaiBaoHanh loaiBaoHanh = getById(1);
-//        System.out.println(loaiBaoHanh.toString());
-
-//        List<LoaiBaoHanhResponse> loaiBaoHanhResponses = getAll();
-//        loaiBaoHanhResponses.forEach(l -> System.out.println(l.toString()));
-//        LoaiBaoHanh lbh = new LoaiBaoHanh();
-//
-//        lbh.setTen("Màn hình");
-//        lbh.setDieuKien("Lỗi do nhà sản xuất");
-//        System.out.println(add(lbh));
+    // get List<LoaiBaoHanh> mặc định khi tạo phiếu bảo hành
+    public static List<LoaiBaoHanh> getListLoaiBHMacDinh() {
+        List<LoaiBaoHanh> loaiBaoHanhs = new ArrayList<>();
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              SELECT lbh
+                                              FROM LoaiBaoHanh lbh
+                                              WHERE lbh.ten LIKE :pin
+                                              OR lbh.ten LIKE :manHinh
+                                              OR lbh.ten LIKE :loa
+                                               """);
+            query.setParameter("pin", "Pin");
+            query.setParameter("manHinh", "Màn hình");
+            query.setParameter("loa", "Loa");
+            loaiBaoHanhs = query.getResultList();
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+        return loaiBaoHanhs;
     }
+
 }

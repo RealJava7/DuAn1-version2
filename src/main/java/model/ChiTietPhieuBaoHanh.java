@@ -28,9 +28,6 @@ public class ChiTietPhieuBaoHanh {
     @Column(name = "Imei")
     private String imei;
     
-    @Column(name = "GiaSanPham")
-    private long giaSanPham;
-    
     @Column(name = "ThoiHanBaoHanh")
     private int thoiHanBaoHanh;
     

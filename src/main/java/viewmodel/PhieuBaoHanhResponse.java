@@ -17,26 +17,15 @@ public class PhieuBaoHanhResponse {
     private String tenLoaiBH;
     private String dieuKienBH;
 
-    private String tenKhachHang;
-    private String tenDienThoai;
     private String imei;
-    private long giaSanPham;
     private int thoiHanBaoHanh;
     private LocalDate ngayMuaHang;
     private LocalDate ngayHetHan;
     private String moTa;
     private boolean trangThai;
 
-    @Override
-    public String toString() {
-        return "PhieuBaoHanhResponse{" + "id=" + id + ", tenLoaiBH=" + tenLoaiBH + ", dieuKienBH=" + dieuKienBH + ", tenKhachHang=" + tenKhachHang
-                + ", tenDienThoai=" + tenDienThoai + ", imei=" + imei + ", giaSanPham=" + giaSanPham + ", thoiHanBaoHanh=" + thoiHanBaoHanh + ", ngayMuaHang="
-                + ngayMuaHang + ", ngayHetHan=" + ngayHetHan + ", moTa=" + moTa + ", trangThai=" + trangThai + '}';
-    }
-
     public Object[] toRowData() {
-        return new Object[]{this.id, this.tenLoaiBH, this.dieuKienBH, this.tenKhachHang,
-            this.tenDienThoai, this.imei, this.giaSanPham, this.thoiHanBaoHanh,
+        return new Object[]{this.id, this.tenLoaiBH, this.dieuKienBH, this.imei, this.thoiHanBaoHanh,
             this.ngayMuaHang, this.ngayHetHan, this.moTa, getStatus(this.ngayHetHan)};
     }
 

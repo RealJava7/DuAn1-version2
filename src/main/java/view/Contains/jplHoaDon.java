@@ -2,14 +2,55 @@ package view.Contains;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import model.HoaDon;
+import model.HoaDonChiTiet;
+import service.HoaDonService;
+import service.impl.HoaDonServiceImpl;
+import viewmodel.HoaDonChiTietResponse;
+import viewmodel.HoaDonResponse;
 
 public class jplHoaDon extends javax.swing.JPanel {
+
+    private List<HoaDonResponse> hoaDonResponseList;
+    private List<HoaDonChiTietResponse> hoaDonChiTietResponseList;
+    private DefaultTableModel dtmHoaDon;
+    private DefaultTableModel dtmHoaDonChiTiet;
+    private HoaDonService hoaDonService;
 
     public jplHoaDon() {
         initComponents();
         viewTable();
 
+        hoaDonResponseList = new ArrayList<>();
+        hoaDonChiTietResponseList = new ArrayList<>();
+        dtmHoaDon = (DefaultTableModel) tblHoaDon.getModel();
+        dtmHoaDonChiTiet = (DefaultTableModel) tblHoaDonChiTiet.getModel();
+        hoaDonService = new HoaDonServiceImpl();
+
+        hoaDonResponseList = hoaDonService.getResponsesByTraGop(2);
+
+        showHoaDonTable(hoaDonResponseList);
+    }
+
+    // 1
+    private void showHoaDonTable(List<HoaDonResponse> hoaDonResponses) {
+        dtmHoaDon.setRowCount(0);
+        hoaDonResponses.forEach(h -> dtmHoaDon.addRow(h.toDataRow()));
+    }
+
+    // 2
+    private void showHoaDonChiTietTable(List<HoaDonChiTietResponse> hoaDonChiTietResponses) {
+        dtmHoaDonChiTiet.setRowCount(0);
+        hoaDonChiTietResponses.forEach(h -> dtmHoaDonChiTiet.addRow(h.toDataRow()));
     }
 
     private void viewTable() {
@@ -43,16 +84,17 @@ public class jplHoaDon extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        startDate = new com.toedter.calendar.JDateChooser();
         jLabel6 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        endDate = new com.toedter.calendar.JDateChooser();
+        cbLoc = new javax.swing.JComboBox<>();
+        btnLoc = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbKieuHoaDon = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtTimKiem = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -76,21 +118,28 @@ public class jplHoaDon extends javax.swing.JPanel {
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("Lọc");
+        jLabel4.setText("Lọc theo ngày:");
 
         jLabel5.setText("Từ");
 
-        jDateChooser1.setDateFormatString("yyyy-MM-dd");
+        startDate.setDateFormatString("yyyy-MM-dd");
 
         jLabel6.setText("Đến");
 
-        jDateChooser2.setDateFormatString("yyyy-MM-dd");
+        endDate.setDateFormatString("yyyy-MM-dd");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox3.setLightWeightPopupEnabled(false);
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+        cbLoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày tạo", "Ngày thanh toán" }));
+        cbLoc.setLightWeightPopupEnabled(false);
+        cbLoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
+                cbLocActionPerformed(evt);
+            }
+        });
+
+        btnLoc.setText("Lọc");
+        btnLoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLocActionPerformed(evt);
             }
         });
 
@@ -103,35 +152,34 @@ public class jplHoaDon extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(166, 166, 166))
+                        .addGap(77, 77, 77)
+                        .addComponent(btnLoc))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cbLoc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6)
                         .addGap(12, 12, 12)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(14, 14, 14))))
+                        .addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addGap(14, 14, 14))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox3)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(btnLoc, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(startDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbLoc)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(endDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -139,9 +187,14 @@ public class jplHoaDon extends javax.swing.JPanel {
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Trạng Thái Hóa Đơn");
+        jLabel3.setText("Kiểu Hóa Đơn");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Thành Công", "Chờ Thanh Toán" }));
+        cbKieuHoaDon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Trả góp", "Trả toàn bộ" }));
+        cbKieuHoaDon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbKieuHoaDonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -151,7 +204,7 @@ public class jplHoaDon extends javax.swing.JPanel {
                 .addGap(10, 10, 10)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cbKieuHoaDon, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -160,7 +213,7 @@ public class jplHoaDon extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1)
+                .addComponent(cbKieuHoaDon)
                 .addContainerGap())
         );
 
@@ -168,9 +221,14 @@ public class jplHoaDon extends javax.swing.JPanel {
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("Tìm Kiếm Theo SĐT:");
+        jLabel2.setText("Tìm Kiếm:");
 
-        jTextField1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
+        txtTimKiem.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
+        txtTimKiem.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtTimKiemCaretUpdate(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -180,7 +238,7 @@ public class jplHoaDon extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1))
+                    .addComponent(txtTimKiem))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -189,7 +247,7 @@ public class jplHoaDon extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -244,6 +302,11 @@ public class jplHoaDon extends javax.swing.JPanel {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblHoaDonMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblHoaDon);
@@ -358,16 +421,63 @@ public class jplHoaDon extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+    private void cbLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbLocActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox3ActionPerformed
+    }//GEN-LAST:event_cbLocActionPerformed
+
+    private void cbKieuHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbKieuHoaDonActionPerformed
+        String kieuHoaDon = (String) cbKieuHoaDon.getSelectedItem();
+        if (kieuHoaDon.equals("Tất cả")) {
+            hoaDonResponseList = hoaDonService.getResponsesByTraGop(2);
+        } else if (kieuHoaDon.equals("Trả góp")) {
+            hoaDonResponseList = hoaDonService.getResponsesByTraGop(1);
+        } else if (kieuHoaDon.equals("Trả toàn bộ")) {
+            hoaDonResponseList = hoaDonService.getResponsesByTraGop(0);
+        }
+        showHoaDonTable(hoaDonResponseList);
+    }//GEN-LAST:event_cbKieuHoaDonActionPerformed
+
+    private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
+        int clickedRow = tblHoaDon.getSelectedRow();
+        if (clickedRow < 0 || clickedRow > hoaDonResponseList.size()) {
+            return;
+        }
+
+        HoaDonResponse hoaDonResponse = hoaDonResponseList.get(clickedRow);
+        int idHoaDon = hoaDonResponse.getId();
+        hoaDonChiTietResponseList = hoaDonService.getChiTietResponsesIdHoaDon(idHoaDon);
+        showHoaDonChiTietTable(hoaDonChiTietResponseList);
+    }//GEN-LAST:event_tblHoaDonMouseClicked
+
+    private void txtTimKiemCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtTimKiemCaretUpdate
+        String keyword = txtTimKiem.getText().trim();
+        if (!keyword.equals("")) {
+            hoaDonResponseList = hoaDonService.searchHoaDon(keyword);
+            showHoaDonTable(hoaDonResponseList);
+        }
+    }//GEN-LAST:event_txtTimKiemCaretUpdate
+
+    private void btnLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocActionPerformed
+        Date start = startDate.getDate();
+        Date end = endDate.getDate();
+
+        LocalDate ldStart = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate ldEnd = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        LocalDateTime ldtStart = ldStart.atStartOfDay();
+        LocalDateTime ldtEnd = ldEnd.atStartOfDay();
+
+        String kieuNgay = (String) cbLoc.getSelectedItem();
+        hoaDonResponseList = hoaDonService.filterHoaDonByDate(ldtStart, ldtEnd, kieuNgay);
+        showHoaDonTable(hoaDonResponseList);
+    }//GEN-LAST:event_btnLocActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLoc;
+    private javax.swing.JComboBox<String> cbKieuHoaDon;
+    private javax.swing.JComboBox<String> cbLoc;
+    private com.toedter.calendar.JDateChooser endDate;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -383,9 +493,10 @@ public class jplHoaDon extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField1;
+    private com.toedter.calendar.JDateChooser startDate;
     private javax.swing.JTable tblHoaDon;
     private javax.swing.JTable tblHoaDonChiTiet;
     private javax.swing.JTable tblImei;
+    private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }
