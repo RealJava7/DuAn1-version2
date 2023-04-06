@@ -107,4 +107,13 @@ public class QuanLyNhanVienServiceImpl implements QuanLyNhanVienService {
     public List<NhanVienResponse> getTaiKhoanNhanVien() {
         return repo.getTaiKhoanNhanVien();
     }
+
+    @Override
+    public String updateMatKhau(NhanVienResponse nhanVienResponse, String mk) {
+        if (repo.updateMatKhau(nhanVienResponse, mk) == true) {
+            return "Đổi mật khẩu thành công";
+        } else {
+            return "Đổi mật khẩu thất bại";
+        }
+    }
 }

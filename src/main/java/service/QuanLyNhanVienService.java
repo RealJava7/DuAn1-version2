@@ -18,6 +18,8 @@ public interface QuanLyNhanVienService {
 
     String update(NhanVienResponse nhanVienResponse, int id);
 
+    String updateMatKhau(NhanVienResponse nhanVienResponse, String mk);
+
     String delete(int id);
 
     String recover(int id);

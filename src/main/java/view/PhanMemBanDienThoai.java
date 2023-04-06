@@ -10,6 +10,8 @@ import view.Contains.jplTrangChu;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import service.QuanLyNhanVienService;
+import service.impl.QuanLyNhanVienServiceImpl;
 import view.Contains.jplKhachHang;
 import view.Contains.jplTraGop;
 import view.Contains.tragop.ViewTraGopForm;
@@ -20,10 +22,12 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
     private JPanel panel;
     private JPanel panelBanHang;
     private NhanVienResponse nhanVienOnline;
+    private QuanLyNhanVienService service;
 
     public PhanMemBanDienThoai(NhanVienResponse nv) {
         initComponents();
         setLocationRelativeTo(null);
+        service = new QuanLyNhanVienServiceImpl();
         panel = new jplTrangChu();
         setPanel(panel);
         setQuyen(nv);
@@ -56,7 +60,7 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
             sb.append("Không để trống ô nhập lại mật khẩu\n");
         }
 
-        if (txtMatKhauMoi.getText().trim().equals(txtNhapLaiMatKhau.getText().trim())) {
+        if (!txtMatKhauMoi.getText().trim().equals(txtNhapLaiMatKhau.getText().trim())) {
             sb.append("Vui lòng nhập mật khẩu mới và nhập  lại giống nhau\n");
         }
 
@@ -705,8 +709,10 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (kiemTraDoiMatKhau()) {
+            JOptionPane.showMessageDialog(this, service.updateMatKhau(nhanVienOnline, txtMatKhauMoi.getText().trim()));
 
         }
+        DoiMatKhau.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
 //    public static void main(String args[]) {
