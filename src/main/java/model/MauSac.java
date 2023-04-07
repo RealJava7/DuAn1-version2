@@ -43,33 +43,15 @@ public class MauSac {
         this.maMauSac = maMauSac;
         this.tenMauSac = tenMauSac;
     }
-    
+
+    public MauSac(int id, String tenMauSac) {
+        this.id = id;
+        this.tenMauSac = tenMauSac;
+    }
 
     @Override
     public String toString() {
         return this.tenMauSac;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.maMauSac);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final MauSac other = (MauSac) obj;
-        return Objects.equals(this.maMauSac, other.maMauSac);
     }
 
 }

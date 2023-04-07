@@ -23,4 +23,6 @@ public interface DienThoaiService {
     List<DienThoaiResponse> searchAllResponseByName(String keyword);
     
     List<DienThoaiResponse> getResponsesByHang(String tenHang);
+    
+    List<DienThoaiResponse> filterResponses(int hangId, int mauSacId, int heDieuHanhId);
 }

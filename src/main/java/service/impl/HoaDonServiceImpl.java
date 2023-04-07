@@ -15,7 +15,7 @@ public class HoaDonServiceImpl implements HoaDonService {
     @Override
     public String add(HoaDon hoaDon) {
         boolean addResult = hoaDonRepository.add(hoaDon);
-        return addResult ? "Thêm thành công" : "Thêm thất bại";
+        return addResult ? "Tạo hóa đơn thành công" : "Tạo hóa đơn thất bại";
     }
 
     @Override

@@ -41,6 +41,11 @@ public class Hang {
         this.tenHang = tenHang;
     }
 
+    public Hang(int id, String tenHang) {
+        this.id = id;
+        this.tenHang = tenHang;
+    }
+    
     public Hang(int id, String tenHang, boolean trangThai) {
         this.id = id;
         this.tenHang = tenHang;
@@ -50,28 +55,6 @@ public class Hang {
     @Override
     public String toString() {
         return this.tenHang;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.tenHang);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Hang other = (Hang) obj;
-        return Objects.equals(this.tenHang, other.tenHang);
     }
 
 }

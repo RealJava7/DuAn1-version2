@@ -9,6 +9,8 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -27,8 +29,11 @@ public class ThemImei extends javax.swing.JFrame {
     public int idCurrentDienThoai = 0;
     private ImeiService imeiService;
     private List<ImeiResponse> imeiResponseList;
+    private List<ImeiResponse> imeiResponseList1;
     private DefaultTableModel dtmImei;
+    private DefaultTableModel dtmImei1;
 
+    // Constructor 1
     public ThemImei() {
         initComponents();
         setLocationRelativeTo(null);
@@ -41,18 +46,20 @@ public class ThemImei extends javax.swing.JFrame {
 
         imeiService = new ImeiServiceImpl();
         imeiResponseList = new ArrayList<>();
+        imeiResponseList1 = new ArrayList<>();
         dtmImei = (DefaultTableModel) tbImei.getModel();
+        dtmImei1 = (DefaultTableModel) tbImei1.getModel();
 
         imeiService.deleteImeiWithDienThoaiNull();
         imeiResponseList = imeiService.getAllNoneDienThoaiImei();
-        showDataTable(imeiResponseList);
+        showImeiTable0(imeiResponseList);
     }
 
+    // Constructor 2
     public ThemImei(int idCurrentDienThoai) {
-        this.idCurrentDienThoai = idCurrentDienThoai;
-
         initComponents();
         setLocationRelativeTo(null);
+        this.idCurrentDienThoai = idCurrentDienThoai;
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent e) {
@@ -62,22 +69,33 @@ public class ThemImei extends javax.swing.JFrame {
 
         imeiService = new ImeiServiceImpl();
         imeiResponseList = new ArrayList<>();
+        imeiResponseList1 = new ArrayList<>();
         dtmImei = (DefaultTableModel) tbImei.getModel();
+        dtmImei1 = (DefaultTableModel) tbImei1.getModel();
 
-        imeiResponseList = imeiService.getAllDienThoaiId(idCurrentDienThoai);
+        // hiện thị ds IMEI chưa bán
+        imeiResponseList = imeiService.getResponsesByIdDienThoaiAndStatus(idCurrentDienThoai, 0);
         List<ImeiResponse> noneList = imeiService.getAllNoneDienThoaiImei();
         imeiResponseList.addAll(noneList);
+        showImeiTable0(imeiResponseList);
 
-        dtmImei.setRowCount(0);
-        imeiResponseList.forEach(i -> dtmImei.addRow(i.toDataRow()));
-        lbTongSo.setText(String.valueOf(imeiResponseList.size()));
+        // hiện thị ds IMEI đã bán
+        imeiResponseList1 = imeiService.getResponsesByIdDienThoaiAndStatus(idCurrentDienThoai, 1);
+        showImeiTable1(imeiResponseList1);
     }
 
     // 1
-    private void showDataTable(List<ImeiResponse> imeis) {
+    private void showImeiTable0(List<ImeiResponse> imeis) {
         dtmImei.setRowCount(0);
         imeis.forEach(i -> dtmImei.addRow(i.toDataRow()));
         lbTongSo.setText(String.valueOf(imeis.size()));
+    }
+
+    // 2
+    private void showImeiTable1(List<ImeiResponse> imeis) {
+        dtmImei1.setRowCount(0);
+        imeis.forEach(i -> dtmImei1.addRow(i.toDataRow()));
+        lbTongSo1.setText(String.valueOf(imeis.size()));
     }
 
     @SuppressWarnings("unchecked")
@@ -85,7 +103,7 @@ public class ThemImei extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tab = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbImei = new javax.swing.JTable();
@@ -94,6 +112,13 @@ public class ThemImei extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         lbTongSo = new javax.swing.JLabel();
         btnImportExcel = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        lbTongSo1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbImei1 = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtImei = new javax.swing.JTextField();
@@ -109,7 +134,12 @@ public class ThemImei extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
+        tab.setBackground(new java.awt.Color(255, 255, 255));
+        tab.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabStateChanged(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -118,7 +148,7 @@ public class ThemImei extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Thứ tự", "Số IMEI"
+                "ID", "Số IMEI"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -181,24 +211,107 @@ public class ThemImei extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(20, 20, 20)
-                                .addComponent(jLabel3))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel3)
+                                .addGap(2, 2, 2))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(btnImportExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnImportExcel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lbTongSo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("DANH SÁCH", jPanel1);
+        tab.addTab("Chưa bán", jPanel1);
+
+        jLabel5.setText("TÌM KIẾM:");
+
+        jTextField4.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
+
+        jLabel6.setText("TỔNG:");
+
+        lbTongSo1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lbTongSo1.setForeground(new java.awt.Color(255, 51, 51));
+        lbTongSo1.setText("0");
+
+        tbImei1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Số IMEI"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbImei1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbImei1MouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tbImei1);
+        if (tbImei1.getColumnModel().getColumnCount() > 0) {
+            tbImei1.getColumnModel().getColumn(0).setMinWidth(70);
+            tbImei1.getColumnModel().getColumn(0).setPreferredWidth(70);
+            tbImei1.getColumnModel().getColumn(0).setMaxWidth(100);
+        }
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 437, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel5)
+                            .addGap(18, 18, 18)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel6)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(lbTongSo1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(73, 73, 73))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addContainerGap()))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 278, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(15, 15, 15)
+                                    .addComponent(jLabel5)
+                                    .addGap(2, 2, 2))
+                                .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lbTongSo1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(18, 18, 18)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        tab.addTab("Đã bán", jPanel2);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("THÔNG TIN"));
@@ -294,14 +407,14 @@ public class ThemImei extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tab, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(tab)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -446,16 +559,47 @@ public class ThemImei extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnImportExcelActionPerformed
 
+    private void tbImei1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbImei1MouseClicked
+        int clickedRow = tbImei1.getSelectedRow();
+        if (clickedRow < 0) {
+            return;
+        }
+
+        ImeiResponse imeiResponse = imeiResponseList1.get(clickedRow);
+        txtImei.setText(imeiResponse.getImei());
+    }//GEN-LAST:event_tbImei1MouseClicked
+
+    private void tabStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabStateChanged
+        tab.getModel().addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int index = tab.getSelectedIndex();
+                if (index == 0) {
+                    setButtons(true);
+                } else {
+                    setButtons(false);
+                }
+            }
+        });
+    }//GEN-LAST:event_tabStateChanged
+
+    private void setButtons(boolean boo) {
+        btnLamMoi.setEnabled(boo);
+        btnThem.setEnabled(boo);
+        btnSua.setEnabled(boo);
+        btnXoa.setEnabled(boo);
+    }
+
     private void lamMoiForm() {
         if (idCurrentDienThoai == 0) {
             imeiResponseList = imeiService.getAllNoneDienThoaiImei();
-            showDataTable(imeiResponseList);
+            showImeiTable0(imeiResponseList);
             txtImei.setText("");
         } else {
-            imeiResponseList = imeiService.getAllDienThoaiId(idCurrentDienThoai);
+            imeiResponseList = imeiService.getResponsesByIdDienThoaiAndStatus(idCurrentDienThoai, 0);
             List<ImeiResponse> noneDienThoaiImeis = imeiService.getAllNoneDienThoaiImei();
             imeiResponseList.addAll(noneDienThoaiImeis);
-            showDataTable(imeiResponseList);
+            showImeiTable0(imeiResponseList);
             txtImei.setText("");
         }
     }
@@ -508,14 +652,21 @@ public class ThemImei extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel lbTongSo;
+    private javax.swing.JLabel lbTongSo1;
+    private javax.swing.JTabbedPane tab;
     private javax.swing.JTable tbImei;
+    private javax.swing.JTable tbImei1;
     private javax.swing.JTextField txtImei;
     // End of variables declaration//GEN-END:variables
 }

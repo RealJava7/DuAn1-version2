@@ -32,8 +32,8 @@ public class ImeiServiceImpl implements ImeiService {
     }
 
     @Override
-    public List<ImeiResponse> getAllDienThoaiId(int dienThoaiId) {
-        return imeiRepository.getAllDienThoaiId(dienThoaiId);
+    public List<ImeiResponse> getResponsesByIdDienThoaiAndStatus(int dienThoaiId, int trangThai) {
+        return imeiRepository.getResponsesByIdDienThoaiAndStatus(dienThoaiId, trangThai);
     }
 
     @Override
@@ -54,9 +54,8 @@ public class ImeiServiceImpl implements ImeiService {
     }
 
     @Override
-    public String updateImeiTrangThai(String imeiStr, int trangThai) {
-        boolean updateImeiTrangThai = imeiRepository.updateImeiTrangThai(imeiStr, trangThai);
-        return updateImeiTrangThai ? "Sửa thành công!" : "Sửa thất bại!";
+    public void updateImeiTrangThai(String imeiStr, int trangThai) {
+        imeiRepository.updateImeiTrangThai(imeiStr, trangThai);
     }
 
 }

@@ -59,4 +59,9 @@ public class DienThoaiServiceImpl implements DienThoaiService {
         return dienThoaiRepository.getResponsesByHang(tenHang);
     }
 
+    @Override
+    public List<DienThoaiResponse> filterResponses(int hangId, int mauSacId, int heDieuHanhId) {
+        return dienThoaiRepository.filterResponses(hangId, mauSacId, heDieuHanhId);
+    }
+
 }

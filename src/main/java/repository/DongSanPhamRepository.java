@@ -59,6 +59,7 @@ public class DongSanPhamRepository {
                                               FROM DongSanPham dsp
                                               INNER JOIN dsp.hangDienThoai hdt
                                               WHERE dsp.trangThai = :status
+                                              ORDER BY dsp.ten
                                                """);
             query.setParameter("status", status);
             dongSanPhamResponses = query.getResultList();

@@ -14,7 +14,7 @@ public interface ImeiService {
 
     void update(ImeiResponse imeiResponse);
 
-    List<ImeiResponse> getAllDienThoaiId(int dienThoaiId);
+    List<ImeiResponse> getResponsesByIdDienThoaiAndStatus(int dienThoaiId, int trangThai);
 
     void deleteImeiWithDienThoaiNull();
 
@@ -22,5 +22,5 @@ public interface ImeiService {
 
     String updateImeiStr(ImeiResponse imeiResponse);
 
-    String updateImeiTrangThai(String imeiStr, int trangThai);
+    void updateImeiTrangThai(String imeiStr, int trangThai);
 }

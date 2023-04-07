@@ -66,7 +66,103 @@ public class DienThoaiRepository {
         }
         return dienThoaiResponses;
     }
-    
+
+    // get List<DienThoaiResponse> by hang, mauSac, heDieuHanh
+    public List<DienThoaiResponse> filterResponses(int hangId, int mauSacId, int heDieuHanhId) {
+        List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
+
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+
+            Query query = null;
+            String queryStr = """
+                                            SELECT new viewmodel.DienThoaiResponse
+                                            (dt.id, dt.maDT, dt.tenDT, dt.moTa, dt.dungLuongPin, dt.rom, dt.ram, dt.cpu, dt.giaNhap, dt.giaBan, dt.soLuong, dt.hinhAnh,
+                                            hdh.ten, h.tenHang, dsp.ten, ms.tenMauSac,
+                                            c.cameraChinh, c.cameraPhu, c.cameraGocRong, c.cameraTele,
+                                            mh.kichThuoc, mh.doPhanGiai, mh.loaiManHinh)
+                                            FROM DienThoai dt
+                                            INNER JOIN dt.hang h
+                                            INNER JOIN dt.dongSanPham dsp
+                                            INNER JOIN dt.mauSac ms
+                                            INNER JOIN dt.heDieuHanh hdh
+                                            INNER JOIN dt.cameraChiTiet c
+                                            INNER JOIN dt.manHinhChiTiet mh
+                                            """;
+            if (hangId != 0 && mauSacId == 0 && heDieuHanhId == 0) {
+                queryStr += """
+                                       WHERE h.id = :hangId
+                                       AND dt.trangThai = true
+                                       ORDER BY dt.tenDT
+                                       """;
+                query = session.createQuery(queryStr);
+                query.setParameter("hangId", hangId);
+            } else if (hangId == 0 && mauSacId != 0 && heDieuHanhId == 0) {
+                queryStr += """
+                                       WHERE ms.id = :mauSacId
+                                       AND dt.trangThai = true
+                                       ORDER BY dt.tenDT
+                                       """;
+                query = session.createQuery(queryStr);
+                query.setParameter("mauSacId", mauSacId);
+            } else if (hangId == 0 && mauSacId == 0 && heDieuHanhId != 0) {
+                queryStr += """
+                                       WHERE hdh.id = :heDieuHanhId
+                                       AND dt.trangThai = true
+                                       ORDER BY dt.tenDT
+                                       """;
+                query = session.createQuery(queryStr);
+                query.setParameter("heDieuHanhId", heDieuHanhId);
+            } else if (hangId != 0 && mauSacId != 0 && heDieuHanhId == 0) {
+                queryStr += """
+                                       WHERE h.id = :hangId
+                                       AND ms.id = :mauSacId
+                                       AND dt.trangThai = true
+                                       ORDER BY dt.tenDT
+                                       """;
+                query = session.createQuery(queryStr);
+                query.setParameter("hangId", hangId);
+                query.setParameter("mauSacId", mauSacId);
+            } else if (hangId != 0 && mauSacId == 0 && heDieuHanhId != 0) {
+                queryStr += """
+                                       WHERE h.id = :hangId
+                                       AND hdh.id = :heDieuHanhId
+                                       AND dt.trangThai = true
+                                       ORDER BY dt.tenDT
+                                       """;
+                query = session.createQuery(queryStr);
+                query.setParameter("hangId", hangId);
+                query.setParameter("heDieuHanhId", heDieuHanhId);
+            } else if (hangId == 0 && mauSacId != 0 && heDieuHanhId != 0) {
+                queryStr += """
+                                       WHERE ms.id = :mauSacId
+                                       AND hdh.id = :heDieuHanhId
+                                       AND dt.trangThai = true
+                                       ORDER BY dt.tenDT
+                                       """;
+                query = session.createQuery(queryStr);
+                query.setParameter("mauSacId", mauSacId);
+                query.setParameter("heDieuHanhId", heDieuHanhId);
+            } else if (hangId != 0 && mauSacId != 0 && heDieuHanhId != 0) {
+                queryStr += """
+                                       WHERE h.id = :hangId
+                                       AND ms.id = :mauSacId
+                                       AND hdh.id = :heDieuHanhId
+                                       AND dt.trangThai = true
+                                       ORDER BY dt.tenDT
+                                       """;
+                query = session.createQuery(queryStr);
+                query.setParameter("hangId", hangId);
+                query.setParameter("mauSacId", mauSacId);
+                query.setParameter("heDieuHanhId", heDieuHanhId);
+            }
+            dienThoaiResponses = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return dienThoaiResponses;
+    }
+
     // 2.1 get sản phẩm hết hàng
     public List<DienThoaiResponse> get5SanPhamHetHang() {
         List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
@@ -168,6 +264,7 @@ public class DienThoaiRepository {
                                               INNER JOIN dt.manHinhChiTiet mh
                                               WHERE dt.trangThai = TRUE
                                               AND dt.tenDT like :keyword
+                                              ORDER BY dt.tenDT
                                                """);
             query.setParameter("keyword", "%" + keyword + "%");
             dienThoaiResponses = query.getResultList();
@@ -176,7 +273,7 @@ public class DienThoaiRepository {
         }
         return dienThoaiResponses;
     }
-    
+
     // get List<DienThoaiResponse> by tenHang
     public List<DienThoaiResponse> getResponsesByHang(String tenHang) {
         List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
@@ -264,7 +361,6 @@ public class DienThoaiRepository {
         return check;
     }
 
-    // 7. thay đổi trạng thái điện thoại
     public boolean changeStatus(DienThoaiResponse dienThoaiResponse, boolean newStatus) {
         boolean check = false;
         try {
@@ -274,6 +370,7 @@ public class DienThoaiRepository {
             DienThoai dienThoai = session.get(DienThoai.class, dienThoaiResponse.getId());
             dienThoai.setTrangThai(newStatus);
 
+            // 7. thay đổi trạng thái điện thoại
             session.update(dienThoai);
             transaction.commit();
 
@@ -308,7 +405,7 @@ public class DienThoaiRepository {
         }
     }
 
-    public static void update1(int id) {
+    private static void updateSoLuongDienThoaiById(int id) {
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Transaction transaction = session.beginTransaction();
@@ -326,13 +423,13 @@ public class DienThoaiRepository {
     }
 
     public static void main(String[] args) {
-        update1(1);
-        update1(2);
-        update1(6);
-        update1(7);
-        update1(8);
-        update1(9);
-        update1(11);
+        updateSoLuongDienThoaiById(1);
+        updateSoLuongDienThoaiById(2);
+        updateSoLuongDienThoaiById(6);
+        updateSoLuongDienThoaiById(7);
+        updateSoLuongDienThoaiById(8);
+        updateSoLuongDienThoaiById(9);
+        updateSoLuongDienThoaiById(11);
         System.out.println("true");
     }
 }

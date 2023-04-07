@@ -114,6 +114,19 @@ public class NhanVienRepository {
         return check;
     }
 
+    // get NhanVien by ID
+    public static NhanVien getEntityById(int id) {
+        NhanVien nhanVien = null;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            nhanVien = session.get(NhanVien.class, id);
+            session.update(nhanVien);
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+        return nhanVien;
+    }
+
     // 3. get all
     public List<NhanVienResponse> getAll() {
         List<NhanVienResponse> nhanVienResponses = new ArrayList<>();
@@ -320,51 +333,4 @@ public class NhanVienRepository {
         return nhanVienResponses;
     }
 
-    // Test
-    //public static void main(String[] args) {
-    // getAll
-    //List<NhanVienResponse> nhanVienResponses = getAll();
-    //nhanVienResponses.forEach(nv -> System.out.println(nv.toString()));
-//    List<NhanVienResponse> nhanVienResponses = findByChucVu(Boolean.valueOf(true));
-//    for (NhanVienResponse nv : nhanVienResponses) {
-//    System.out.println("check nè: " + nv.toString());
-//    }
-    // update
-//        NhanVienResponse nhanVienResponse = new NhanVienResponse();
-//
-//        nhanVienResponse.setId(1);
-//        nhanVienResponse.setHoTen("Nguyễn Khắc Thịnh");
-//        nhanVienResponse.setGioiTinh(true);
-//        nhanVienResponse.setSdt("091232829112");
-//        nhanVienResponse.setNgaySinh(LocalDate.now());
-//        nhanVienResponse.setDiaChi("265 Phạm Văn Đồng");
-//        nhanVienResponse.setEmail("thinh123@gmail.com");
-//        nhanVienResponse.setChucVu(false);
-//        nhanVienResponse.setTrangThai(true);
-//        nhanVienResponse.setHinhAnh("abc.png");
-//
-//        nhanVienResponse.setTaiKhoan("thingnguyen1234");
-//        nhanVienResponse.setMatKhau("1234");
-//
-//        System.out.println(update(nhanVienResponse));
-//        NhanVien nhanVien = new NhanVien();
-    // add
-//        nhanVien.setHoTen("Nguyễn Khắc Thịnh");
-//        nhanVien.setGioiTinh(true);
-//        nhanVien.setSdt("09120182312");
-//        nhanVien.setNgaySinh(LocalDate.of(2003, 2, 22));
-//        nhanVien.setDiaChi("466 abc");
-//        nhanVien.setEmail("thao123@gmail.com");
-//        nhanVien.setChucVu(true);
-//        nhanVien.setTrangThai(false);
-//        nhanVien.setHinhAnh("");
-//
-//        TaiKhoan taiKhoan = new TaiKhoan();
-//        taiKhoan.setTaiKhoan("thao543");
-//        taiKhoan.setMatKhau("123");
-//
-//        nhanVien.setTaiKhoan(taiKhoan);
-//
-//        System.out.println(add(nhanVien));
-    //}
 }

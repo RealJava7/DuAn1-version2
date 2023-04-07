@@ -18,12 +18,14 @@ import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import model.ChiTietPhieuBaoHanh;
+import model.DienThoai;
 import model.HoaDon;
 import model.HoaDonChiTiet;
 import model.Imei;
 import model.KhachHang;
 import model.LichSuTraGop;
 import model.LoaiBaoHanh;
+import model.NhanVien;
 import model.PhieuBaoHanh;
 import model.PhieuGiamGia;
 import model.PhieuGiamGiaChiTiet;
@@ -34,6 +36,7 @@ import repository.HoaDonRepository;
 import repository.ImeiRepository;
 import repository.KhachHangRepository;
 import repository.LoaiBaoHanhRepository;
+import repository.NhanVienRepository;
 import repository.PhieuGiamGiaRepository;
 import service.DienThoaiService;
 import service.HangService;
@@ -76,6 +79,7 @@ public class jplBanHang extends javax.swing.JPanel {
     private PhieuTraGopService phieuTraGopService;
 
     private NumberFormat numberFormat = NumberFormat.getInstance(new Locale("vn", "VN"));
+    private static NhanVienResponse loggedNhanVienResponse = new NhanVienResponse();
 
     public jplBanHang(NhanVienResponse nv) {
         initComponents();
@@ -93,6 +97,7 @@ public class jplBanHang extends javax.swing.JPanel {
         hoaDonService = new HoaDonServiceImpl();
         phieuBaoHanhService = new PhieuBaoHanhServiceImpl();
         phieuTraGopService = new PhieuTraGopServiceImpl();
+        loggedNhanVienResponse = nv;
 
         dienThoaiResponseList = dienThoaiService.getAllResponseByStatus(true);
         khachHangResponseList = khachHangService.getAllResponseByStatus(1);
@@ -103,8 +108,8 @@ public class jplBanHang extends javax.swing.JPanel {
         //khởi tạo giở hàng
         int soDon = jTabbedPane1.getTabCount();
         jTabbedPane1.add(new jplDonHang(++soDon));
+        
         //Khởi tạo cách thanh toán
-//        addFormThanhToan(new jplFormThanhToan());
         viewTable();
         setNhanVien(nv);
         chuyenKhoan(false);
@@ -121,9 +126,10 @@ public class jplBanHang extends javax.swing.JPanel {
         txtMaGD2.setVisible(b);
     }
 
-    //0. Set thông tin nhân viên khi đăng nhập
+    // 0. Set thông tin nhân viên khi đăng nhập
     private void setNhanVien(NhanVienResponse nv) {
-        lbNhanVien.setText(nv.getHoTen().substring(nv.getHoTen().lastIndexOf(" ") + 1) + " " + nv.getId());
+//        lbNhanVien.setText(nv.getHoTen().substring(nv.getHoTen().lastIndexOf(" ") + 1) + " " + nv.getId());
+        lbNhanVien.setText(nv.getHoTen());
     }
 
     // 1. hiển thị điện thoại trạng thái = true
@@ -324,8 +330,8 @@ public class jplBanHang extends javax.swing.JPanel {
         menuItem2 = new javax.swing.JMenuItem();
         ThemByImei = new javax.swing.JDialog();
         jLabel71 = new javax.swing.JLabel();
-        btnOkImei1 = new javax.swing.JButton();
-        txtImei1 = new javax.swing.JTextField();
+        btnOkThemImei = new javax.swing.JButton();
+        txtThemImei = new javax.swing.JTextField();
         imeiDialog = new javax.swing.JDialog();
         jLabel48 = new javax.swing.JLabel();
         cbImeiInDialog = new javax.swing.JComboBox<>();
@@ -335,45 +341,45 @@ public class jplBanHang extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        lbCTMaDT = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
-        jLabel31 = new javax.swing.JLabel();
+        lbCTTenDT = new javax.swing.JLabel();
         jLabel34 = new javax.swing.JLabel();
-        jLabel36 = new javax.swing.JLabel();
+        lbCTGiaBan = new javax.swing.JLabel();
         jLabel45 = new javax.swing.JLabel();
-        jLabel46 = new javax.swing.JLabel();
+        lbCTSoLuong = new javax.swing.JLabel();
         jLabel47 = new javax.swing.JLabel();
-        jLabel49 = new javax.swing.JLabel();
+        lbCTMauSac = new javax.swing.JLabel();
         jLabel50 = new javax.swing.JLabel();
-        jLabel51 = new javax.swing.JLabel();
+        lbCTDongSP = new javax.swing.JLabel();
         jLabel52 = new javax.swing.JLabel();
         jLabel53 = new javax.swing.JLabel();
-        jLabel54 = new javax.swing.JLabel();
-        jLabel55 = new javax.swing.JLabel();
+        lbCTHang = new javax.swing.JLabel();
+        lbCTHeDH = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jLabel37 = new javax.swing.JLabel();
         jLabel57 = new javax.swing.JLabel();
         jLabel59 = new javax.swing.JLabel();
-        jLabel60 = new javax.swing.JLabel();
-        jLabel61 = new javax.swing.JLabel();
-        jLabel62 = new javax.swing.JLabel();
-        jLabel63 = new javax.swing.JLabel();
+        lbCTCPU = new javax.swing.JLabel();
+        lbCTRam = new javax.swing.JLabel();
+        lbCTRom = new javax.swing.JLabel();
+        lbCTPin = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jLabel64 = new javax.swing.JLabel();
         jLabel65 = new javax.swing.JLabel();
         jLabel66 = new javax.swing.JLabel();
         jLabel67 = new javax.swing.JLabel();
-        jLabel77 = new javax.swing.JLabel();
-        jLabel78 = new javax.swing.JLabel();
-        jLabel79 = new javax.swing.JLabel();
-        jLabel80 = new javax.swing.JLabel();
+        lbCTCamChinh = new javax.swing.JLabel();
+        lbCTCamPhu = new javax.swing.JLabel();
+        lbCTCamGocRong = new javax.swing.JLabel();
+        lbCTCamTele = new javax.swing.JLabel();
         jPanel16 = new javax.swing.JPanel();
         jLabel72 = new javax.swing.JLabel();
         jLabel73 = new javax.swing.JLabel();
         jLabel74 = new javax.swing.JLabel();
-        jLabel68 = new javax.swing.JLabel();
-        jLabel69 = new javax.swing.JLabel();
-        jLabel70 = new javax.swing.JLabel();
+        lbCTKichThuoc = new javax.swing.JLabel();
+        lbCTDoPhanGiai = new javax.swing.JLabel();
+        lbCTLoaiMH = new javax.swing.JLabel();
         buttonGroup3 = new javax.swing.ButtonGroup();
         buttonGroup4 = new javax.swing.ButtonGroup();
         jpnFormBanHang = new javax.swing.JPanel();
@@ -650,12 +656,14 @@ public class jplBanHang extends javax.swing.JPanel {
         });
         jPopupMenu1.add(menuItem2);
 
+        ThemByImei.setTitle("Thêm vào giỏ hàng bằng IMEI");
+
         jLabel71.setText("IMEI");
 
-        btnOkImei1.setText("OK");
-        btnOkImei1.addActionListener(new java.awt.event.ActionListener() {
+        btnOkThemImei.setText("OK");
+        btnOkThemImei.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOkImei1ActionPerformed(evt);
+                btnOkThemImeiActionPerformed(evt);
             }
         });
 
@@ -668,9 +676,9 @@ public class jplBanHang extends javax.swing.JPanel {
                 .addGroup(ThemByImeiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel71, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(ThemByImeiLayout.createSequentialGroup()
-                        .addComponent(txtImei1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtThemImei, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnOkImei1)))
+                        .addComponent(btnOkThemImei)))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
         ThemByImeiLayout.setVerticalGroup(
@@ -680,8 +688,8 @@ public class jplBanHang extends javax.swing.JPanel {
                 .addComponent(jLabel71)
                 .addGap(10, 10, 10)
                 .addGroup(ThemByImeiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtImei1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnOkImei1))
+                    .addComponent(txtThemImei, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnOkThemImei))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
@@ -741,51 +749,51 @@ public class jplBanHang extends javax.swing.JPanel {
 
         jLabel7.setText("Mã ĐT:");
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel11.setText("jLabel11");
+        lbCTMaDT.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTMaDT.setForeground(new java.awt.Color(255, 51, 51));
+        lbCTMaDT.setText("jLabel11");
 
         jLabel29.setText("Tên ĐT:");
 
-        jLabel31.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel31.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel31.setText("jLabel31");
+        lbCTTenDT.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTTenDT.setForeground(new java.awt.Color(255, 0, 0));
+        lbCTTenDT.setText("jLabel31");
 
         jLabel34.setText("Giá Bán:");
 
-        jLabel36.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel36.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel36.setText("jLabel36");
+        lbCTGiaBan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTGiaBan.setForeground(new java.awt.Color(255, 0, 0));
+        lbCTGiaBan.setText("jLabel36");
 
         jLabel45.setText("Số Lượng:");
 
-        jLabel46.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel46.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel46.setText("jLabel46");
+        lbCTSoLuong.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTSoLuong.setForeground(new java.awt.Color(255, 0, 0));
+        lbCTSoLuong.setText("jLabel46");
 
         jLabel47.setText("HĐH:");
 
-        jLabel49.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel49.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel49.setText("jLabel49");
+        lbCTMauSac.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTMauSac.setForeground(new java.awt.Color(255, 0, 0));
+        lbCTMauSac.setText("jLabel49");
 
         jLabel50.setText("Dòng SP:");
 
-        jLabel51.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel51.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel51.setText("jLabel51");
+        lbCTDongSP.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTDongSP.setForeground(new java.awt.Color(255, 0, 0));
+        lbCTDongSP.setText("jLabel51");
 
         jLabel52.setText("Hãng:");
 
         jLabel53.setText("Màu Sắc:");
 
-        jLabel54.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel54.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel54.setText("jLabel54");
+        lbCTHang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTHang.setForeground(new java.awt.Color(255, 0, 0));
+        lbCTHang.setText("jLabel54");
 
-        jLabel55.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel55.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel55.setText("jLabel55");
+        lbCTHeDH.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTHeDH.setForeground(new java.awt.Color(255, 0, 0));
+        lbCTHeDH.setText("jLabel55");
 
         jLabel25.setText("RAM:");
 
@@ -795,21 +803,21 @@ public class jplBanHang extends javax.swing.JPanel {
 
         jLabel59.setText("CPU:");
 
-        jLabel60.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel60.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel60.setText("jLabel59");
+        lbCTCPU.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTCPU.setForeground(new java.awt.Color(255, 51, 51));
+        lbCTCPU.setText("jLabel59");
 
-        jLabel61.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel61.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel61.setText("jLabel25");
+        lbCTRam.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTRam.setForeground(new java.awt.Color(255, 51, 51));
+        lbCTRam.setText("jLabel25");
 
-        jLabel62.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel62.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel62.setText("jLabel37");
+        lbCTRom.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTRom.setForeground(new java.awt.Color(255, 51, 51));
+        lbCTRom.setText("jLabel37");
 
-        jLabel63.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel63.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel63.setText("jLabel57");
+        lbCTPin.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTPin.setForeground(new java.awt.Color(255, 51, 51));
+        lbCTPin.setText("jLabel57");
 
         jPanel15.setBackground(new java.awt.Color(255, 255, 255));
         jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder("CAMERA"));
@@ -822,21 +830,21 @@ public class jplBanHang extends javax.swing.JPanel {
 
         jLabel67.setText("TELE:");
 
-        jLabel77.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel77.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel77.setText("jLabel77");
+        lbCTCamChinh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTCamChinh.setForeground(new java.awt.Color(255, 51, 51));
+        lbCTCamChinh.setText("jLabel77");
 
-        jLabel78.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel78.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel78.setText("jLabel78");
+        lbCTCamPhu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTCamPhu.setForeground(new java.awt.Color(255, 51, 51));
+        lbCTCamPhu.setText("jLabel78");
 
-        jLabel79.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel79.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel79.setText("jLabel79");
+        lbCTCamGocRong.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTCamGocRong.setForeground(new java.awt.Color(255, 51, 51));
+        lbCTCamGocRong.setText("jLabel79");
 
-        jLabel80.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel80.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel80.setText("jLabel80");
+        lbCTCamTele.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTCamTele.setForeground(new java.awt.Color(255, 51, 51));
+        lbCTCamTele.setText("jLabel80");
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -848,7 +856,7 @@ public class jplBanHang extends javax.swing.JPanel {
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addComponent(jLabel65)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel78))
+                        .addComponent(lbCTCamPhu))
                     .addGroup(jPanel15Layout.createSequentialGroup()
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel66)
@@ -858,9 +866,9 @@ public class jplBanHang extends javax.swing.JPanel {
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel15Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addComponent(jLabel79))
-                            .addComponent(jLabel77, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel80, javax.swing.GroupLayout.Alignment.TRAILING))))
+                                .addComponent(lbCTCamGocRong))
+                            .addComponent(lbCTCamChinh, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lbCTCamTele, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addGap(44, 44, 44))
         );
         jPanel15Layout.setVerticalGroup(
@@ -868,20 +876,20 @@ public class jplBanHang extends javax.swing.JPanel {
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap(15, Short.MAX_VALUE)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel77)
+                    .addComponent(lbCTCamChinh)
                     .addComponent(jLabel64))
                 .addGap(10, 10, 10)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel65)
-                    .addComponent(jLabel78))
+                    .addComponent(lbCTCamPhu))
                 .addGap(10, 10, 10)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel66)
-                    .addComponent(jLabel79))
+                    .addComponent(lbCTCamGocRong))
                 .addGap(10, 10, 10)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel67)
-                    .addComponent(jLabel80))
+                    .addComponent(lbCTCamTele))
                 .addGap(8, 8, 8))
         );
 
@@ -894,17 +902,17 @@ public class jplBanHang extends javax.swing.JPanel {
 
         jLabel74.setText("LOẠI MÀN HÌNH:");
 
-        jLabel68.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel68.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel68.setText("jLabel68");
+        lbCTKichThuoc.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTKichThuoc.setForeground(new java.awt.Color(255, 51, 51));
+        lbCTKichThuoc.setText("jLabel68");
 
-        jLabel69.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel69.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel69.setText("jLabel69");
+        lbCTDoPhanGiai.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTDoPhanGiai.setForeground(new java.awt.Color(255, 51, 51));
+        lbCTDoPhanGiai.setText("jLabel69");
 
-        jLabel70.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel70.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel70.setText("jLabel70");
+        lbCTLoaiMH.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCTLoaiMH.setForeground(new java.awt.Color(255, 51, 51));
+        lbCTLoaiMH.setText("jLabel70");
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
@@ -918,9 +926,9 @@ public class jplBanHang extends javax.swing.JPanel {
                     .addComponent(jLabel74))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel68)
-                    .addComponent(jLabel69)
-                    .addComponent(jLabel70))
+                    .addComponent(lbCTKichThuoc)
+                    .addComponent(lbCTDoPhanGiai)
+                    .addComponent(lbCTLoaiMH))
                 .addGap(23, 23, 23))
         );
         jPanel16Layout.setVerticalGroup(
@@ -929,15 +937,15 @@ public class jplBanHang extends javax.swing.JPanel {
                 .addGap(14, 14, 14)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel72)
-                    .addComponent(jLabel68))
+                    .addComponent(lbCTKichThuoc))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel73)
-                    .addComponent(jLabel69))
+                    .addComponent(lbCTDoPhanGiai))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel74)
-                    .addComponent(jLabel70))
+                    .addComponent(lbCTLoaiMH))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -967,45 +975,45 @@ public class jplBanHang extends javax.swing.JPanel {
                                         .addGroup(jPanel4Layout.createSequentialGroup()
                                             .addComponent(jLabel29)
                                             .addGap(39, 39, 39)
-                                            .addComponent(jLabel31)))
+                                            .addComponent(lbCTTenDT)))
                                     .addGap(39, 39, 39))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                                     .addComponent(jLabel7)
                                     .addGap(41, 41, 41)
-                                    .addComponent(jLabel11)))
+                                    .addComponent(lbCTMaDT)))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(78, 78, 78)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel61)
+                                    .addComponent(lbCTRam)
                                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel36)
-                                        .addComponent(jLabel46))
-                                    .addComponent(jLabel62))))
+                                        .addComponent(lbCTGiaBan)
+                                        .addComponent(lbCTSoLuong))
+                                    .addComponent(lbCTRom))))
                         .addGap(61, 61, 61)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel52)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel47)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel55))
+                                .addComponent(lbCTHeDH))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel53)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel54, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel49, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                    .addComponent(lbCTHang, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lbCTMauSac, javax.swing.GroupLayout.Alignment.TRAILING)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel50)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel51))
+                                .addComponent(lbCTDongSP))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel59)
                                     .addComponent(jLabel57))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel63, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel60, javax.swing.GroupLayout.Alignment.TRAILING))))
+                                    .addComponent(lbCTPin, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lbCTCPU, javax.swing.GroupLayout.Alignment.TRAILING))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -1024,33 +1032,33 @@ public class jplBanHang extends javax.swing.JPanel {
                                                 .addGap(28, 28, 28)
                                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                     .addComponent(jLabel50)
-                                                    .addComponent(jLabel51)))
+                                                    .addComponent(lbCTDongSP)))
                                             .addComponent(jLabel52))
                                         .addGap(10, 10, 10)
                                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                             .addComponent(jLabel53)
-                                            .addComponent(jLabel49)))
-                                    .addComponent(jLabel54))
+                                            .addComponent(lbCTMauSac)))
+                                    .addComponent(lbCTHang))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel47)
-                                    .addComponent(jLabel55)))
+                                    .addComponent(lbCTHeDH)))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel7)
-                                    .addComponent(jLabel11))
+                                    .addComponent(lbCTMaDT))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel29)
-                                    .addComponent(jLabel31))
+                                    .addComponent(lbCTTenDT))
                                 .addGap(10, 10, 10)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel34)
-                                    .addComponent(jLabel36))
+                                    .addComponent(lbCTGiaBan))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel45)
-                                    .addComponent(jLabel46))))
+                                    .addComponent(lbCTSoLuong))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -1058,17 +1066,17 @@ public class jplBanHang extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel37))
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel61)
+                                .addComponent(lbCTRam)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel62))
+                                .addComponent(lbCTRom))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel57)
-                                    .addComponent(jLabel63))
+                                    .addComponent(lbCTPin))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel59)
-                                    .addComponent(jLabel60)))))
+                                    .addComponent(lbCTCPU)))))
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -1345,7 +1353,7 @@ public class jplBanHang extends javax.swing.JPanel {
 
         lbNhanVien.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbNhanVien.setForeground(new java.awt.Color(255, 0, 51));
-        lbNhanVien.setText("Mã + tên NV");
+        lbNhanVien.setText("Tên NV");
 
         jTabbedPane2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1939,7 +1947,7 @@ public class jplBanHang extends javax.swing.JPanel {
         - chọn 1 dòng HĐCT (chính là một đt) trong giỏ hàng rồi ấn xóa
         - HĐCT sẽ bị xóa khỏi giỏ hàng
         - sau đó cần
-            + cập nhật lại trạng thại imei từ 1 -> 0
+            + cập nhật lại trạng thại imei từ 2 -> 0
             + cập nhật lại số lượng đt
          */
 
@@ -1958,9 +1966,9 @@ public class jplBanHang extends javax.swing.JPanel {
         jplDonHang.load();
 
         // khi xóa khỏi giỏ hàng thì phải:
-        // 1. cập nhật lại trạng thái của imei từ 1 về 0
+        // 1. cập nhật lại trạng thái của imei từ 2 về 0
         String imeiStr = hdctResponse.getImei();
-        ImeiRepository.updateImeiTrangThai(imeiStr, 0);
+        imeiService.updateImeiTrangThai(imeiStr, 0);
 
         // 2. cập nhật lại số lượng của điện thoại và show lại bảng điện thoại
         DienThoaiRepository.updateSoLuongDienThoai(imeiStr, 1);
@@ -2021,11 +2029,39 @@ public class jplBanHang extends javax.swing.JPanel {
     }//GEN-LAST:event_tbDienThoaiMouseClicked
 
     private void menuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItem1ActionPerformed
-        XemChiTiet.setSize(660, 400);
+        XemChiTiet.setSize(900, 420);
         XemChiTiet.setResizable(false);
         XemChiTiet.setLocationRelativeTo(null);
         XemChiTiet.setVisible(true);
 
+        int clickedRowInDienThoaiTable = tbDienThoai.getSelectedRow();
+        if (clickedRowInDienThoaiTable < 0 || clickedRowInDienThoaiTable > dienThoaiResponseList.size()) {
+            return;
+        }
+        DienThoaiResponse dienThoaiResponse = dienThoaiResponseList.get(clickedRowInDienThoaiTable);
+
+        lbCTTenDT.setText(dienThoaiResponse.getTenDT());
+        lbCTMaDT.setText(dienThoaiResponse.getMaDT());
+        lbCTGiaBan.setText(numberFormat.format(dienThoaiResponse.getGiaBan()) + " VND");
+        lbCTSoLuong.setText(String.valueOf(dienThoaiResponse.getSoLuong()));
+        lbCTRam.setText(String.valueOf(dienThoaiResponse.getRam()) + " px");
+        lbCTRom.setText(String.valueOf(dienThoaiResponse.getRom()) + " GB");
+
+        lbCTHang.setText(dienThoaiResponse.getHang());
+        lbCTDongSP.setText(dienThoaiResponse.getDongSanPham());
+        lbCTMauSac.setText(dienThoaiResponse.getMauSac());
+        lbCTHeDH.setText(dienThoaiResponse.getHeDieuHanh());
+        lbCTPin.setText(String.valueOf(dienThoaiResponse.getDungLuongPin()) + " mAh");
+        lbCTCPU.setText(dienThoaiResponse.getCpu());
+
+        lbCTCamChinh.setText(String.valueOf(dienThoaiResponse.getCameraChinh()) + " px");
+        lbCTCamGocRong.setText(String.valueOf(dienThoaiResponse.getCameraGocRong()) + " px");
+        lbCTCamPhu.setText(String.valueOf(dienThoaiResponse.getCameraPhu()) + " px");
+        lbCTCamTele.setText(String.valueOf(dienThoaiResponse.getCameraTele()) + " px");
+
+        lbCTKichThuoc.setText(String.valueOf(dienThoaiResponse.getKichThuoc()) + " inches");
+        lbCTDoPhanGiai.setText(dienThoaiResponse.getDoPhanGiai() + " px");
+        lbCTLoaiMH.setText(dienThoaiResponse.getLoaiManHinh().name());
     }//GEN-LAST:event_menuItem1ActionPerformed
 
     private void menuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItem2ActionPerformed
@@ -2034,7 +2070,7 @@ public class jplBanHang extends javax.swing.JPanel {
             return;
         }
         DienThoaiResponse dienThoaiResponse = dienThoaiResponseList.get(clickedRowInDienThoaiTable);
-        List<ImeiResponse> imeiResponses = imeiService.getAllDienThoaiId(dienThoaiResponse.getId()); // trangThai IMEI ở đây = 0
+        List<ImeiResponse> imeiResponses = imeiService.getResponsesByIdDienThoaiAndStatus(dienThoaiResponse.getId(), 0); // trangThai IMEI ở đây = 0
 
         cbImeiInDialog.removeAllItems();
         imeiResponses.forEach(i -> cbImeiInDialog.addItem(i.getImei()));
@@ -2047,10 +2083,12 @@ public class jplBanHang extends javax.swing.JPanel {
 
     private void btnOkImeiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkImeiActionPerformed
         String selectedImeiStr = txtImei.getText().trim();
-        imeiDialog.setVisible(false);
+        if (selectedImeiStr.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng điền IMEI!");
+            return;
+        }
 
         Imei imei = ImeiRepository.getByImei(selectedImeiStr);
-
         int clickedRowInDienThoaiTable = tbDienThoai.getSelectedRow();
         DienThoaiResponse dienThoaiResponse = dienThoaiResponseList.get(clickedRowInDienThoaiTable);
 
@@ -2062,10 +2100,12 @@ public class jplBanHang extends javax.swing.JPanel {
             return;
         }
 
-        // thay đổi trạng thái imei về 'đang trong giỏ hang(1)
-        imeiService.updateImeiTrangThai(selectedImeiStr, 1);
+        imeiDialog.setVisible(false);
+
         // thay đổi số lượng tồn kho của điện thoại vừa chọn
         DienThoaiRepository.updateSoLuongDienThoai(selectedImeiStr, -1);
+        // thay đổi trạng thái imei về 'đang trong giỏ hàng(2)'
+        imeiService.updateImeiTrangThai(selectedImeiStr, 2);
 
         dienThoaiResponse.setSoLuong(dienThoaiResponse.getSoLuong() - 1);
 
@@ -2218,6 +2258,9 @@ public class jplBanHang extends javax.swing.JPanel {
         hoaDon.setKhachHang(khachHang);
 
         // 2. nhân viên (đang login)
+        NhanVien nhanVien = NhanVienRepository.getEntityById(loggedNhanVienResponse.getId());
+        hoaDon.setNhanVien(nhanVien);
+
         // 3. phiếu giảm giá
         String maPhieu = lbMaGiamGia.getText().split(" - ")[0];
         PhieuGiamGia phieuGiamGia = PhieuGiamGiaRepository.getPhieuByMa(maPhieu);
@@ -2239,9 +2282,9 @@ public class jplBanHang extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, addResult);
 
         // sau khi add hóa đơn thành công thì phải:
-        // 1. update trạng thái của tất cả imei trong hóa đơn về 2 - 'đã bán'
+        // 1. update trạng thái của tất cả imei trong hóa đơn về 1 - 'đã bán'
         hoaDonChiTietResponseList.forEach(h -> {
-            imeiService.updateImeiTrangThai(h.getImei(), 2);
+            imeiService.updateImeiTrangThai(h.getImei(), 1);
         });
 
         // 2. xóa giỏ hàng
@@ -2255,11 +2298,8 @@ public class jplBanHang extends javax.swing.JPanel {
         if (jTabbedPane1.getTabCount() > 1) {
             jTabbedPane1.remove(indexDon);
         }
-
-        // 3. làm mới form
-        lamMoiForm1();
-
-        // 4. tạo phiếu bảo hành
+        
+        // 3. tạo phiếu bảo hành
         HoaDon hoaDonByMa = hoaDonService.getEntityByMa(maHoaDon);
         List<HoaDonChiTietResponse> hoaDonChiTietResponses = hoaDonService.getChiTietResponsesIdHoaDon(hoaDonByMa.getId());
         for (int i = 0; i < hoaDonChiTietResponses.size(); ++i) {
@@ -2283,23 +2323,36 @@ public class jplBanHang extends javax.swing.JPanel {
             phieuBaoHanhService.add(phieuBaoHanh);
         }
 
-        // 5. trừ lượt sử dụng của phiếu giảm giá
+        // 4. trừ lượt sử dụng của phiếu giảm giá
         if (phieuGiamGia != null) {
             PhieuGiamGiaChiTiet phieuChiTiet = phieuGiamGia.getPhieuGiamGiaChiTiet();
             phieuChiTiet.setLuotSuDung(phieuChiTiet.getLuotSuDung() - 1);
             PhieuGiamGiaRepository.updateLuotSuDung(phieuChiTiet);
         }
 
-        // 6. trừ điểm tích lũy (trừ nếu đã dùng)
+        // 5. trừ điểm tích lũy (trừ nếu đã dùng)
         if (chkboxSuDungDiem.isSelected()) {
             KhachHangRepository.updateDiemTichLuy(khResponse, 0);
         }
 
-        // 7. cộng điểm tích lũy
-        double diemTichLuy = (tongTien - tienGiam) / 50000;
+        // 6. cộng điểm tích lũy
+        double diemTichLuy = 0;
+        if (chkboxSuDungDiem.isSelected()) {
+            diemTichLuy = (tongTien - tienGiam) / 50000;
+        } else {
+            diemTichLuy = tongTien / 50000;
+        }
+
         Double diemTichLuyDou = Double.valueOf(diemTichLuy);
         int diemTichLuyInt = diemTichLuyDou.intValue();
+        if (!chkboxSuDungDiem.isSelected()) {
+            diemTichLuyInt += khachHang.getTheTichDiem().getSoDiem();
+        }
         KhachHangRepository.updateDiemTichLuy(khResponse, diemTichLuyInt);
+        
+        // 7. làm mới form
+        lamMoiForm1();
+        lamMoiForm2();
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private String getMa(String loaiMa) {
@@ -2402,6 +2455,9 @@ public class jplBanHang extends javax.swing.JPanel {
         hoaDon.setKhachHang(khachHang);
 
         // 2. nhân viên (đang login)
+        NhanVien nhanVien = NhanVienRepository.getEntityById(loggedNhanVienResponse.getId());
+        hoaDon.setNhanVien(nhanVien);
+
         // 3. phiếu giảm giá
         String maPhieu = lbMaGiamGia2.getText().split(" - ")[0];
         PhieuGiamGia phieuGiamGia = PhieuGiamGiaRepository.getPhieuByMa(maPhieu);
@@ -2422,9 +2478,9 @@ public class jplBanHang extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, addResult);
 
         // sau khi add hóa đơn thành công thì phải:
-        // 1. update trạng thái của tất cả imei trong hóa đơn về 2 - 'đã bán'
+        // 1. update trạng thái của tất cả imei trong hóa đơn về 1 - 'đã bán'
         hoaDonChiTietResponseList.forEach(h -> {
-            imeiService.updateImeiTrangThai(h.getImei(), 2);
+            imeiService.updateImeiTrangThai(h.getImei(), 1);
         });
 
         // 2. xóa giỏ hàng
@@ -2452,7 +2508,12 @@ public class jplBanHang extends javax.swing.JPanel {
         }
 
         // 5. cộng điểm tích lũy
-        double diemTichLuy = tienTraTruoc / 50000;
+        double diemTichLuy = 0;
+        if (chkboxSuDungDiem.isSelected()) {
+            diemTichLuy = (tongTien - tienGiam) / 50000;
+        } else {
+            diemTichLuy = tongTien / 50000;
+        }
         Double diemTichLuyDou = Double.valueOf(diemTichLuy);
         int diemTichLuyInt = diemTichLuyDou.intValue();
         if (!chkboxSuDungDiem2.isSelected()) {
@@ -2625,7 +2686,6 @@ public class jplBanHang extends javax.swing.JPanel {
     }//GEN-LAST:event_chkboxSuDungDiem2ActionPerformed
 
     private void btnXoaHDChiTiet1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaHDChiTiet1ActionPerformed
-
         ThemByImei.setSize(330, 130);
         ThemByImei.setResizable(false);
         ThemByImei.setLocationRelativeTo(null);
@@ -2648,9 +2708,51 @@ public class jplBanHang extends javax.swing.JPanel {
         chuyenKhoan(true);
     }//GEN-LAST:event_rdChuyenKhoanActionPerformed
 
-    private void btnOkImei1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkImei1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnOkImei1ActionPerformed
+    private void btnOkThemImeiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkThemImeiActionPerformed
+        String imeiStr = txtThemImei.getText().trim();
+        if (imeiStr.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng điền IMEI!");
+            return;
+        }
+
+        Imei imei = ImeiRepository.getByImei(imeiStr);
+        if (imei == null) {
+            JOptionPane.showMessageDialog(this, "Imei không tồn tại!");
+            return;
+        }
+
+        ThemByImei.setVisible(false);
+
+        DienThoai dienThoai = imei.getDienThoai();
+        DienThoaiResponse dienThoaiResponse = new DienThoaiResponse();
+        for (int i = 0; i < dienThoaiResponseList.size(); ++i) {
+            if (dienThoaiResponseList.get(i).getId() == dienThoai.getId()) {
+                dienThoaiResponse = dienThoaiResponseList.get(i);
+                break;
+            }
+        }
+
+        // thay đổi trạng thái imei về 'đang trong giỏ hàng - 2'
+        imeiService.updateImeiTrangThai(imeiStr, 2);
+        // thay đổi số lượng tồn kho của điện thoại vừa chọn
+        DienThoaiRepository.updateSoLuongDienThoai(imeiStr, -1);
+
+        dienThoaiResponse.setSoLuong(dienThoaiResponse.getSoLuong() - 1);
+
+        HoaDonChiTietResponse hoaDonChiTietResponse = new HoaDonChiTietResponse();
+        hoaDonChiTietResponse.setImei(imeiStr);
+        hoaDonChiTietResponse.setTenDienThoai(dienThoaiResponse.getTenDT());
+        hoaDonChiTietResponse.setDonGia(dienThoaiResponse.getGiaBan());
+        hoaDonChiTietResponseList.add(hoaDonChiTietResponse);
+
+        jplDonHang jDonHang = (jplDonHang) jTabbedPane1.getSelectedComponent();
+        jDonHang.setHoaDonChiTiets(hoaDonChiTietResponseList);
+        jDonHang.load();
+
+        showHoaDonInfo1();
+        showHoaDonInfo2();
+        showDienThoaiTable(dienThoaiResponseList);
+    }//GEN-LAST:event_btnOkThemImeiActionPerformed
 
     private void showHoaDonInfo1() {
         // Tab 1
@@ -2770,7 +2872,7 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JDialog ThemKhachHang;
     private javax.swing.JDialog XemChiTiet;
     private javax.swing.JButton btnOkImei;
-    private javax.swing.JButton btnOkImei1;
+    private javax.swing.JButton btnOkThemImei;
     private javax.swing.JButton btnSapXepGiaGiamDan;
     private javax.swing.JButton btnSapXepGiaTangDan;
     private javax.swing.JButton btnTaoDonHang;
@@ -2797,7 +2899,6 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -2819,12 +2920,10 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
@@ -2835,43 +2934,27 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
-    private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
-    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
-    private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
-    private javax.swing.JLabel jLabel54;
-    private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel60;
-    private javax.swing.JLabel jLabel61;
-    private javax.swing.JLabel jLabel62;
-    private javax.swing.JLabel jLabel63;
     private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel67;
-    private javax.swing.JLabel jLabel68;
-    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel71;
     private javax.swing.JLabel jLabel72;
     private javax.swing.JLabel jLabel73;
     private javax.swing.JLabel jLabel74;
-    private javax.swing.JLabel jLabel77;
-    private javax.swing.JLabel jLabel78;
-    private javax.swing.JLabel jLabel79;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel80;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel15;
@@ -2887,6 +2970,25 @@ public class jplBanHang extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser jdateNgaySinh;
     private javax.swing.JPanel jplGioHang;
     private javax.swing.JPanel jpnFormBanHang;
+    private javax.swing.JLabel lbCTCPU;
+    private javax.swing.JLabel lbCTCamChinh;
+    private javax.swing.JLabel lbCTCamGocRong;
+    private javax.swing.JLabel lbCTCamPhu;
+    private javax.swing.JLabel lbCTCamTele;
+    private javax.swing.JLabel lbCTDoPhanGiai;
+    private javax.swing.JLabel lbCTDongSP;
+    private javax.swing.JLabel lbCTGiaBan;
+    private javax.swing.JLabel lbCTHang;
+    private javax.swing.JLabel lbCTHeDH;
+    private javax.swing.JLabel lbCTKichThuoc;
+    private javax.swing.JLabel lbCTLoaiMH;
+    private javax.swing.JLabel lbCTMaDT;
+    private javax.swing.JLabel lbCTMauSac;
+    private javax.swing.JLabel lbCTPin;
+    private javax.swing.JLabel lbCTRam;
+    private javax.swing.JLabel lbCTRom;
+    private javax.swing.JLabel lbCTSoLuong;
+    private javax.swing.JLabel lbCTTenDT;
     private javax.swing.JLabel lbConNo;
     private javax.swing.JLabel lbEmailKhachHang;
     private javax.swing.JLabel lbKhachPhaiTra;
@@ -2921,12 +3023,12 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtHoTen;
     private javax.swing.JTextField txtImei;
-    private javax.swing.JTextField txtImei1;
     private javax.swing.JTextField txtLaiSuat;
     private javax.swing.JTextField txtMaGD;
     private javax.swing.JTextField txtMaGD2;
     private javax.swing.JTextField txtSdt;
     private javax.swing.JTextField txtSearchByTen;
+    private javax.swing.JTextField txtThemImei;
     private javax.swing.JTextField txtTienKhachDua;
     private javax.swing.JTextField txtTienTraTruoc;
     private javax.swing.JTextField txtTimKH;
