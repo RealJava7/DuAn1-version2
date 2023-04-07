@@ -1183,80 +1183,84 @@ public class jplSanPham extends javax.swing.JPanel {
     }//GEN-LAST:event_btnHeDieuHanhActionPerformed
 
     private void tbActiveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbActiveMouseClicked
-        int clickedRow = tbActive.getSelectedRow();
-        if (clickedRow < 0) {
-            return;
+        try {
+            int clickedRow = tbActive.getSelectedRow();
+            if (clickedRow < 0) {
+                return;
+            }
+            DienThoaiResponse dienThoaiResponse = activedienThoaiResponseList.get(clickedRow);
+
+            imagePath = dienThoaiResponse.getHinhAnh();
+            txtMaSanPham.setText(dienThoaiResponse.getMaDT());
+            txtTenSanPham.setText(dienThoaiResponse.getTenDT());
+            txtGiaNhap.setText(String.valueOf(dienThoaiResponse.getGiaNhap()));
+            txtGiaBan.setText(String.valueOf(dienThoaiResponse.getGiaBan()));
+            txtMoTa.setText(dienThoaiResponse.getMoTa());
+
+            dcbmRam.setSelectedItem(dienThoaiResponse.getRam());
+            dcbmRom.setSelectedItem(dienThoaiResponse.getRom());
+
+            txtPin.setText(String.valueOf(dienThoaiResponse.getDungLuongPin()));
+            txtCpu.setText(dienThoaiResponse.getCpu());
+
+            if (dienThoaiResponse.getCameraChinh() > 0) {
+                txtCamChinh.setText(String.valueOf(dienThoaiResponse.getCameraChinh()));
+            } else {
+                txtCamChinh.setText("không có");
+            }
+
+            if (dienThoaiResponse.getCameraPhu() > 0) {
+                txtCamPhu.setText(String.valueOf(dienThoaiResponse.getCameraPhu()));
+            } else {
+                txtCamPhu.setText("không có");
+            }
+
+            if (dienThoaiResponse.getCameraGocRong() > 0) {
+                txtCamGocRong.setText(String.valueOf(dienThoaiResponse.getCameraGocRong()));
+            } else {
+                txtCamGocRong.setText("không có");
+            }
+
+            if (dienThoaiResponse.getCameraTele() > 0) {
+                txtCamTele.setText(String.valueOf(dienThoaiResponse.getCameraTele()));
+            } else {
+                txtCamTele.setText("không có");
+            }
+
+            txtKichThuoc.setText(String.valueOf(dienThoaiResponse.getKichThuoc()));
+            txtDoPG.setText(dienThoaiResponse.getDoPhanGiai());
+            dcbmLoaiMH.setSelectedItem(dienThoaiResponse.getLoaiManHinh());
+
+            String tenHang = dienThoaiResponse.getHang();
+            Hang hang = HangRepository.getByTenHang(tenHang);
+            dcbmHang.setSelectedItem(hang);
+
+            String tenDongSP = dienThoaiResponse.getDongSanPham();
+            DongSanPham dongSP = DongSanPhamRepository.getByTenDongSP(tenDongSP);
+            dcbmDongSP.setSelectedItem(dongSP);
+
+            String tenMS = dienThoaiResponse.getMauSac();
+            MauSac mauSac = MauSacRepository.getByTen(tenMS);
+            dcbmMauSac.setSelectedItem(mauSac);
+
+            String tenHeDH = dienThoaiResponse.getHeDieuHanh();
+            HeDieuHanh hdh = HeDieuHanhRepository.getByTen(tenHeDH);
+            dcbmHDH.setSelectedItem(hdh);
+
+            // imeis
+            DienThoai dienThoai = DienThoaiRepository.getById(dienThoaiResponse.getId());
+            Set<Imei> imeiSet = dienThoai.getImeis();
+
+            dcbmImei.removeAllElements();
+            imeiSet.forEach(i -> cbImei.addItem(i.getImei()));
+
+            // hình ảnh
+            ImageIcon icon = new ImageIcon(getClass().getResource("/phoneimage/" + dienThoaiResponse.getHinhAnh()));
+            Image newImage = icon.getImage().getScaledInstance(image.getWidth(), image.getHeight(), Image.SCALE_SMOOTH);
+            image.setIcon(new ImageIcon(newImage));
+        } catch (Exception e) {
+            System.out.println("");
         }
-        DienThoaiResponse dienThoaiResponse = activedienThoaiResponseList.get(clickedRow);
-
-        imagePath = dienThoaiResponse.getHinhAnh();
-        txtMaSanPham.setText(dienThoaiResponse.getMaDT());
-        txtTenSanPham.setText(dienThoaiResponse.getTenDT());
-        txtGiaNhap.setText(String.valueOf(dienThoaiResponse.getGiaNhap()));
-        txtGiaBan.setText(String.valueOf(dienThoaiResponse.getGiaBan()));
-        txtMoTa.setText(dienThoaiResponse.getMoTa());
-
-        dcbmRam.setSelectedItem(dienThoaiResponse.getRam());
-        dcbmRom.setSelectedItem(dienThoaiResponse.getRom());
-
-        txtPin.setText(String.valueOf(dienThoaiResponse.getDungLuongPin()));
-        txtCpu.setText(dienThoaiResponse.getCpu());
-
-        if (dienThoaiResponse.getCameraChinh() > 0) {
-            txtCamChinh.setText(String.valueOf(dienThoaiResponse.getCameraChinh()));
-        } else {
-            txtCamChinh.setText("không có");
-        }
-
-        if (dienThoaiResponse.getCameraPhu() > 0) {
-            txtCamPhu.setText(String.valueOf(dienThoaiResponse.getCameraPhu()));
-        } else {
-            txtCamPhu.setText("không có");
-        }
-
-        if (dienThoaiResponse.getCameraGocRong() > 0) {
-            txtCamGocRong.setText(String.valueOf(dienThoaiResponse.getCameraGocRong()));
-        } else {
-            txtCamGocRong.setText("không có");
-        }
-
-        if (dienThoaiResponse.getCameraTele() > 0) {
-            txtCamTele.setText(String.valueOf(dienThoaiResponse.getCameraTele()));
-        } else {
-            txtCamTele.setText("không có");
-        }
-
-        txtKichThuoc.setText(String.valueOf(dienThoaiResponse.getKichThuoc()));
-        txtDoPG.setText(dienThoaiResponse.getDoPhanGiai());
-        dcbmLoaiMH.setSelectedItem(dienThoaiResponse.getLoaiManHinh());
-
-        String tenHang = dienThoaiResponse.getHang();
-        Hang hang = HangRepository.getByTenHang(tenHang);
-        dcbmHang.setSelectedItem(hang);
-
-        String tenDongSP = dienThoaiResponse.getDongSanPham();
-        DongSanPham dongSP = DongSanPhamRepository.getByTenDongSP(tenDongSP);
-        dcbmDongSP.setSelectedItem(dongSP);
-
-        String tenMS = dienThoaiResponse.getMauSac();
-        MauSac mauSac = MauSacRepository.getByTen(tenMS);
-        dcbmMauSac.setSelectedItem(mauSac);
-
-        String tenHeDH = dienThoaiResponse.getHeDieuHanh();
-        HeDieuHanh hdh = HeDieuHanhRepository.getByTen(tenHeDH);
-        dcbmHDH.setSelectedItem(hdh);
-
-        // imeis
-        DienThoai dienThoai = DienThoaiRepository.getById(dienThoaiResponse.getId());
-        Set<Imei> imeiSet = dienThoai.getImeis();
-
-        dcbmImei.removeAllElements();
-        imeiSet.forEach(i -> cbImei.addItem(i.getImei()));
-
-        // hình ảnh
-        ImageIcon icon = new ImageIcon(getClass().getResource("/phoneimage/" + dienThoaiResponse.getHinhAnh()));
-        Image newImage = icon.getImage().getScaledInstance(image.getWidth(), image.getHeight(), Image.SCALE_SMOOTH);
-        image.setIcon(new ImageIcon(newImage));
     }//GEN-LAST:event_tbActiveMouseClicked
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
