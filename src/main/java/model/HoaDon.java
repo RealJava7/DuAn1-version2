@@ -30,16 +30,16 @@ public class HoaDon {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
-    
+
     @Column(name = "MaHoaDon")
     private String maHoaDon;
-    
+
     @Column(name = "NgayTao")
     private LocalDateTime ngayTao;
 
     @Column(name = "NgayThanhToan")
     private LocalDateTime ngayThanhToan;
-    
+
     @Column(name = "TienGiam")
     private long tienGiam;
 
@@ -54,19 +54,19 @@ public class HoaDon {
 
     @Column(name = "TraGop")
     private boolean traGop;
-    
+
     @Column(name = "TienTraTruoc")
     private long tienTraTruoc;
-    
+
     @Column(name = "TienThieu")
     private long tienThieu;
 
     @Column(name = "GhiChu")
     private String ghiChu;
-    
+
     @Column(name = "HinhThucThanhToan")
     private boolean hinhThucThanhToan;
-    
+
     @Column(name = "MaGiaoDichChuyenKhoan")
     private String maGiaoDichChuyenKhoan;
 
@@ -81,12 +81,12 @@ public class HoaDon {
     @ManyToOne
     @JoinColumn(name = "IdPhieuGiamGia")
     private PhieuGiamGia phieuGiamGia;
-    
+
     @OneToMany(mappedBy = "hoaDon", cascade = CascadeType.ALL)
     private Set<HoaDonChiTiet> hoaDonChiTiets = new HashSet<>();
 
     public void addHoaDonChiTiet(HoaDonChiTiet hoaDonChiTiet) {
-        if(hoaDonChiTiet != null) {
+        if (hoaDonChiTiet != null) {
             this.hoaDonChiTiets.add(hoaDonChiTiet);
             hoaDonChiTiet.setHoaDon(this);
         }
