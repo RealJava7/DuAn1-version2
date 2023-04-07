@@ -5,6 +5,7 @@ import model.PhieuGiamGia;
 import repository.PhieuGiamGiaRepository;
 import viewmodel.PhieuGiamGiaResponse;
 import service.PhieuGiamGiaService;
+import viewmodel.HoaDonResponse;
 
 public class PhieuGiamGiaServiceImpl implements PhieuGiamGiaService {
 
@@ -55,4 +56,20 @@ public class PhieuGiamGiaServiceImpl implements PhieuGiamGiaService {
     public List<PhieuGiamGiaResponse> getAllForView(long tongTien) {
         return pr.getAllForView(tongTien);
     }
+
+    @Override
+    public Long tongTien() {
+        return pr.tongTien();
+    }
+
+    @Override
+    public Long tienGiam() {
+        return pr.tienGiam();
+    }
+
+    @Override
+    public Long tongDon() {
+        return pr.soDon();
+    }
+
 }

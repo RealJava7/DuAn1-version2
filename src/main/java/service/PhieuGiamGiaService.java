@@ -2,6 +2,7 @@ package service;
 
 import java.util.List;
 import model.PhieuGiamGia;
+import viewmodel.HoaDonResponse;
 import viewmodel.PhieuGiamGiaResponse;
 
 public interface PhieuGiamGiaService {
@@ -19,5 +20,11 @@ public interface PhieuGiamGiaService {
     List<PhieuGiamGiaResponse> getByMa(String ma);
 
     List<PhieuGiamGiaResponse> getAllForView(long tongTien);
+
+    Long tongTien();
+
+    Long tienGiam();
+
+    Long tongDon();
 
 }
