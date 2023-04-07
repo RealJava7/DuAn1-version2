@@ -12,6 +12,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import utility.HibernateUtil;
+import viewmodel.HoaDonResponse;
 import viewmodel.PhieuGiamGiaResponse;
 
 public class PhieuGiamGiaRepository {
@@ -81,7 +82,7 @@ public class PhieuGiamGiaRepository {
         }
         return phieuGiamGiaResponses;
     }
-    
+
     // 4. get by status
     public static List<PhieuGiamGiaResponse> getByStatus(int tt) {
         List<PhieuGiamGiaResponse> phieuGiamGiaResponses = new ArrayList<>();
@@ -145,7 +146,7 @@ public class PhieuGiamGiaRepository {
     + ngày bắt đầu <= ngày hiện tại <= ngày kết thúc
     + lượt sử dụng > 0
     + đk truyền vào >= dieuKien
-    + trangThai = 1
+    + trangThai = 0
      */
     public List<PhieuGiamGiaResponse> getAllForView(long tongTien) {
         List<PhieuGiamGiaResponse> phieuGiamGiaResponses = new ArrayList<>();
@@ -158,7 +159,7 @@ public class PhieuGiamGiaRepository {
                                             INNER JOIN pgg.phieuGiamGiaChiTiet pct
                                             WHERE pct.luotSuDung > 0
                                             AND pct.dieuKien <= :tongTien
-                                            AND pct.trangThai = 1
+                                            AND pct.trangThai = 0
                                             """);
             query.setParameter("tongTien", tongTien);
             phieuGiamGiaResponses = query.getResultList();
@@ -197,13 +198,13 @@ public class PhieuGiamGiaRepository {
         }
         return phieuGiamGia;
     }
-    
+
     // 9. update lượt sử dụng sau khi tạo hóa đơn thành công (trong view bán hàng)
     public static void updateLuotSuDung(PhieuGiamGiaChiTiet phieuChiTiet) {
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Transaction transaction = session.beginTransaction();
-            
+
             session.update(phieuChiTiet);
             transaction.commit();
             session.close();
@@ -212,4 +213,51 @@ public class PhieuGiamGiaRepository {
         }
     }
 
+    // 10
+    public static Long tongTien() {
+        Long tong = 0L;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              select sum(hd.tongTien) from HoaDon hd inner join PhieuGiamGia pgg
+                                              on hd.phieuGiamGia.id  = pgg.id
+                                                """);
+            tong = (long) query.getSingleResult();
+            return tong;
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return 0L;
+    }
+
+    public static Long soDon() {
+        Long tong = 0L;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              select count(hd.id) from HoaDon hd inner join PhieuGiamGia pgg
+                                              on hd.phieuGiamGia.id  = pgg.id
+                                                """);
+            tong = (Long) query.getSingleResult();
+            return tong;
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return 0L;
+    }
+public static Long tienGiam() {
+        Long tong = 0L;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              select sum(hd.tienGiam) from HoaDon hd inner join PhieuGiamGia pgg
+                                              on hd.phieuGiamGia.id  = pgg.id
+                                                """);
+            tong = (long) query.getSingleResult();
+            return tong;
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return 0L;
+    }
 }

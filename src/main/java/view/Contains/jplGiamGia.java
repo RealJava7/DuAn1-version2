@@ -18,6 +18,7 @@ import view.Login;
 import viewmodel.PhieuGiamGiaResponse;
 import service.PhieuGiamGiaService;
 import static view.Contains.phieuGiamGia.SuaPhieuGiamGia.check;
+import viewmodel.HoaDonResponse;
 
 public class jplGiamGia extends javax.swing.JPanel {
 
@@ -31,6 +32,9 @@ public class jplGiamGia extends javax.swing.JPanel {
         updateStatus();
         loadTable(qs.getall());
         rdbTatCa.setSelected(true);
+        txtDoanhThu.setText(""+qs.tongTien()+" VNĐ");
+        txtDonHang.setText(""+qs.tongDon());
+        txtTienGiam.setText(""+qs.tienGiam()+" VNĐ");
     }
 
     public static void loadTable(List<PhieuGiamGiaResponse> list) {
@@ -75,14 +79,14 @@ public class jplGiamGia extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        txtDoanhThu = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        txtDonHang = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        txtTienGiam = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
@@ -131,9 +135,9 @@ public class jplGiamGia extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(102, 102, 102));
         jLabel3.setText("DOANH THU");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(50, 160, 239));
-        jLabel4.setText("0VNĐ");
+        txtDoanhThu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtDoanhThu.setForeground(new java.awt.Color(50, 160, 239));
+        txtDoanhThu.setText("0VNĐ");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -145,7 +149,7 @@ public class jplGiamGia extends javax.swing.JPanel {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE))
+                    .addComponent(txtDoanhThu, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -157,7 +161,7 @@ public class jplGiamGia extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(txtDoanhThu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(33, 33, 33))
         );
 
@@ -170,9 +174,9 @@ public class jplGiamGia extends javax.swing.JPanel {
         jLabel6.setForeground(new java.awt.Color(102, 102, 102));
         jLabel6.setText("ĐƠN HÀNG ");
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(50, 239, 148));
-        jLabel7.setText("0");
+        txtDonHang.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtDonHang.setForeground(new java.awt.Color(50, 239, 148));
+        txtDonHang.setText("0");
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/sanpham.png"))); // NOI18N
 
@@ -185,7 +189,7 @@ public class jplGiamGia extends javax.swing.JPanel {
                 .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(24, 24, 24)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                    .addComponent(txtDonHang, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -200,7 +204,7 @@ public class jplGiamGia extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(txtDonHang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(36, 36, 36))
         );
 
@@ -211,9 +215,9 @@ public class jplGiamGia extends javax.swing.JPanel {
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/baohanh.png"))); // NOI18N
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(239, 220, 50));
-        jLabel10.setText("0");
+        txtTienGiam.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtTienGiam.setForeground(new java.awt.Color(239, 220, 50));
+        txtTienGiam.setText("0");
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(102, 102, 102));
@@ -228,7 +232,7 @@ public class jplGiamGia extends javax.swing.JPanel {
                 .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(24, 24, 24)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                    .addComponent(txtTienGiam, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -243,7 +247,7 @@ public class jplGiamGia extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(txtTienGiam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(34, 34, 34))
         );
 
@@ -548,14 +552,11 @@ public class jplGiamGia extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cbbTimKiem;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -572,6 +573,9 @@ public class jplGiamGia extends javax.swing.JPanel {
     private javax.swing.JRadioButton rdbSapBatDau;
     private javax.swing.JRadioButton rdbTatCa;
     private javax.swing.JTable tblMaGiamGia;
+    private javax.swing.JLabel txtDoanhThu;
+    private javax.swing.JLabel txtDonHang;
+    private javax.swing.JLabel txtTienGiam;
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }
