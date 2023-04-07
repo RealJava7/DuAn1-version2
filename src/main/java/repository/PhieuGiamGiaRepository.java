@@ -145,7 +145,7 @@ public class PhieuGiamGiaRepository {
     + ngày bắt đầu <= ngày hiện tại <= ngày kết thúc
     + lượt sử dụng > 0
     + đk truyền vào >= dieuKien
-    + trangThai = 1
+    + trangThai = 0
      */
     public List<PhieuGiamGiaResponse> getAllForView(long tongTien) {
         List<PhieuGiamGiaResponse> phieuGiamGiaResponses = new ArrayList<>();
@@ -158,7 +158,7 @@ public class PhieuGiamGiaRepository {
                                             INNER JOIN pgg.phieuGiamGiaChiTiet pct
                                             WHERE pct.luotSuDung > 0
                                             AND pct.dieuKien <= :tongTien
-                                            AND pct.trangThai = 1
+                                            AND pct.trangThai = 0
                                             """);
             query.setParameter("tongTien", tongTien);
             phieuGiamGiaResponses = query.getResultList();
