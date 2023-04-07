@@ -3,6 +3,7 @@ package view.Contains;
 import java.awt.CardLayout;
 import java.awt.Image;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -16,9 +17,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -376,6 +382,45 @@ public class jplHeThong extends javax.swing.JPanel {
         }
     }
     
+    public void exportTable(JTable table) {
+        try {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.showSaveDialog(this);
+            File saveFile = fileChooser.getSelectedFile();
+            if(saveFile != null) {
+                saveFile = new File(saveFile.toString() + ".xlsx");
+                XSSFWorkbook workbook = new XSSFWorkbook();
+                XSSFSheet sheet = workbook.createSheet("Thống kê");
+                Row headerRow = sheet.createRow(0);
+                // Xuất tiêu đề cột
+                for (int i = 0; i < table.getColumnCount(); i++) {
+                    String columnName = table.getColumnName(i);
+                    Cell cell = headerRow.createCell(i);
+                    cell.setCellValue(columnName);
+                }
+                // Xuất dữ liệu từng dòng
+                for (int i = 0; i < table.getRowCount(); i++) {
+                    Row row = sheet.createRow(i + 1);
+                    for (int j = 0; j < table.getColumnCount(); j++) {
+                        Object value = table.getValueAt(i, j);
+                        Cell cell = row.createCell(j);
+                        if (value != null) {
+                            cell.setCellValue(value.toString());
+                        }
+                    }
+                }
+                FileOutputStream outputStream = new FileOutputStream(new File(saveFile.toString()));
+                workbook.write(outputStream);
+                workbook.close();
+                JOptionPane.showMessageDialog(this, "Xuất file Excel thành công");
+            }else {
+                //JOptionPane.showMessageDialog(this, "Xuất thất bại");
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -455,6 +500,7 @@ public class jplHeThong extends javax.swing.JPanel {
         pnlSPTKBang1 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblDoanhThuTK = new javax.swing.JTable();
+        btnExcel = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1283,13 +1329,25 @@ public class jplHeThong extends javax.swing.JPanel {
 
         jTabbedPane3.addTab("DOANH THU", pnlDoanhThuTK);
 
+        btnExcel.setBackground(new java.awt.Color(47, 85, 212));
+        btnExcel.setForeground(new java.awt.Color(255, 255, 255));
+        btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-microsoft-excel-30.png"))); // NOI18N
+        btnExcel.setText("Export");
+        btnExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExcel))
                 .addGap(18, 18, 18)
                 .addComponent(jTabbedPane3)
                 .addContainerGap())
@@ -1300,6 +1358,8 @@ public class jplHeThong extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(btnExcel)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1564,7 +1624,17 @@ public class jplHeThong extends javax.swing.JPanel {
         showDataToTableDoanhThuTK1(serviceDTTK.getDTTKNam());
     }//GEN-LAST:event_rdoNamMouseClicked
 
+    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
+        int index = jTabbedPane3.getSelectedIndex();
+        if(index == 0) {
+            exportTable(tblSanPhamTK);
+        } else {
+            exportTable(tblDoanhThuTK);
+        }
+    }//GEN-LAST:event_btnExcelActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExcel;
     private javax.swing.JButton btnKhoiPhuc;
     private javax.swing.JButton btnLamMoi;
     private javax.swing.JButton btnSua;
