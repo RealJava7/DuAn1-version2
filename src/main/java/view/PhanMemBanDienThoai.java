@@ -74,7 +74,7 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
     public PhanMemBanDienThoai(JPanel panel) {
         setPanel(panel);
     }
-    
+
     public PhanMemBanDienThoai() {
         initComponents();
         setLocationRelativeTo(null);
@@ -447,6 +447,17 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         lblTaiKhoan.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         lblTaiKhoan.setForeground(new java.awt.Color(255, 255, 255));
         lblTaiKhoan.setText("Bình");
+        lblTaiKhoan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblTaiKhoanMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblTaiKhoanMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblTaiKhoanMouseExited(evt);
+            }
+        });
 
         lblDoiMatKhau.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblDoiMatKhau.setForeground(new java.awt.Color(255, 255, 255));
@@ -719,6 +730,18 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         }
         DoiMatKhau.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void lblTaiKhoanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTaiKhoanMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblTaiKhoanMouseClicked
+
+    private void lblTaiKhoanMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTaiKhoanMouseEntered
+        lblTaiKhoan.setForeground(Color.red);
+    }//GEN-LAST:event_lblTaiKhoanMouseEntered
+
+    private void lblTaiKhoanMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTaiKhoanMouseExited
+        lblTaiKhoan.setForeground(Color.white);
+    }//GEN-LAST:event_lblTaiKhoanMouseExited
 
 //    public static void main(String args[]) {
 //        java.awt.EventQueue.invokeLater(new Runnable() {

@@ -668,6 +668,11 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="B&#xec;nh"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblTaiKhoanMouseClicked"/>
+                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblTaiKhoanMouseEntered"/>
+                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblTaiKhoanMouseExited"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lblDoiMatKhau">
               <Properties>
