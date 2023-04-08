@@ -108,7 +108,7 @@ public class jplBanHang extends javax.swing.JPanel {
         //khởi tạo giở hàng
         int soDon = jTabbedPane1.getTabCount();
         jTabbedPane1.add(new jplDonHang(++soDon));
-        
+
         //Khởi tạo cách thanh toán
         viewTable();
         setNhanVien(nv);
@@ -2298,7 +2298,7 @@ public class jplBanHang extends javax.swing.JPanel {
         if (jTabbedPane1.getTabCount() > 1) {
             jTabbedPane1.remove(indexDon);
         }
-        
+
         // 3. tạo phiếu bảo hành
         HoaDon hoaDonByMa = hoaDonService.getEntityByMa(maHoaDon);
         List<HoaDonChiTietResponse> hoaDonChiTietResponses = hoaDonService.getChiTietResponsesIdHoaDon(hoaDonByMa.getId());
@@ -2349,7 +2349,7 @@ public class jplBanHang extends javax.swing.JPanel {
             diemTichLuyInt += khachHang.getTheTichDiem().getSoDiem();
         }
         KhachHangRepository.updateDiemTichLuy(khResponse, diemTichLuyInt);
-        
+
         // 7. làm mới form
         lamMoiForm1();
         lamMoiForm2();
@@ -2596,6 +2596,13 @@ public class jplBanHang extends javax.swing.JPanel {
 
     private void btnXoaDonHang1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaDonHang1ActionPerformed
         // TODO add your handling code here:
+        if (jTabbedPane1.getTabCount() > 1) {
+            int chooser = JOptionPane.showConfirmDialog(this, "Hệ thống sẽ xóa tất cả dữ liệu của đơn hàng này?", "Xóa đơn hàng chờ", JOptionPane.YES_NO_OPTION);
+            if (chooser == JOptionPane.YES_OPTION) {
+                jTabbedPane1.remove(jTabbedPane1.getSelectedIndex());
+            }
+        }
+
     }//GEN-LAST:event_btnXoaDonHang1ActionPerformed
 
     private void cbImeiInDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbImeiInDialogActionPerformed
