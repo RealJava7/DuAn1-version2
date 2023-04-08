@@ -28,8 +28,8 @@ public class HoaDonResponse {
     private boolean traGop;
     private long tienTraTruoc;
     private long tienThieu;
-    private String ghiChu;
     private boolean hinhThucThanhToan;
+    private String maGiaoDichChuyenKhoan;
 
     private String tenNhanVien;
     private String tenKhachHang;
@@ -37,9 +37,7 @@ public class HoaDonResponse {
 
     @Override
     public String toString() {
-        return "HoaDonResponse{" + "id=" + id + ", ngayTao=" + ngayTao + ", ngayThanhToan=" + ngayThanhToan + ", tienGiam=" + tienGiam + ", tongTien=" + tongTien
-                + ", tienKhachDua=" + tienKhachDua + ", tienThua=" + tienThua + ", traGop=" + traGop + ", tienTraTruoc=" + tienTraTruoc + ", tienThieu=" + tienThieu + ", ghiChu="
-                + ghiChu + ", hinhThucThanhToan=" + hinhThucThanhToan + ", tenNhanVien=" + tenNhanVien + ", tenKhachHang=" + tenKhachHang + ", maPhieuGiamGia=" + maPhieuGiamGia + '}';
+        return "HoaDonResponse{" + "id=" + id + ", maHoaDon=" + maHoaDon + ", ngayTao=" + ngayTao + ", ngayThanhToan=" + ngayThanhToan + ", tienGiam=" + tienGiam + ", tongTien=" + tongTien + ", tienKhachDua=" + tienKhachDua + ", tienThua=" + tienThua + ", traGop=" + traGop + ", tienTraTruoc=" + tienTraTruoc + ", tienThieu=" + tienThieu + ", hinhThucThanhToan=" + hinhThucThanhToan + ", maGiaoDichChuyenKhoan=" + maGiaoDichChuyenKhoan + ", tenNhanVien=" + tenNhanVien + ", tenKhachHang=" + tenKhachHang + ", maPhieuGiamGia=" + maPhieuGiamGia + '}';
     }
 
     public Object[] toDataRow() {

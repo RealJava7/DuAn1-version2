@@ -41,6 +41,10 @@ public class DienThoaiResponse {
     private String doPhanGiai;
     private LoaiManHinh loaiManHinh;
 
+    public DienThoaiResponse(int id) {
+        this.id = id;
+    }
+    
     public DienThoaiResponse(String maDT, String tenDT, int soLuong) {
         this.maDT = maDT;
         this.tenDT = tenDT;
@@ -67,4 +71,28 @@ public class DienThoaiResponse {
         NumberFormat nf = NumberFormat.getInstance(new Locale("vn", "VN"));
         return new Object[]{maDT, tenDT, nf.format(giaBan) + " VND", soLuong};
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DienThoaiResponse other = (DienThoaiResponse) obj;
+        return this.id == other.id;
+    }
+    
+    
 }

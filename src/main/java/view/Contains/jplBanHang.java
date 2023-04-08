@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import model.ChiTietPhieuBaoHanh;
 import model.DienThoai;
+import model.Hang;
 import model.HoaDon;
 import model.HoaDonChiTiet;
 import model.Imei;
@@ -1170,6 +1171,11 @@ public class jplBanHang extends javax.swing.JPanel {
             }
         });
 
+        cbHangDT.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbHangDTMouseClicked(evt);
+            }
+        });
         cbHangDT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbHangDTActionPerformed(evt);
@@ -2178,11 +2184,9 @@ public class jplBanHang extends javax.swing.JPanel {
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
-
         jTabbedPane1.getModel().addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                int index = jTabbedPane1.getSelectedIndex();
                 jplDonHang jDonHang = (jplDonHang) jTabbedPane1.getSelectedComponent();
                 List<HoaDonChiTietResponse> currentList = jDonHang.getHoaDonChiTiets();
                 jDonHang.load();
@@ -2194,7 +2198,6 @@ public class jplBanHang extends javax.swing.JPanel {
                     showHoaDonInfo1();
                     showHoaDonInfo2();
                 } catch (Exception ex) {
-                    System.out.println("exception in jTabbedPane1StateChanged");
                 }
             }
         });
@@ -2300,6 +2303,14 @@ public class jplBanHang extends javax.swing.JPanel {
         hoaDon.setTraGop(false);
         hoaDon.setTienTraTruoc(0L);
         hoaDon.setTienThieu(0);
+
+        if (rdTienMat.isSelected()) {
+            hoaDon.setHinhThucThanhToan(true);
+        } else {
+            hoaDon.setHinhThucThanhToan(false);
+            String maGiaoDinh = txtMaGD.getText().trim();
+            hoaDon.setMaGiaoDichChuyenKhoan(maGiaoDinh);
+        }
 
         // khách hàng, nhân viên, phiếu giảm giá
         // 1. khách hàng
@@ -2498,6 +2509,14 @@ public class jplBanHang extends javax.swing.JPanel {
         hoaDon.setTienKhachDua(0L);
         hoaDon.setTienThua(0);
 
+        if (rdTienMat2.isSelected()) {
+            hoaDon.setHinhThucThanhToan(true);
+        } else {
+            hoaDon.setHinhThucThanhToan(false);
+            String maGiaoDinh = txtMaGD2.getText().trim();
+            hoaDon.setMaGiaoDichChuyenKhoan(maGiaoDinh);
+        }
+
         // khách hàng, nhân viên, phiếu giảm giá
         // 1. khách hàng
         KhachHangResponse khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(txtTimKH.getText().trim());
@@ -2559,11 +2578,12 @@ public class jplBanHang extends javax.swing.JPanel {
 
         // 5. cộng điểm tích lũy
         double diemTichLuy = 0;
-        if (chkboxSuDungDiem.isSelected()) {
-            diemTichLuy = (tongTien - tienGiam) / 50000;
-        } else {
-            diemTichLuy = tongTien / 50000;
-        }
+        diemTichLuy = tienTraTruoc / 50000;
+//        if (chkboxSuDungDiem.isSelected()) {
+//            diemTichLuy = (tongTien - tienGiam) / 50000;
+//        } else {
+//            diemTichLuy = tongTien / 50000;
+//        }
         Double diemTichLuyDou = Double.valueOf(diemTichLuy);
         int diemTichLuyInt = diemTichLuyDou.intValue();
         if (!chkboxSuDungDiem2.isSelected()) {
@@ -2645,16 +2665,79 @@ public class jplBanHang extends javax.swing.JPanel {
     }
 
     private void btnXoaDonHang1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaDonHang1ActionPerformed
-        // TODO add your handling code here:
         if (jTabbedPane1.getTabCount() > 1) {
             int chooser = JOptionPane.showConfirmDialog(this, "Hệ thống sẽ xóa tất cả dữ liệu của đơn hàng này?", "Xóa đơn hàng chờ", JOptionPane.YES_NO_OPTION);
             if (chooser == JOptionPane.YES_OPTION) {
+                for (int i = 0; i < hoaDonChiTietResponseList.size(); ++i) {
+                    HoaDonChiTietResponse hdctResponse = hoaDonChiTietResponseList.get(i);
+                    String imeiStr = hdctResponse.getImei();
+                    imeiService.updateImeiTrangThai(imeiStr, 0);
+                    DienThoaiRepository.updateSoLuongDienThoai(imeiStr, 1);
+
+                    Imei imei = ImeiRepository.getByImei(imeiStr);
+                    DienThoai dienThoai = imei.getDienThoai();
+
+                    DienThoaiResponse dienThoaiResponse = getDienThoaiResponse(dienThoai.getId());
+                    dienThoaiResponse.setSoLuong(dienThoaiResponse.getSoLuong() + 1);
+                    showDienThoaiTable(dienThoaiResponseList);
+                }
                 jTabbedPane1.remove(jTabbedPane1.getSelectedIndex());
+
+                // sau khi xóa, hiển thị lại các hóa đơn ct đang hiện lên màn hình
+                jplDonHang jDonHang = (jplDonHang) jTabbedPane1.getSelectedComponent();
+                List<HoaDonChiTietResponse> currentList = jDonHang.getHoaDonChiTiets();
+                jDonHang.load();
+
+                hoaDonChiTietResponseList = new ArrayList<>();
+                hoaDonChiTietResponseList.addAll(currentList);
+
+                try {
+                    showHoaDonInfo1();
+                    showHoaDonInfo2();
+                } catch (Exception ex) {
+                }
+            }
+        } else if (jTabbedPane1.getTabCount() == 1) {
+            int chooser = JOptionPane.showConfirmDialog(this, "Hệ thống sẽ xóa tất cả dữ liệu của đơn hàng này?", "Xóa đơn hàng chờ", JOptionPane.YES_NO_OPTION);
+            if (chooser == JOptionPane.YES_OPTION) {
+                for (int i = 0; i < hoaDonChiTietResponseList.size(); ++i) {
+                    HoaDonChiTietResponse hdctResponse = hoaDonChiTietResponseList.get(i);
+                    String imeiStr = hdctResponse.getImei();
+                    imeiService.updateImeiTrangThai(imeiStr, 0);
+                    DienThoaiRepository.updateSoLuongDienThoai(imeiStr, 1);
+
+                    Imei imei = ImeiRepository.getByImei(imeiStr);
+                    DienThoai dienThoai = imei.getDienThoai();
+
+                    DienThoaiResponse dienThoaiResponse = getDienThoaiResponse(dienThoai.getId());
+                    dienThoaiResponse.setSoLuong(dienThoaiResponse.getSoLuong() + 1);
+                    showDienThoaiTable(dienThoaiResponseList);
+                }
+
+                // sau khi xóa, hiển thị lại các hóa đơn ct đang hiện lên màn hình
+                jplDonHang jDonHang = (jplDonHang) jTabbedPane1.getSelectedComponent();
+                jDonHang.setHoaDonChiTiets(new ArrayList<>());
+                jDonHang.load();
+
+                hoaDonChiTietResponseList = new ArrayList<>();
+                try {
+                    showHoaDonInfo1();
+                    showHoaDonInfo2();
+                } catch (Exception ex) {
+                }
             }
         }
-
     }//GEN-LAST:event_btnXoaDonHang1ActionPerformed
 
+    private DienThoaiResponse getDienThoaiResponse(int dienThoaiId) {
+        for (int i = 0; i < dienThoaiResponseList.size(); ++i) {
+            DienThoaiResponse dienThoaiResponse = dienThoaiResponseList.get(i);
+            if (dienThoaiResponse.getId() == dienThoaiId) {
+                return dienThoaiResponse;
+            }
+        }
+        return null;
+    }
     private void cbImeiInDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbImeiInDialogActionPerformed
         String selectedImei = (String) cbImeiInDialog.getSelectedItem();
         txtImei.setText(selectedImei);
@@ -2662,10 +2745,12 @@ public class jplBanHang extends javax.swing.JPanel {
 
     private void cbHangDTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbHangDTActionPerformed
         String selectedTenHang = (String) cbHangDT.getSelectedItem();
-        if (selectedTenHang.equals("Tất cả")) {
-            dienThoaiResponseList = dienThoaiService.getAllResponseByStatus(true);
-            showDienThoaiTable(dienThoaiResponseList);
-            return;
+        if (selectedTenHang != null) {
+            if (selectedTenHang.equals("Tất cả")) {
+                dienThoaiResponseList = dienThoaiService.getAllResponseByStatus(true);
+                showDienThoaiTable(dienThoaiResponseList);
+                return;
+            }
         }
 
         dienThoaiResponseList = dienThoaiService.getResponsesByHang(selectedTenHang);
@@ -2811,116 +2896,131 @@ public class jplBanHang extends javax.swing.JPanel {
         showDienThoaiTable(dienThoaiResponseList);
     }//GEN-LAST:event_btnOkThemImeiActionPerformed
 
+    private void cbHangDTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbHangDTMouseClicked
+        HangService hangService = new HangServiceImpl();
+        List<HangResponse> hangResponseList = hangService.getAllResponseByStatus(true);
+
+        cbHangDT.removeAllItems();
+        cbHangDT.addItem("Tất cả");
+        hangResponseList.forEach(h -> cbHangDT.addItem(h.getTenHang()));
+    }//GEN-LAST:event_cbHangDTMouseClicked
+
     private void showHoaDonInfo1() {
-        // Tab 1
-        // Thêm ĐT/ Xóa ĐT -> 1. Tổng tiền -> 2. phiếu GG -> 3. Tiền giảm -> 4. Tiền khách phải trả
+        try {
+            // Tab 1
+            // Thêm ĐT/ Xóa ĐT -> 1. Tổng tiền -> 2. phiếu GG -> 3. Tiền giảm -> 4. Tiền khách phải trả
 
-        // 1. Tổng tiền
-        long tongTien = 0L;
-        for (int i = 0; i < hoaDonChiTietResponseList.size(); ++i) {
-            tongTien += hoaDonChiTietResponseList.get(i).getDonGia();
-        }
-        lbTongTien.setText(numberFormat.format(tongTien));
+            // 1. Tổng tiền
+            long tongTien = 0L;
+            for (int i = 0; i < hoaDonChiTietResponseList.size(); ++i) {
+                tongTien += hoaDonChiTietResponseList.get(i).getDonGia();
+            }
+            lbTongTien.setText(numberFormat.format(tongTien));
 
-        // 2. Phiếu giảm giá
-        List<PhieuGiamGiaResponse> phieuGiamGiaResponseList = phieuGiamGiaService.getAllForView(tongTien);
-        PhieuGiamGiaResponse pgg = phieuGiamGiaResponseList
-                .stream()
-                .max(Comparator.comparing(PhieuGiamGiaResponse::getGiaTri))
-                .orElse(null);
-        if (pgg != null) {
-            lbMaGiamGia.setText(pgg.getMaPhieu() + " - " + pgg.getGiaTri() + "%");
-        }
-
-        // 3. Tiền giảm
-        if (pgg != null) {
-            // tiền giảm từ điểm
-            float soTienTuDiem = 0.0f;
-            if (!lbSoDiem.getText().equals("Số điểm")) {
-                soTienTuDiem = Float.valueOf(lbSoDiem.getText()) * 1000;
+            // 2. Phiếu giảm giá
+            List<PhieuGiamGiaResponse> phieuGiamGiaResponseList = phieuGiamGiaService.getAllForView(tongTien);
+            PhieuGiamGiaResponse pgg = phieuGiamGiaResponseList
+                    .stream()
+                    .max(Comparator.comparing(PhieuGiamGiaResponse::getGiaTri))
+                    .orElse(null);
+            if (pgg != null) {
+                lbMaGiamGia.setText(pgg.getMaPhieu() + " - " + pgg.getGiaTri() + "%");
             }
 
-            // tiền giảm từ mã
-            float giaTri = pgg.getGiaTri();
-            float tienGiam = Math.round(Float.valueOf(tongTien) * giaTri / 100);
+            // 3. Tiền giảm
+            if (pgg != null) {
+                // tiền giảm từ điểm
+                float soTienTuDiem = 0.0f;
+                if (!lbSoDiem.getText().equals("Số điểm")) {
+                    soTienTuDiem = Float.valueOf(lbSoDiem.getText()) * 1000;
+                }
 
-            // check xem có dùng điểm tích lũy hay không:
-            if (chkboxSuDungDiem.isSelected()) {
-                tienGiam += soTienTuDiem;
+                // tiền giảm từ mã
+                float giaTri = pgg.getGiaTri();
+                float tienGiam = Math.round(Float.valueOf(tongTien) * giaTri / 100);
+
+                // check xem có dùng điểm tích lũy hay không:
+                if (chkboxSuDungDiem.isSelected()) {
+                    tienGiam += soTienTuDiem;
+                }
+                lbTienGiam.setText(numberFormat.format(tienGiam));
+
+                // làm tròn để tiền không bị lẻ
+                String tienGiamStr = lbTienGiam.getText().replaceAll(",", "");
+                tienGiamStr = tienGiamStr.substring(0, tienGiamStr.length() - 3).concat("000");
+                tienGiam = Float.valueOf(tienGiamStr);
+                lbTienGiam.setText(numberFormat.format(tienGiam));
+
+                // 4. Tiền khách phải trả
+                long khachPhaiTra = tongTien - Long.valueOf(lbTienGiam.getText().replaceAll(",", ""));
+                lbKhachPhaiTra.setText(numberFormat.format(khachPhaiTra));
             }
-            lbTienGiam.setText(numberFormat.format(tienGiam));
-
-            // làm tròn để tiền không bị lẻ
-            String tienGiamStr = lbTienGiam.getText().replaceAll(",", "");
-            tienGiamStr = tienGiamStr.substring(0, tienGiamStr.length() - 3).concat("000");
-            tienGiam = Float.valueOf(tienGiamStr);
-            lbTienGiam.setText(numberFormat.format(tienGiam));
-
-            // 4. Tiền khách phải trả
-            long khachPhaiTra = tongTien - Long.valueOf(lbTienGiam.getText().replaceAll(",", ""));
-            lbKhachPhaiTra.setText(numberFormat.format(khachPhaiTra));
+        } catch (Exception e) {
         }
     }
 
     private void showHoaDonInfo2() {
-//         Tab 2
-        // Thêm ĐT/ Xóa ĐT -> 1. Tổng tiền -> 2. phiếu GG -> 3. Tiền giảm -> 4. Tiền khách phải trả -> 5.Trả trước tối thiều
+        try {
+            // Tab 2
+            // Thêm ĐT/ Xóa ĐT -> 1. Tổng tiền -> 2. phiếu GG -> 3. Tiền giảm -> 4. Tiền khách phải trả -> 5.Trả trước tối thiều
 
-        // 1. Tổng tiền
-        long tongTien = 0L;
-        for (int i = 0; i < hoaDonChiTietResponseList.size(); ++i) {
-            tongTien += hoaDonChiTietResponseList.get(i).getDonGia();
-        }
-        lbTongTien2.setText(numberFormat.format(tongTien));
+            // 1. Tổng tiền
+            long tongTien = 0L;
+            for (int i = 0; i < hoaDonChiTietResponseList.size(); ++i) {
+                tongTien += hoaDonChiTietResponseList.get(i).getDonGia();
+            }
+            lbTongTien2.setText(numberFormat.format(tongTien));
 
-        // 2. Phiếu giảm giá
-        List<PhieuGiamGiaResponse> phieuGiamGiaResponseList = phieuGiamGiaService.getAllForView(tongTien);
-        PhieuGiamGiaResponse pgg = phieuGiamGiaResponseList
-                .stream()
-                .max(Comparator.comparing(PhieuGiamGiaResponse::getGiaTri))
-                .orElse(null);
-        if (pgg != null) {
-            lbMaGiamGia2.setText(pgg.getMaPhieu() + " - " + pgg.getGiaTri() + "%");
-        }
-
-        // 3. Tiền giảm
-        if (pgg != null) {
-            // tiền giảm từ điểm
-            float soTienTuDiem = 0.0f;
-            if (!lbSoDiem2.getText().equals("Số điểm")) {
-                soTienTuDiem = Float.valueOf(lbSoDiem2.getText()) * 1000;
+            // 2. Phiếu giảm giá
+            List<PhieuGiamGiaResponse> phieuGiamGiaResponseList = phieuGiamGiaService.getAllForView(tongTien);
+            PhieuGiamGiaResponse pgg = phieuGiamGiaResponseList
+                    .stream()
+                    .max(Comparator.comparing(PhieuGiamGiaResponse::getGiaTri))
+                    .orElse(null);
+            if (pgg != null) {
+                lbMaGiamGia2.setText(pgg.getMaPhieu() + " - " + pgg.getGiaTri() + "%");
             }
 
-            // tiền giảm từ mã
-            float giaTri = pgg.getGiaTri();
-            float tienGiam = Math.round(Float.valueOf(tongTien) * giaTri / 100);
+            // 3. Tiền giảm
+            if (pgg != null) {
+                // tiền giảm từ điểm
+                float soTienTuDiem = 0.0f;
+                if (!lbSoDiem2.getText().equals("Số điểm")) {
+                    soTienTuDiem = Float.valueOf(lbSoDiem2.getText()) * 1000;
+                }
 
-            // check xem có dùng điểm tích lũy hay không:
-            if (chkboxSuDungDiem2.isSelected()) {
-                tienGiam += soTienTuDiem;
+                // tiền giảm từ mã
+                float giaTri = pgg.getGiaTri();
+                float tienGiam = Math.round(Float.valueOf(tongTien) * giaTri / 100);
+
+                // check xem có dùng điểm tích lũy hay không:
+                if (chkboxSuDungDiem2.isSelected()) {
+                    tienGiam += soTienTuDiem;
+                }
+                lbTienGiam2.setText(numberFormat.format(tienGiam));
+
+                // làm tròn tiền giảm để tiền không bị lẻ
+                String tienGiamStr = lbTienGiam2.getText().replaceAll(",", "");
+                tienGiamStr = tienGiamStr.substring(0, tienGiamStr.length() - 3).concat("000");
+                tienGiam = Float.valueOf(tienGiamStr);
+                lbTienGiam2.setText(numberFormat.format(tienGiam));
+
+                // 4. Tiền khách phải trả
+                long khachPhaiTra2 = tongTien - Long.valueOf(lbTienGiam2.getText().replaceAll(",", ""));
+                lbKhachPhaiTra2.setText(numberFormat.format(khachPhaiTra2));
             }
-            lbTienGiam2.setText(numberFormat.format(tienGiam));
 
-            // làm tròn tiền giảm để tiền không bị lẻ
-            String tienGiamStr = lbTienGiam2.getText().replaceAll(",", "");
-            tienGiamStr = tienGiamStr.substring(0, tienGiamStr.length() - 3).concat("000");
-            tienGiam = Float.valueOf(tienGiamStr);
-            lbTienGiam2.setText(numberFormat.format(tienGiam));
+            // 5. Trả trước tối thiểu
+            long traTruocToiThieu = Long.valueOf(lbKhachPhaiTra2.getText().replaceAll(",", "")) / 2;
+            lbTraTruocToiThieu.setText(numberFormat.format(traTruocToiThieu));
 
-            // 4. Tiền khách phải trả
-            long khachPhaiTra2 = tongTien - Long.valueOf(lbTienGiam2.getText().replaceAll(",", ""));
-            lbKhachPhaiTra2.setText(numberFormat.format(khachPhaiTra2));
+            // làm tròn tiền trả trước tối thiểu để không bị lẻ
+            String traTruocToiThieuStr = lbTraTruocToiThieu.getText().replaceAll(",", "");
+            traTruocToiThieuStr = traTruocToiThieuStr.substring(0, traTruocToiThieuStr.length() - 3).concat("000");
+            traTruocToiThieu = Long.valueOf(traTruocToiThieu);
+            lbTraTruocToiThieu.setText(numberFormat.format(traTruocToiThieu));
+        } catch (Exception e) {
         }
-
-        // 5. Trả trước tối thiểu
-        long traTruocToiThieu = Long.valueOf(lbKhachPhaiTra2.getText().replaceAll(",", "")) / 2;
-        lbTraTruocToiThieu.setText(numberFormat.format(traTruocToiThieu));
-
-        // làm tròn tiền trả trước tối thiểu để không bị lẻ
-        String traTruocToiThieuStr = lbTraTruocToiThieu.getText().replaceAll(",", "");
-        traTruocToiThieuStr = traTruocToiThieuStr.substring(0, traTruocToiThieuStr.length() - 3).concat("000");
-        traTruocToiThieu = Long.valueOf(traTruocToiThieu);
-        lbTraTruocToiThieu.setText(numberFormat.format(traTruocToiThieu));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
