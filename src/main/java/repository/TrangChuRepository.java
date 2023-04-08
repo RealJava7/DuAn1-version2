@@ -28,7 +28,7 @@ public class TrangChuRepository {
             return tongTien;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             return 0;
         }
     }

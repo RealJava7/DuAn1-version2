@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PhieuGiamGiaResponse {
-    
+
     private int id;  // id phieuGiamGia
     private String maPhieu;
     private String tenPhieu;
@@ -26,6 +26,7 @@ public class PhieuGiamGiaResponse {
     public String toString() {
         return "PhieuGiamGiaResponse{" + "id=" + id + ", maPhieu=" + maPhieu + ", tenPhieu=" + tenPhieu + ", ngayBatDau=" + ngayBatDau + ", ngayKetThuc=" + ngayKetThuc + ", luotSuDung=" + luotSuDung + ", dieuKien=" + dieuKien + ", giaTri=" + giaTri + ", trangThai=" + trangThai + '}';
     }
+
     public String getNgay() {
         if (trangThai == 0) {
             return "Đang diễn ra";

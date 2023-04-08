@@ -523,22 +523,27 @@
                               <Component id="btnThem" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtMaSanPham" pref="256" max="32767" attributes="0"/>
-                          <Component id="txtTenSanPham" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtGiaNhap" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtGiaBan" alignment="0" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="cbImei" min="-2" pref="216" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnThemImei" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtMaSanPham" pref="256" max="32767" attributes="0"/>
+                                  <Component id="txtTenSanPham" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="txtGiaNhap" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="txtGiaBan" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="cbImei" min="-2" pref="188" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="btnThemImei" min="-2" pref="51" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -786,7 +791,12 @@
         </Container>
         <Component class="javax.swing.JButton" name="btnThemImei">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jButton1"/>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="d4" green="55" red="2f" type="rgb"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Icon/icons8-add-new-20.png"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThemImeiActionPerformed"/>
