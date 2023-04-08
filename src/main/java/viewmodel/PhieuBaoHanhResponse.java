@@ -14,8 +14,9 @@ public class PhieuBaoHanhResponse {
 
     private int id;
     private String imei;
+    
     private String tenKH;
-    private String sdtKH;
+    private String sdtKH; 
     private String tenSP;
     private int thoiHanBaoHanh;
     private LocalDate ngayMuaHang;
