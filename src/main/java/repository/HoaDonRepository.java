@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import model.DienThoai;
 import model.HoaDon;
 import model.HoaDonChiTiet;
 import org.hibernate.HibernateException;
@@ -41,23 +40,27 @@ public class HoaDonRepository {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query1 = session.createQuery("""
                                               SELECT new viewmodel.HoaDonResponse
-                                              (hd.id, hd.maHoaDon, hd.ngayTao, hd.ngayThanhToan, hd.tienGiam, hd.tongTien, hd.tienKhachDua, hd.tienThua, hd.traGop, hd.tienTraTruoc, hd.tienThieu, hd.ghiChu, hd.hinhThucThanhToan,
+                                              (hd.id, hd.maHoaDon, hd.ngayTao, hd.ngayThanhToan, hd.tienGiam, hd.tongTien, hd.tienKhachDua, hd.tienThua,
+                                              hd.traGop, hd.tienTraTruoc, hd.tienThieu, hd.hinhThucThanhToan, hd.maGiaoDichChuyenKhoan,
                                               nv.hoTen, kh.hoTen, pgg.maPhieu)
                                               FROM HoaDon hd
                                               INNER JOIN hd.nhanVien nv
                                               INNER JOIN hd.khachHang kh
                                               INNER JOIN hd.phieuGiamGia pgg
                                               WHERE hd.traGop = :traGop
-                                               """);
+                                              ORDER BY hd.ngayTao
+                                              """);
             Query query2 = session.createQuery("""
                                               SELECT new viewmodel.HoaDonResponse
-                                              (hd.id, hd.maHoaDon, hd.ngayTao, hd.ngayThanhToan, hd.tienGiam, hd.tongTien, hd.tienKhachDua, hd.tienThua, hd.traGop, hd.tienTraTruoc, hd.tienThieu, hd.ghiChu, hd.hinhThucThanhToan,
+                                              (hd.id, hd.maHoaDon, hd.ngayTao, hd.ngayThanhToan, hd.tienGiam, hd.tongTien, hd.tienKhachDua, hd.tienThua,
+                                               hd.traGop, hd.tienTraTruoc, hd.tienThieu, hd.hinhThucThanhToan, hd.maGiaoDichChuyenKhoan,
                                               nv.hoTen, kh.hoTen, pgg.maPhieu)
                                               FROM HoaDon hd
                                               INNER JOIN hd.nhanVien nv
                                               INNER JOIN hd.khachHang kh
                                               INNER JOIN hd.phieuGiamGia pgg
-                                               """);
+                                              ORDER BY hd.ngayTao
+                                              """);
             if (traGop == 0) {
                 query1.setParameter("traGop", false);
                 hoaDonResponses = query1.getResultList();
@@ -114,7 +117,8 @@ public class HoaDonRepository {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                               SELECT new viewmodel.HoaDonResponse
-                                              (hd.id, hd.maHoaDon, hd.ngayTao, hd.ngayThanhToan, hd.tienGiam, hd.tongTien, hd.tienKhachDua, hd.tienThua, hd.traGop, hd.tienTraTruoc, hd.tienThieu, hd.ghiChu, hd.hinhThucThanhToan,
+                                              (hd.id, hd.maHoaDon, hd.ngayTao, hd.ngayThanhToan, hd.tienGiam, hd.tongTien, hd.tienKhachDua, hd.tienThua,
+                                              hd.traGop, hd.tienTraTruoc, hd.tienThieu, hd.hinhThucThanhToan, hd.maGiaoDichChuyenKhoan,
                                               nv.hoTen, kh.hoTen, pgg.maPhieu)
                                               FROM HoaDon hd
                                               INNER JOIN hd.nhanVien nv
@@ -124,7 +128,8 @@ public class HoaDonRepository {
                                               OR kh.email LIKE :keyword
                                               OR kh.sdt LIKE :keyword
                                               OR kh.hoTen LIKE :keyword
-                                               """);
+                                              ORDER BY hd.ngayTao
+                                              """);
             query.setParameter("keyword", "%" + keyword + "%");
             hoaDonResponses = query.getResultList();
         } catch (HibernateException ex) {
@@ -141,7 +146,8 @@ public class HoaDonRepository {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query1 = session.createQuery("""
                                               SELECT new viewmodel.HoaDonResponse
-                                              (hd.id, hd.maHoaDon, hd.ngayTao, hd.ngayThanhToan, hd.tienGiam, hd.tongTien, hd.tienKhachDua, hd.tienThua, hd.traGop, hd.tienTraTruoc, hd.tienThieu, hd.ghiChu, hd.hinhThucThanhToan,
+                                              (hd.id, hd.maHoaDon, hd.ngayTao, hd.ngayThanhToan, hd.tienGiam, hd.tongTien, hd.tienKhachDua,
+                                               hd.tienThua, hd.traGop, hd.tienTraTruoc, hd.tienThieu, hd.hinhThucThanhToan, hd.maGiaoDichChuyenKhoan,
                                               nv.hoTen, kh.hoTen, pgg.maPhieu)
                                               FROM HoaDon hd
                                               INNER JOIN hd.nhanVien nv
@@ -149,10 +155,12 @@ public class HoaDonRepository {
                                               INNER JOIN hd.phieuGiamGia pgg
                                               WHERE hd.ngayTao >= :start
                                               AND hd.ngayTao <= :end
-                                               """);
+                                              ORDER BY hd.ngayTao
+                                              """);
             Query query2 = session.createQuery("""
                                               SELECT new viewmodel.HoaDonResponse
-                                              (hd.id, hd.maHoaDon, hd.ngayTao, hd.ngayThanhToan, hd.tienGiam, hd.tongTien, hd.tienKhachDua, hd.tienThua, hd.traGop, hd.tienTraTruoc, hd.tienThieu, hd.ghiChu, hd.hinhThucThanhToan,
+                                              (hd.id, hd.maHoaDon, hd.ngayTao, hd.ngayThanhToan, hd.tienGiam, hd.tongTien, hd.tienKhachDua,
+                                               hd.tienThua, hd.traGop, hd.tienTraTruoc, hd.tienThieu, hd.hinhThucThanhToan, hd.maGiaoDichChuyenKhoan,
                                               nv.hoTen, kh.hoTen, pgg.maPhieu)
                                               FROM HoaDon hd
                                               INNER JOIN hd.nhanVien nv
@@ -160,7 +168,8 @@ public class HoaDonRepository {
                                               INNER JOIN hd.phieuGiamGia pgg
                                               WHERE hd.ngayThanhToan >= :start
                                               AND hd.ngayThanhToan <= :end
-                                               """);
+                                              ORDER BY hd.ngayTao
+                                              """);
             if (kieuNgay.equals("NgayTao")) {
                 query1.setParameter("start", start);
                 query1.setParameter("end", end);

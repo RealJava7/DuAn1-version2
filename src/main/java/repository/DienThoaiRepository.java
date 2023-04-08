@@ -182,7 +182,7 @@ public class DienThoaiRepository {
         return dienThoaiResponses;
     }
 
-    // 3. get by id
+    //  get by id
     public static DienThoai getById(int id) {
         DienThoai dienThoai = null;
         try {
@@ -213,8 +213,8 @@ public class DienThoaiRepository {
         }
         return dienThoai;
     }
-
-    // 5. get all by giaBan
+    
+    // get List<DienThoaiResponse> by giaBan
     public List<DienThoaiResponse> getAllResponseByGiaBan(String order) {
         List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
 
@@ -304,7 +304,7 @@ public class DienThoaiRepository {
         return dienThoaiResponses;
     }
 
-    // 6. update
+    // update
     public boolean update(DienThoaiResponse dienThoaiResponse) {
         boolean check = false;
         try {
@@ -361,6 +361,7 @@ public class DienThoaiRepository {
         return check;
     }
 
+    // Thay đổi trạng thái điện thoại
     public boolean changeStatus(DienThoaiResponse dienThoaiResponse, boolean newStatus) {
         boolean check = false;
         try {

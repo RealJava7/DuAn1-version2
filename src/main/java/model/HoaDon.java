@@ -61,9 +61,6 @@ public class HoaDon {
     @Column(name = "TienThieu")
     private long tienThieu;
 
-    @Column(name = "GhiChu")
-    private String ghiChu;
-
     @Column(name = "HinhThucThanhToan")
     private boolean hinhThucThanhToan;
 
