@@ -63,10 +63,10 @@ public class DienThoai {
 
     @Column(name = "HinhAnh")
     private String hinhAnh;
-    
+
     @Column(name = "TrangThai")
     private boolean trangThai;
-    
+
     @ManyToOne
     @JoinColumn(name = "IdHang")
     private Hang hang;
@@ -78,10 +78,10 @@ public class DienThoai {
     @ManyToOne
     @JoinColumn(name = "IdMauSac")
     private MauSac mauSac;
-    
+
     @ManyToOne
     @JoinColumn(name = "IdHeDieuHanh")
-        private HeDieuHanh heDieuHanh;
+    private HeDieuHanh heDieuHanh;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "IdCameraChiTiet")
@@ -93,9 +93,9 @@ public class DienThoai {
 
     @OneToMany(mappedBy = "dienThoai")
     private Set<Imei> imeis = new HashSet<>();
-    
+
     public void addImei(Imei imei) {
-        if(imei != null) {
+        if (imei != null) {
             this.imeis.add(imei);
         }
         imei.setDienThoai(this);
@@ -103,10 +103,10 @@ public class DienThoai {
 
     @Override
     public String toString() {
-        return "DienThoai{" + "id=" + id + ", maDT=" + maDT + ", tenDT=" + tenDT + ", moTa=" + moTa + ", dungLuongPin=" + dungLuongPin+ ", rom=" + rom
+        return "DienThoai{" + "id=" + id + ", maDT=" + maDT + ", tenDT=" + tenDT + ", moTa=" + moTa + ", dungLuongPin=" + dungLuongPin + ", rom=" + rom
                 + ", ram=" + ram + ", cpu=" + cpu + ", giaNhap=" + giaNhap + ", giaBan=" + giaBan + ", soLuong=" + soLuong + ", hinhAnh=" + hinhAnh
                 + ", hang=" + hang.getTenHang() + ", dongSanPham=" + dongSanPham.getTen() + ", mauSac=" + mauSac.getMaMauSac()
                 + ", heDieuHanh=" + heDieuHanh.getTen() + ", cameraChiTiet=" + cameraChiTiet + ", manHinhChiTiet=" + manHinhChiTiet + '}';
     }
-    
+
 }

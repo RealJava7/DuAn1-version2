@@ -30,7 +30,7 @@ public class MauSac {
 
     @Column(name = "TenMauSac")
     private String tenMauSac;
-    
+
     @Column(name = "TrangThai")
     private boolean trangThai;
 
