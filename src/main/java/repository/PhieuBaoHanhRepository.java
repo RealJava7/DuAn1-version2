@@ -38,10 +38,9 @@ public class PhieuBaoHanhRepository {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                               SELECT new viewmodel.PhieuBaoHanhResponse
-                                              (pbh.id, lbh.ten, lbh.dieuKien,
-                                              ct.tenKhachHang, ct.tenDienThoai, ct.imei, ct.giaSanPham, ct.thoiHanBaoHanh, ct.ngayMuaHang, ct.ngayHetHan, ct.moTa, ct.trangThai)
+                                              (pbh.id,
+                                              ct.imei, ct.thoiHanBaoHanh, ct.ngayMuaHang, ct.ngayHetHan, ct.moTa, ct.trangThai)
                                               FROM PhieuBaoHanh pbh
-                                              INNER JOIN pbh.loaiBaoHanh lbh
                                               INNER JOIN pbh.chiTietPhieuBaoHanh ct
                                               """);
             phieuBaoHanhResponses = query.getResultList();
@@ -60,10 +59,9 @@ public class PhieuBaoHanhRepository {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                               SELECT new viewmodel.PhieuBaoHanhResponse
-                                              (pbh.id, lbh.ten, lbh.dieuKien,
-                                              ct.tenKhachHang, ct.tenDienThoai, ct.imei, ct.giaSanPham, ct.thoiHanBaoHanh, ct.ngayMuaHang, ct.ngayHetHan, ct.moTa, ct.trangThai)
+                                              (pbh.id,
+                                              ct.imei, ct.thoiHanBaoHanh, ct.ngayMuaHang, ct.ngayHetHan, ct.moTa, ct.trangThai)
                                               FROM PhieuBaoHanh pbh
-                                              INNER JOIN pbh.loaiBaoHanh lbh
                                               INNER JOIN pbh.chiTietPhieuBaoHanh ct
                                               WHERE ct.trangThai = :status
                                               """);
@@ -83,10 +81,9 @@ public class PhieuBaoHanhRepository {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                               SELECT new viewmodel.PhieuBaoHanhResponse
-                                              (pbh.id, lbh.ten, lbh.dieuKien,
-                                              ct.tenKhachHang, ct.tenDienThoai, ct.imei, ct.giaSanPham, ct.thoiHanBaoHanh, ct.ngayMuaHang, ct.ngayHetHan, ct.moTa, ct.trangThai)
+                                              (pbh.id,
+                                              ct.imei, ct.thoiHanBaoHanh, ct.ngayMuaHang, ct.ngayHetHan, ct.moTa, ct.trangThai)
                                               FROM PhieuBaoHanh pbh
-                                              INNER JOIN pbh.loaiBaoHanh lbh
                                               INNER JOIN pbh.chiTietPhieuBaoHanh ct
                                               WHERE ct.tenKhachHang LIKE :ten
                                               """);
@@ -105,10 +102,9 @@ public class PhieuBaoHanhRepository {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                        SELECT new viewmodel.PhieuBaoHanhResponse
-                                       (pbh.id, lbh.ten, lbh.dieuKien,
-                                       ct.tenKhachHang, ct.tenDienThoai, ct.imei, ct.giaSanPham, ct.thoiHanBaoHanh, ct.ngayMuaHang, ct.ngayHetHan, ct.moTa, ct.trangThai)
+                                       (pbh.id,
+                                       ct.imei, ct.thoiHanBaoHanh, ct.ngayMuaHang, ct.ngayHetHan, ct.moTa, ct.trangThai)
                                        FROM PhieuBaoHanh pbh
-                                       INNER JOIN pbh.loaiBaoHanh lbh
                                        INNER JOIN pbh.chiTietPhieuBaoHanh ct
                                        WHERE pbh.id = :id
                                               """);

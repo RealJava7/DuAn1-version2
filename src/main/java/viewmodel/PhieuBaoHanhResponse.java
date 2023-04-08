@@ -13,10 +13,6 @@ import lombok.Setter;
 public class PhieuBaoHanhResponse {
 
     private int id;
-
-    private String tenLoaiBH;
-    private String dieuKienBH;
-
     private String imei;
     private int thoiHanBaoHanh;
     private LocalDate ngayMuaHang;
@@ -25,7 +21,7 @@ public class PhieuBaoHanhResponse {
     private boolean trangThai;
 
     public Object[] toRowData() {
-        return new Object[]{this.id, this.tenLoaiBH, this.dieuKienBH, this.imei, this.thoiHanBaoHanh,
+        return new Object[]{this.id, this.imei, this.thoiHanBaoHanh,
             this.ngayMuaHang, this.ngayHetHan, this.moTa, getStatus(this.ngayHetHan)};
     }
 
