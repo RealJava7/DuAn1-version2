@@ -4,6 +4,7 @@
  */
 package repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -76,19 +77,40 @@ public class DoanhThuThongKeRepository {
         return listSP;
     }
     
+    public static List<Object[]> getDoanhThu(LocalDate day) {
+        List<Object[]> listSP = new ArrayList<>();
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            Query query = session.createQuery("""
+                                              select sum(hd.tongTien - hd.tienGiam) 
+                                              from HoaDon hd
+                                              where DATE(hd.ngayThanhToan) = :today
+                                               """);
+            query.setParameter("today", day);
+            listSP = query.getResultList();
+        } catch (HibernateException ex) {
+            ex.printStackTrace(System.out);
+        }
+        return listSP;
+    }
+    
     
     public static void main(String[] args) {
-        List<DoanhThuThongKeResponse> lists = new ArrayList<>();
-        LocalDateTime ngayDau = LocalDateTime.parse("2023-03-04 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        LocalDateTime ngayCuoi = LocalDateTime.parse("2023-04-06 23:59:59", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        for (Object[] ob : getDTTKNgay(ngayDau, ngayCuoi)) {
-            LocalDateTime ngay = (LocalDateTime) ob[0];
-            Long doanhthu = (Long) ob[1];
-            lists.add(new DoanhThuThongKeResponse(ngay, doanhthu));
-        }
-        
-        for (DoanhThuThongKeResponse list : lists) {
-            System.out.println(list.toString());
+//        List<DoanhThuThongKeResponse> lists = new ArrayList<>();
+//        LocalDateTime ngayDau = LocalDateTime.parse("2023-03-04 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//        LocalDateTime ngayCuoi = LocalDateTime.parse("2023-04-06 23:59:59", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//        for (Object[] ob : getDTTKNgay(ngayDau, ngayCuoi)) {
+//            LocalDateTime ngay = (LocalDateTime) ob[0];
+//            Long doanhthu = (Long) ob[1];
+//            lists.add(new DoanhThuThongKeResponse(ngay, doanhthu));
+//        }
+//        
+//        for (DoanhThuThongKeResponse list : lists) {
+//            System.out.println(list.toString());
+//        }
+        LocalDate ngay = LocalDate.parse("2023-04-06");
+        for (Object[] ob : getDoanhThu(ngay)) {
+            System.out.println("Thằng : " + ob);
         }
     }
 }
