@@ -77,16 +77,18 @@ public class DoanhThuThongKeRepository {
         return listSP;
     }
     
-    public static List<Object[]> getDoanhThu(LocalDate day) {
+    public static List<Object[]> getDoanhThu(LocalDate ngayDau, LocalDate ngayCuoi) {
         List<Object[]> listSP = new ArrayList<>();
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
-                                              select sum(hd.tongTien - hd.tienGiam) 
+                                              select DATE(hd.ngayThanhToan), sum(hd.tongTien - hd.tienGiam) 
                                               from HoaDon hd
-                                              where DATE(hd.ngayThanhToan) = :today
+                                              where DATE(hd.ngayThanhToan) between :ngayDau and :ngayCuoi
+                                              group by DATE(hd.ngayThanhToan)
                                                """);
-            query.setParameter("today", day);
+            query.setParameter("ngayDau", ngayDau);
+            query.setParameter("ngayCuoi", ngayCuoi);
             listSP = query.getResultList();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
@@ -108,8 +110,9 @@ public class DoanhThuThongKeRepository {
 //        for (DoanhThuThongKeResponse list : lists) {
 //            System.out.println(list.toString());
 //        }
-        LocalDate ngay = LocalDate.parse("2023-04-06");
-        for (Object[] ob : getDoanhThu(ngay)) {
+        LocalDate ngayDau = LocalDate.parse("2023-04-04");
+        LocalDate ngayCuoi = LocalDate.parse("2023-04-07");
+        for (Object[] ob : getDoanhThu(ngayDau, ngayCuoi)) {
             System.out.println("Thằng : " + ob);
         }
     }
