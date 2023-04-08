@@ -14,6 +14,9 @@ public class PhieuBaoHanhResponse {
 
     private int id;
     private String imei;
+    private String tenKH;
+    private String sdtKH;
+    private String tenSP;
     private int thoiHanBaoHanh;
     private LocalDate ngayMuaHang;
     private LocalDate ngayHetHan;
@@ -30,4 +33,7 @@ public class PhieuBaoHanhResponse {
         return ngayHetHan.compareTo(now) <= 0 ? "Hết Hạn" : "Còn Hạn";
     }
 
+    public LocalDate getDate(LocalDate ngayMuaHang, int thoiHan) {
+        return ngayMuaHang.plusMonths(thoiHan);
+    }
 }
