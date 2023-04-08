@@ -299,8 +299,8 @@ public class jplTraGop extends javax.swing.JPanel {
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         // TODO add your handling code here:
-//        listView = service.getByString(txtSearch.getText().trim());
-//        showDataTable(listView);
+        listView = service.getByString(txtSearch.getText().trim());
+        showDataTable(listView);
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void cbxTrangThaiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxTrangThaiItemStateChanged

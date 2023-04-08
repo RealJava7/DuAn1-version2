@@ -1,6 +1,7 @@
 package repository.impl;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
 import model.PhieuTraGop;
@@ -92,25 +93,27 @@ public class PhieuTraGopRepositoryImpl {
     }
 
     public List<PhieuTraGop> getByString(String s) {
+        List<PhieuTraGop> listAll = new ArrayList<>();
         try (Session session = HibernateUtil.getFACTORY().openSession()) {
-            String hql = """
-                         FROM PhieuTraGop ptg
-                         JOIN ptg.HoaDon hd
-                         JOIN hd.KhachHang kh
-                         WHERE kh.HoTen LIKE :s or ptg.MaPhieu LIKE :ss
-                         """;
+            String hql = "SELECT ptg FROM PhieuTraGop ptg \n"
+                    + "JOIN ptg.hoaDon hd\n"
+                    + "JOIN hd.khachHang kh \n"
+                    + "WHERE kh.hoTen LIKE :hoTen or kh.sdt LIKE :sdt \n"
+                    + "		or ptg.maPhieu LIKE :maPhieu or hd.maHoaDon LIKE :maHoaDon";
             session.beginTransaction();
             Query query = session.createQuery(hql);
-            query.setParameter("s", "%" + s + "%");
-            query.setParameter("ss", "%" + s + "%");
-            List<PhieuTraGop> listAll = query.getResultList();
+            query.setParameter("hoTen", "%" + s + "%");
+            query.setParameter("sdt", "%" + s + "%");
+            query.setParameter("maPhieu", "%" + s + "%");
+            query.setParameter("maHoaDon", "%" + s + "%");
+            listAll = query.getResultList();
             session.getTransaction().commit();
 
             return listAll;
 
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return listAll;
         }
     }
 
@@ -146,12 +149,12 @@ public class PhieuTraGopRepositoryImpl {
 
     }
 
-//    public static void main(String[] args) {
-//        PhieuTraGopRepositoryImpl repositoryImpl = new PhieuTraGopRepositoryImpl();
-//
-//        List<PhieuTraGop> listTime = repositoryImpl.getByTimeAndTrangThai(LocalDate.now().minusDays(7), LocalDate.now(), 2);
-//        for (PhieuTraGop phieuTraGop : listTime) {
-//            System.out.println(phieuTraGop.toString());
-//        }
-//    }
+    public static void main(String[] args) {
+        PhieuTraGopRepositoryImpl repositoryImpl = new PhieuTraGopRepositoryImpl();
+
+        List<PhieuTraGop> list = repositoryImpl.getByString("1");
+        for (PhieuTraGop phieuTraGop : list) {
+            System.out.println(phieuTraGop.toString());
+        }
+    }
 }
