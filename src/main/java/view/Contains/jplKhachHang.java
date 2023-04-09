@@ -10,22 +10,29 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import model.KhachHang;
 import model.TheTichDiem;
+import service.HoaDonService;
 import service.impl.KhachHangServiceImpl;
 import viewmodel.KhachHangResponse;
 import service.KhachHangService;
+import service.impl.HoaDonServiceImpl;
+import viewmodel.HoaDonResponse;
 
 public class jplKhachHang extends javax.swing.JPanel {
 
     private List<KhachHangResponse> listKhachHang = new ArrayList<>();
     private List<KhachHangResponse> listTheTichDiem = new ArrayList<>();
+    private List<HoaDonResponse> listHoaDon = new ArrayList<>();
     private KhachHangService service = new KhachHangServiceImpl();
+    private HoaDonService serviceHoaDon = new HoaDonServiceImpl();
     private DefaultTableModel dtm = new DefaultTableModel();
     private DefaultTableModel dtmDaXoa = new DefaultTableModel();
     private DefaultTableModel dtmTichDiem = new DefaultTableModel();
+    private DefaultTableModel dtmLichSuMuaHang = new DefaultTableModel();
 
     public jplKhachHang() {
         initComponents();
@@ -33,6 +40,7 @@ public class jplKhachHang extends javax.swing.JPanel {
         dtm = (DefaultTableModel) tblKhachHang.getModel();
         dtmDaXoa = (DefaultTableModel) tblKhachHangDaXoa.getModel();
         dtmTichDiem = (DefaultTableModel) tblTheTichDiem.getModel();
+        dtmLichSuMuaHang = (DefaultTableModel) tblLichSuMuaHang.getModel();
         listKhachHang = service.getAll();
         showData(listKhachHang);
 
@@ -74,6 +82,24 @@ public class jplKhachHang extends javax.swing.JPanel {
         TheaderTichDiem.setFont(new Font("tahoma", Font.BOLD, 15));
         TheaderTichDiem.setBackground(new Color(47, 85, 212));
         TheaderTichDiem.setForeground(Color.white);
+    }
+
+    private void showDataLichSu(List<HoaDonResponse> list, int row) {
+
+        String hoTen = tblKhachHang.getValueAt(row, 1).toString();
+
+        dtmLichSuMuaHang.setRowCount(0);
+        int i = 0;
+        for (HoaDonResponse s : list) {
+
+            if (hoTen.equals(s.getTenKhachHang())) {
+                dtmLichSuMuaHang.addRow(new Object[]{
+                    i, s.getTenKhachHang(), s.getNgayTao(), s.getTongTien(), s.getTenNhanVien()
+
+                });
+                i++;
+            }
+        }
     }
 
     private void showData(List<KhachHangResponse> list) {
@@ -271,6 +297,17 @@ public class jplKhachHang extends javax.swing.JPanel {
         jLabel18 = new javax.swing.JLabel();
         txtTruDiem = new javax.swing.JTextField();
         btnTruDiem = new javax.swing.JButton();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        Lichsumuahang = new javax.swing.JDialog();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblLichSuMuaHang = new javax.swing.JTable();
+        jLabel20 = new javax.swing.JLabel();
+        lbTenKH = new javax.swing.JLabel();
+        lbSoLan = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -449,6 +486,110 @@ public class jplKhachHang extends javax.swing.JPanel {
         truDiemLayout.setVerticalGroup(
             truDiemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jMenuItem1.setText("Lịch sử mua hàng");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem1);
+
+        Lichsumuahang.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        Lichsumuahang.setTitle("LỊCH SỬA MUA HÀNG");
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel19.setText("LỊCH SỬ MUA HÀNG");
+
+        tblLichSuMuaHang.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "STT", "HỌ VÀ TÊN", "NGÀY MUA", "TỔNG TIỀN", "NHÂN VIÊN BÁN HÀNG"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(tblLichSuMuaHang);
+
+        jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel20.setText("Khách hàng");
+
+        lbTenKH.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lbTenKH.setForeground(new java.awt.Color(255, 51, 51));
+        lbTenKH.setText("jLabel21");
+
+        lbSoLan.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lbSoLan.setForeground(new java.awt.Color(255, 51, 51));
+        lbSoLan.setText("0 Lần");
+
+        jLabel23.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel23.setText("Đã mua");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane4))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(jLabel19))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(207, 207, 207)
+                                .addComponent(jLabel20)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbTenKH)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel23)
+                                .addGap(18, 18, 18)
+                                .addComponent(lbSoLan)))
+                        .addGap(0, 206, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel19)
+                .addGap(23, 23, 23)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(lbTenKH)
+                    .addComponent(lbSoLan)
+                    .addComponent(jLabel23))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout LichsumuahangLayout = new javax.swing.GroupLayout(Lichsumuahang.getContentPane());
+        Lichsumuahang.getContentPane().setLayout(LichsumuahangLayout);
+        LichsumuahangLayout.setHorizontalGroup(
+            LichsumuahangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        LichsumuahangLayout.setVerticalGroup(
+            LichsumuahangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -1038,7 +1179,7 @@ public class jplKhachHang extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ThemKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(ThemKhachHang, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE))
                         .addContainerGap())))
         );
@@ -1057,6 +1198,15 @@ public class jplKhachHang extends javax.swing.JPanel {
     private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
         int rowIndex = tblKhachHang.getSelectedRow();
         showDataToText(rowIndex);
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            int row = tblKhachHang.rowAtPoint(evt.getPoint());
+            if (row >= 0 && row < listKhachHang.size()) {
+                tblKhachHang.setRowSelectionInterval(row, row);
+                jPopupMenu1.show(evt.getComponent(), evt.getX(), evt.getY());
+                listHoaDon = serviceHoaDon.getResponsesByTraGop(2);
+                showDataLichSu(listHoaDon, rowIndex);
+            }
+        }
 
     }//GEN-LAST:event_tblKhachHangMouseClicked
 
@@ -1254,7 +1404,15 @@ public class jplKhachHang extends javax.swing.JPanel {
         khoiPhuc();
     }//GEN-LAST:event_btnKhoiPhucActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        Lichsumuahang.setSize(650, 400);
+        Lichsumuahang.setLocationRelativeTo(null);
+        Lichsumuahang.setResizable(false);
+        Lichsumuahang.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog Lichsumuahang;
     private javax.swing.JPanel ThemKhachHang;
     private javax.swing.JButton btnCongDiem;
     private javax.swing.JButton btnGiamDiem;
@@ -1284,7 +1442,10 @@ public class jplKhachHang extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1292,19 +1453,26 @@ public class jplKhachHang extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel jplThongTin;
+    private javax.swing.JLabel lbSoLan;
+    private javax.swing.JLabel lbTenKH;
     private javax.swing.JDialog tangDiem;
     private javax.swing.JTable tblKhachHang;
     private javax.swing.JTable tblKhachHangDaXoa;
+    private javax.swing.JTable tblLichSuMuaHang;
     private javax.swing.JTable tblTheTichDiem;
     private javax.swing.JDialog truDiem;
     private javax.swing.JTextField txtDiaChi;

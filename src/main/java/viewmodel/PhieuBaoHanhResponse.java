@@ -14,6 +14,10 @@ public class PhieuBaoHanhResponse {
 
     private int id;
     private String imei;
+    
+    private String tenKH;
+    private String sdtKH; 
+    private String tenSP;
     private int thoiHanBaoHanh;
     private LocalDate ngayMuaHang;
     private LocalDate ngayHetHan;
@@ -21,8 +25,13 @@ public class PhieuBaoHanhResponse {
     private boolean trangThai;
 
     public Object[] toRowData() {
-        return new Object[]{this.id, this.imei, this.thoiHanBaoHanh,
-            this.ngayMuaHang, this.ngayHetHan, this.moTa, getStatus(this.ngayHetHan)};
+        return new Object[]{this.id, this.tenKH, this.sdtKH, this.tenSP, this.imei, this.thoiHanBaoHanh,
+            this.ngayMuaHang, getDate(this.ngayMuaHang, this.thoiHanBaoHanh), this.moTa, getStatus(this.ngayHetHan)};
+    }
+
+    @Override
+    public String toString() {
+        return "PhieuBaoHanhResponse{" + "id=" + id + ", imei=" + imei + ", tenKH=" + tenKH + ", sdtKH=" + sdtKH + ", tenSP=" + tenSP + ", thoiHanBaoHanh=" + thoiHanBaoHanh + ", ngayMuaHang=" + ngayMuaHang + ", ngayHetHan=" + ngayHetHan + ", moTa=" + moTa + ", trangThai=" + trangThai + '}';
     }
 
     public String getStatus(LocalDate ngayHetHan) {
@@ -30,4 +39,7 @@ public class PhieuBaoHanhResponse {
         return ngayHetHan.compareTo(now) <= 0 ? "Hết Hạn" : "Còn Hạn";
     }
 
+    public LocalDate getDate(LocalDate ngayMuaHang, int thoiHan) {
+        return ngayMuaHang.plusMonths(thoiHan);
+    }
 }

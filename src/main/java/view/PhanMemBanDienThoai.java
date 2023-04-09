@@ -8,6 +8,13 @@ import view.Contains.jplHoaDon;
 import view.Contains.jplSanPham;
 import view.Contains.jplTrangChu;
 import java.awt.Color;
+import java.awt.Image;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import service.QuanLyNhanVienService;
@@ -903,6 +910,25 @@ public class PhanMemBanDienThoai extends javax.swing.JFrame {
         lbHoTen.setText(nhanVienOnline.getHoTen());
         lbGioiTinh.setText(nhanVienOnline.isGioiTinh() ? "Nam" : "Nữ");
         lbSdt.setText(nhanVienOnline.getSdt());
+        // Lấy ngày sinh từ đối tượng nhanVienOnline
+        LocalDate ngaySinh = nhanVienOnline.getNgaySinh();
+
+        // Chuyển đổi ngày sinh thành đối tượng Instant
+        Instant instant = ngaySinh.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+
+        // Chuyển đổi Instant sang Date
+        Date date = Date.from(instant);
+
+        // Chuyển đổi ngày sinh thành chuỗi sử dụng định dạng mong muốn
+        String ngaySinhString = new SimpleDateFormat("dd/MM/yyyy").format(date);
+        lbNgaySinh.setText(ngaySinhString);
+        lbDiaChi.setText(nhanVienOnline.getDiaChi());
+        lbEmail.setText(nhanVienOnline.getEmail());
+        lbChucVu.setText(nhanVienOnline.isChucVu() == false ? "Quản Lý" : "Nhân Viên");
+        lbTrangThai.setText(nhanVienOnline.isTrangThai() == true ? "Đang Làm" : "Nghỉ Việc");
+        ImageIcon icon = new ImageIcon(getClass().getResource("/Icon/" + nhanVienOnline.getHinhAnh()));
+        Image newImage = icon.getImage().getScaledInstance(169, 213, Image.SCALE_SMOOTH);
+        lbAnh.setIcon(new ImageIcon(newImage));
 
     }//GEN-LAST:event_lblTaiKhoanMouseClicked
 
