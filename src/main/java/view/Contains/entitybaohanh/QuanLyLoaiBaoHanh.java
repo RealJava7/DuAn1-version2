@@ -1,8 +1,11 @@
 package view.Contains.entitybaohanh;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import service.LoaiBaoHanhService;
 import service.impl.LoaiBaoHanhServiceImpl;
 import viewmodel.LoaiBaoHanhResponse;
@@ -23,6 +26,16 @@ public class QuanLyLoaiBaoHanh extends javax.swing.JFrame {
         showDataTable(service.getAllLoaiBaoHanh());
         setLocationRelativeTo(null);
         this.dispose();
+
+    }
+
+    private void viewTable() {
+
+        JTableHeader TheaderLBH = tbLBH.getTableHeader();
+
+        TheaderLBH.setFont(new Font("tahoma", Font.BOLD, 15));
+        TheaderLBH.setBackground(new Color(47, 85, 212));
+        TheaderLBH.setForeground(Color.white);
 
     }
 
