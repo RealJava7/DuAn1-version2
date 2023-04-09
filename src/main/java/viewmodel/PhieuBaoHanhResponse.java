@@ -25,7 +25,7 @@ public class PhieuBaoHanhResponse {
     private boolean trangThai;
 
     public Object[] toRowData() {
-        return new Object[]{this.id, this.tenKH, this.sdtKH, this.tenSP, this.imei, this.thoiHanBaoHanh,
+        return new Object[]{this.id, this.imei,  this.tenKH,this.sdtKH,this.tenSP,this.thoiHanBaoHanh,
             this.ngayMuaHang, getDate(this.ngayMuaHang, this.thoiHanBaoHanh), this.moTa, getStatus(this.ngayHetHan)};
     }
 

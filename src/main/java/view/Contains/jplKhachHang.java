@@ -87,7 +87,7 @@ public class jplKhachHang extends javax.swing.JPanel {
     private void showDataLichSu(List<HoaDonResponse> list, int row) {
 
         String hoTen = tblKhachHang.getValueAt(row, 1).toString();
-
+        lbTenKH.setText(hoTen);
         dtmLichSuMuaHang.setRowCount(0);
         int i = 0;
         for (HoaDonResponse s : list) {
@@ -100,6 +100,7 @@ public class jplKhachHang extends javax.swing.JPanel {
                 i++;
             }
         }
+        lbSoLan.setText(i + " Lần");
     }
 
     private void showData(List<KhachHangResponse> list) {
@@ -1205,6 +1206,7 @@ public class jplKhachHang extends javax.swing.JPanel {
                 jPopupMenu1.show(evt.getComponent(), evt.getX(), evt.getY());
                 listHoaDon = serviceHoaDon.getResponsesByTraGop(2);
                 showDataLichSu(listHoaDon, rowIndex);
+
             }
         }
 
@@ -1250,7 +1252,18 @@ public class jplKhachHang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void tblKhachHangDaXoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangDaXoaMouseClicked
+        int rowIndex = tblKhachHangDaXoa.getSelectedRow();
+        showDataToText(rowIndex);
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            int row = tblKhachHang.rowAtPoint(evt.getPoint());
+            if (row >= 0 && row < listKhachHang.size()) {
+                tblKhachHang.setRowSelectionInterval(row, row);
+                jPopupMenu1.show(evt.getComponent(), evt.getX(), evt.getY());
+                listHoaDon = serviceHoaDon.getResponsesByTraGop(2);
+                showDataLichSu(listHoaDon, rowIndex);
 
+            }
+        }
     }//GEN-LAST:event_tblKhachHangDaXoaMouseClicked
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
@@ -1350,19 +1363,31 @@ public class jplKhachHang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnTangDiemActionPerformed
 
     private void btnCongDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCongDiemActionPerformed
-        int sodiem = Integer.parseInt(txtSoDiem.getText().trim());
-        int rowIndex = tblTheTichDiem.getSelectedRow();
-        System.out.println(rowIndex);
-        String mathe = (String) tblTheTichDiem.getValueAt(rowIndex, 1);
-        KhachHangResponse kh = service.getKhachHangByMaThe(mathe);
-        int choose = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn thêm điểm cho khách hàng này không?", "Tăng Điểm", JOptionPane.YES_NO_CANCEL_OPTION);
-        if (choose == 0) {
-            JOptionPane.showMessageDialog(this, service.updateDiem(kh, kh.getSoDiem() + sodiem));
-            listTheTichDiem = service.getAllTheTichDiem();
-            showDataTichDiem(listTheTichDiem);
 
+        if (!txtSoDiem.getText().trim().matches("[0-9]+")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số");
+            txtSoDiem.setText("");
+            tangDiem.dispose();
+
+        } else {
+            int sodiem = Integer.parseInt(txtSoDiem.getText().trim());
+            int rowIndex = tblTheTichDiem.getSelectedRow();
+            if (rowIndex < 0) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng muốn tăng điểm");
+                return;
+            }
+            String mathe = (String) tblTheTichDiem.getValueAt(rowIndex, 1);
+            KhachHangResponse kh = service.getKhachHangByMaThe(mathe);
+            int choose = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn thêm điểm cho khách hàng này không?", "Tăng Điểm", JOptionPane.YES_NO_CANCEL_OPTION);
+            if (choose == 0) {
+                JOptionPane.showMessageDialog(this, service.updateDiem(kh, kh.getSoDiem() + sodiem));
+                listTheTichDiem = service.getAllTheTichDiem();
+                showDataTichDiem(listTheTichDiem);
+
+            }
+            tangDiem.dispose();
         }
-        tangDiem.dispose();
+
     }//GEN-LAST:event_btnCongDiemActionPerformed
 
     private void btnGiamDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGiamDiemActionPerformed
@@ -1373,25 +1398,36 @@ public class jplKhachHang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGiamDiemActionPerformed
 
     private void btnTruDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTruDiemActionPerformed
-        int sodiem = Integer.parseInt(txtTruDiem.getText().trim());
-        int rowIndex = tblTheTichDiem.getSelectedRow();
-        System.out.println(rowIndex);
-        String mathe = (String) tblTheTichDiem.getValueAt(rowIndex, 1);
-        KhachHangResponse kh = service.getKhachHangByMaThe(mathe);
-        int choose = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn trừ điểm cho khách hàng này không?", "Tăng Điểm", JOptionPane.YES_NO_CANCEL_OPTION);
-        if (choose == 0) {
-            if (kh.getSoDiem() - sodiem < 0) {
-                JOptionPane.showMessageDialog(this, service.updateDiem(kh, 0));
+        if (!txtTruDiem.getText().trim().matches("[0-9]+")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số");
+            txtTruDiem.setText("");
+            tangDiem.dispose();
 
-            } else {
-                JOptionPane.showMessageDialog(this, service.updateDiem(kh, kh.getSoDiem() - sodiem));
+        } else {
+            int sodiem = Integer.parseInt(txtTruDiem.getText().trim());
+            int rowIndex = tblTheTichDiem.getSelectedRow();
+            if (rowIndex < 0) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng muốn trù điểm");
+                return;
+            }
+            System.out.println(rowIndex);
+            String mathe = (String) tblTheTichDiem.getValueAt(rowIndex, 1);
+            KhachHangResponse kh = service.getKhachHangByMaThe(mathe);
+            int choose = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn trừ điểm cho khách hàng này không?", "Tăng Điểm", JOptionPane.YES_NO_CANCEL_OPTION);
+            if (choose == 0) {
+                if (kh.getSoDiem() - sodiem < 0) {
+                    JOptionPane.showMessageDialog(this, service.updateDiem(kh, 0));
+
+                } else {
+                    JOptionPane.showMessageDialog(this, service.updateDiem(kh, kh.getSoDiem() - sodiem));
+
+                }
 
             }
-
+            listTheTichDiem = service.getAllTheTichDiem();
+            showDataTichDiem(listTheTichDiem);
+            truDiem.dispose();
         }
-        listTheTichDiem = service.getAllTheTichDiem();
-        showDataTichDiem(listTheTichDiem);
-        truDiem.dispose();
 
     }//GEN-LAST:event_btnTruDiemActionPerformed
 

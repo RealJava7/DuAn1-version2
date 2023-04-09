@@ -28,4 +28,8 @@ public class LoaiBaoHanhResponse {
     public Object[] toRowData() {
         return new Object[]{this.id, this.ten, this.dieuKien};
     }
+
+    public Object[] toRowPBH() {
+        return new Object[]{this.ten, this.dieuKien};
+    }
 }

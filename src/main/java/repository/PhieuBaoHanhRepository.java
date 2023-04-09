@@ -12,6 +12,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import utility.HibernateUtil;
+import viewmodel.LoaiBaoHanhResponse;
 import viewmodel.PhieuBaoHanhResponse;
 
 public class PhieuBaoHanhRepository {
@@ -34,10 +35,10 @@ public class PhieuBaoHanhRepository {
     }
 
     // 2. get all
-    public static List<PhieuBaoHanhResponse> getAll() {
+    public List<PhieuBaoHanhResponse> getAll() {
         List<PhieuBaoHanhResponse> phieuBaoHanhResponses = new ArrayList<>();
+        Session session = HibernateUtil.getFACTORY().openSession();
         try {
-            Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                               SELECT new viewmodel.PhieuBaoHanhResponse
                                               (pbh.id,
@@ -53,68 +54,83 @@ public class PhieuBaoHanhRepository {
             session.close();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
+        } finally {
+            session.close();
+            return phieuBaoHanhResponses;
         }
-        return phieuBaoHanhResponses;
     }
-    public static void main(String[] args) {
-        List<PhieuBaoHanhResponse> list = getAll();
-        System.out.println(list.toString());
-    }
+
     // 3. update
     //4. lọc
     public List<PhieuBaoHanhResponse> getList(boolean status) {
         List<PhieuBaoHanhResponse> phieuBaoHanhResponses = new ArrayList<>();
+        Session session = HibernateUtil.getFACTORY().openSession();
         try {
-            Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
-                                              SELECT new viewmodel.PhieuBaoHanhResponse
+                                               SELECT new viewmodel.PhieuBaoHanhResponse
                                               (pbh.id,
-                                              ct.imei, ct.thoiHanBaoHanh, ct.ngayMuaHang, ct.ngayHetHan, ct.moTa, ct.trangThai)
+                                              ct.imei, kh.hoTen,kh.sdt,dt.tenDT ,ct.thoiHanBaoHanh
+                                              , ct.ngayMuaHang
+                                              , ct.ngayHetHan, ct.moTa, ct.trangThai)
                                               FROM PhieuBaoHanh pbh
                                               INNER JOIN pbh.chiTietPhieuBaoHanh ct
-                                              WHERE ct.trangThai = :status
+                                              INNER JOIN pbh.hoaDonChiTiet.hoaDon.khachHang kh
+                                              INNER JOIN pbh.hoaDonChiTiet.imei.dienThoai dt
+                                                WHERE ct.trangThai = :status
                                               """);
             query.setParameter("status", status);
             phieuBaoHanhResponses = query.getResultList();
             session.close();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
+        } finally {
+            session.close();
+            return phieuBaoHanhResponses;
         }
-        return phieuBaoHanhResponses;
     }
 
     //5. tìm kiếm
-    public List<PhieuBaoHanhResponse> getListSearch(String tenKH) {
+    public List<PhieuBaoHanhResponse> getListSearch(String sdt) {
         List<PhieuBaoHanhResponse> phieuBaoHanhResponses = new ArrayList<>();
+        Session session = HibernateUtil.getFACTORY().openSession();
         try {
-            Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
-                                              SELECT new viewmodel.PhieuBaoHanhResponse
-                                              (pbh.id,
-                                              ct.imei, ct.thoiHanBaoHanh, ct.ngayMuaHang, ct.ngayHetHan, ct.moTa, ct.trangThai)
-                                              FROM PhieuBaoHanh pbh
-                                              INNER JOIN pbh.chiTietPhieuBaoHanh ct
-                                              WHERE ct.tenKhachHang LIKE :ten
+                                SELECT new viewmodel.PhieuBaoHanhResponse
+                                (pbh.id,
+                                ct.imei, kh.hoTen,kh.sdt,dt.tenDT ,ct.thoiHanBaoHanh
+                                , ct.ngayMuaHang
+                                , ct.ngayHetHan, ct.moTa, ct.trangThai)
+                                FROM PhieuBaoHanh pbh
+                                INNER JOIN pbh.chiTietPhieuBaoHanh ct
+                                INNER JOIN pbh.hoaDonChiTiet.hoaDon.khachHang kh
+                                INNER JOIN pbh.hoaDonChiTiet.imei.dienThoai dt
+                                WHERE kh.sdt LIKE :sdt
                                               """);
-            query.setParameter("ten", "%" + tenKH + "%");
+            query.setParameter("sdt", "%" + sdt + "%");
             phieuBaoHanhResponses = query.getResultList();
             session.close();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
+        } finally {
+            session.close();
+            return phieuBaoHanhResponses;
         }
-        return phieuBaoHanhResponses;
     }
-    
+
     public static PhieuBaoHanhResponse getPBHByID(int id) {
         PhieuBaoHanhResponse pbh = null;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
-                                       SELECT new viewmodel.PhieuBaoHanhResponse
-                                       (pbh.id,
-                                       ct.imei, ct.thoiHanBaoHanh, ct.ngayMuaHang, ct.ngayHetHan, ct.moTa, ct.trangThai)
-                                       FROM PhieuBaoHanh pbh
-                                       INNER JOIN pbh.chiTietPhieuBaoHanh ct
+                                  SELECT new viewmodel.PhieuBaoHanhResponse
+                                   (pbh.id,
+                                   ct.imei, kh.hoTen,kh.sdt,dt.tenDT ,ct.thoiHanBaoHanh
+                                   , ct.ngayMuaHang
+                                   , ct.ngayHetHan, ct.moTa, ct.trangThai)
+                                   FROM PhieuBaoHanh pbh
+                                   INNER JOIN pbh.chiTietPhieuBaoHanh ct
+                                   INNER JOIN pbh.hoaDonChiTiet.hoaDon.khachHang kh
+                                   INNER JOIN pbh.hoaDonChiTiet.imei.dienThoai dt
                                        WHERE pbh.id = :id
                                               """);
             query.setParameter("id", id);
@@ -125,7 +141,7 @@ public class PhieuBaoHanhRepository {
             return pbh;
         }
     }
-    
+
     public static boolean updateMotaPBH(PhieuBaoHanhResponse pbh, int id) {
         boolean check = false;
         try {
@@ -141,8 +157,8 @@ public class PhieuBaoHanhRepository {
         }
         return check;
     }
-    
-    public static PhieuBaoHanh getById(int id) {
+
+    public PhieuBaoHanh getById(int id) {
         PhieuBaoHanh phieuBaoHanh = null;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
@@ -152,5 +168,17 @@ public class PhieuBaoHanhRepository {
         }
         return phieuBaoHanh;
     }
-    
+
+    public Set<LoaiBaoHanh> getAllLBHByPBHID(int id) {
+        Set<LoaiBaoHanh> loaiBaoHanhs;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            PhieuBaoHanh pbh = session.get(PhieuBaoHanh.class, id);
+            loaiBaoHanhs = pbh.getLoaiBaoHanhSet();
+            return loaiBaoHanhs;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -2,7 +2,9 @@ package service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import model.ChiTietPhieuBaoHanh;
+import model.LoaiBaoHanh;
 import model.PhieuBaoHanh;
 import repository.LoaiBaoHanhRepository;
 import repository.PhieuBaoHanhRepository;
@@ -59,6 +61,11 @@ public class PhieuBaoHanhServiceImpl implements PhieuBaoHanhService {
     @Override
     public void add(PhieuBaoHanh phieuBaoHanh) {
         repository.add(phieuBaoHanh);
+    }
+
+    @Override
+    public Set<LoaiBaoHanh> getAllLBH(int id) {
+        return repository.getAllLBHByPBHID(id);
     }
 
 }
