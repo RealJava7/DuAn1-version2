@@ -19,7 +19,7 @@ public class PhieuBaoHanhServiceImpl implements PhieuBaoHanhService {
     public List<PhieuBaoHanhResponse> getAll() {
         return repository.getAll();
     }
-
+ 
     @Override
     public List<PhieuBaoHanhResponse> getAllStatus(boolean status) {
         return repository.getList(status);

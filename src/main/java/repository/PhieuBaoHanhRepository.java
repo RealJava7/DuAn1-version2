@@ -3,13 +3,16 @@ package repository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Query;
 import model.ChiTietPhieuBaoHanh;
+import model.LoaiBaoHanh;
 import model.PhieuBaoHanh;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import utility.HibernateUtil;
+import viewmodel.LoaiBaoHanhResponse;
 import viewmodel.PhieuBaoHanhResponse;
 
 public class PhieuBaoHanhRepository {
@@ -54,6 +57,7 @@ public class PhieuBaoHanhRepository {
         }
         return phieuBaoHanhResponses;
     }
+
     // 3. update
     //4. lọc
     public List<PhieuBaoHanhResponse> getList(boolean status) {
@@ -80,7 +84,7 @@ public class PhieuBaoHanhRepository {
         }
         return phieuBaoHanhResponses;
     }
-  
+
     //5. tìm kiếm
     public List<PhieuBaoHanhResponse> getListSearch(String sdt) {
         List<PhieuBaoHanhResponse> phieuBaoHanhResponses = new ArrayList<>();
@@ -132,7 +136,7 @@ public class PhieuBaoHanhRepository {
         }
     }
 
-    public static boolean updateMotaPBH(PhieuBaoHanhResponse pbh, int id) {
+    public boolean updateMotaPBH(PhieuBaoHanhResponse pbh, int id) {
         boolean check = false;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
@@ -146,5 +150,14 @@ public class PhieuBaoHanhRepository {
             e.printStackTrace();
         }
         return check;
+    }
+
+    public List<LoaiBaoHanh> getAllLBHByPBHID(int id) {
+        Set<LoaiBaoHanh> loaiBaoHanhs;
+        try {
+            PhieuBaoHanhResponse pbh = getPBHByID(id);
+        } catch (Exception e) {
+        }
+            return null;
     }
 }

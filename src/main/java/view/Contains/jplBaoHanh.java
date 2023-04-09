@@ -590,6 +590,8 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
     private void tbCTPBHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCTPBHMouseClicked
         // TODO add your handling code here:
+        int index = tbCTPBH.getSelectedRow();
+        int id = Integer.parseInt(tbCTPBH.getValueAt(index, 0).toString());
     }//GEN-LAST:event_tbCTPBHMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
