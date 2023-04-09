@@ -2398,11 +2398,7 @@ public class jplBanHang extends javax.swing.JPanel {
 
         // 6. cộng điểm tích lũy
         double diemTichLuy = 0;
-        if (chkboxSuDungDiem.isSelected()) {
-            diemTichLuy = (tongTien - tienGiam) / 50000;
-        } else {
-            diemTichLuy = tongTien / 50000;
-        }
+        diemTichLuy = (tongTien - tienGiam) / 50000;
 
         Double diemTichLuyDou = Double.valueOf(diemTichLuy);
         int diemTichLuyInt = diemTichLuyDou.intValue();
@@ -2579,11 +2575,6 @@ public class jplBanHang extends javax.swing.JPanel {
         // 5. cộng điểm tích lũy
         double diemTichLuy = 0;
         diemTichLuy = tienTraTruoc / 50000;
-//        if (chkboxSuDungDiem.isSelected()) {
-//            diemTichLuy = (tongTien - tienGiam) / 50000;
-//        } else {
-//            diemTichLuy = tongTien / 50000;
-//        }
         Double diemTichLuyDou = Double.valueOf(diemTichLuy);
         int diemTichLuyInt = diemTichLuyDou.intValue();
         if (!chkboxSuDungDiem2.isSelected()) {
@@ -2630,7 +2621,7 @@ public class jplBanHang extends javax.swing.JPanel {
         phieuTraGop.setKyHan(Integer.valueOf(kyHanItem));
         phieuTraGop.setNgayTao(LocalDate.now());
         phieuTraGop.setPhaiTra(Long.valueOf(lbTraHangThang.getText().trim().replaceAll(",", "")));
-        phieuTraGop.setTrangThai(true);
+        phieuTraGop.setTrangThai(false);
         phieuTraGop.setHoaDon(hoaDonByMa);
         phieuTraGop.addLichSuTraGop(lichSuTraGop);
 

@@ -117,7 +117,7 @@ public class PhieuBaoHanhRepository {
         }
     }
 
-    public PhieuBaoHanhResponse getPBHByID(int id) {
+    public static PhieuBaoHanhResponse getPBHByID(int id) {
         PhieuBaoHanhResponse pbh = null;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
@@ -142,7 +142,7 @@ public class PhieuBaoHanhRepository {
         }
     }
 
-    public boolean updateMotaPBH(PhieuBaoHanhResponse pbh, int id) {
+    public static boolean updateMotaPBH(PhieuBaoHanhResponse pbh, int id) {
         boolean check = false;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
@@ -156,6 +156,17 @@ public class PhieuBaoHanhRepository {
             e.printStackTrace();
         }
         return check;
+    }
+
+    public PhieuBaoHanh getById(int id) {
+        PhieuBaoHanh phieuBaoHanh = null;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            phieuBaoHanh = session.get(PhieuBaoHanh.class, id);
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+        return phieuBaoHanh;
     }
 
     public Set<LoaiBaoHanh> getAllLBHByPBHID(int id) {
