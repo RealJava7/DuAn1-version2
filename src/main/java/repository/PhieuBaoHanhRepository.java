@@ -3,8 +3,10 @@ package repository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Query;
 import model.ChiTietPhieuBaoHanh;
+import model.LoaiBaoHanh;
 import model.PhieuBaoHanh;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -38,8 +40,7 @@ public class PhieuBaoHanhRepository {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                               SELECT new viewmodel.PhieuBaoHanhResponse
-                                              (pbh.id,
-                                              ct.imei, ct.thoiHanBaoHanh, ct.ngayMuaHang, ct.ngayHetHan, ct.moTa, ct.trangThai)
+                                              (pbh.id, ct.imei, ct.thoiHanBaoHanh, ct.ngayMuaHang, ct.ngayHetHan, ct.moTa, ct.trangThai)
                                               FROM PhieuBaoHanh pbh
                                               INNER JOIN pbh.chiTietPhieuBaoHanh ct
                                               """);
@@ -95,8 +96,8 @@ public class PhieuBaoHanhRepository {
         }
         return phieuBaoHanhResponses;
     }
-
-    public PhieuBaoHanhResponse getPBHByID(int id) {
+    
+    public static PhieuBaoHanhResponse getPBHByID(int id) {
         PhieuBaoHanhResponse pbh = null;
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
@@ -116,7 +117,7 @@ public class PhieuBaoHanhRepository {
             return pbh;
         }
     }
-
+    
     public static boolean updateMotaPBH(PhieuBaoHanhResponse pbh, int id) {
         boolean check = false;
         try {
@@ -132,4 +133,29 @@ public class PhieuBaoHanhRepository {
         }
         return check;
     }
+    
+    public static PhieuBaoHanh getById(int id) {
+        PhieuBaoHanh phieuBaoHanh = null;
+        try {
+            Session session = HibernateUtil.getFACTORY().openSession();
+            phieuBaoHanh = session.get(PhieuBaoHanh.class, id);
+        } catch (HibernateException e) {
+            e.printStackTrace(System.out);
+        }
+        return phieuBaoHanh;
+    }
+    
+    public static void main(String[] args) {
+        PhieuBaoHanh phieuBaoHanh = getById(8); // làm thêm cái hàm get PhieuBaoHanh by id (kia chỉ là demo)
+        Set<LoaiBaoHanh> loaiBaoHanhs = phieuBaoHanh.getLoaiBaoHanhSet();
+        
+        loaiBaoHanhs.forEach(lbh -> System.out.println(lbh.toString()));
+        // từ cái set này -> in lên table (thế thôi)
+    }
+    
+    
+    
+    
+    
+    
 }
