@@ -42,7 +42,7 @@ public class HoaDon {
 
     @Column(name = "TongTien")
     private long tongTien;
-    
+
     @Column(name = "TienGiam")
     private long tienGiam;
 
