@@ -40,11 +40,11 @@ public class HoaDon {
     @Column(name = "NgayThanhToan")
     private LocalDateTime ngayThanhToan;
 
-    @Column(name = "TienGiam")
-    private long tienGiam;
-
     @Column(name = "TongTien")
     private long tongTien;
+    
+    @Column(name = "TienGiam")
+    private long tienGiam;
 
     @Column(name = "TienKhachDua")
     private long tienKhachDua;

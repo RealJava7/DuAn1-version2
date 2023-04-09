@@ -213,7 +213,7 @@ public class DienThoaiRepository {
         }
         return dienThoai;
     }
-    
+
     // get List<DienThoaiResponse> by giaBan
     public List<DienThoaiResponse> getAllResponseByGiaBan(String order) {
         List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();

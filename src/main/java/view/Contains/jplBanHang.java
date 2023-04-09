@@ -1273,7 +1273,7 @@ public class jplBanHang extends javax.swing.JPanel {
         btnXoaDonHang1.setBackground(new java.awt.Color(47, 85, 212));
         btnXoaDonHang1.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         btnXoaDonHang1.setForeground(new java.awt.Color(255, 255, 255));
-        btnXoaDonHang1.setText("Xóa Đơn");
+        btnXoaDonHang1.setText("Hủy Đơn");
         btnXoaDonHang1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaDonHang1ActionPerformed(evt);
@@ -1951,7 +1951,7 @@ public class jplBanHang extends javax.swing.JPanel {
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lbEmailKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbSdtKhachHang)
                 .addGap(6, 6, 6)
                 .addGroup(Jpanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2209,7 +2209,10 @@ public class jplBanHang extends javax.swing.JPanel {
         // Nhập tiền khách đưa -> 1. Tiền thừa
 
         String tienKhachDuaStr = txtTienKhachDua.getText();
-        if (!tienKhachDuaStr.equals("")) {
+        String pattern = "[1-9][0-9]*";
+        if (!tienKhachDuaStr.matches(pattern) && !tienKhachDuaStr.equals("")) {
+            JOptionPane.showMessageDialog(this, "Chỉ được điền chữ số");
+        } else if (!tienKhachDuaStr.equals("")) {
             long tienKhachDua = Long.valueOf(txtTienKhachDua.getText());
             long tienThua = tienKhachDua - Long.valueOf(lbKhachPhaiTra.getText().replaceAll(",", ""));
             lbTienThua.setText(numberFormat.format(tienThua));
@@ -2221,7 +2224,10 @@ public class jplBanHang extends javax.swing.JPanel {
         // txt tiền trả trước -> 1. còn nợ
 
         String tienTraTruocStr = txtTienTraTruoc.getText();
-        if (!tienTraTruocStr.equals("")) {
+        String pattern = "[1-9][0-9]*";
+        if (!tienTraTruocStr.matches(pattern) && !tienTraTruocStr.equals("")) {
+            JOptionPane.showMessageDialog(this, "Chỉ được điền chữ số");
+        } else if (!tienTraTruocStr.equals("")) {
             long tienTraTruoc = Long.valueOf(tienTraTruocStr);
             long conNo = Long.valueOf(lbKhachPhaiTra2.getText().replaceAll(",", "")) - tienTraTruoc;
             lbConNo.setText(numberFormat.format(conNo));
@@ -2234,17 +2240,23 @@ public class jplBanHang extends javax.swing.JPanel {
 
         // 1. Tổng nợ
         String laiSuatStr = txtLaiSuat.getText().trim();
-        if (!laiSuatStr.equals("")) {
-            float laiSuat = Float.valueOf(laiSuatStr);
-            long conNo = Long.valueOf(lbConNo.getText().replaceAll(",", ""));
-            long tongNo = Math.round(Float.valueOf(conNo) * laiSuat / 100 + Float.valueOf(conNo));
-            lbTongNo.setText(numberFormat.format(tongNo));
+        String pattern = "[0-9]+([.][0-9]+)*";
+        if (!laiSuatStr.matches(pattern) && !laiSuatStr.equals("")) {
+            JOptionPane.showMessageDialog(this, "Sai định dạng");
+        } else if (!laiSuatStr.equals("")) {
+            try {
+                float laiSuat = Float.valueOf(laiSuatStr);
+                long conNo = Long.valueOf(lbConNo.getText().replaceAll(",", ""));
+                long tongNo = Math.round(Float.valueOf(conNo) * laiSuat / 100 + Float.valueOf(conNo));
+                lbTongNo.setText(numberFormat.format(tongNo));
 
-            // làm tròn tổng nợ để tiền không bị lẻ
-            String tongNoStr = lbTongNo.getText().trim().replaceAll(",", "");
-            tongNoStr = tongNoStr.substring(0, tongNoStr.length() - 3).concat("000");
-            tongNo = Long.valueOf(tongNoStr);
-            lbTongNo.setText(numberFormat.format(tongNo));
+                // làm tròn tổng nợ để tiền không bị lẻ
+                String tongNoStr = lbTongNo.getText().trim().replaceAll(",", "");
+                tongNoStr = tongNoStr.substring(0, tongNoStr.length() - 3).concat("000");
+                tongNo = Long.valueOf(tongNoStr);
+                lbTongNo.setText(numberFormat.format(tongNo));
+            } catch (Exception e) {
+            }
         }
     }//GEN-LAST:event_txtLaiSuatCaretUpdate
 
@@ -2281,6 +2293,12 @@ public class jplBanHang extends javax.swing.JPanel {
             return;
         }
 
+        String check = checkHoaDon1();
+        if (!check.equals("")) {
+            JOptionPane.showMessageDialog(this, check);
+            return;
+        }
+
         HoaDon hoaDon = new HoaDon();
         String maHoaDon = getMa("HD");
         hoaDon.setMaHoaDon(maHoaDon);
@@ -2312,9 +2330,12 @@ public class jplBanHang extends javax.swing.JPanel {
             hoaDon.setMaGiaoDichChuyenKhoan(maGiaoDinh);
         }
 
-        // khách hàng, nhân viên, phiếu giảm giá
-        // 1. khách hàng
-        KhachHangResponse khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(txtTimKH.getText().trim());
+//         khách hàng, nhân viên, phiếu giảm giá
+//         1. khách hàng
+        KhachHangResponse khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(lbTenKhachHang.getText().trim());
+        if (khResponse == null) {
+            khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(lbEmailKhachHang.getText().trim());
+        }
         KhachHang khachHang = KhachHangRepository.getKhachHangEntityById(khResponse.getId());
         hoaDon.setKhachHang(khachHang);
 
@@ -2412,6 +2433,52 @@ public class jplBanHang extends javax.swing.JPanel {
         lamMoiForm2();
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
+    private String checkHoaDon1() {
+        String message = "";
+
+        // khách hàng
+        String emailKhachHang = lbEmailKhachHang.getText().trim().substring(7);
+        String sdtKhachHang = lbSdtKhachHang.getText().trim().substring(5);
+
+        KhachHangResponse khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(emailKhachHang);
+        if (khResponse == null) {
+            khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(sdtKhachHang);
+        }
+        if (khResponse == null) {
+            message += "Chưa có thông tin khách hàng!\n";
+        }
+
+        // số lượng đt trong giỏ hàng
+        if (hoaDonChiTietResponseList.size() == 0) {
+            message += "Giỏ hàng chưa có sản phẩm!\n";
+        }
+
+        // tiền khách đưa (không được trống, đúng định dạng, phải lớn hơn hoặc bằng tiền phải trả)
+        String tienKhachDuaStr = txtTienKhachDua.getText().trim();
+        if (tienKhachDuaStr.isBlank()) {
+            message += "Tiền khách đưa không được để trống!\n";
+        } else {
+            String pattern = "[1-9][0-9]*";
+            if (!tienKhachDuaStr.matches(pattern)) {
+                message += "Tiền khách đưa không đúng định dạng!\n";
+            } else {
+                long tienThua = Long.valueOf(lbTienThua.getText().trim().replaceAll(",", ""));
+                if (tienThua < 0) {
+                    message += "Tiền khách đưa không đủ!\n";
+                }
+            }
+        }
+
+        // nếu chuyển khoản, check mã GD
+        if (rdChuyenKhoan.isSelected()) {
+            String maGiaoDich = txtMaGD.getText().trim();
+            if (maGiaoDich.isBlank()) {
+                message += "Mã giao dịch không được để trống!\n";
+            }
+        }
+        return message;
+    }
+
     private String getMa(String loaiMa) {
         LocalDateTime ldt = LocalDateTime.now();
         String year = String.valueOf(ldt.getYear());
@@ -2480,6 +2547,12 @@ public class jplBanHang extends javax.swing.JPanel {
     private void btnThanhToan2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToan2ActionPerformed
         int confirm = JOptionPane.showConfirmDialog(this, "Tạo hóa đơn?", "Xác nhận tạo hóa đơn", JOptionPane.YES_NO_OPTION);
         if (confirm != 0) {
+            return;
+        }
+
+        String check = checkHoaDon2();
+        if (!check.equals("")) {
+            JOptionPane.showMessageDialog(this, check);
             return;
         }
 
@@ -2631,6 +2704,53 @@ public class jplBanHang extends javax.swing.JPanel {
         lamMoiForm2();
     }//GEN-LAST:event_btnThanhToan2ActionPerformed
 
+    private String checkHoaDon2() {
+        String message = "";
+
+        // khách hàng
+        String emailKhachHang = lbEmailKhachHang.getText().trim().substring(7);
+        String sdtKhachHang = lbSdtKhachHang.getText().trim().substring(5);
+
+        KhachHangResponse khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(emailKhachHang);
+        if (khResponse == null) {
+            khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(sdtKhachHang);
+        }
+        if (khResponse == null) {
+            message += "Chưa có thông tin khách hàng!\n";
+        }
+
+        // số lượng đt trong giỏ hàng
+        if (hoaDonChiTietResponseList.size() == 0) {
+            message += "Giỏ hàng chưa có sản phẩm!\n";
+        }
+
+        // tiền khách đưa (không được trống, đúng định dạng, phải lớn hơn hoặc bằng tiền phải trả)
+        String tienTraTruocStr = txtTienTraTruoc.getText().trim();
+        if (tienTraTruocStr.isBlank()) {
+            message += "Tiền trả trước không được để trống!\n";
+        } else {
+            String pattern = "[1-9][0-9]*";
+            if (!tienTraTruocStr.matches(pattern)) {
+                message += "Tiền trả trước không đúng định dạng!\n";
+            } else {
+                long traTruocToiThieu = Long.valueOf(lbTraTruocToiThieu.getText().trim().replaceAll(",", ""));
+                long tienTraTruoc = Long.valueOf(tienTraTruocStr);
+                if (tienTraTruoc < traTruocToiThieu) {
+                    message += "Tiền trả trước không đủ!\n";
+                }
+            }
+        }
+
+        // nếu chuyển khoản, check mã GD
+        if (rdChuyenKhoan.isSelected()) {
+            String maGiaoDich = txtMaGD.getText().trim();
+            if (maGiaoDich.isBlank()) {
+                message += "Mã giao dịch không được để trống!\n";
+            }
+        }
+        return message;
+    }
+
     private void lamMoiForm2() {
         txtTimKH.setText("");
         lbTenKhachHang.setText("Tên khách hàng");
@@ -2758,8 +2878,8 @@ public class jplBanHang extends javax.swing.JPanel {
         }
 
         lbTenKhachHang.setText("Họ tên: " + khachHangResponse.getHoTen());
-        lbSdtKhachHang.setText("Email: " + khachHangResponse.getEmail());
-        lbEmailKhachHang.setText("SĐT: " + khachHangResponse.getSdt());
+        lbEmailKhachHang.setText("Email: " + khachHangResponse.getEmail());
+        lbSdtKhachHang.setText("SĐT: " + khachHangResponse.getSdt());
 
         int soDiem = khachHangResponse.getSoDiem();
         lbSoDiem.setText(String.valueOf(soDiem));

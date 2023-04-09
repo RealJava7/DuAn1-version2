@@ -1552,7 +1552,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="X&#xf3;a &#x110;&#x1a1;n"/>
+                <Property name="text" type="java.lang.String" value="H&#x1ee7;y &#x110;&#x1a1;n"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaDonHang1ActionPerformed"/>
@@ -1739,7 +1739,7 @@
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="lbEmailKhachHang" min="-2" pref="16" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="lbSdtKhachHang" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
