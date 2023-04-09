@@ -40,4 +40,7 @@ public class LoaiBaoHanh {
         return "LoaiBaoHanh{" + "id=" + id + ", ten=" + ten + ", dieuKien=" + dieuKien + '}';
     }
 
+    public Object[] toRowData() {
+        return new Object[]{this.ten, this.dieuKien};
+    }
 }

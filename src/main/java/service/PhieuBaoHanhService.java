@@ -1,7 +1,9 @@
 package service;
 
 import java.util.List;
+import java.util.Set;
 import model.ChiTietPhieuBaoHanh;
+import model.LoaiBaoHanh;
 import model.PhieuBaoHanh;
 import viewmodel.PhieuBaoHanhResponse;
 
@@ -22,5 +24,7 @@ public interface PhieuBaoHanhService {
     PhieuBaoHanhResponse getPBHByID(int id);
     
     void add(PhieuBaoHanh phieuBaoHanh);
+    
+    Set<LoaiBaoHanh> getAllLBH(int id);
     
 }

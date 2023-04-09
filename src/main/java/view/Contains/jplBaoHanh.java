@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import model.LoaiBaoHanh;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -33,6 +34,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class jplBaoHanh extends javax.swing.JPanel {
 
     DefaultTableModel dtm;
+    DefaultTableModel dtm1;
     PhieuBaoHanhService service;
     DefaultComboBoxModel dcbm;
 
@@ -41,6 +43,8 @@ public class jplBaoHanh extends javax.swing.JPanel {
         viewTable();
         dtm = new DefaultTableModel();
         dtm = (DefaultTableModel) this.tbCTPBH.getModel();
+        dtm1 = new DefaultTableModel();
+        dtm1 = (DefaultTableModel) this.tbLBH.getModel();
         service = new PhieuBaoHanhServiceImpl();
         dcbm = new DefaultComboBoxModel();
         dcbm = (DefaultComboBoxModel) this.cbbLBH.getModel();
@@ -69,6 +73,13 @@ public class jplBaoHanh extends javax.swing.JPanel {
         dtm.setRowCount(0);
         for (PhieuBaoHanhResponse pbh : list) {
             dtm.addRow(pbh.toRowData());
+        }
+    }
+
+    private void showDataLBH(int id) {
+        dtm1.setRowCount(0);
+        for (LoaiBaoHanh lbh : service.getAllLBH(id)) {
+            dtm1.addRow(lbh.toRowData());
         }
     }
 
@@ -480,13 +491,13 @@ public class jplBaoHanh extends javax.swing.JPanel {
                 Workbook wb = new SXSSFWorkbook();
                 Sheet sheet = wb.createSheet("Phiếu Bảo Hành");
                 Row rowCol = sheet.createRow(0);
-                for (int i = 0; i < tbCTPBH.getColumnCount(); i++) {
+                for (int i = 0; i <= tbCTPBH.getColumnCount(); i++) {
                     Cell cell = rowCol.createCell(i);
                     cell.setCellValue(tbCTPBH.getColumnName(i));
                 }
-                for (int i = 0; i < tbCTPBH.getRowCount(); i++) {
+                for (int i = 0; i <= tbCTPBH.getRowCount(); i++) {
                     Row row = sheet.createRow(i);
-                    for (int j = 0; j < tbCTPBH.getColumnCount(); j++) {
+                    for (int j = 0; j <= tbCTPBH.getColumnCount(); j++) {
                         Cell cell = row.createCell(i);
                         if (tbCTPBH.getValueAt(j, i) != null) {
                             cell.setCellValue(tbCTPBH.getValueAt(i, j).toString());
@@ -498,15 +509,15 @@ public class jplBaoHanh extends javax.swing.JPanel {
                 wb.close();
                 fos.close();
                 openFileExcel(saveFile.toString());
-            }else{
-                JOptionPane.showMessageDialog(fileChooser, "Lỗi khi khởi tạo các dữ liệu file");
+            } else {
+                JOptionPane.showMessageDialog(null, "Lỗi khi khởi tạo các dữ liệu file");
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            System.out.println("Không tìm thấy file!");
+            JOptionPane.showMessageDialog(null, "File not Found");
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Có lỗi khi khởi tạo hoặc đóng các class, file");
+            JOptionPane.showMessageDialog(null, "Có lỗi khi khởi tạo hoặc đóng các class, file");
         }
     }//GEN-LAST:event_btnImportExcelActionPerformed
 
@@ -578,13 +589,20 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
     private void btnUpdateMotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateMotaActionPerformed
         // TODO add your handling code here:
+        int index = tbCTPBH.getSelectedRow();
+        int id = Integer.parseInt(tbCTPBH.getValueAt(index, 0).toString());
         int choice = JOptionPane.showConfirmDialog(null, "Bạn muốn cập nhật mô tả của Phiếu Bảo Hành?");
         if (choice == 0) {
             if (txtMoTa.getText().isBlank()) {
                 JOptionPane.showMessageDialog(null, "Không được để trống mô tả!");
             } else {
-
+                PhieuBaoHanhResponse pbh = service.getPBHByID(id);
+                pbh.setMoTa(txtMoTa.getText());
+                JOptionPane.showMessageDialog(null, service.updateMoTa(pbh, id));
+                showDataTable(service.getAll());
             }
+        } else {
+            JOptionPane.showMessageDialog(rdConHan, "Đã huỷ");
         }
     }//GEN-LAST:event_btnUpdateMotaActionPerformed
 
@@ -592,6 +610,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
         // TODO add your handling code here:
         int index = tbCTPBH.getSelectedRow();
         int id = Integer.parseInt(tbCTPBH.getValueAt(index, 0).toString());
+        showDataLBH(id);
     }//GEN-LAST:event_tbCTPBHMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

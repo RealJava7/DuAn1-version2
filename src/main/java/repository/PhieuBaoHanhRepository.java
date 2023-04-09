@@ -37,8 +37,8 @@ public class PhieuBaoHanhRepository {
     // 2. get all
     public List<PhieuBaoHanhResponse> getAll() {
         List<PhieuBaoHanhResponse> phieuBaoHanhResponses = new ArrayList<>();
+        Session session = HibernateUtil.getFACTORY().openSession();
         try {
-            Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                               SELECT new viewmodel.PhieuBaoHanhResponse
                                               (pbh.id,
@@ -54,16 +54,18 @@ public class PhieuBaoHanhRepository {
             session.close();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
+        } finally {
+            session.close();
+            return phieuBaoHanhResponses;
         }
-        return phieuBaoHanhResponses;
     }
 
     // 3. update
     //4. lọc
     public List<PhieuBaoHanhResponse> getList(boolean status) {
         List<PhieuBaoHanhResponse> phieuBaoHanhResponses = new ArrayList<>();
+        Session session = HibernateUtil.getFACTORY().openSession();
         try {
-            Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                                SELECT new viewmodel.PhieuBaoHanhResponse
                                               (pbh.id,
@@ -81,15 +83,17 @@ public class PhieuBaoHanhRepository {
             session.close();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
+        } finally {
+            session.close();
+            return phieuBaoHanhResponses;
         }
-        return phieuBaoHanhResponses;
     }
 
     //5. tìm kiếm
     public List<PhieuBaoHanhResponse> getListSearch(String sdt) {
         List<PhieuBaoHanhResponse> phieuBaoHanhResponses = new ArrayList<>();
+        Session session = HibernateUtil.getFACTORY().openSession();
         try {
-            Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
                                 SELECT new viewmodel.PhieuBaoHanhResponse
                                 (pbh.id,
@@ -107,8 +111,10 @@ public class PhieuBaoHanhRepository {
             session.close();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
+        } finally {
+            session.close();
+            return phieuBaoHanhResponses;
         }
-        return phieuBaoHanhResponses;
     }
 
     public PhieuBaoHanhResponse getPBHByID(int id) {
@@ -152,12 +158,16 @@ public class PhieuBaoHanhRepository {
         return check;
     }
 
-    public List<LoaiBaoHanh> getAllLBHByPBHID(int id) {
+    public Set<LoaiBaoHanh> getAllLBHByPBHID(int id) {
         Set<LoaiBaoHanh> loaiBaoHanhs;
         try {
-            PhieuBaoHanhResponse pbh = getPBHByID(id);
+            Session session = HibernateUtil.getFACTORY().openSession();
+            PhieuBaoHanh pbh = session.get(PhieuBaoHanh.class, id);
+            loaiBaoHanhs = pbh.getLoaiBaoHanhSet();
+            return loaiBaoHanhs;
         } catch (Exception e) {
+            e.printStackTrace();
         }
-            return null;
+        return null;
     }
 }
