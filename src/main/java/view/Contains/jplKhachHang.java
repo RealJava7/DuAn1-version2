@@ -86,7 +86,6 @@ public class jplKhachHang extends javax.swing.JPanel {
 
     private void showDataLichSu(List<HoaDonResponse> list, int row) {
 
-        listHoaDon = serviceHoaDon.getResponsesByTraGop(2);
         String hoTen = tblKhachHang.getValueAt(row, 1).toString();
 
         dtmLichSuMuaHang.setRowCount(0);
@@ -1204,6 +1203,7 @@ public class jplKhachHang extends javax.swing.JPanel {
             if (row >= 0 && row < listKhachHang.size()) {
                 tblKhachHang.setRowSelectionInterval(row, row);
                 jPopupMenu1.show(evt.getComponent(), evt.getX(), evt.getY());
+                listHoaDon = serviceHoaDon.getResponsesByTraGop(2);
                 showDataLichSu(listHoaDon, rowIndex);
             }
         }
