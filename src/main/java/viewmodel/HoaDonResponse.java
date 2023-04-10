@@ -42,7 +42,7 @@ public class HoaDonResponse {
 
     public Object[] toDataRow() {
         NumberFormat nf = NumberFormat.getInstance(new Locale("vn", "VN"));
-        return new Object[]{tenKhachHang, ngayTao.toLocalDate(), ngayThanhToan.toLocalDate(), nf.format(tongTien) + " VND", nf.format(tienGiam) + " VND", tenNhanVien};
+        return new Object[]{maHoaDon, tenKhachHang, ngayTao.toLocalDate(), ngayThanhToan.toLocalDate(), nf.format(tongTien) + " VND", nf.format(tienGiam) + " VND", tenNhanVien};
     }
 
 }

@@ -19,6 +19,11 @@ public class PhieuGiamGiaResponse {
     private LocalDate ngayKetThuc;
     private int luotSuDung;
     private long dieuKien;
+    /*
+    - 0: đang diễn ra
+    - 2: sắp diễn ra
+    - 1: đã kết thúc
+    */
     private float giaTri;
     private int trangThai;
 

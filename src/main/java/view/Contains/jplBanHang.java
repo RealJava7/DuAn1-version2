@@ -3,6 +3,7 @@ package view.Contains;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.io.File;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,10 +14,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import model.ChiTietPhieuBaoHanh;
@@ -57,6 +60,7 @@ import service.impl.KhachHangServiceImpl;
 import service.impl.PhieuBaoHanhServiceImpl;
 import service.impl.PhieuGiamGiaServiceImpl;
 import service.impl.PhieuTraGopServiceImpl;
+import utility.ExportPdfHoaDon;
 import viewmodel.DienThoaiResponse;
 import viewmodel.HangResponse;
 import viewmodel.HoaDonChiTietResponse;
@@ -83,6 +87,7 @@ public class jplBanHang extends javax.swing.JPanel {
 
     private NumberFormat numberFormat = NumberFormat.getInstance(new Locale("vn", "VN"));
     private static NhanVienResponse loggedNhanVienResponse = new NhanVienResponse();
+    private ExportPdfHoaDon export = new ExportPdfHoaDon();
 
     public jplBanHang(NhanVienResponse nv) {
         initComponents();
@@ -2448,6 +2453,28 @@ public class jplBanHang extends javax.swing.JPanel {
         // 7. làm mới form
         lamMoiForm1();
         lamMoiForm2();
+
+        // 8. In hóa đơn
+        int confirm1 = JOptionPane.showConfirmDialog(this, "Bạn có muốn in hóa đơn không?");
+        if (confirm1 == JOptionPane.YES_OPTION) {
+            JFileChooser chooser = new JFileChooser("D:\\");
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // Giới hạn chỉ chọn đc thư mục
+            FileNameExtensionFilter avatarFilter = new FileNameExtensionFilter("Exel File", "xlsx");
+            chooser.setFileFilter(avatarFilter);
+            chooser.setAcceptAllFileFilterUsed(false);
+            int selectFileCheck = chooser.showOpenDialog(this);
+            File selectedFile = chooser.getSelectedFile();
+            if (!(selectFileCheck == JFileChooser.APPROVE_OPTION)) {
+                return;
+            }
+            String path = selectedFile.getAbsolutePath();
+            try {
+                export.exportBill3(hoaDon, hoaDonChiTietResponses, path);
+                JOptionPane.showMessageDialog(this, "In hóa đơn thành công");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "In hóa đơn thất bại");
+            }
+        }
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private String checkHoaDon1() {
@@ -2725,6 +2752,28 @@ public class jplBanHang extends javax.swing.JPanel {
 
         // 8. làm mới form
         lamMoiForm2();
+
+        // 9. in hóa đơn
+        int confirm1 = JOptionPane.showConfirmDialog(this, "Bạn có muốn in hóa đơn không?");
+        if (confirm1 == JOptionPane.YES_OPTION) {
+            JFileChooser chooser = new JFileChooser("D:\\");
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // Giới hạn chỉ chọn đc thư mục
+            FileNameExtensionFilter avatarFilter = new FileNameExtensionFilter("Exel File", "xlsx");
+            chooser.setFileFilter(avatarFilter);
+            chooser.setAcceptAllFileFilterUsed(false);
+            int selectFileCheck = chooser.showOpenDialog(this);
+            File selectedFile = chooser.getSelectedFile();
+            if (!(selectFileCheck == JFileChooser.APPROVE_OPTION)) {
+                return;
+            }
+            String path = selectedFile.getAbsolutePath();
+            try {
+                export.exportBill3(hoaDon, hoaDonChiTietResponses, path);
+                JOptionPane.showMessageDialog(this, "In hóa đơn thành công");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "In hóa đơn thất bại");
+            }
+        }
     }//GEN-LAST:event_btnThanhToan2ActionPerformed
 
     private String checkHoaDon2() {
