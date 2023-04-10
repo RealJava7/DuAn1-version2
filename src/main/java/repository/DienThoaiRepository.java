@@ -61,6 +61,7 @@ public class DienThoaiRepository {
                                                """);
             query.setParameter("status", status);
             dienThoaiResponses = query.getResultList();
+            session.close();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
         }
@@ -157,6 +158,7 @@ public class DienThoaiRepository {
                 query.setParameter("heDieuHanhId", heDieuHanhId);
             }
             dienThoaiResponses = query.getResultList();
+            session.close();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
         }
@@ -176,6 +178,7 @@ public class DienThoaiRepository {
                                                """);
 
             dienThoaiResponses = query.getResultList();
+            session.close();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
         }
@@ -188,6 +191,7 @@ public class DienThoaiRepository {
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             dienThoai = session.get(DienThoai.class, id);
+            session.close();
         } catch (HibernateException e) {
             e.printStackTrace(System.out);
         }
@@ -206,6 +210,7 @@ public class DienThoaiRepository {
                                                """);
             query.setParameter("maDT", maDT);
             dienThoai = (DienThoai) query.getSingleResult();
+            session.close();
         } catch (HibernateException e) {
             e.printStackTrace(System.out);
         } catch (NoResultException e) {
@@ -237,6 +242,7 @@ public class DienThoaiRepository {
                                               ORDER BY dt.giaBan
                                                """ + order);
             dienThoaiResponses = query.getResultList();
+            session.close();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
         }
@@ -268,6 +274,7 @@ public class DienThoaiRepository {
                                                """);
             query.setParameter("keyword", "%" + keyword + "%");
             dienThoaiResponses = query.getResultList();
+            session.close();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
         }
@@ -298,6 +305,7 @@ public class DienThoaiRepository {
                                                """);
             query.setParameter("tenHang", tenHang);
             dienThoaiResponses = query.getResultList();
+            session.close();
         } catch (HibernateException ex) {
             ex.printStackTrace(System.out);
         }
@@ -401,6 +409,7 @@ public class DienThoaiRepository {
 
             session.update(dienThoai);
             transaction.commit();
+            session.close();
         } catch (HibernateException e) {
             e.printStackTrace(System.out);
         }
@@ -418,6 +427,7 @@ public class DienThoaiRepository {
 
             session.update(dienThoai);
             transaction.commit();
+            session.close();
         } catch (HibernateException e) {
             e.printStackTrace(System.out);
         }

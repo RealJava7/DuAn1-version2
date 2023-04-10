@@ -2,6 +2,7 @@ package view.Contains;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
@@ -340,7 +342,7 @@ public class jplBanHang extends javax.swing.JPanel {
         txtImei = new javax.swing.JTextField();
         XemChiTiet = new javax.swing.JDialog();
         jPanel4 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        image = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jLabel64 = new javax.swing.JLabel();
         jLabel65 = new javax.swing.JLabel();
@@ -746,9 +748,9 @@ public class jplBanHang extends javax.swing.JPanel {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Ảnh");
-        jLabel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        image.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        image.setText("Ảnh");
+        image.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jPanel15.setBackground(new java.awt.Color(255, 255, 255));
         jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder("CAMERA"));
@@ -1106,7 +1108,7 @@ public class jplBanHang extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(image, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1132,7 +1134,7 @@ public class jplBanHang extends javax.swing.JPanel {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(image, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -2118,6 +2120,10 @@ public class jplBanHang extends javax.swing.JPanel {
         lbCTKichThuoc.setText(String.valueOf(dienThoaiResponse.getKichThuoc()) + " inches");
         lbCTDoPhanGiai.setText(dienThoaiResponse.getDoPhanGiai() + " px");
         lbCTLoaiMH.setText(dienThoaiResponse.getLoaiManHinh().name());
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("/phoneimage/" + dienThoaiResponse.getHinhAnh()));
+        Image newImage = icon.getImage().getScaledInstance(image.getWidth(), image.getHeight(), Image.SCALE_SMOOTH);
+        image.setIcon(new ImageIcon(newImage));
     }//GEN-LAST:event_menuItem1ActionPerformed
 
     private void menuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItem2ActionPerformed
@@ -2126,6 +2132,10 @@ public class jplBanHang extends javax.swing.JPanel {
             return;
         }
         DienThoaiResponse dienThoaiResponse = dienThoaiResponseList.get(clickedRowInDienThoaiTable);
+        if (dienThoaiResponse.getSoLuong() < 1) {
+            JOptionPane.showMessageDialog(this, "Sản phẩm hết hàng");
+            return;
+        }
         List<ImeiResponse> imeiResponses = imeiService.getResponsesByIdDienThoaiAndStatus(dienThoaiResponse.getId(), 0); // trangThai IMEI ở đây = 0
 
         cbImeiInDialog.removeAllItems();
@@ -2332,9 +2342,16 @@ public class jplBanHang extends javax.swing.JPanel {
 
 //         khách hàng, nhân viên, phiếu giảm giá
 //         1. khách hàng
-        KhachHangResponse khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(lbTenKhachHang.getText().trim());
+//        KhachHangResponse khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(lbTenKhachHang.getText().trim());
+//        if (khResponse == null) {
+//            khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(lbEmailKhachHang.getText().trim());
+//        }
+        String emailKhachHang = lbEmailKhachHang.getText().trim().substring(7);
+        String sdtKhachHang = lbSdtKhachHang.getText().trim().substring(5);
+
+        KhachHangResponse khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(emailKhachHang);
         if (khResponse == null) {
-            khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(lbEmailKhachHang.getText().trim());
+            khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(sdtKhachHang);
         }
         KhachHang khachHang = KhachHangRepository.getKhachHangEntityById(khResponse.getId());
         hoaDon.setKhachHang(khachHang);
@@ -2588,7 +2605,13 @@ public class jplBanHang extends javax.swing.JPanel {
 
         // khách hàng, nhân viên, phiếu giảm giá
         // 1. khách hàng
-        KhachHangResponse khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(txtTimKH.getText().trim());
+        String emailKhachHang = lbEmailKhachHang.getText().trim().substring(7);
+        String sdtKhachHang = lbSdtKhachHang.getText().trim().substring(5);
+
+        KhachHangResponse khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(emailKhachHang);
+        if (khResponse == null) {
+            khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(sdtKhachHang);
+        }
         KhachHang khachHang = KhachHangRepository.getKhachHangEntityById(khResponse.getId());
         hoaDon.setKhachHang(khachHang);
 
@@ -2739,6 +2762,11 @@ public class jplBanHang extends javax.swing.JPanel {
                     message += "Tiền trả trước không đủ!\n";
                 }
             }
+        }
+
+        String laiSuatStr = txtLaiSuat.getText().trim();
+        if (laiSuatStr.isBlank()) {
+            message += "Lãi suất không được để trống!\n";
         }
 
         // nếu chuyển khoản, check mã GD
@@ -3163,9 +3191,9 @@ public class jplBanHang extends javax.swing.JPanel {
     private javax.swing.JCheckBox chkTrangThai;
     private javax.swing.JCheckBox chkboxSuDungDiem;
     private javax.swing.JCheckBox chkboxSuDungDiem2;
+    private javax.swing.JLabel image;
     private javax.swing.JDialog imeiDialog;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;

@@ -75,8 +75,8 @@ public class ImeiRepository {
         return imeis;
     }
 
-    // 3. get all imeis by dienThoaiID
-    public List<ImeiResponse> getResponsesByIdDienThoaiAndStatus(int dienThoaiId, int trangThai) {
+    // 3. get List<ImeiResponse> by dienThoaiID and status
+    public static List<ImeiResponse> getResponsesByIdDienThoaiAndStatus(int dienThoaiId, int trangThai) {
         List<ImeiResponse> imeis = new ArrayList<>();
 
         try {

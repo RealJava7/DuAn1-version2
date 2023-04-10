@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -27,6 +28,7 @@ import repository.DienThoaiRepository;
 import repository.DongSanPhamRepository;
 import repository.HangRepository;
 import repository.HeDieuHanhRepository;
+import repository.ImeiRepository;
 import repository.MauSacRepository;
 import service.DienThoaiService;
 import service.DongSanPhamService;
@@ -1353,8 +1355,8 @@ public class jplSanPham extends javax.swing.JPanel {
             dcbmHDH.setSelectedItem(hdh);
 
             // imeis
-            DienThoai dienThoai = DienThoaiRepository.getById(dienThoaiResponse.getId());
-            Set<Imei> imeiSet = dienThoai.getImeis();
+            int dienThoaiId = dienThoaiResponse.getId();
+            List<ImeiResponse> imeiSet = ImeiRepository.getResponsesByIdDienThoaiAndStatus(dienThoaiResponse.getId(), 0);
 
             dcbmImei.removeAllElements();
             imeiSet.forEach(i -> cbImei.addItem(i.getImei()));
@@ -1364,7 +1366,7 @@ public class jplSanPham extends javax.swing.JPanel {
             Image newImage = icon.getImage().getScaledInstance(image.getWidth(), image.getHeight(), Image.SCALE_SMOOTH);
             image.setIcon(new ImageIcon(newImage));
         } catch (Exception e) {
-            System.out.println("");
+            System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_tbActiveMouseClicked
 
