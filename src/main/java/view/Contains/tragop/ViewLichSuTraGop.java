@@ -590,12 +590,12 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Save Excel File");
 
-        // Chỉ cho phép chọn tập tin với định dạng .xlsx
+        // Chỉ cho phép chọn tập tin với định dạng .pdf
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel file (*.pdf)", "pdf");
         fileChooser.setFileFilter(filter);
         //set Tên cho File
 
-        fileChooser.setSelectedFile(new File("Phieu Thu No " + LocalDate.now() + ".pdf"));
+        fileChooser.setSelectedFile(new File("Phieu Thu No " + ptg.getHoaDon().getKhachHang().getHoTen() + " " + LocalDate.now() + ".pdf"));
         // Hiển thị hộp thoại chọn vị trí và tên tập tin
         int userSelection = fileChooser.showSaveDialog(null);
 
@@ -604,7 +604,8 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
             String path = fileToSave.getAbsolutePath();
             // LSTG
             LichSuTraGop lstg = listView.get(tblLichSuThuNo.getSelectedRow());
-            PhieuTraGopUtil.xuatPhieuThuPDF(lstg, path);
+//            PhieuTraGopUtil.xuatPhieuThuPDF(lstg, path);
+            new PhieuTraGopUtil().exportLichSuTraGop(lstg, path);
         }
     }//GEN-LAST:event_mnuXuatPhieuThuActionPerformed
 

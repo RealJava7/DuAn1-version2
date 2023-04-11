@@ -27,7 +27,8 @@ import viewmodel.HoaDonChiTietResponse;
 
 public class ExportPdfHoaDon {
 
-    public static final String pathUnicode = "C:/Users/T490/OneDrive - Hanoi University of Science and Technology/Documents/NetBeansProjects/Duan1-V2/DuAn1-version2/src/main/resources/font/unicode.ttf";
+//    public static final String pathUnicode = "C:/Users/T490/OneDrive - Hanoi University of Science and Technology/Documents/NetBeansProjects/Duan1-V2/DuAn1-version2/src/main/resources/font/unicode.ttf";
+    public final String pathUnicode = getClass().getClassLoader().getResource("font/unicode.ttf").getPath();
 
     public void exportBill3(HoaDon hoaDon, List<HoaDonChiTietResponse> hdctResponseList, String pathFile) {
         try {
@@ -40,7 +41,7 @@ public class ExportPdfHoaDon {
             float col = 280f;
             float columWidth[] = {col, col};
 
-            PdfFont font = PdfFontFactory.createFont(ExportPdfHoaDon.pathUnicode, BaseFont.IDENTITY_H);
+            PdfFont font = PdfFontFactory.createFont(new ExportPdfHoaDon().pathUnicode, BaseFont.IDENTITY_H);
 
             Table table = new Table(columWidth);
             table.setBackgroundColor(new DeviceRgb(63, 169, 219)).setFontColor(Color.WHITE);
@@ -259,4 +260,7 @@ public class ExportPdfHoaDon {
         }
     }
 
+    public static void main(String[] args) {
+        System.out.println(new ExportPdfHoaDon().pathUnicode);
+    }
 }
