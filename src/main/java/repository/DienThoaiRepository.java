@@ -165,7 +165,7 @@ public class DienThoaiRepository {
         return dienThoaiResponses;
     }
 
-    // 2.1 get sản phẩm hết hàng
+    // get sản phẩm hết hàng
     public List<DienThoaiResponse> get5SanPhamHetHang() {
         List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
 
