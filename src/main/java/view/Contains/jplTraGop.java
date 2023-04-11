@@ -47,7 +47,6 @@ public class jplTraGop extends javax.swing.JPanel {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         mnuChiTiet = new javax.swing.JMenuItem();
-        mnuInPhieuSaoKe = new javax.swing.JMenuItem();
         jDialog1 = new javax.swing.JDialog();
         jDialog2 = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
@@ -74,9 +73,6 @@ public class jplTraGop extends javax.swing.JPanel {
             }
         });
         jPopupMenu1.add(mnuChiTiet);
-
-        mnuInPhieuSaoKe.setText("In Phiếu Sao Kê");
-        jPopupMenu1.add(mnuInPhieuSaoKe);
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -282,6 +278,13 @@ public class jplTraGop extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblDanhSachTraGopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDanhSachTraGopMouseClicked
+        if (evt.getClickCount() == 2) {
+            int row = tblDanhSachTraGop.getSelectedRow();
+            if (row >= 0 && row < tblDanhSachTraGop.getRowCount()) {
+                int id = listView.get(tblDanhSachTraGop.getSelectedRow()).getId();
+                new ViewLichSuTraGop(id).setVisible(true);
+            }
+        }
         if (SwingUtilities.isRightMouseButton(evt)) {
             int row = tblDanhSachTraGop.rowAtPoint(evt.getPoint());
             if (row >= 0 && row < tblDanhSachTraGop.getRowCount()) {
@@ -375,7 +378,6 @@ public class jplTraGop extends javax.swing.JPanel {
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem mnuChiTiet;
-    private javax.swing.JMenuItem mnuInPhieuSaoKe;
     private javax.swing.JTable tblDanhSachTraGop;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
