@@ -22,8 +22,8 @@ public class ImeiServiceImpl implements ImeiService {
     }
 
     @Override
-    public List<ImeiResponse> getAllNoneDienThoaiImei() {
-        return imeiRepository.getAllNoneDienThoaiImei();
+    public List<ImeiResponse> getResponsesWithDienThoaiNull() {
+        return imeiRepository.getResponsesWithDienThoaiNull();
     }
 
     @Override

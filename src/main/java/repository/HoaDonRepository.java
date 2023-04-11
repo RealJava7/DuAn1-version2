@@ -1,5 +1,6 @@
 package repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -174,7 +175,7 @@ public class HoaDonRepository {
                 query1.setParameter("start", start);
                 query1.setParameter("end", end);
                 hoaDonResponses = query1.getResultList();
-            } else {
+            } else if(kieuNgay.equals("NgayThanhToan")) {
                 query2.setParameter("start", start);
                 query2.setParameter("end", end);
                 hoaDonResponses = query2.getResultList();

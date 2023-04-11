@@ -3,9 +3,7 @@ package view.Contains;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
-import java.text.DateFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -14,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -22,7 +19,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import model.HoaDon;
-import model.HoaDonChiTiet;
 import model.PhieuGiamGia;
 import service.HoaDonService;
 import service.impl.HoaDonServiceImpl;
@@ -53,6 +49,8 @@ public class jplHoaDon extends javax.swing.JPanel {
         hoaDonResponseList = hoaDonService.getResponsesByTraGop(2);
 
         showHoaDonTable(hoaDonResponseList);
+        startDate.setDate(new Date());
+        endDate.setDate(new Date());
     }
 
     // 1
@@ -70,7 +68,6 @@ public class jplHoaDon extends javax.swing.JPanel {
     private void viewTable() {
         JTableHeader headerHoaDon = tblHoaDon.getTableHeader();
         JTableHeader headerHoaDonCT = tblHoaDonChiTiet.getTableHeader();
-        JTableHeader headerImei = tblImei.getTableHeader();
 
         //Header table hóa đơn
         headerHoaDon.setFont(new Font("tahoma", Font.BOLD, 11));
@@ -81,11 +78,6 @@ public class jplHoaDon extends javax.swing.JPanel {
         headerHoaDonCT.setFont(new Font("tahoma", Font.BOLD, 11));
         headerHoaDonCT.setBackground(new Color(47, 85, 212));
         headerHoaDonCT.setForeground(Color.white);
-
-        //Header table imei
-        headerImei.setFont(new Font("tahoma", Font.BOLD, 11));
-        headerImei.setBackground(new Color(47, 85, 212));
-        headerImei.setForeground(Color.white);
 
     }
 
@@ -140,6 +132,7 @@ public class jplHoaDon extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         endDate = new com.toedter.calendar.JDateChooser();
         cbLoc = new javax.swing.JComboBox<>();
+        btnXoaLoc = new javax.swing.JButton();
         btnLoc = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -154,8 +147,6 @@ public class jplHoaDon extends javax.swing.JPanel {
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblHoaDonChiTiet = new javax.swing.JTable();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tblImei = new javax.swing.JTable();
 
         jMenuItem1.setText("Xem chi tiết");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -333,13 +324,15 @@ public class jplHoaDon extends javax.swing.JPanel {
                     .addComponent(lbKhachHang)
                     .addComponent(jLabel16))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(hoaDonChiTietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
-                    .addComponent(lbNhanVien))
+                .addGroup(hoaDonChiTietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbNhanVien)
+                    .addGroup(hoaDonChiTietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel17)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(hoaDonChiTietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19)
-                    .addComponent(lbPhieuGG))
+                .addGroup(hoaDonChiTietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbPhieuGG)
+                    .addGroup(hoaDonChiTietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel19)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(hoaDonChiTietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
@@ -418,6 +411,13 @@ public class jplHoaDon extends javax.swing.JPanel {
             }
         });
 
+        btnXoaLoc.setText("Xóa lọc");
+        btnXoaLoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaLocActionPerformed(evt);
+            }
+        });
+
         btnLoc.setText("Lọc");
         btnLoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -434,8 +434,10 @@ public class jplHoaDon extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(77, 77, 77)
-                        .addComponent(btnLoc))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnLoc)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnXoaLoc))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(cbLoc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
@@ -453,8 +455,10 @@ public class jplHoaDon extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(btnLoc, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(btnLoc))
+                    .addComponent(btnXoaLoc, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(startDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -636,27 +640,6 @@ public class jplHoaDon extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(tblHoaDonChiTiet);
 
-        tblImei.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
-            },
-            new String [] {
-                "IMEI"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane3.setViewportView(tblImei);
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -664,17 +647,13 @@ public class jplHoaDon extends javax.swing.JPanel {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(267, 267, 267))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -750,23 +729,19 @@ public class jplHoaDon extends javax.swing.JPanel {
         if (!keyword.equals("")) {
             hoaDonResponseList = hoaDonService.searchHoaDon(keyword);
             showHoaDonTable(hoaDonResponseList);
+        } else {
+            hoaDonResponseList = hoaDonService.getResponsesByTraGop(2);
+            showHoaDonTable(hoaDonResponseList);
         }
     }//GEN-LAST:event_txtTimKiemCaretUpdate
 
-    private void btnLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocActionPerformed
-        Date start = startDate.getDate();
-        Date end = endDate.getDate();
+    private void btnXoaLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaLocActionPerformed
+        startDate.setDate(new Date());
+        endDate.setDate(new Date());
 
-        LocalDate ldStart = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate ldEnd = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-        LocalDateTime ldtStart = ldStart.atStartOfDay();
-        LocalDateTime ldtEnd = ldEnd.atStartOfDay();
-
-        String kieuNgay = (String) cbLoc.getSelectedItem();
-        hoaDonResponseList = hoaDonService.filterHoaDonByDate(ldtStart, ldtEnd, kieuNgay);
+        hoaDonResponseList = hoaDonService.getResponsesByTraGop(2);
         showHoaDonTable(hoaDonResponseList);
-    }//GEN-LAST:event_btnLocActionPerformed
+    }//GEN-LAST:event_btnXoaLocActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         hoaDonChiTiet.setSize(420, 540);
@@ -863,6 +838,41 @@ public class jplHoaDon extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocActionPerformed
+        Date start = startDate.getDate();
+        Date end = endDate.getDate();
+
+        if (start == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập ngày tạo trước khi lọc!");
+            return;
+        } else if (end == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập ngày thanh toán trước khi lọc!");
+            return;
+        }
+
+        if (start.getTime() > end.getTime()) {
+            JOptionPane.showMessageDialog(this, "Ngày bắt đầu phải trước ngày kết thúc!");
+            return;
+        }
+
+        LocalDate ldStart = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate ldEnd = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        LocalDateTime ldtStart = ldStart.atStartOfDay();
+        LocalDateTime ldtEnd = ldEnd.atStartOfDay();
+        System.out.println(ldtStart);
+        System.out.println(ldtEnd);
+        String kieuNgay = (String) cbLoc.getSelectedItem();
+        if (kieuNgay.equals("Ngày tạo")) {
+            kieuNgay = "NgayTao";
+        } else {
+            kieuNgay = "NgayThanhToan";
+        }
+        System.out.println(kieuNgay);
+        hoaDonResponseList = hoaDonService.filterHoaDonByDate(ldtStart, ldtEnd, kieuNgay);
+        showHoaDonTable(hoaDonResponseList);
+    }//GEN-LAST:event_btnLocActionPerformed
+
     private void displayTraToanBo(boolean b) {
         kieuThanhToan.setVisible(b);
         lbKieuThanhToan.setVisible(b);
@@ -888,6 +898,7 @@ public class jplHoaDon extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLoc;
+    private javax.swing.JButton btnXoaLoc;
     private javax.swing.JComboBox<String> cbKieuHoaDon;
     private javax.swing.JComboBox<String> cbLoc;
     private com.toedter.calendar.JDateChooser endDate;
@@ -920,7 +931,6 @@ public class jplHoaDon extends javax.swing.JPanel {
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel kieuThanhToan;
     private javax.swing.JLabel kieuThanhToan2;
     private javax.swing.JLabel lbHinhThucThanhToan;
@@ -944,7 +954,6 @@ public class jplHoaDon extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser startDate;
     private javax.swing.JTable tblHoaDon;
     private javax.swing.JTable tblHoaDonChiTiet;
-    private javax.swing.JTable tblImei;
     private javax.swing.JLabel tienKhachDua;
     private javax.swing.JLabel tienThieu;
     private javax.swing.JLabel tienThua;

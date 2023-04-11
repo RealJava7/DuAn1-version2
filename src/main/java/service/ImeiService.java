@@ -10,7 +10,7 @@ public interface ImeiService {
 
     String add(Imei imei);
 
-    List<ImeiResponse> getAllNoneDienThoaiImei();
+    List<ImeiResponse> getResponsesWithDienThoaiNull();
 
     void update(ImeiResponse imeiResponse);
 

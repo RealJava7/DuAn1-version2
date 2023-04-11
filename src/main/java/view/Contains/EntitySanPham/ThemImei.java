@@ -28,10 +28,10 @@ public class ThemImei extends javax.swing.JFrame {
 
     public int idCurrentDienThoai = 0;
     private ImeiService imeiService;
-    private List<ImeiResponse> imeiResponseList;
-    private List<ImeiResponse> imeiResponseList1;
-    private DefaultTableModel dtmImei;
-    private DefaultTableModel dtmImei1;
+    private List<ImeiResponse> chuaBanImeiResponseList;
+    private List<ImeiResponse> daBanImeiResponseList;
+    private DefaultTableModel dtmImeiChuaBan;
+    private DefaultTableModel dtmImeiDaBan;
 
     // Constructor 1
     public ThemImei() {
@@ -45,14 +45,14 @@ public class ThemImei extends javax.swing.JFrame {
         });
 
         imeiService = new ImeiServiceImpl();
-        imeiResponseList = new ArrayList<>();
-        imeiResponseList1 = new ArrayList<>();
-        dtmImei = (DefaultTableModel) tbImei.getModel();
-        dtmImei1 = (DefaultTableModel) tbImei1.getModel();
+        chuaBanImeiResponseList = new ArrayList<>();
+        daBanImeiResponseList = new ArrayList<>();
+        dtmImeiChuaBan = (DefaultTableModel) tbImei.getModel();
+        dtmImeiDaBan = (DefaultTableModel) tbImei1.getModel();
 
-        imeiService.deleteImeiWithDienThoaiNull();
-        imeiResponseList = imeiService.getAllNoneDienThoaiImei();
-        showImeiTable0(imeiResponseList);
+//        imeiService.deleteImeiWithDienThoaiNull();
+        chuaBanImeiResponseList = imeiService.getResponsesWithDienThoaiNull();
+        showImeiTableChuaBan(chuaBanImeiResponseList);
     }
 
     // Constructor 2
@@ -68,33 +68,34 @@ public class ThemImei extends javax.swing.JFrame {
         });
 
         imeiService = new ImeiServiceImpl();
-        imeiResponseList = new ArrayList<>();
-        imeiResponseList1 = new ArrayList<>();
-        dtmImei = (DefaultTableModel) tbImei.getModel();
-        dtmImei1 = (DefaultTableModel) tbImei1.getModel();
+        chuaBanImeiResponseList = new ArrayList<>();
+        daBanImeiResponseList = new ArrayList<>();
+        dtmImeiChuaBan = (DefaultTableModel) tbImei.getModel();
+        dtmImeiDaBan = (DefaultTableModel) tbImei1.getModel();
 
         // hiện thị ds IMEI chưa bán
-        imeiResponseList = imeiService.getResponsesByIdDienThoaiAndStatus(idCurrentDienThoai, 0);
-        List<ImeiResponse> noneList = imeiService.getAllNoneDienThoaiImei();
-        imeiResponseList.addAll(noneList);
-        showImeiTable0(imeiResponseList);
+        chuaBanImeiResponseList = imeiService.getResponsesByIdDienThoaiAndStatus(idCurrentDienThoai, 0);
+        // imeisWithDienThoaiNull là các imei vừa được thêm nhưng chưa set field dienThoai vào imei đó
+        List<ImeiResponse> imeisWithDienThoaiNull = imeiService.getResponsesWithDienThoaiNull();
+        chuaBanImeiResponseList.addAll(imeisWithDienThoaiNull);
+        showImeiTableChuaBan(chuaBanImeiResponseList);
 
         // hiện thị ds IMEI đã bán
-        imeiResponseList1 = imeiService.getResponsesByIdDienThoaiAndStatus(idCurrentDienThoai, 1);
-        showImeiTable1(imeiResponseList1);
+        daBanImeiResponseList = imeiService.getResponsesByIdDienThoaiAndStatus(idCurrentDienThoai, 1);
+        showImeiTableDaBan(daBanImeiResponseList);
     }
 
     // 1
-    private void showImeiTable0(List<ImeiResponse> imeis) {
-        dtmImei.setRowCount(0);
-        imeis.forEach(i -> dtmImei.addRow(i.toDataRow()));
+    private void showImeiTableChuaBan(List<ImeiResponse> imeis) {
+        dtmImeiChuaBan.setRowCount(0);
+        imeis.forEach(i -> dtmImeiChuaBan.addRow(i.toDataRow()));
         lbTongSo.setText(String.valueOf(imeis.size()));
     }
 
     // 2
-    private void showImeiTable1(List<ImeiResponse> imeis) {
-        dtmImei1.setRowCount(0);
-        imeis.forEach(i -> dtmImei1.addRow(i.toDataRow()));
+    private void showImeiTableDaBan(List<ImeiResponse> imeis) {
+        dtmImeiDaBan.setRowCount(0);
+        imeis.forEach(i -> dtmImeiDaBan.addRow(i.toDataRow()));
         lbTongSo1.setText(String.valueOf(imeis.size()));
     }
 
@@ -470,7 +471,7 @@ public class ThemImei extends javax.swing.JFrame {
             return;
         }
 
-        ImeiResponse selectedImeiResponse = imeiResponseList.get(clickedRow);
+        ImeiResponse selectedImeiResponse = chuaBanImeiResponseList.get(clickedRow);
         String deleteResult = imeiService.delete(selectedImeiResponse);
         JOptionPane.showMessageDialog(this, deleteResult);
 
@@ -487,7 +488,7 @@ public class ThemImei extends javax.swing.JFrame {
             return;
         }
 
-        ImeiResponse imeiResponse = imeiResponseList.get(clickedRow);
+        ImeiResponse imeiResponse = chuaBanImeiResponseList.get(clickedRow);
         txtImei.setText(imeiResponse.getImei());
     }//GEN-LAST:event_tbImeiMouseClicked
 
@@ -510,7 +511,7 @@ public class ThemImei extends javax.swing.JFrame {
             return;
         }
 
-        ImeiResponse selectedImeiResponse = imeiResponseList.get(clickedRow);
+        ImeiResponse selectedImeiResponse = chuaBanImeiResponseList.get(clickedRow);
         selectedImeiResponse.setImei(imeiStr);
 
         String updateResult = imeiService.updateImeiStr(selectedImeiResponse);
@@ -565,7 +566,7 @@ public class ThemImei extends javax.swing.JFrame {
             return;
         }
 
-        ImeiResponse imeiResponse = imeiResponseList1.get(clickedRow);
+        ImeiResponse imeiResponse = daBanImeiResponseList.get(clickedRow);
         txtImei.setText(imeiResponse.getImei());
     }//GEN-LAST:event_tbImei1MouseClicked
 
@@ -592,14 +593,14 @@ public class ThemImei extends javax.swing.JFrame {
 
     private void lamMoiForm() {
         if (idCurrentDienThoai == 0) {
-            imeiResponseList = imeiService.getAllNoneDienThoaiImei();
-            showImeiTable0(imeiResponseList);
+            chuaBanImeiResponseList = imeiService.getResponsesWithDienThoaiNull();
+            showImeiTableChuaBan(chuaBanImeiResponseList);
             txtImei.setText("");
         } else {
-            imeiResponseList = imeiService.getResponsesByIdDienThoaiAndStatus(idCurrentDienThoai, 0);
-            List<ImeiResponse> noneDienThoaiImeis = imeiService.getAllNoneDienThoaiImei();
-            imeiResponseList.addAll(noneDienThoaiImeis);
-            showImeiTable0(imeiResponseList);
+            chuaBanImeiResponseList = imeiService.getResponsesByIdDienThoaiAndStatus(idCurrentDienThoai, 0);
+            List<ImeiResponse> noneDienThoaiImeis = imeiService.getResponsesWithDienThoaiNull();
+            chuaBanImeiResponseList.addAll(noneDienThoaiImeis);
+            showImeiTableChuaBan(chuaBanImeiResponseList);
             txtImei.setText("");
         }
     }

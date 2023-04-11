@@ -177,12 +177,12 @@ public class jplSanPham extends javax.swing.JPanel {
     public static void showImeiComboBox(int idCurrentDienThoai) {
         if (idCurrentDienThoai == 0) {
             dcbmImei.removeAllElements();
-            imeiResponseList = imeiService.getAllNoneDienThoaiImei();
+            imeiResponseList = imeiService.getResponsesWithDienThoaiNull();
             imeiResponseList.forEach(i -> dcbmImei.addElement(i.getImei()));
         } else {
             dcbmImei.removeAllElements();
             imeiResponseList = imeiService.getResponsesByIdDienThoaiAndStatus(idCurrentDienThoai, 0);
-            List<ImeiResponse> noneDienThoaiImeis = imeiService.getAllNoneDienThoaiImei();
+            List<ImeiResponse> noneDienThoaiImeis = imeiService.getResponsesWithDienThoaiNull();
             imeiResponseList.addAll(noneDienThoaiImeis);
             imeiResponseList.forEach(i -> dcbmImei.addElement(i.getImei()));
         }
@@ -1356,7 +1356,7 @@ public class jplSanPham extends javax.swing.JPanel {
 
             // imeis
             int dienThoaiId = dienThoaiResponse.getId();
-            List<ImeiResponse> imeiSet = ImeiRepository.getResponsesByIdDienThoaiAndStatus(dienThoaiResponse.getId(), 0);
+            List<ImeiResponse> imeiSet = ImeiRepository.getResponsesByIdDienThoaiAndStatus(dienThoaiId, 0);
 
             dcbmImei.removeAllElements();
             imeiSet.forEach(i -> cbImei.addItem(i.getImei()));
@@ -1711,11 +1711,12 @@ public class jplSanPham extends javax.swing.JPanel {
         }
 
         // xử lý imei mới
-        List<ImeiResponse> noneDienThoaiImeis = imeiService.getAllNoneDienThoaiImei();
-        for (ImeiResponse imeiResponse : noneDienThoaiImeis) {
+        List<ImeiResponse> imeisWithDienThoaiNull = imeiService.getResponsesWithDienThoaiNull();
+        for (ImeiResponse imeiResponse : imeisWithDienThoaiNull) {
             imeiResponse.setIdDienThoai(selectedDienThoai.getId());
             imeiService.update(imeiResponse);
         }
+        // đồng thời update số lượng của điện thoại tương ứng với số imei
         List<ImeiResponse> imeisWithSpecificDienThoaiId = imeiService.getResponsesByIdDienThoaiAndStatus(selectedDienThoai.getId(), 0);
         selectedDienThoai.setSoLuong(imeisWithSpecificDienThoaiId.size());
 

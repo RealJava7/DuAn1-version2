@@ -34,7 +34,7 @@ public class ImeiRepository {
         }
         return imei;
     }
-    
+
     // get IMEI by imei
     public static Imei getByImei(String imeiStr) {
         Imei imei = null;
@@ -56,7 +56,7 @@ public class ImeiRepository {
     }
 
     // 2. get all with idDienThoai null
-    public List<ImeiResponse> getAllNoneDienThoaiImei() {
+    public List<ImeiResponse> getResponsesWithDienThoaiNull() {
         List<ImeiResponse> imeis = new ArrayList<>();
 
         try {
