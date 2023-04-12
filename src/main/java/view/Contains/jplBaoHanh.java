@@ -2,11 +2,31 @@ package view.Contains;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -76,6 +96,53 @@ public class jplBaoHanh extends javax.swing.JPanel {
         for (LoaiBaoHanh lbh : service.getAllLBH(id)) {
             dtm1.addRow(lbh.toRowData());
         }
+    }
+
+    private void sendEmailWithAttachment(String recipientEmail, String subject, String body, String filePath) throws MessagingException, IOException {
+        // Bật giao thức TLS 1.2
+        System.setProperty("https.protocols", "TLSv1.2");
+
+        // Cấu hình thông tin email server
+        String senderEmail = "hieupvph29564@fpt.edu.vn";
+        String senderPassword = "Phieu2002";
+        String emailSMTPserver = "smtp.gmail.com";
+        String emailServerPort = "587";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.host", emailSMTPserver);
+        props.put("mail.smtp.port", emailServerPort);
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
+        // Tạo session gửi email
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(senderEmail, senderPassword);
+            }
+        });
+
+        // Tạo nội dung email
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(senderEmail));
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail));
+        message.setSubject(subject);
+
+        // Tạo phần thân email
+        MimeMultipart multipart = new MimeMultipart();
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setContent(body, "text/html; charset=utf-8");
+        multipart.addBodyPart(messageBodyPart);
+
+        // Đính kèm file Excel vào email
+        MimeBodyPart attachmentPart = new MimeBodyPart();
+        attachmentPart.attachFile(new File(filePath));
+        multipart.addBodyPart(attachmentPart);
+
+        // Thiết lập phần thân cho email
+        message.setContent(multipart);
+
+        // Gửi email
+        Transport.send(message);
     }
 
     @SuppressWarnings("unchecked")
@@ -454,6 +521,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
     private void btnImportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportExcelActionPerformed
         showDataTable(service.getAll());
+        //tạo file excel ảo từ jtable
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Data");
         int rowNum = 0;
@@ -464,6 +532,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
                 cell.setCellValue(tbCTPBH.getValueAt(i, j).toString());
             }
         }
+        //xuất file excel ra desktop
         FileOutputStream outputStream;
         try {
             System.out.println("Creating Excel file...");
@@ -475,8 +544,18 @@ public class jplBaoHanh extends javax.swing.JPanel {
             ex.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        //khởi tạo mail
+//        String filePath = "C:\\Users\\virus\\OneDrive\\Máy tính\\Phiếu Bảo Hành.xlsx";
+//        try {
+//            sendEmailWithAttachment("virusrangsun@gmail.com", "Email subject", "Email", filePath);
+//        } catch (MessagingException ex) {
+//            Logger.getLogger(jplBaoHanh.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(jplBaoHanh.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+
     }//GEN-LAST:event_btnImportExcelActionPerformed
-    }
 
     private void btnAddLoaiBaoHanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLoaiBaoHanhActionPerformed
         // TODO add your handling code here:
