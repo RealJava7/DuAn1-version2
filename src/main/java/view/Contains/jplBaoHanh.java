@@ -10,6 +10,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -473,45 +475,29 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
     private void btnImportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportExcelActionPerformed
         showDataTable(service.getAll());
-        try {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.showSaveDialog(this);
-            File saveFile = fileChooser.getSelectedFile();
-            if (saveFile != null) {
-                saveFile = new File(saveFile.toString() + ".xlsx");
-                Workbook wb = new SXSSFWorkbook();
-                Sheet sheet = wb.createSheet("Phiếu Bảo Hành");
-                Row rowCol = sheet.createRow(0);
-                for (int i = 0; i <= tbCTPBH.getColumnCount(); i++) {
-                    Cell cell = rowCol.createCell(i);
-                    cell.setCellValue(tbCTPBH.getColumnName(i));
-                }
-                for (int i = 0; i <= tbCTPBH.getRowCount(); i++) {
-                    Row row = sheet.createRow(i);
-                    for (int j = 0; j <= tbCTPBH.getColumnCount(); j++) {
-                        Cell cell = row.createCell(i);
-                        if (tbCTPBH.getValueAt(j, i) != null) {
-                            cell.setCellValue(tbCTPBH.getValueAt(i, j).toString());
-                        }
-                    }
-                }
-                FileOutputStream fos = new FileOutputStream(new File(saveFile.toString()));
-                wb.write(fos);
-                wb.close();
-                fos.close();
-                openFileExcel(saveFile.toString());
-            } else {
-                JOptionPane.showMessageDialog(null, "Lỗi khi khởi tạo các dữ liệu file");
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Data");
+        int rowNum = 0;
+        for (int i = 0; i < tbCTPBH.getRowCount(); i++) {
+            Row row = sheet.createRow(rowNum++);
+            for (int j = 0; j < tbCTPBH.getColumnCount(); j++) {
+                Cell cell = row.createCell(j);
+                cell.setCellValue(tbCTPBH.getValueAt(i, j).toString());
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "File not Found");
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Có lỗi khi khởi tạo hoặc đóng các class, file");
         }
+        FileOutputStream outputStream;
+        try {
+            System.out.println("Creating Excel file...");
+            outputStream = new FileOutputStream("C:\\Users\\virus\\OneDrive\\Máy tính\\Phiếu Bảo Hành.xlsx");
+            workbook.write(outputStream);
+            outputStream.close();
+            System.out.println("Excel file created successfully.");
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
     }//GEN-LAST:event_btnImportExcelActionPerformed
-
+    }
     private void btnAddLoaiBaoHanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLoaiBaoHanhActionPerformed
         // TODO add your handling code here:
         QuanLyLoaiBaoHanh qllbh = new QuanLyLoaiBaoHanh();

@@ -26,7 +26,7 @@ import viewmodel.HoaDonChiTietResponse;
 public class ExportPdfHoaDon {
 
 //    public static final String pathUnicode = "C:/Users/T490/OneDrive - Hanoi University of Science and Technology/Documents/NetBeansProjects/Duan1-V2/DuAn1-version2/src/main/resources/font/unicode.ttf";
-    public final String pathUnicode = getClass().getClassLoader().getResource("font/unicode.ttf").getPath();
+    //public final String pathUnicode = getClass().getClassLoader().getResource("font/unicode.ttf").getPath();
 
     public void exportBill3(HoaDon hoaDon, List<HoaDonChiTietResponse> hdctResponseList, String pathFile) {
         try {
