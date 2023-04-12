@@ -29,6 +29,7 @@ public class ExportPdfHoaDon {
     //public final String pathUnicode = getClass().getClassLoader().getResource("font/unicode.ttf").getPath();
 
     public void exportBill3(HoaDon hoaDon, List<HoaDonChiTietResponse> hdctResponseList, String pathFile) {
+        System.out.println(pathFile);
         try {
             System.out.println(pathFile);
             String path = pathFile + "\\" + "hoa_don" + Calendar.getInstance().getTimeInMillis() + ".pdf";

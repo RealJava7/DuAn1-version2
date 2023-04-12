@@ -167,7 +167,7 @@ public class jplSanPham extends javax.swing.JPanel {
         dtmInactive.setRowCount(0);
         for (int i = 0; i < dienThoaiResponses.size(); ++i) {
             DienThoaiResponse dt = dienThoaiResponses.get(i);
-            dtmActive.addRow(dt.toDataRow());
+            dtmInactive.addRow(dt.toDataRow());
             tongSoLuong += dt.getSoLuong();
         }
         lbTongSLInactive.setText("Tổng SL: " + tongSoLuong);
@@ -370,6 +370,11 @@ public class jplSanPham extends javax.swing.JPanel {
         setBackground(new java.awt.Color(255, 255, 255));
 
         jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane1StateChanged(evt);
+            }
+        });
         jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTabbedPane1MouseClicked(evt);
@@ -1850,8 +1855,9 @@ public class jplSanPham extends javax.swing.JPanel {
         HeDieuHanh hdh = HeDieuHanhRepository.getByTen(tenHeDH);
         dcbmHDH.setSelectedItem(hdh);
 
-        DienThoai dienThoai = DienThoaiRepository.getById(dienThoaiResponse.getId());
-        Set<Imei> imeiSet = dienThoai.getImeis();
+        // imei
+        int dienThoaiId = dienThoaiResponse.getId();
+        List<ImeiResponse> imeiSet = ImeiRepository.getResponsesByIdDienThoaiAndStatus(dienThoaiId, 0);
 
         dcbmImei.removeAllElements();
         imeiSet.forEach(i -> cbImei.addItem(i.getImei()));
@@ -1883,14 +1889,21 @@ public class jplSanPham extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchByTenCaretUpdate
 
     private void imageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageMouseClicked
-        JFileChooser chooser = new JFileChooser();
+        String path = "C:/Users/T490/OneDrive - Hanoi University of Science and Technology/Documents/NetBeansProjects/Duan1-V2/DuAn1-version2/src/main/resources/phoneimage";
+        JFileChooser chooser = new JFileChooser(path);
         FileFilter filter = new FileNameExtensionFilter("Tệp JPG", "jpg");
         chooser.setFileFilter(filter);
         int result = chooser.showOpenDialog(null);
+
+//        JFileChooser chooser = new JFileChooser();
+//        chooser.setCurrentDirectory(new java.io.File("./src/main/resources"));
+//        chooser.setDialogTitle("Chọn thư mục resources");
+//        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//        chooser.setAcceptAllFileFilterUsed(false);
         if (result == JFileChooser.APPROVE_OPTION) {
+//        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             File selectedFile = chooser.getSelectedFile();
             imagePath = selectedFile.getName();
-            System.out.println("Selected image path: " + imagePath);
 
             // Hiển thị ảnh lên khung
             ImageIcon icon = new ImageIcon(selectedFile.getPath());
@@ -1926,22 +1939,11 @@ public class jplSanPham extends javax.swing.JPanel {
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
-        jTabbedPane1.getModel().addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                int index = jTabbedPane1.getSelectedIndex();
-                System.out.println(index);
-                if (index == 0) {
-                    setButtons(true);
-                } else {
-                    setButtons(false);
-                }
-            }
-        });
+
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void txtDoPGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDoPGActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_txtDoPGActionPerformed
 
     private void btnThemImeiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemImeiActionPerformed
@@ -2020,6 +2022,20 @@ public class jplSanPham extends javax.swing.JPanel {
         activedienThoaiResponseList = dienThoaiService.getAllResponseByStatus(true);
         showActiveTable(activedienThoaiResponseList);
     }//GEN-LAST:event_btnXoaLocActionPerformed
+
+    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+        jTabbedPane1.getModel().addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int index = jTabbedPane1.getSelectedIndex();
+                if (index == 0) {
+                    setButtons(true);
+                } else {
+                    setButtons(false);
+                }
+            }
+        });
+    }//GEN-LAST:event_jTabbedPane1StateChanged
 
     private void setButtons(boolean boo) {
         btnLamMoi.setEnabled(boo);
