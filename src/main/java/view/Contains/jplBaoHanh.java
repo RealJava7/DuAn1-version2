@@ -1,21 +1,14 @@
 package view.Contains;
 
 import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.Font;
-import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import model.LoaiBaoHanh;
@@ -23,14 +16,10 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import service.PhieuBaoHanhService;
 import service.impl.PhieuBaoHanhServiceImpl;
 import view.Contains.entitybaohanh.QuanLyLoaiBaoHanh;
 import viewmodel.PhieuBaoHanhResponse;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class jplBaoHanh extends javax.swing.JPanel {
@@ -86,16 +75,6 @@ public class jplBaoHanh extends javax.swing.JPanel {
         dtm1.setRowCount(0);
         for (LoaiBaoHanh lbh : service.getAllLBH(id)) {
             dtm1.addRow(lbh.toRowData());
-        }
-    }
-
-    private void openFileExcel(String file) {
-        try {
-            File path = new File(file);
-            Desktop.getDesktop().open(path);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Lỗi khi cố gắng mở file Excel");
         }
     }
 
@@ -498,6 +477,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
             e.printStackTrace();
     }//GEN-LAST:event_btnImportExcelActionPerformed
     }
+
     private void btnAddLoaiBaoHanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLoaiBaoHanhActionPerformed
         // TODO add your handling code here:
         QuanLyLoaiBaoHanh qllbh = new QuanLyLoaiBaoHanh();
