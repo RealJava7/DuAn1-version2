@@ -98,7 +98,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
         }
     }
 
-    private void sendEmailWithAttachment(String recipientEmail, String subject, String body, String filePath) throws MessagingException, IOException {
+    private static void sendEmailWithAttachment(String recipientEmail, String subject, String body, String filePath) throws MessagingException, IOException {
         // Bật giao thức TLS 1.2
         System.setProperty("https.protocols", "TLSv1.2");
 
@@ -113,7 +113,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
         props.put("mail.smtp.port", emailServerPort);
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
         // Tạo session gửi email
         Session session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -143,6 +143,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
         // Gửi email
         Transport.send(message);
+        System.out.println("Gửi thành công");
     }
 
     @SuppressWarnings("unchecked")
@@ -536,24 +537,26 @@ public class jplBaoHanh extends javax.swing.JPanel {
         FileOutputStream outputStream;
         try {
             System.out.println("Creating Excel file...");
-            outputStream = new FileOutputStream("C:\\Users\\virus\\OneDrive\\Máy tính\\Phiếu Bảo Hành.xlsx");
+            outputStream = new FileOutputStream("C:\\Users\\virus\\OneDrive\\Máy tính\\PhieuBaoHanh.xlsx");
             workbook.write(outputStream);
             outputStream.close();
-            System.out.println("Excel file created successfully.");
+            JOptionPane.showMessageDialog(this, "Excel file created successfully.");
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //khởi tạo mail
-//        String filePath = "C:\\Users\\virus\\OneDrive\\Máy tính\\Phiếu Bảo Hành.xlsx";
-//        try {
-//            sendEmailWithAttachment("virusrangsun@gmail.com", "Email subject", "Email", filePath);
-//        } catch (MessagingException ex) {
-//            Logger.getLogger(jplBaoHanh.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IOException ex) {
-//            Logger.getLogger(jplBaoHanh.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            String path = "C:\\Users\\virus\\OneDrive\\Máy tính\\PhieuBaoHanh.xlsx";
+            sendEmailWithAttachment("binhpvph29510@fpt.edu.vn", "Báo cáo phiếu bảo hành", "Danh sách phiếu bảo hành", path);
+        } catch (MessagingException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi khi cố gắng gửi file hoặc mail");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi khi cố gắng cấu hình, khởi tạo nội dung mail");
+
+        }
 
     }//GEN-LAST:event_btnImportExcelActionPerformed
 
