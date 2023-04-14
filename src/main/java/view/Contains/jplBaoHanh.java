@@ -6,20 +6,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -113,7 +105,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
         props.put("mail.smtp.port", emailServerPort);
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
         // Tạo session gửi email
         Session session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -143,6 +135,33 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
         // Gửi email
         Transport.send(message);
+        System.out.println("Gửi thành công");
+    }
+
+    private void exportExcel() {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Data");
+        int rowNum = 0;
+        for (int i = 0; i < tbCTPBH.getRowCount(); i++) {
+            Row row = sheet.createRow(rowNum++);
+            for (int j = 0; j < tbCTPBH.getColumnCount(); j++) {
+                Cell cell = row.createCell(j);
+                cell.setCellValue(tbCTPBH.getValueAt(i, j).toString());
+            }
+        }
+        //xuất file excel ra desktop
+        FileOutputStream outputStream;
+        try {
+            System.out.println("Creating Excel file...");
+            outputStream = new FileOutputStream("C:\\Users\\virus\\OneDrive\\Máy tính\\PhieuBaoHanh.xlsx");
+            workbook.write(outputStream);
+            outputStream.close();
+            JOptionPane.showMessageDialog(this, "Excel file created successfully.");
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -153,7 +172,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbCTPBH = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btnLoad = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         cbbLBH = new javax.swing.JComboBox<>();
@@ -213,13 +232,13 @@ public class jplBaoHanh extends javax.swing.JPanel {
             tbCTPBH.getColumnModel().getColumn(0).setPreferredWidth(10);
         }
 
-        jButton1.setBackground(new java.awt.Color(47, 85, 212));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-available-updates-20 (1).png"))); // NOI18N
-        jButton1.setText("Load");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnLoad.setBackground(new java.awt.Color(47, 85, 212));
+        btnLoad.setForeground(new java.awt.Color(255, 255, 255));
+        btnLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/icons8-available-updates-20 (1).png"))); // NOI18N
+        btnLoad.setText("Load");
+        btnLoad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnLoadActionPerformed(evt);
             }
         });
 
@@ -238,14 +257,14 @@ public class jplBaoHanh extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(btnLoad)))
                 .addGap(23, 23, 23))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(btnLoad)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -521,40 +540,23 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
     private void btnImportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportExcelActionPerformed
         showDataTable(service.getAll());
-        //tạo file excel ảo từ jtable
-        Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Data");
-        int rowNum = 0;
-        for (int i = 0; i < tbCTPBH.getRowCount(); i++) {
-            Row row = sheet.createRow(rowNum++);
-            for (int j = 0; j < tbCTPBH.getColumnCount(); j++) {
-                Cell cell = row.createCell(j);
-                cell.setCellValue(tbCTPBH.getValueAt(i, j).toString());
+        int choice = JOptionPane.showConfirmDialog(this, "Bạn có muốn sau khi xuất file excel thì gửi báo cáo cho quản lý qua mail hay không?");
+        if (choice == 0) {
+            exportExcel();
+            try {
+                String path = "C:\\Users\\virus\\OneDrive\\Máy tính\\PhieuBaoHanh.xlsx";
+                sendEmailWithAttachment("binhpvph29510@fpt.edu.vn", "Báo cáo phiếu bảo hành", "Danh sách phiếu bảo hành", path);
+                JOptionPane.showMessageDialog(this, "Gửi báo cáo thành công!");
+            } catch (MessagingException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Lỗi khi cố gắng gửi file hoặc mail");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Lỗi khi cố gắng cấu hình, khởi tạo nội dung mail");
             }
+        } else if (choice == 1) {
+            exportExcel();
         }
-        //xuất file excel ra desktop
-        FileOutputStream outputStream;
-        try {
-            System.out.println("Creating Excel file...");
-            outputStream = new FileOutputStream("C:\\Users\\virus\\OneDrive\\Máy tính\\Phiếu Bảo Hành.xlsx");
-            workbook.write(outputStream);
-            outputStream.close();
-            System.out.println("Excel file created successfully.");
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //khởi tạo mail
-//        String filePath = "C:\\Users\\virus\\OneDrive\\Máy tính\\Phiếu Bảo Hành.xlsx";
-//        try {
-//            sendEmailWithAttachment("virusrangsun@gmail.com", "Email subject", "Email", filePath);
-//        } catch (MessagingException ex) {
-//            Logger.getLogger(jplBaoHanh.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IOException ex) {
-//            Logger.getLogger(jplBaoHanh.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
     }//GEN-LAST:event_btnImportExcelActionPerformed
 
     private void btnAddLoaiBaoHanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLoaiBaoHanhActionPerformed
@@ -568,20 +570,29 @@ public class jplBaoHanh extends javax.swing.JPanel {
         if (txtSearchTenKH.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "Không được để trống tìm kiếm");
         } else {
-            if (service.getAllListSearch(txtSearchTenKH.getText()).isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng!");
-                dtm.setRowCount(0);
+            String pattern = "^0\\d{9}$";
+            if (!txtSearchTenKH.getText().matches(pattern)) {
+                JOptionPane.showMessageDialog(this, "Số điện thoại phải bắt đầu bằng 0 và có 10 kí tự số");
             } else {
-                showDataTable(service.getAllListSearch(txtSearchTenKH.getText()));
+                if (service.getAllListSearch(txtSearchTenKH.getText()).isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Không tìm thấy khách hàng!");
+                    dtm.setRowCount(0);
+                } else {
+                    showDataTable(service.getAllListSearch(txtSearchTenKH.getText()));
+                }
             }
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
         // TODO add your handling code here:
         showDataTable(service.getAll());
         showComboboxData(service.getAllLoaiBaoHanh());
-    }//GEN-LAST:event_jButton1ActionPerformed
+        dtm1.setRowCount(0);
+        txtMoTa.setText("");
+        txtSearchTenKH.setText("");
+        buttonGroup1.clearSelection();
+    }//GEN-LAST:event_btnLoadActionPerformed
 
     private void rdConHanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdConHanMouseClicked
         // TODO add your handling code here:
@@ -652,11 +663,11 @@ public class jplBaoHanh extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddLoaiBaoHanh;
     private javax.swing.JButton btnImportExcel;
+    private javax.swing.JButton btnLoad;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdateMota;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbbLBH;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

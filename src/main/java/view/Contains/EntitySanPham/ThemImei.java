@@ -523,6 +523,7 @@ public class ThemImei extends javax.swing.JFrame {
     private void btnImportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportExcelActionPerformed
         JFileChooser chooser = new JFileChooser();
         int result = chooser.showOpenDialog(null);
+        int total = 0;
         if (result == JFileChooser.APPROVE_OPTION) {
             try {
                 // C:\Users\T490\OneDrive - Hanoi University of Science and Technology\Documents\NetBeansProjects\phone-imei\imeis-1.xlsx
@@ -532,7 +533,7 @@ public class ThemImei extends javax.swing.JFrame {
                 XSSFWorkbook wb = new XSSFWorkbook(fis);
                 XSSFSheet sheet = wb.getSheetAt(0);
                 Iterator<Row> itr = sheet.iterator();
-
+                
                 while (itr.hasNext()) {
                     Row row = itr.next();
                     Iterator<Cell> cellIterator = row.cellIterator();
@@ -542,10 +543,10 @@ public class ThemImei extends javax.swing.JFrame {
                             case STRING: {
                                 String imeiStr = cell.getStringCellValue().substring(1);
                                 if (imeiService.getByImei(imeiStr) == null) {
-                                    System.out.println(cell.getStringCellValue().substring(1));
                                     Imei imei = new Imei();
                                     imei.setImei(imeiStr);
-                                    String addResult = imeiService.add(imei);
+                                    imeiService.add(imei);
+                                    total++;
                                 }
                                 break;
                             }
@@ -555,8 +556,9 @@ public class ThemImei extends javax.swing.JFrame {
                 lamMoiForm();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                JOptionPane.showMessageDialog(this, total + " imei đã được thêm từ file excel.\nNhững imei không hợp lệ đã bị loại");
             }
-
         }
     }//GEN-LAST:event_btnImportExcelActionPerformed
 

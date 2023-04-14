@@ -22,7 +22,7 @@ import viewmodel.DienThoaiResponse;
 
 public class DienThoaiRepository {
 
-    // 1. add
+    // add
     public static boolean add(DienThoai dienThoai) {
         boolean check = false;
         try {
@@ -37,7 +37,7 @@ public class DienThoaiRepository {
         return check;
     }
 
-    // 2. get all by trangThai
+    // get List<DienThoaiResponse> by trangThai
     public List<DienThoaiResponse> getAllResponseByStatus(boolean status) {
         List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
 
@@ -185,7 +185,7 @@ public class DienThoaiRepository {
         return dienThoaiResponses;
     }
 
-    //  get by id
+    // get DienThoai by id
     public static DienThoai getById(int id) {
         DienThoai dienThoai = null;
         try {
@@ -198,7 +198,7 @@ public class DienThoaiRepository {
         return dienThoai;
     }
 
-    // 4. get by maDienThoai
+    // get DienThoai by maDienThoai
     public DienThoai getByMaDT(String maDT) {
         DienThoai dienThoai = null;
         try {
@@ -249,7 +249,7 @@ public class DienThoaiRepository {
         return dienThoaiResponses;
     }
 
-    // 6. search by name
+    // search List<DienThoaiResponse> by name
     public List<DienThoaiResponse> searchAllResponseByName(String keyword) {
         List<DienThoaiResponse> dienThoaiResponses = new ArrayList<>();
 
@@ -391,7 +391,7 @@ public class DienThoaiRepository {
         return check;
     }
 
-    // 8. tăng/giảm số lượng điện thoại đi 1 (dùng nhiều trong view bán hàng)
+    // tăng/giảm số lượng điện thoại đi 1 (dùng nhiều trong view bán hàng)
     public static void updateSoLuongDienThoai(String imeiStr, int tangGiam) {
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
