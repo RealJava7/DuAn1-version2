@@ -66,7 +66,7 @@
         
         
         <!-- PDF -->
-         <dependency>
+        <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>kernel</artifactId>
             <version>7.0.2</version>
@@ -118,6 +118,13 @@
             <groupId>com.itextpdf</groupId>
             <artifactId>hyph</artifactId>
             <version>7.0.2</version>
+        </dependency>
+        
+        <!-- Java Mail API -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
         </dependency>
         
     </dependencies>

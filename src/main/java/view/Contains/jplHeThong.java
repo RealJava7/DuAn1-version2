@@ -233,7 +233,8 @@ public class jplHeThong extends javax.swing.JPanel {
     }
 
     private void chooseImg() {
-        JFileChooser chooser = new JFileChooser();
+       // JFileChooser chooser = new JFileChooser();
+        JFileChooser chooser = new JFileChooser("D:\\NetBeansProjects\\DuAn1\\DuAn1\\src\\main\\resources\\Icon");
         FileFilter filter = new FileNameExtensionFilter("Tệp JPG", "jpg");
         chooser.setFileFilter(filter);
         int result = chooser.showOpenDialog(null);
