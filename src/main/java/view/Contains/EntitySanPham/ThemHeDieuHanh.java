@@ -1,11 +1,15 @@
 package view.Contains.EntitySanPham;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import model.HeDieuHanh;
 import service.HeDieuHanhService;
 import service.impl.HeDieuHanhServiceImpl;
@@ -34,6 +38,19 @@ public class ThemHeDieuHanh extends javax.swing.JFrame {
 
         showActiveTable(activeHeDHResponseList);
         showInactiveTable(inactiveHeDHResponseList);
+    }
+
+    private void setMau(JTable tb) {
+        JTableHeader tbHead = tb.getTableHeader();
+        tbHead.setFont(new Font("tahoma", Font.BOLD, 15));
+        tbHead.setBackground(new Color(47, 85, 212));
+        tbHead.setForeground(Color.white);
+    }
+
+    private void viewTable() {
+        setMau(tbActive);
+        setMau(tbInactive);
+
     }
 
     // 1

@@ -4,6 +4,8 @@
  */
 package view.Contains.tragop;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.io.File;
 import java.text.NumberFormat;
 import java.time.LocalDate;
@@ -13,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import model.LichSuTraGop;
 import model.PhieuTraGop;
 import service.LichSuTraGopService;
@@ -41,12 +44,20 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
 //    }
     public ViewLichSuTraGop(int id) {
         initComponents();
+        viewTable();
         dtm = (DefaultTableModel) this.tblLichSuThuNo.getModel();
         ptg = ptgService.getByID(id);
         listView = lstgService.getByID(ptg.getId());
         fillPhieuTraGop();
         showDataTable(listView);
 
+    }
+
+    private void viewTable() {
+        JTableHeader tbHead = tblLichSuThuNo.getTableHeader();
+        tbHead.setFont(new Font("tahoma", Font.BOLD, 15));
+        tbHead.setBackground(new Color(47, 85, 212));
+        tbHead.setForeground(Color.white);
     }
 
     private void fillPhieuTraGop() {
@@ -154,6 +165,9 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
         jPopupMenu1.add(mnuXuatPhieuThu);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel1.setText("Phiếu Trả Góp Chi Tiết");
@@ -172,21 +186,28 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
         );
 
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Thu Nợ"));
 
         jLabel5.setText("Ghi chú :");
 
         jLabel6.setText("Nhập số tiền thanh toàn :");
 
+        txtTienThanhToan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtTienThanhToan.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtTienThanhToan.setText("0");
+        txtTienThanhToan.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
 
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setText("VNĐ");
 
         txtGhiChu.setColumns(1);
         txtGhiChu.setRows(5);
         jScrollPane1.setViewportView(txtGhiChu);
 
+        btnTaoPhieuThu.setBackground(new java.awt.Color(47, 85, 212));
+        btnTaoPhieuThu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTaoPhieuThu.setForeground(new java.awt.Color(255, 255, 255));
         btnTaoPhieuThu.setText("Tạo Phiếu Thu");
         btnTaoPhieuThu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,6 +215,9 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
             }
         });
 
+        btnSuaPhieuThu.setBackground(new java.awt.Color(47, 85, 212));
+        btnSuaPhieuThu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSuaPhieuThu.setForeground(new java.awt.Color(255, 255, 255));
         btnSuaPhieuThu.setText("Sửa Phiếu Thu");
         btnSuaPhieuThu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,6 +225,9 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
             }
         });
 
+        btnXoaPhieuThu.setBackground(new java.awt.Color(47, 85, 212));
+        btnXoaPhieuThu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnXoaPhieuThu.setForeground(new java.awt.Color(255, 255, 255));
         btnXoaPhieuThu.setText("Xóa Phiếu thu");
         btnXoaPhieuThu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,6 +238,7 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
         jLabel12.setText("Mã Phiếu Thu :");
 
         txtMaLSTG.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtMaLSTG.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -268,6 +296,7 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Lịch Sử Thu Nợ"));
 
         tblLichSuThuNo.setModel(new javax.swing.table.DefaultTableModel(
@@ -311,6 +340,11 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
         );
 
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+
+        jButton1.setBackground(new java.awt.Color(47, 85, 212));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Cập Nhật Phiếu Trả Góp");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -332,6 +366,7 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Phiếu Trả Góp"));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -349,33 +384,49 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel11.setText("Trạng thái :");
 
+        rdoHoanThanh.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(rdoHoanThanh);
         rdoHoanThanh.setText("Hoàn Thành");
 
+        rdoChuaHoanThanh.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(rdoChuaHoanThanh);
         rdoChuaHoanThanh.setText("Chưa Hoàn Thành");
 
+        lblPhaiTraHangThang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblPhaiTraHangThang.setForeground(new java.awt.Color(47, 85, 212));
         lblPhaiTraHangThang.setText("0");
 
+        lblMaPhieu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblMaPhieu.setForeground(new java.awt.Color(47, 85, 212));
         lblMaPhieu.setText("0");
 
+        lblLaiSuat.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblLaiSuat.setForeground(new java.awt.Color(47, 85, 212));
         lblLaiSuat.setText("0");
 
+        lblKiHan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblKiHan.setForeground(new java.awt.Color(47, 85, 212));
         lblKiHan.setText("0");
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel17.setText("Ngày Tạo :");
 
+        lblNgayTao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblNgayTao.setForeground(new java.awt.Color(47, 85, 212));
         lblNgayTao.setText("0");
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel19.setText("Tổng Tiền :");
 
+        lblTongTien.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblTongTien.setForeground(new java.awt.Color(47, 85, 212));
         lblTongTien.setText("0");
 
         jLabel21.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel21.setText("Ngày Đóng :");
 
+        lblNgayDong.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblNgayDong.setForeground(new java.awt.Color(47, 85, 212));
         lblNgayDong.setText("0");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -413,7 +464,7 @@ public class ViewLichSuTraGop extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(lblPhaiTraHangThang, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(208, 208, 208)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 63, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(rdoHoanThanh, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                         .addGap(18, 18, 18)

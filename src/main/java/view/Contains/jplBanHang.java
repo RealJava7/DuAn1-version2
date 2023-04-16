@@ -69,13 +69,13 @@ import viewmodel.NhanVienResponse;
 import viewmodel.PhieuGiamGiaResponse;
 
 public class jplBanHang extends javax.swing.JPanel {
-    
+
     private DefaultTableModel dtmDienThoai;
-    
+
     private List<DienThoaiResponse> dienThoaiResponseList;
     private List<KhachHangResponse> khachHangResponseList;
     private List<HoaDonChiTietResponse> hoaDonChiTietResponseList;
-    
+
     private DienThoaiService dienThoaiService;
     private KhachHangService khachHangService;
     private ImeiService imeiService;
@@ -83,20 +83,20 @@ public class jplBanHang extends javax.swing.JPanel {
     private HoaDonService hoaDonService;
     private PhieuBaoHanhService phieuBaoHanhService;
     private PhieuTraGopService phieuTraGopService;
-    
+
     private NumberFormat numberFormat = NumberFormat.getInstance(new Locale("vn", "VN"));
     private static NhanVienResponse loggedNhanVienResponse = new NhanVienResponse();
     private ExportPdfHoaDon export = new ExportPdfHoaDon();
-    
+
     public jplBanHang(NhanVienResponse nv) {
         initComponents();
-        
+
         dtmDienThoai = (DefaultTableModel) tbDienThoai.getModel();
-        
+
         dienThoaiResponseList = new ArrayList<>();
         khachHangResponseList = new ArrayList<>();
         hoaDonChiTietResponseList = new ArrayList<>();
-        
+
         dienThoaiService = new DienThoaiServiceImpl();
         khachHangService = new KhachHangServiceImpl();
         imeiService = new ImeiServiceImpl();
@@ -105,10 +105,10 @@ public class jplBanHang extends javax.swing.JPanel {
         phieuBaoHanhService = new PhieuBaoHanhServiceImpl();
         phieuTraGopService = new PhieuTraGopServiceImpl();
         loggedNhanVienResponse = nv;
-        
+
         dienThoaiResponseList = dienThoaiService.getAllResponseByStatus(true);
         khachHangResponseList = khachHangService.getAllResponseByStatus(1);
-        
+
         showDienThoaiTable(dienThoaiResponseList);
         showHangDtCombobox();
 
@@ -122,12 +122,12 @@ public class jplBanHang extends javax.swing.JPanel {
         chuyenKhoan(false);
         chuyenKhoan2(false);
     }
-    
+
     private void chuyenKhoan(Boolean b) {
         lbMaGD.setVisible(b);
         txtMaGD.setVisible(b);
     }
-    
+
     private void chuyenKhoan2(Boolean b) {
         lbMaGD2.setVisible(b);
         txtMaGD2.setVisible(b);
@@ -149,20 +149,20 @@ public class jplBanHang extends javax.swing.JPanel {
     private void showHangDtCombobox() {
         HangService hangService = new HangServiceImpl();
         List<HangResponse> hangResponseList = hangService.getAllResponseByStatus(true);
-        
+
         cbHangDT.removeAllItems();
         cbHangDT.addItem("Tất cả");
         hangResponseList.forEach(h -> cbHangDT.addItem(h.getTenHang()));
     }
-    
+
     private void viewTable() {
         JTableHeader Theader = tbDienThoai.getTableHeader();
-        
+
         Theader.setFont(new Font("tahoma", Font.BOLD, 15));
         Theader.setBackground(new Color(47, 85, 212));
         Theader.setForeground(Color.white);
     }
-    
+
     private void setDefault() {
         txtHoTen.setText("");
         txtEmail.setText("");
@@ -171,13 +171,13 @@ public class jplBanHang extends javax.swing.JPanel {
         txtDiaChi.setText("");
         chkTrangThai.setSelected(false);
     }
-    
+
     private boolean kiemTra(int id, String email) {
         StringBuilder sb = new StringBuilder();
         KhachHangResponse kh = khachHangService.getKhachHangByEmail(email);
         if (txtHoTen.getText().trim().isBlank()) {
             sb.append("Không để trống họ và tên\n");
-            
+
         }
         if (txtEmail.getText().trim().isBlank()) {
             sb.append("Không để trống email\n");
@@ -186,17 +186,17 @@ public class jplBanHang extends javax.swing.JPanel {
         } else if (kh != null) {
             if (id == 0) {
                 String str = "Email đã tồn tại\n";
-                
+
                 if (kh.getTrangThai() == 0) {
                     str = str + " trong phần đã xóa\n";
                 }
                 sb.append(str);
             } else if (id > 0) {
-                
+
                 String str = "";
                 for (KhachHangResponse s : khachHangResponseList) {
                     if (s.getId() != id) {
-                        
+
                         if (txtEmail.getText().trim().toLowerCase().equals(s.getEmail().toLowerCase()) == true) {
                             str = "Email đã tồn tại\n";
                             if (s.getTrangThai() == 0) {
@@ -209,7 +209,7 @@ public class jplBanHang extends javax.swing.JPanel {
                 }
             }
         }
-        
+
         KhachHangResponse khSdt = khachHangService.getKhachHangBySdt(txtSdt.getText().trim());
         if (txtSdt.getText().trim().isBlank()) {
             sb.append("Không để trống SĐT\n");
@@ -218,19 +218,19 @@ public class jplBanHang extends javax.swing.JPanel {
         } else if (khSdt != null) {
             if (id == 0) {
                 String str = "Sdt đã tồn tại\n";
-                
+
                 if (khSdt.getTrangThai() == 0) {
                     str = str + " trong phần đã xóa\n";
                 }
                 sb.append(str);
             } else if (id > 0) {
-                
+
                 String str = "";
                 for (KhachHangResponse s : khachHangResponseList) {
                     if (s.getId() != id) {
-                        
+
                         if (txtSdt.getText().trim().toLowerCase().equals(s.getEmail()) == true) {
-                            
+
                             str = "Sdt đã tồn tại\n";
                             if (s.getTrangThai() == 0) {
                                 str = str + " trong phần đã xóa\n";
@@ -240,28 +240,28 @@ public class jplBanHang extends javax.swing.JPanel {
                         }
                     }
                 }
-                
+
             }
-            
+
         }
         if (txtDiaChi.getText().isBlank()) {
             sb.append("Không để trống Địa Chỉ\n");
         }
         if (jdateNgaySinh.getDate() == null) {
-            
+
             sb.append("Không để trống Ngày Sinh\n");
         }
-        
+
         if (sb.length() > 0) {
             JOptionPane.showMessageDialog(this, sb);
             return false;
         }
         return true;
     }
-    
+
     private static final String NUMERIC_CHARS = "0123456789";
     private static final int STRING_LENGTH = 15;
-    
+
     public static String generateRandomNumericString(int length) {
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
@@ -272,14 +272,14 @@ public class jplBanHang extends javax.swing.JPanel {
         }
         return sb.toString();
     }
-    
+
     public KhachHang getData() {
         TheTichDiem theTichDiem = new TheTichDiem();
         theTichDiem.setMaThe(generateRandomNumericString(STRING_LENGTH));
         theTichDiem.setNgayKichHoat(LocalDate.now());
         theTichDiem.setSoDiem(0);
         theTichDiem.setTrangThai(true);
-        
+
         KhachHang khachHang = new KhachHang();
         khachHang.setHoTen(txtHoTen.getText().trim());
         khachHang.setEmail(txtEmail.getText().trim());
@@ -295,18 +295,18 @@ public class jplBanHang extends javax.swing.JPanel {
         } catch (Exception e) {
             System.out.println("alo");
         }
-        
+
         khachHang.setDiaChi(txtDiaChi.getText().trim());
         if (chkTrangThai.isSelected()) {
             khachHang.setTrangThai(1);
         } else {
             khachHang.setTrangThai(0);
         }
-        
+
         khachHang.setTheTichDiem(theTichDiem);
         return khachHang;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -1482,6 +1482,7 @@ public class jplBanHang extends javax.swing.JPanel {
 
         lbMaGiamGia.setText("Mã GG");
 
+        chkboxSuDungDiem.setBackground(new java.awt.Color(255, 255, 255));
         chkboxSuDungDiem.setText("Sử dụng điểm");
         chkboxSuDungDiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2020,18 +2021,18 @@ public class jplBanHang extends javax.swing.JPanel {
             + cập nhật lại trạng thại imei từ 2 -> 0
             + cập nhật lại số lượng đt
          */
-        
+
         jplDonHang jplDonHang = (jplDonHang) jTabbedPane1.getSelectedComponent();
         int index = jplDonHang.globalClickedRow;
-        
+
         if (index < 0) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn trước khi xóa!");
             return;
         }
-        
+
         HoaDonChiTietResponse hdctResponse = hoaDonChiTietResponseList.get(index);
         hoaDonChiTietResponseList.remove(hdctResponse);
-        
+
         jplDonHang.setHoaDonChiTiets(hoaDonChiTietResponseList);
         jplDonHang.load();
 
@@ -2044,10 +2045,10 @@ public class jplBanHang extends javax.swing.JPanel {
         DienThoaiRepository.updateSoLuongDienThoai(imeiStr, 1);
         dienThoaiResponseList = dienThoaiService.getAllResponseByStatus(true);
         showDienThoaiTable(dienThoaiResponseList);
-        
+
         showHoaDonInfo1();
         showHoaDonInfo2();
-        
+
         if (hoaDonChiTietResponseList.size() == 0) {
             lamMoiForm1();
             lamMoiForm2();
@@ -2076,7 +2077,7 @@ public class jplBanHang extends javax.swing.JPanel {
         KhachHang kh = getData();
         if (kiemTra(0, txtEmail.getText().trim())) {
             JOptionPane.showMessageDialog(this, khachHangService.add(kh));
-            
+
             khachHangResponseList = khachHangService.getAll();
             KhachHangResponse s = khachHangService.getKhachHangById(kh.getId());
             khachHangService.updateKhoiPhuc(s, chkTrangThai.isSelected() ? 1 : 0);
@@ -2103,36 +2104,36 @@ public class jplBanHang extends javax.swing.JPanel {
         XemChiTiet.setResizable(false);
         XemChiTiet.setLocationRelativeTo(null);
         XemChiTiet.setVisible(true);
-        
+
         int clickedRowInDienThoaiTable = tbDienThoai.getSelectedRow();
         if (clickedRowInDienThoaiTable < 0 || clickedRowInDienThoaiTable > dienThoaiResponseList.size()) {
             return;
         }
         DienThoaiResponse dienThoaiResponse = dienThoaiResponseList.get(clickedRowInDienThoaiTable);
-        
+
         lbCTTenDT.setText(dienThoaiResponse.getTenDT());
         lbCTMaDT.setText(dienThoaiResponse.getMaDT());
         lbCTGiaBan.setText(numberFormat.format(dienThoaiResponse.getGiaBan()) + " VND");
         lbCTSoLuong.setText(String.valueOf(dienThoaiResponse.getSoLuong()));
         lbCTRam.setText(String.valueOf(dienThoaiResponse.getRam()) + " px");
         lbCTRom.setText(String.valueOf(dienThoaiResponse.getRom()) + " GB");
-        
+
         lbCTHang.setText(dienThoaiResponse.getHang());
         lbCTDongSP.setText(dienThoaiResponse.getDongSanPham());
         lbCTMauSac.setText(dienThoaiResponse.getMauSac());
         lbCTHeDH.setText(dienThoaiResponse.getHeDieuHanh());
         lbCTPin.setText(String.valueOf(dienThoaiResponse.getDungLuongPin()) + " mAh");
         lbCTCPU.setText(dienThoaiResponse.getCpu());
-        
+
         lbCTCamChinh.setText(String.valueOf(dienThoaiResponse.getCameraChinh()) + " px");
         lbCTCamGocRong.setText(String.valueOf(dienThoaiResponse.getCameraGocRong()) + " px");
         lbCTCamPhu.setText(String.valueOf(dienThoaiResponse.getCameraPhu()) + " px");
         lbCTCamTele.setText(String.valueOf(dienThoaiResponse.getCameraTele()) + " px");
-        
+
         lbCTKichThuoc.setText(String.valueOf(dienThoaiResponse.getKichThuoc()) + " inches");
         lbCTDoPhanGiai.setText(dienThoaiResponse.getDoPhanGiai() + " px");
         lbCTLoaiMH.setText(dienThoaiResponse.getLoaiManHinh().name());
-        
+
         ImageIcon icon = new ImageIcon(getClass().getResource("/phoneimage/" + dienThoaiResponse.getHinhAnh()));
         Image newImage = icon.getImage().getScaledInstance(image.getWidth(), image.getHeight(), Image.SCALE_SMOOTH);
         image.setIcon(new ImageIcon(newImage));
@@ -2152,7 +2153,7 @@ public class jplBanHang extends javax.swing.JPanel {
 
         cbImeiInDialog.removeAllItems();
         imeiResponses.forEach(i -> cbImeiInDialog.addItem(i.getImei()));
-        
+
         imeiDialog.setSize(350, 150);
         imeiDialog.setResizable(false);
         imeiDialog.setLocationRelativeTo(null);
@@ -2165,11 +2166,11 @@ public class jplBanHang extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Vui lòng điền IMEI!");
             return;
         }
-        
+
         Imei imei = ImeiRepository.getByImei(selectedImeiStr);
         int clickedRowInDienThoaiTable = tbDienThoai.getSelectedRow();
         DienThoaiResponse dienThoaiResponse = dienThoaiResponseList.get(clickedRowInDienThoaiTable);
-        
+
         if (imei == null) {
             JOptionPane.showMessageDialog(this, "Imei của điện thoại này không tồn tạ!i");
             return;
@@ -2177,26 +2178,26 @@ public class jplBanHang extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Imei của điện thoại này không tồn tạ!i");
             return;
         }
-        
+
         imeiDialog.setVisible(false);
 
         // thay đổi số lượng tồn kho của điện thoại vừa chọn
         DienThoaiRepository.updateSoLuongDienThoai(selectedImeiStr, -1);
         // thay đổi trạng thái imei về 'đang trong giỏ hàng(2)'
         imeiService.updateImeiTrangThai(selectedImeiStr, 2);
-        
+
         dienThoaiResponse.setSoLuong(dienThoaiResponse.getSoLuong() - 1);
-        
+
         HoaDonChiTietResponse hoaDonChiTietResponse = new HoaDonChiTietResponse();
         hoaDonChiTietResponse.setImei(selectedImeiStr);
         hoaDonChiTietResponse.setTenDienThoai(dienThoaiResponse.getTenDT());
         hoaDonChiTietResponse.setDonGia(dienThoaiResponse.getGiaBan());
         hoaDonChiTietResponseList.add(hoaDonChiTietResponse);
-        
+
         jplDonHang jDonHang = (jplDonHang) jTabbedPane1.getSelectedComponent();
         jDonHang.setHoaDonChiTiets(hoaDonChiTietResponseList);
         jDonHang.load();
-        
+
         showHoaDonInfo1();
         showHoaDonInfo2();
         showDienThoaiTable(dienThoaiResponseList);
@@ -2212,10 +2213,10 @@ public class jplBanHang extends javax.swing.JPanel {
                 jplDonHang jDonHang = (jplDonHang) jTabbedPane1.getSelectedComponent();
                 List<HoaDonChiTietResponse> currentList = jDonHang.getHoaDonChiTiets();
                 jDonHang.load();
-                
+
                 hoaDonChiTietResponseList = new ArrayList<>();
                 hoaDonChiTietResponseList.addAll(currentList);
-                
+
                 try {
                     showHoaDonInfo1();
                     showHoaDonInfo2();
@@ -2295,7 +2296,7 @@ public class jplBanHang extends javax.swing.JPanel {
             // làm tròn tiền trả hàng tháng để không bị lẻ
             String phaiTraHangThangStr = lbTraHangThang.getText().trim().replaceAll(",", "");
             phaiTraHangThangStr = phaiTraHangThangStr.substring(0, phaiTraHangThangStr.length() - 3).concat("000");
-            
+
             phaiTraHangThang = Long.valueOf(phaiTraHangThangStr);
             lbTraHangThang.setText(numberFormat.format(phaiTraHangThang));
         } catch (Exception e) {
@@ -2314,28 +2315,28 @@ public class jplBanHang extends javax.swing.JPanel {
         if (confirm != 0) {
             return;
         }
-        
+
         String check = checkHoaDon1();
         if (!check.equals("")) {
             JOptionPane.showMessageDialog(this, check);
             return;
         }
-        
+
         HoaDon hoaDon = new HoaDon();
         String maHoaDon = getMa("HD");
         hoaDon.setMaHoaDon(maHoaDon);
         hoaDon.setNgayTao(LocalDateTime.now());
         hoaDon.setNgayThanhToan(LocalDateTime.now());
-        
+
         long tienGiam = Long.valueOf(lbTienGiam.getText().trim().replaceAll(",", ""));
         hoaDon.setTienGiam(tienGiam);
-        
+
         long tongTien = Long.valueOf(lbTongTien.getText().trim().replaceAll(",", ""));
         hoaDon.setTongTien(tongTien);
-        
+
         long tienKhachDua = Long.valueOf(txtTienKhachDua.getText().trim());
         hoaDon.setTienKhachDua(tienKhachDua);
-        
+
         long tienThua = Long.valueOf(lbTienThua.getText().trim().replaceAll(",", ""));
         hoaDon.setTienThua(tienThua);
 
@@ -2343,7 +2344,7 @@ public class jplBanHang extends javax.swing.JPanel {
         hoaDon.setTraGop(false);
         hoaDon.setTienTraTruoc(0L);
         hoaDon.setTienThieu(0);
-        
+
         if (rdTienMat.isSelected()) {
             hoaDon.setHinhThucThanhToan(true);
         } else {
@@ -2360,7 +2361,7 @@ public class jplBanHang extends javax.swing.JPanel {
 //        }
         String emailKhachHang = lbEmailKhachHang.getText().trim().substring(7);
         String sdtKhachHang = lbSdtKhachHang.getText().trim().substring(5);
-        
+
         KhachHangResponse khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(emailKhachHang);
         if (khResponse == null) {
             khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(sdtKhachHang);
@@ -2382,13 +2383,13 @@ public class jplBanHang extends javax.swing.JPanel {
         // chi tiết hóa đơn
         hoaDonChiTietResponseList.forEach(h -> {
             HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
-            
+
             hoaDonChiTiet.setHoaDon(hoaDon);
             Imei imei = ImeiRepository.getByImei(h.getImei());
             hoaDonChiTiet.setImei(imei);
             hoaDon.addHoaDonChiTiet(hoaDonChiTiet);
         });
-        
+
         String addResult = hoaDonService.add(hoaDon);
         JOptionPane.showMessageDialog(this, addResult);
 
@@ -2403,7 +2404,7 @@ public class jplBanHang extends javax.swing.JPanel {
         jplDonHang jDonHang = (jplDonHang) jTabbedPane1.getSelectedComponent();
         jDonHang.setHoaDonChiTiets(new ArrayList<>());
         jDonHang.load();
-        
+
         int indexDon = jTabbedPane1.getSelectedIndex();
         // sẽ không thể xóa khi còn 1 đơn duy nhất
         if (jTabbedPane1.getTabCount() > 1) {
@@ -2416,7 +2417,7 @@ public class jplBanHang extends javax.swing.JPanel {
         for (int i = 0; i < hoaDonChiTietResponses.size(); ++i) {
             HoaDonChiTietResponse hoaDonChiTietResponse = hoaDonChiTietResponses.get(i);
             List<LoaiBaoHanh> loaiBaoHanhsMacDinh = LoaiBaoHanhRepository.getListLoaiBHMacDinh();
-            
+
             ChiTietPhieuBaoHanh chiTietPhieuBaoHanh = new ChiTietPhieuBaoHanh();
             chiTietPhieuBaoHanh.setImei(hoaDonChiTietResponse.getImei());
             chiTietPhieuBaoHanh.setThoiHanBaoHanh(12);
@@ -2424,13 +2425,13 @@ public class jplBanHang extends javax.swing.JPanel {
             chiTietPhieuBaoHanh.setNgayHetHan(LocalDate.now().plusMonths(12));
             chiTietPhieuBaoHanh.setMoTa("...");
             chiTietPhieuBaoHanh.setTrangThai(true);
-            
+
             PhieuBaoHanh phieuBaoHanh = new PhieuBaoHanh();
             HoaDonChiTiet hoaDonChiTiet = HoaDonRepository.getChiTietEntityById(hoaDonChiTietResponse.getId());
             phieuBaoHanh.setHoaDonChiTiet(hoaDonChiTiet);
             phieuBaoHanh.setChiTietPhieuBaoHanh(chiTietPhieuBaoHanh);
             loaiBaoHanhsMacDinh.forEach(lbh -> phieuBaoHanh.addLoaiBaoHanh(lbh));
-            
+
             phieuBaoHanhService.add(phieuBaoHanh);
         }
 
@@ -2449,7 +2450,7 @@ public class jplBanHang extends javax.swing.JPanel {
         // 6. cộng điểm tích lũy
         double diemTichLuy = 0;
         diemTichLuy = (tongTien - tienGiam) / 50000;
-        
+
         Double diemTichLuyDou = Double.valueOf(diemTichLuy);
         int diemTichLuyInt = diemTichLuyDou.intValue();
         if (!chkboxSuDungDiem.isSelected()) {
@@ -2483,14 +2484,14 @@ public class jplBanHang extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_btnThanhToanActionPerformed
-    
+
     private String checkHoaDon1() {
         String message = "";
 
         // khách hàng
         String emailKhachHang = lbEmailKhachHang.getText().trim().substring(7);
         String sdtKhachHang = lbSdtKhachHang.getText().trim().substring(5);
-        
+
         KhachHangResponse khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(emailKhachHang);
         if (khResponse == null) {
             khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(sdtKhachHang);
@@ -2529,7 +2530,7 @@ public class jplBanHang extends javax.swing.JPanel {
         }
         return message;
     }
-    
+
     private String getMa(String loaiMa) {
         LocalDateTime ldt = LocalDateTime.now();
         String year = String.valueOf(ldt.getYear());
@@ -2538,7 +2539,7 @@ public class jplBanHang extends javax.swing.JPanel {
         String hour = String.valueOf(ldt.getHour());
         String minute = String.valueOf(ldt.getMinute());
         String second = String.valueOf(ldt.getSecond());
-        
+
         String ma = loaiMa + year;
         if (month.length() < 2) {
             month = "0" + month;
@@ -2546,44 +2547,44 @@ public class jplBanHang extends javax.swing.JPanel {
         } else {
             ma += month;
         }
-        
+
         if (day.length() < 2) {
             day = "0" + day;
             ma += day + "T";
         } else {
             ma += day + "T";
         }
-        
+
         if (hour.length() < 2) {
             hour = "0" + hour;
             ma += hour;
         } else {
             ma += hour;
         }
-        
+
         if (minute.length() < 2) {
             minute = "0" + minute;
             ma += minute;
         } else {
             ma += minute;
         }
-        
+
         if (second.length() < 2) {
             second = "0" + second;
             ma += second;
         } else {
             ma += second;
         }
-        
+
         return ma;
     }
-    
+
     private void lamMoiForm1() {
         txtTimKH.setText("");
         lbTenKhachHang.setText("Tên khách hàng");
         lbSdtKhachHang.setText("Email khách hàng");
         lbEmailKhachHang.setText("SĐT khách hàng");
-        
+
         lbTongTien.setText("0");
         lbMaGiamGia.setText("Mã GG");
         lbSoDiem.setText("Số điểm");
@@ -2600,35 +2601,35 @@ public class jplBanHang extends javax.swing.JPanel {
         if (confirm != 0) {
             return;
         }
-        
+
         String check = checkHoaDon2();
         if (!check.equals("")) {
             JOptionPane.showMessageDialog(this, check);
             return;
         }
-        
+
         HoaDon hoaDon = new HoaDon();
         String maHoaDon = getMa("HD");
         hoaDon.setMaHoaDon(maHoaDon);
         hoaDon.setNgayTao(LocalDateTime.now());
         hoaDon.setNgayThanhToan(LocalDateTime.now());
-        
+
         long tienGiam = Long.valueOf(lbTienGiam2.getText().trim().replaceAll(",", ""));
         hoaDon.setTienGiam(tienGiam);
-        
+
         long tongTien = Long.valueOf(lbTongTien2.getText().trim().replaceAll(",", ""));
         hoaDon.setTongTien(tongTien);
-        
+
         long tienTraTruoc = Long.valueOf(txtTienTraTruoc.getText().trim());
         hoaDon.setTienTraTruoc(tienTraTruoc);
-        
+
         long tienThieu = Long.valueOf(lbConNo.getText().trim().replaceAll(",", ""));
         hoaDon.setTienThieu(tienThieu);
-        
+
         hoaDon.setTraGop(true);
         hoaDon.setTienKhachDua(0L);
         hoaDon.setTienThua(0);
-        
+
         if (rdTienMat2.isSelected()) {
             hoaDon.setHinhThucThanhToan(true);
         } else {
@@ -2641,7 +2642,7 @@ public class jplBanHang extends javax.swing.JPanel {
         // 1. khách hàng
         String emailKhachHang = lbEmailKhachHang.getText().trim().substring(7);
         String sdtKhachHang = lbSdtKhachHang.getText().trim().substring(5);
-        
+
         KhachHangResponse khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(emailKhachHang);
         if (khResponse == null) {
             khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(sdtKhachHang);
@@ -2659,16 +2660,16 @@ public class jplBanHang extends javax.swing.JPanel {
         if (phieuGiamGia != null) {
             hoaDon.setPhieuGiamGia(phieuGiamGia);
         }
-        
+
         hoaDonChiTietResponseList.forEach(h -> {
             HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
-            
+
             hoaDonChiTiet.setHoaDon(hoaDon);
             Imei imei = ImeiRepository.getByImei(h.getImei());
             hoaDonChiTiet.setImei(imei);
             hoaDon.addHoaDonChiTiet(hoaDonChiTiet);
         });
-        
+
         String addResult = hoaDonService.add(hoaDon);
         JOptionPane.showMessageDialog(this, addResult);
 
@@ -2683,7 +2684,7 @@ public class jplBanHang extends javax.swing.JPanel {
         jplDonHang jDonHang = (jplDonHang) jTabbedPane1.getSelectedComponent();
         jDonHang.setHoaDonChiTiets(new ArrayList<>());
         jDonHang.load();
-        
+
         int indexDon = jTabbedPane1.getSelectedIndex();
         // sẽ không thể xóa khi còn 1 đơn duy nhất
         if (jTabbedPane1.getTabCount() > 1) {
@@ -2718,7 +2719,7 @@ public class jplBanHang extends javax.swing.JPanel {
         for (int i = 0; i < hoaDonChiTietResponses.size(); ++i) {
             HoaDonChiTietResponse hoaDonChiTietResponse = hoaDonChiTietResponses.get(i);
             List<LoaiBaoHanh> loaiBaoHanhsMacDinh = LoaiBaoHanhRepository.getListLoaiBHMacDinh();
-            
+
             ChiTietPhieuBaoHanh chiTietPhieuBaoHanh = new ChiTietPhieuBaoHanh();
             chiTietPhieuBaoHanh.setImei(hoaDonChiTietResponse.getImei());
             chiTietPhieuBaoHanh.setThoiHanBaoHanh(12);
@@ -2726,13 +2727,13 @@ public class jplBanHang extends javax.swing.JPanel {
             chiTietPhieuBaoHanh.setNgayHetHan(LocalDate.now().plusMonths(12));
             chiTietPhieuBaoHanh.setMoTa("...");
             chiTietPhieuBaoHanh.setTrangThai(true);
-            
+
             PhieuBaoHanh phieuBaoHanh = new PhieuBaoHanh();
             HoaDonChiTiet hoaDonChiTiet = HoaDonRepository.getChiTietEntityById(hoaDonChiTietResponse.getId());
             phieuBaoHanh.setHoaDonChiTiet(hoaDonChiTiet);
             phieuBaoHanh.setChiTietPhieuBaoHanh(chiTietPhieuBaoHanh);
             loaiBaoHanhsMacDinh.forEach(lbh -> phieuBaoHanh.addLoaiBaoHanh(lbh));
-            
+
             phieuBaoHanhService.add(phieuBaoHanh);
         }
 
@@ -2742,7 +2743,7 @@ public class jplBanHang extends javax.swing.JPanel {
         lichSuTraGop.setNgayThanhToan(LocalDate.now());
         lichSuTraGop.setTongTien(tienTraTruoc);
         lichSuTraGop.setGhiChu("...");
-        
+
         PhieuTraGop phieuTraGop = new PhieuTraGop();
         phieuTraGop.setMaPhieu(getMa("PTG"));
         phieuTraGop.setTongPhaiTra(Long.valueOf(lbKhachPhaiTra2.getText().trim().replaceAll(",", "")));
@@ -2754,7 +2755,7 @@ public class jplBanHang extends javax.swing.JPanel {
         phieuTraGop.setTrangThai(false);
         phieuTraGop.setHoaDon(hoaDonByMa);
         phieuTraGop.addLichSuTraGop(lichSuTraGop);
-        
+
         phieuTraGopService.insert(phieuTraGop);
 
         // 8. làm mới form
@@ -2782,14 +2783,14 @@ public class jplBanHang extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_btnThanhToan2ActionPerformed
-    
+
     private String checkHoaDon2() {
         String message = "";
 
         // khách hàng
         String emailKhachHang = lbEmailKhachHang.getText().trim().substring(7);
         String sdtKhachHang = lbSdtKhachHang.getText().trim().substring(5);
-        
+
         KhachHangResponse khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(emailKhachHang);
         if (khResponse == null) {
             khResponse = KhachHangRepository.getKhachHangByEmailOrSDT(sdtKhachHang);
@@ -2819,7 +2820,7 @@ public class jplBanHang extends javax.swing.JPanel {
                 }
             }
         }
-        
+
         String laiSuatStr = txtLaiSuat.getText().trim();
         if (laiSuatStr.isBlank()) {
             message += "Lãi suất không được để trống!\n";
@@ -2834,19 +2835,19 @@ public class jplBanHang extends javax.swing.JPanel {
         }
         return message;
     }
-    
+
     private void lamMoiForm2() {
         txtTimKH.setText("");
         lbTenKhachHang.setText("Tên khách hàng");
         lbEmailKhachHang.setText("Email khách hàng");
         lbSdtKhachHang.setText("SĐT khách hàng");
-        
+
         lbTongTien2.setText("0");
         lbMaGiamGia2.setText("Mã GG");
         lbSoDiem2.setText("Số điểm");
         lbSoTienTuDiem2.setText("Số tiền quy đổi từ điểm");
         chkboxSuDungDiem2.setSelected(false);
-        
+
         lbTienGiam2.setText("0");
         lbKhachPhaiTra2.setText("0");
         lbTraTruocToiThieu.setText("0");
@@ -2856,7 +2857,7 @@ public class jplBanHang extends javax.swing.JPanel {
         lbTongNo.setText("0");
         cbKyHan.setSelectedIndex(0);
         lbTraHangThang.setText("0");
-        
+
     }
 
     private void btnXoaDonHang1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaDonHang1ActionPerformed
@@ -2868,10 +2869,10 @@ public class jplBanHang extends javax.swing.JPanel {
                     String imeiStr = hdctResponse.getImei();
                     imeiService.updateImeiTrangThai(imeiStr, 0);
                     DienThoaiRepository.updateSoLuongDienThoai(imeiStr, 1);
-                    
+
                     Imei imei = ImeiRepository.getByImei(imeiStr);
                     DienThoai dienThoai = imei.getDienThoai();
-                    
+
                     DienThoaiResponse dienThoaiResponse = getDienThoaiResponse(dienThoai.getId());
                     dienThoaiResponse.setSoLuong(dienThoaiResponse.getSoLuong() + 1);
                     showDienThoaiTable(dienThoaiResponseList);
@@ -2882,10 +2883,10 @@ public class jplBanHang extends javax.swing.JPanel {
                 jplDonHang jDonHang = (jplDonHang) jTabbedPane1.getSelectedComponent();
                 List<HoaDonChiTietResponse> currentList = jDonHang.getHoaDonChiTiets();
                 jDonHang.load();
-                
+
                 hoaDonChiTietResponseList = new ArrayList<>();
                 hoaDonChiTietResponseList.addAll(currentList);
-                
+
                 try {
                     showHoaDonInfo1();
                     showHoaDonInfo2();
@@ -2900,10 +2901,10 @@ public class jplBanHang extends javax.swing.JPanel {
                     String imeiStr = hdctResponse.getImei();
                     imeiService.updateImeiTrangThai(imeiStr, 0);
                     DienThoaiRepository.updateSoLuongDienThoai(imeiStr, 1);
-                    
+
                     Imei imei = ImeiRepository.getByImei(imeiStr);
                     DienThoai dienThoai = imei.getDienThoai();
-                    
+
                     DienThoaiResponse dienThoaiResponse = getDienThoaiResponse(dienThoai.getId());
                     dienThoaiResponse.setSoLuong(dienThoaiResponse.getSoLuong() + 1);
                     showDienThoaiTable(dienThoaiResponseList);
@@ -2913,7 +2914,7 @@ public class jplBanHang extends javax.swing.JPanel {
                 jplDonHang jDonHang = (jplDonHang) jTabbedPane1.getSelectedComponent();
                 jDonHang.setHoaDonChiTiets(new ArrayList<>());
                 jDonHang.load();
-                
+
                 hoaDonChiTietResponseList = new ArrayList<>();
                 try {
                     showHoaDonInfo1();
@@ -2923,7 +2924,7 @@ public class jplBanHang extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_btnXoaDonHang1ActionPerformed
-    
+
     private DienThoaiResponse getDienThoaiResponse(int dienThoaiId) {
         for (int i = 0; i < dienThoaiResponseList.size(); ++i) {
             DienThoaiResponse dienThoaiResponse = dienThoaiResponseList.get(i);
@@ -2947,7 +2948,7 @@ public class jplBanHang extends javax.swing.JPanel {
                 return;
             }
         }
-        
+
         dienThoaiResponseList = dienThoaiService.getResponsesByHang(selectedTenHang);
         showDienThoaiTable(dienThoaiResponseList);
     }//GEN-LAST:event_cbHangDTActionPerformed
@@ -2955,20 +2956,20 @@ public class jplBanHang extends javax.swing.JPanel {
     private void btnTimKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKHActionPerformed
         String sdtOrEmail = txtTimKH.getText().trim();
         KhachHangResponse khachHangResponse = KhachHangRepository.getKhachHangByEmailOrSDT(sdtOrEmail);
-        
+
         if (khachHangResponse == null) {
             JOptionPane.showMessageDialog(this, "Khách hàng không tồn tại!");
             return;
         }
-        
+
         lbTenKhachHang.setText("Họ tên: " + khachHangResponse.getHoTen());
         lbEmailKhachHang.setText("Email: " + khachHangResponse.getEmail());
         lbSdtKhachHang.setText("SĐT: " + khachHangResponse.getSdt());
-        
+
         int soDiem = khachHangResponse.getSoDiem();
         lbSoDiem.setText(String.valueOf(soDiem));
         lbSoDiem2.setText(String.valueOf(soDiem));
-        
+
         long soTienTuDiem = soDiem * 1000;
         lbSoTienTuDiem.setText("(" + numberFormat.format(soTienTuDiem) + ")");
         lbSoTienTuDiem2.setText("(" + numberFormat.format(soTienTuDiem) + ")");
@@ -2978,17 +2979,17 @@ public class jplBanHang extends javax.swing.JPanel {
         if (lbSoDiem.getText().equals("Số điểm")) {
             return;
         }
-        
+
         float soTienTuDiem = Float.valueOf(lbSoDiem.getText()) * 1000;
         float tienGiam = Float.valueOf(lbTienGiam.getText().trim().replaceAll(",", ""));
-        
+
         if (chkboxSuDungDiem.isSelected()) {
             tienGiam += soTienTuDiem;
         } else {
             tienGiam -= soTienTuDiem;
         }
         lbTienGiam.setText(numberFormat.format(tienGiam));
-        
+
         long tongTien = Long.valueOf(lbTongTien.getText().replaceAll(",", ""));
         long khachPhaiTra = tongTien - Long.valueOf(lbTienGiam.getText().replaceAll(",", ""));
         lbKhachPhaiTra.setText(numberFormat.format(khachPhaiTra));
@@ -2998,24 +2999,24 @@ public class jplBanHang extends javax.swing.JPanel {
         if (lbSoDiem2.getText().equals("Số điểm")) {
             return;
         }
-        
+
         float soTienTuDiem = Float.valueOf(lbSoDiem2.getText()) * 1000;
         float tienGiam = Float.valueOf(lbTienGiam2.getText().trim().replaceAll(",", ""));
-        
+
         if (chkboxSuDungDiem2.isSelected()) {
             tienGiam += soTienTuDiem;
         } else {
             tienGiam -= soTienTuDiem;
         }
         lbTienGiam2.setText(numberFormat.format(tienGiam));
-        
+
         long tongTien = Long.valueOf(lbTongTien2.getText().replaceAll(",", ""));
         long khachPhaiTra = tongTien - Long.valueOf(lbTienGiam2.getText().replaceAll(",", ""));
         lbKhachPhaiTra2.setText(numberFormat.format(khachPhaiTra));
-        
+
         long traTruocToiThieu = Long.valueOf(lbKhachPhaiTra2.getText().replaceAll(",", "")) / 2;
         lbTraTruocToiThieu.setText(numberFormat.format(traTruocToiThieu));
-        
+
         String traTruocToiThieuStr = lbTraTruocToiThieu.getText().replaceAll(",", "");
         traTruocToiThieuStr = traTruocToiThieuStr.substring(0, traTruocToiThieuStr.length() - 3).concat("000");
         traTruocToiThieu = Long.valueOf(traTruocToiThieuStr);
@@ -3051,15 +3052,15 @@ public class jplBanHang extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Vui lòng điền IMEI!");
             return;
         }
-        
+
         Imei imei = ImeiRepository.getByImei(imeiStr);
         if (imei == null) {
             JOptionPane.showMessageDialog(this, "Imei không tồn tại!");
             return;
         }
-        
+
         ThemByImei.setVisible(false);
-        
+
         DienThoai dienThoai = imei.getDienThoai();
         DienThoaiResponse dienThoaiResponse = new DienThoaiResponse();
         for (int i = 0; i < dienThoaiResponseList.size(); ++i) {
@@ -3073,19 +3074,19 @@ public class jplBanHang extends javax.swing.JPanel {
         imeiService.updateImeiTrangThai(imeiStr, 2);
         // thay đổi số lượng tồn kho của điện thoại vừa chọn
         DienThoaiRepository.updateSoLuongDienThoai(imeiStr, -1);
-        
+
         dienThoaiResponse.setSoLuong(dienThoaiResponse.getSoLuong() - 1);
-        
+
         HoaDonChiTietResponse hoaDonChiTietResponse = new HoaDonChiTietResponse();
         hoaDonChiTietResponse.setImei(imeiStr);
         hoaDonChiTietResponse.setTenDienThoai(dienThoaiResponse.getTenDT());
         hoaDonChiTietResponse.setDonGia(dienThoaiResponse.getGiaBan());
         hoaDonChiTietResponseList.add(hoaDonChiTietResponse);
-        
+
         jplDonHang jDonHang = (jplDonHang) jTabbedPane1.getSelectedComponent();
         jDonHang.setHoaDonChiTiets(hoaDonChiTietResponseList);
         jDonHang.load();
-        
+
         showHoaDonInfo1();
         showHoaDonInfo2();
         showDienThoaiTable(dienThoaiResponseList);
@@ -3094,7 +3095,7 @@ public class jplBanHang extends javax.swing.JPanel {
     private void cbHangDTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbHangDTMouseClicked
         HangService hangService = new HangServiceImpl();
         List<HangResponse> hangResponseList = hangService.getAllResponseByStatus(true);
-        
+
         cbHangDT.removeAllItems();
         cbHangDT.addItem("Tất cả");
         hangResponseList.forEach(h -> cbHangDT.addItem(h.getTenHang()));
@@ -3106,7 +3107,7 @@ public class jplBanHang extends javax.swing.JPanel {
         txtSearchByTen.setText("");
         cbHangDT.setSelectedIndex(0);
     }//GEN-LAST:event_btnReloadDTTableActionPerformed
-    
+
     private void showHoaDonInfo1() {
         try {
             // Tab 1
@@ -3160,7 +3161,7 @@ public class jplBanHang extends javax.swing.JPanel {
         } catch (Exception e) {
         }
     }
-    
+
     private void showHoaDonInfo2() {
         try {
             // Tab 2

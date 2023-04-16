@@ -80,10 +80,16 @@ public class QuanLyLoaiBaoHanh extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setText("Tên LBH");
 
+        txtTenLBH.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
+
+        btnThem.setBackground(new java.awt.Color(47, 85, 212));
+        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnThem.setForeground(new java.awt.Color(255, 255, 255));
         btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -91,6 +97,9 @@ public class QuanLyLoaiBaoHanh extends javax.swing.JFrame {
             }
         });
 
+        btnSua.setBackground(new java.awt.Color(47, 85, 212));
+        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSua.setForeground(new java.awt.Color(255, 255, 255));
         btnSua.setText("Sửa");
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,6 +107,9 @@ public class QuanLyLoaiBaoHanh extends javax.swing.JFrame {
             }
         });
 
+        btnLoad.setBackground(new java.awt.Color(47, 85, 212));
+        btnLoad.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnLoad.setForeground(new java.awt.Color(255, 255, 255));
         btnLoad.setText("Load");
         btnLoad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,8 +145,8 @@ public class QuanLyLoaiBaoHanh extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtTenLBH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtTenLBH, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
@@ -146,6 +158,10 @@ public class QuanLyLoaiBaoHanh extends javax.swing.JFrame {
                     .addComponent(btnSua))
                 .addGap(52, 52, 52))
         );
+
+        jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         tbLBH.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

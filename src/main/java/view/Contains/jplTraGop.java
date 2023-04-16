@@ -1,6 +1,8 @@
 package view.Contains;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -12,6 +14,7 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import model.PhieuTraGop;
 import service.PhieuTraGopService;
 import service.impl.PhieuTraGopServiceImpl;
@@ -27,6 +30,7 @@ public class jplTraGop extends javax.swing.JPanel {
 
     public jplTraGop() {
         initComponents();
+        viewTable();
         dtm = (DefaultTableModel) this.tblDanhSachTraGop.getModel();
         service = new PhieuTraGopServiceImpl();
         listView = service.getAll();
@@ -38,6 +42,15 @@ public class jplTraGop extends javax.swing.JPanel {
         for (PhieuTraGopViewModel phieuTraGopViewModel : list) {
             dtm.addRow(phieuTraGopViewModel.toDataRow());
         }
+
+    }
+
+    private void viewTable() {
+        JTableHeader Theader = tblDanhSachTraGop.getTableHeader();
+
+        Theader.setFont(new Font("tahoma", Font.BOLD, 15));
+        Theader.setBackground(new Color(47, 85, 212));
+        Theader.setForeground(Color.white);
 
     }
 
@@ -96,6 +109,10 @@ public class jplTraGop extends javax.swing.JPanel {
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel1.setText("Danh Sách Trả Góp");
 
@@ -113,8 +130,11 @@ public class jplTraGop extends javax.swing.JPanel {
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
         );
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/search.png"))); // NOI18N
 
+        txtSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtSearchKeyReleased(evt);
@@ -130,8 +150,15 @@ public class jplTraGop extends javax.swing.JPanel {
 
         jLabel3.setText("Từ :");
 
+        dateNgayBatDau.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel4.setText("Đến :");
 
+        dateNgayKetThuc.setBackground(new java.awt.Color(255, 255, 255));
+
+        jButton1.setBackground(new java.awt.Color(47, 85, 212));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Tìm Kiếm");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,6 +211,8 @@ public class jplTraGop extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
         tblDanhSachTraGop.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -220,6 +249,8 @@ public class jplTraGop extends javax.swing.JPanel {
                 .addGap(0, 10, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
         btnXuatDanhSach.setBackground(new java.awt.Color(47, 85, 212));
         btnXuatDanhSach.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N

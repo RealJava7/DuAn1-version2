@@ -1,5 +1,7 @@
 package view.Contains.EntitySanPham;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -7,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import model.DongSanPham;
 import model.Hang;
 import repository.HangRepository;
@@ -31,6 +34,7 @@ public class ThemDongSP extends javax.swing.JFrame {
 
     public ThemDongSP() {
         initComponents();
+        viewTable();
         setLocationRelativeTo(null);
         this.setTitle("Dòng Sản Phẩm");
 
@@ -66,6 +70,18 @@ public class ThemDongSP extends javax.swing.JFrame {
     private void showCbHang() {
         hangList = hangService.getAllEntityByStatus(true);
         hangList.forEach(h -> cbHangDT.addItem(h));
+    }
+
+    private void viewTable() {
+        JTableHeader Theader = tbActive.getTableHeader();
+        JTableHeader Theader1 = tbInactive.getTableHeader();
+        Theader.setFont(new Font("tahoma", Font.BOLD, 15));
+        Theader.setBackground(new Color(47, 85, 212));
+        Theader.setForeground(Color.white);
+        Theader1.setFont(new Font("tahoma", Font.BOLD, 15));
+        Theader1.setBackground(new Color(47, 85, 212));
+        Theader1.setForeground(Color.white);
+
     }
 
     @SuppressWarnings("unchecked")

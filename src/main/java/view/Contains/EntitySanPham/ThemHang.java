@@ -1,11 +1,15 @@
 package view.Contains.EntitySanPham;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import model.Hang;
 import service.HangService;
 import service.impl.HangServiceImpl;
@@ -21,6 +25,7 @@ public class ThemHang extends javax.swing.JFrame {
 
     public ThemHang() {
         initComponents();
+        viewTable();
         setLocationRelativeTo(null);
 
         hangService = new HangServiceImpl();
@@ -34,6 +39,19 @@ public class ThemHang extends javax.swing.JFrame {
 
         inactiveHangResponseList = hangService.getAllResponseByStatus(false);
         showInactiveTable(inactiveHangResponseList);
+    }
+
+    private void setMau(JTable tb) {
+        JTableHeader tbHead = tb.getTableHeader();
+        tbHead.setFont(new Font("tahoma", Font.BOLD, 15));
+        tbHead.setBackground(new Color(47, 85, 212));
+        tbHead.setForeground(Color.white);
+    }
+
+    private void viewTable() {
+        setMau(tbActive);
+        setMau(tbInactive);
+
     }
 
     private void showActiveTable(List<HangResponse> hangs) {

@@ -1,5 +1,7 @@
 package view.Contains.EntitySanPham;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,11 +11,13 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import model.Imei;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -36,6 +40,7 @@ public class ThemImei extends javax.swing.JFrame {
     // Constructor 1
     public ThemImei() {
         initComponents();
+        viewTable();
         setLocationRelativeTo(null);
 
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -97,6 +102,19 @@ public class ThemImei extends javax.swing.JFrame {
         dtmImeiDaBan.setRowCount(0);
         imeis.forEach(i -> dtmImeiDaBan.addRow(i.toDataRow()));
         lbTongSo1.setText(String.valueOf(imeis.size()));
+    }
+
+    private void setMau(JTable tb) {
+        JTableHeader tbHead = tb.getTableHeader();
+        tbHead.setFont(new Font("tahoma", Font.BOLD, 15));
+        tbHead.setBackground(new Color(47, 85, 212));
+        tbHead.setForeground(Color.white);
+    }
+
+    private void viewTable() {
+        setMau(tbImei);
+        setMau(tbImei1);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -533,7 +551,7 @@ public class ThemImei extends javax.swing.JFrame {
                 XSSFWorkbook wb = new XSSFWorkbook(fis);
                 XSSFSheet sheet = wb.getSheetAt(0);
                 Iterator<Row> itr = sheet.iterator();
-                
+
                 while (itr.hasNext()) {
                     Row row = itr.next();
                     Iterator<Cell> cellIterator = row.cellIterator();

@@ -214,7 +214,7 @@
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Segoe UI" size="18" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Th&#xf4;ng tin c&#x1a1; b&#x1ea3;n"/>
           </Properties>
@@ -313,7 +313,7 @@
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="20" style="0"/>
+          <Font name="Segoe UI" size="20" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="T&#x1ea1;o m&#xe3; gi&#x1ea3;m gi&#xe1; m&#x1edb;i"/>
       </Properties>

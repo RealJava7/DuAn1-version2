@@ -397,10 +397,12 @@ public class jplHoaDon extends javax.swing.JPanel {
 
         jLabel5.setText("Từ");
 
+        startDate.setBackground(new java.awt.Color(255, 255, 255));
         startDate.setDateFormatString("yyyy-MM-dd");
 
         jLabel6.setText("Đến");
 
+        endDate.setBackground(new java.awt.Color(255, 255, 255));
         endDate.setDateFormatString("yyyy-MM-dd");
 
         cbLoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày tạo", "Ngày thanh toán" }));
@@ -411,6 +413,9 @@ public class jplHoaDon extends javax.swing.JPanel {
             }
         });
 
+        btnXoaLoc.setBackground(new java.awt.Color(47, 85, 212));
+        btnXoaLoc.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnXoaLoc.setForeground(new java.awt.Color(255, 255, 255));
         btnXoaLoc.setText("Xóa lọc");
         btnXoaLoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -418,6 +423,9 @@ public class jplHoaDon extends javax.swing.JPanel {
             }
         });
 
+        btnLoc.setBackground(new java.awt.Color(47, 85, 212));
+        btnLoc.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnLoc.setForeground(new java.awt.Color(255, 255, 255));
         btnLoc.setText("Lọc");
         btnLoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -433,7 +441,7 @@ public class jplHoaDon extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnLoc)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -524,7 +532,7 @@ public class jplHoaDon extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(txtTimKiem))
+                    .addComponent(txtTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -646,8 +654,8 @@ public class jplHoaDon extends javax.swing.JPanel {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
-                .addGap(267, 267, 267))
+                .addComponent(jScrollPane2)
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

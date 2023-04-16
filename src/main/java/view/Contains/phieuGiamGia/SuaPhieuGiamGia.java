@@ -34,17 +34,17 @@ public class SuaPhieuGiamGia extends javax.swing.JFrame {
         loadForm(phieu);
         id = phieu.getId();
         vali = 0;
-       long millis = System.currentTimeMillis();
+        long millis = System.currentTimeMillis();
         Date now = new Date(millis);
         txtNgayBatDau.setMinSelectableDate(now);
         txtNgayKetThuc.setMinSelectableDate(now);
-        if(phieu.getTrangThai()==0){
+        if (phieu.getTrangThai() == 0) {
             txtMaVoucher.disable();
             txtTenPhieu.disable();
             txtNgayBatDau.setEnabled(false);
             txtMucGiam.disable();
             txtGiaTriToiThieu.disable();
-        }else  if(phieu.getTrangThai()==1){
+        } else if (phieu.getTrangThai() == 1) {
             txtMaVoucher.disable();
             txtTenPhieu.disable();
             txtNgayBatDau.setEnabled(false);
@@ -108,7 +108,7 @@ public class SuaPhieuGiamGia extends javax.swing.JFrame {
             vali = 1;
             return;
         }
-        
+
         if (bd.compareTo(kt) >= 0) {
             JOptionPane.showMessageDialog(this, "Chương trình giảm giá phải kéo dài ít nhất 1 ngày");
             vali = 1;
@@ -144,7 +144,7 @@ public class SuaPhieuGiamGia extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel3.setText("Tạo mã giảm giá mới");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -155,11 +155,14 @@ public class SuaPhieuGiamGia extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Mã Voucher:");
 
+        txtTenPhieu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
         txtTenPhieu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTenPhieuActionPerformed(evt);
             }
         });
+
+        txtMaVoucher.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Thông tin cơ bản");
@@ -170,11 +173,13 @@ public class SuaPhieuGiamGia extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Ngày kết thúc:");
 
+        txtNgayBatDau.setBackground(new java.awt.Color(255, 255, 255));
         txtNgayBatDau.setDateFormatString("yyyy-MM-dd");
 
+        txtNgayKetThuc.setBackground(new java.awt.Color(255, 255, 255));
         txtNgayKetThuc.setDateFormatString("yyyy-MM-dd");
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setText("Thiết lập mã giảm giá");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -183,8 +188,14 @@ public class SuaPhieuGiamGia extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel9.setText("Giá trị đơn hàng tối thiểu:");
 
+        txtMucGiam.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
+
+        txtGiaTriToiThieu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
+
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setText("Lượt sử dụng tối đa:");
+
+        txtLuotDung.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
 
         btnHuy.setText("Hủy");
         btnHuy.addActionListener(new java.awt.event.ActionListener() {
@@ -398,7 +409,6 @@ public class SuaPhieuGiamGia extends javax.swing.JFrame {
         jplGiamGia.loadTable(new PhieuGiamGiaServiceImpl().getall());
 
     }//GEN-LAST:event_btnXacNhanActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;

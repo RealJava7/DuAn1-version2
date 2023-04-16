@@ -1,6 +1,8 @@
 package view.Contains;
 
 import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,6 +23,7 @@ import javax.swing.JTable;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -57,7 +60,7 @@ public class jplHeThong extends javax.swing.JPanel {
 
     public jplHeThong() {
         initComponents();
-
+        viewTable();
         list1 = new ArrayList<>();
         dtm1 = (DefaultTableModel) tbLamViec.getModel();
         dtm2 = (DefaultTableModel) tbNghiViec.getModel();
@@ -81,6 +84,20 @@ public class jplHeThong extends javax.swing.JPanel {
         int month = jmonth.getMonth() + 1;
         int year = jyear.getYear();
         setDataToSanPhamTKThang(pnlSPTKCot, month, year);
+    }
+
+    private void setMau(JTable tb) {
+        JTableHeader tbHead = tb.getTableHeader();
+        tbHead.setFont(new Font("tahoma", Font.BOLD, 15));
+        tbHead.setBackground(new Color(47, 85, 212));
+        tbHead.setForeground(Color.white);
+    }
+
+    private void viewTable() {
+        setMau(tbLamViec);
+        setMau(tbNghiViec);
+        setMau(tblDoanhThuTK);
+        setMau(tblSanPhamTK);
     }
 
     private void showDataTblLam(List<NhanVienResponse> lists) {
@@ -233,7 +250,7 @@ public class jplHeThong extends javax.swing.JPanel {
     }
 
     private void chooseImg() {
-       // JFileChooser chooser = new JFileChooser();
+        // JFileChooser chooser = new JFileChooser();
         JFileChooser chooser = new JFileChooser("D:\\NetBeansProjects\\DuAn1\\DuAn1\\src\\main\\resources\\Icon");
         FileFilter filter = new FileNameExtensionFilter("Tệp JPG", "jpg");
         chooser.setFileFilter(filter);
@@ -301,7 +318,7 @@ public class jplHeThong extends javax.swing.JPanel {
             jpn.repaint();
         }
     }
-    
+
     private void setDataToSanPhamTKNgay(JPanel jpn, LocalDateTime ngayDau, LocalDateTime ngayCuoi) {
         List<SanPhamThongKeResponse> listSP = serviceSPTK.getSPTKNgay(ngayDau, ngayCuoi);
         if (listSP != null) {
@@ -321,7 +338,7 @@ public class jplHeThong extends javax.swing.JPanel {
             jpn.repaint();
         }
     }
-       
+
     private void showDataToTableSanPhamTK(List<SanPhamThongKeResponse> lists) {
         dtm3.setRowCount(0);
         for (SanPhamThongKeResponse sptk : lists) {
@@ -348,7 +365,7 @@ public class jplHeThong extends javax.swing.JPanel {
             jpn.repaint();
         }
     }
-    
+
     private void setDataToDoanhThuTKNam(JPanel jpn) {
         List<DoanhThuThongKeResponse> listDT = serviceDTTK.getDTTKNam();
         if (listDT != null) {
@@ -368,27 +385,27 @@ public class jplHeThong extends javax.swing.JPanel {
             jpn.repaint();
         }
     }
-    
+
     private void showDataToTableDoanhThuTK1(List<DoanhThuThongKeResponse> lists) {
         dtm4.setRowCount(0);
         for (DoanhThuThongKeResponse dttk : lists) {
             dtm4.addRow(new Object[]{dttk.getThangNam(), dttk.getDoanhThu()});
         }
     }
-    
+
     private void showDataToTableDoanhThuTK2(List<DoanhThuThongKeResponse> lists) {
         dtm4.setRowCount(0);
         for (DoanhThuThongKeResponse sptk : lists) {
             dtm4.addRow(new Object[]{sptk.getThangNam(), sptk.getDoanhThu()});
         }
     }
-    
+
     public void exportTable(JTable table) {
         try {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.showSaveDialog(this);
             File saveFile = fileChooser.getSelectedFile();
-            if(saveFile != null) {
+            if (saveFile != null) {
                 saveFile = new File(saveFile.toString() + ".xlsx");
                 XSSFWorkbook workbook = new XSSFWorkbook();
                 XSSFSheet sheet = workbook.createSheet("Thống kê");
@@ -414,14 +431,14 @@ public class jplHeThong extends javax.swing.JPanel {
                 workbook.write(outputStream);
                 workbook.close();
                 JOptionPane.showMessageDialog(this, "Xuất file Excel thành công");
-            }else {
+            } else {
                 //JOptionPane.showMessageDialog(this, "Xuất thất bại");
             }
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -1021,8 +1038,8 @@ public class jplHeThong extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnKhoiPhuc, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1576,10 +1593,10 @@ public class jplHeThong extends javax.swing.JPanel {
             int month = jmonth.getMonth() + 1;
             int year = jyear.getYear();
             System.out.println("tháng: " + month + " năm: " + year);
-            
+
             setDataToSanPhamTKThang(pnlSPTKCot, month, year);
             showDataToTableSanPhamTK(serviceSPTK.getSPTKThang(month, year));
-            
+
             setDataToDoanhThuTKThang(pnlDTTKCot, year);
             showDataToTableDoanhThuTK1(serviceDTTK.getDTTKThang(year));
         }
@@ -1587,35 +1604,35 @@ public class jplHeThong extends javax.swing.JPanel {
 
     private void jDateCuoiPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateCuoiPropertyChange
         // TODO add your handling code here:
-        if(rdoNgay.isSelected()) {
+        if (rdoNgay.isSelected()) {
             try {
                 LocalDateTime ngayDau = jDateDau.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().atTime(LocalTime.of(0, 0, 0));
                 LocalDateTime ngayCuoi = jDateCuoi.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().atTime(LocalTime.of(23, 59, 59));
                 System.out.println("Nháp : " + jDateDau.getDate());
                 System.out.println("Nháp 2: " + ngayDau);
-                
-                setDataToSanPhamTKNgay(pnlSPTKCot, ngayDau, ngayCuoi); 
+
+                setDataToSanPhamTKNgay(pnlSPTKCot, ngayDau, ngayCuoi);
                 showDataToTableSanPhamTK(serviceSPTK.getSPTKNgay(ngayDau, ngayCuoi));
             } catch (Exception e) {
                 System.out.println("Tại null ý");
             }
             //LocalDateTime ngayDau = LocalDateTime.parse(jDateDau.getDate() + " 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            //LocalDateTime ngayCuoi = LocalDateTime.parse(jDateCuoi.getDate() + " 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));        
+            //LocalDateTime ngayCuoi = LocalDateTime.parse(jDateCuoi.getDate() + " 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         }
     }//GEN-LAST:event_jDateCuoiPropertyChange
 
     private void jDateDauPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateDauPropertyChange
         // TODO add your handling code here:
-        if(rdoNgay.isSelected()) {
+        if (rdoNgay.isSelected()) {
             try {
                 LocalDateTime ngayDau = jDateDau.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().atTime(LocalTime.of(0, 0, 0));
                 LocalDateTime ngayCuoi = jDateCuoi.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().atTime(LocalTime.of(23, 59, 59));
-                
-                setDataToSanPhamTKNgay(pnlSPTKCot, ngayDau, ngayCuoi); 
+
+                setDataToSanPhamTKNgay(pnlSPTKCot, ngayDau, ngayCuoi);
                 showDataToTableSanPhamTK(serviceSPTK.getSPTKNgay(ngayDau, ngayCuoi));
             } catch (Exception e) {
                 System.out.println("Tại null ý");
-            }     
+            }
         }
     }//GEN-LAST:event_jDateDauPropertyChange
 
@@ -1627,7 +1644,7 @@ public class jplHeThong extends javax.swing.JPanel {
 
     private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
         int index = jTabbedPane3.getSelectedIndex();
-        if(index == 0) {
+        if (index == 0) {
             exportTable(tblSanPhamTK);
         } else {
             exportTable(tblDoanhThuTK);

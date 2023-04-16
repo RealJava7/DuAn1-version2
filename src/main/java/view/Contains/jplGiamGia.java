@@ -4,6 +4,8 @@
  */
 package view.Contains;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -11,6 +13,7 @@ import view.Contains.phieuGiamGia.ThemPhieuGiamGia;
 import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import org.hibernate.hql.spi.id.local.AfterUseAction;
 import service.impl.PhieuGiamGiaServiceImpl;
 import view.Contains.phieuGiamGia.SuaPhieuGiamGia;
@@ -27,14 +30,24 @@ public class jplGiamGia extends javax.swing.JPanel {
 
     public jplGiamGia() {
         initComponents();
+        viewTable();
         qs = new PhieuGiamGiaServiceImpl();
         dtm = (DefaultTableModel) tblMaGiamGia.getModel();
         updateStatus();
         loadTable(qs.getall());
         rdbTatCa.setSelected(true);
-        txtDoanhThu.setText(""+qs.tongTien()+" VNĐ");
-        txtDonHang.setText(""+qs.tongDon());
-        txtTienGiam.setText(""+qs.tienGiam()+" VNĐ");
+        txtDoanhThu.setText("" + qs.tongTien() + " VNĐ");
+        txtDonHang.setText("" + qs.tongDon());
+        txtTienGiam.setText("" + qs.tienGiam() + " VNĐ");
+    }
+
+    private void viewTable() {
+        JTableHeader Theader = tblMaGiamGia.getTableHeader();
+
+        Theader.setFont(new Font("tahoma", Font.BOLD, 15));
+        Theader.setBackground(new Color(47, 85, 212));
+        Theader.setForeground(Color.white);
+
     }
 
     public static void loadTable(List<PhieuGiamGiaResponse> list) {
@@ -449,15 +462,15 @@ public class jplGiamGia extends javax.swing.JPanel {
                             .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(rdbSapBatDau)
                                 .addComponent(rdbDaKetThuc)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnTaoPhieu)
                         .addGap(18, 18, 18)))
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(103, 103, 103))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -477,8 +490,8 @@ public class jplGiamGia extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 

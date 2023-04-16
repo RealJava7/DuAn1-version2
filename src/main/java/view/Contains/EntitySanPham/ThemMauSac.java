@@ -1,11 +1,15 @@
 package view.Contains.EntitySanPham;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import model.MauSac;
 import service.MauSacService;
 import service.impl.MauSacServiceImpl;
@@ -21,6 +25,7 @@ public class ThemMauSac extends javax.swing.JFrame {
 
     public ThemMauSac() {
         initComponents();
+        viewTable();
         setLocationRelativeTo(null);
 
         mauSacService = new MauSacServiceImpl();
@@ -46,6 +51,19 @@ public class ThemMauSac extends javax.swing.JFrame {
     private void showInactiveTable(List<MauSacResponse> mauSacResponses) {
         dtmInactive.setRowCount(0);
         mauSacResponses.forEach(m -> dtmInactive.addRow(m.toDataRow()));
+    }
+
+    private void setMau(JTable tb) {
+        JTableHeader tbHead = tb.getTableHeader();
+        tbHead.setFont(new Font("tahoma", Font.BOLD, 15));
+        tbHead.setBackground(new Color(47, 85, 212));
+        tbHead.setForeground(Color.white);
+    }
+
+    private void viewTable() {
+        setMau(tbActive);
+        setMau(tbInactive);
+
     }
 
     @SuppressWarnings("unchecked")

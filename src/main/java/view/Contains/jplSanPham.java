@@ -1,5 +1,7 @@
 package view.Contains;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.io.File;
 import java.util.ArrayList;
@@ -10,11 +12,13 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import model.CameraChiTiet;
 import model.DienThoai;
 import model.DongSanPham;
@@ -81,7 +85,7 @@ public class jplSanPham extends javax.swing.JPanel {
 
     public jplSanPham() {
         initComponents();
-
+        viewTable();
         dtmActive = (DefaultTableModel) tbActive.getModel();
         dtmInactive = (DefaultTableModel) tbInactive.getModel();
 
@@ -114,6 +118,19 @@ public class jplSanPham extends javax.swing.JPanel {
         showInactiveTable(inactivedienThoaiResponseList);
         getDataForComboBox();
         showComboBoxLoc();
+    }
+
+    private void setMau(JTable tb) {
+        JTableHeader tbHead = tb.getTableHeader();
+        tbHead.setFont(new Font("tahoma", Font.BOLD, 15));
+        tbHead.setBackground(new Color(47, 85, 212));
+        tbHead.setForeground(Color.white);
+    }
+
+    private void viewTable() {
+        setMau(tbActive);
+        setMau(tbInactive);
+
     }
 
     // 1
@@ -413,6 +430,8 @@ public class jplSanPham extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tbActive);
 
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(47, 85, 212));
         jLabel9.setText("TÌM KIẾM THEO TÊN:");
 
         txtSearchByTen.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(47, 85, 212)));
@@ -422,6 +441,8 @@ public class jplSanPham extends javax.swing.JPanel {
             }
         });
 
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(47, 85, 212));
         jLabel10.setText("SẮP XẾP THEO GIÁ:");
 
         btnSapXepGiaTangDan.setBackground(new java.awt.Color(47, 85, 212));
@@ -461,8 +482,13 @@ public class jplSanPham extends javax.swing.JPanel {
             }
         });
 
+        lbTongSLActive.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbTongSLActive.setForeground(new java.awt.Color(47, 85, 212));
         lbTongSLActive.setText("Tổng SL: ...");
 
+        btnLoc.setBackground(new java.awt.Color(47, 85, 212));
+        btnLoc.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnLoc.setForeground(new java.awt.Color(255, 255, 255));
         btnLoc.setText("Lọc");
         btnLoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -470,6 +496,9 @@ public class jplSanPham extends javax.swing.JPanel {
             }
         });
 
+        btnXoaLoc.setBackground(new java.awt.Color(47, 85, 212));
+        btnXoaLoc.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnXoaLoc.setForeground(new java.awt.Color(255, 255, 255));
         btnXoaLoc.setText("Xóa lọc");
         btnXoaLoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1007,7 +1036,11 @@ public class jplSanPham extends javax.swing.JPanel {
 
         jLabel14.setText("PIN:");
 
+        txtPin.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
+
         jLabel15.setText("CPU:");
+
+        txtCpu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
 
         jLabel29.setText("(mAh)");
 
@@ -1033,10 +1066,10 @@ public class jplSanPham extends javax.swing.JPanel {
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(txtPin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPin, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel29))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1055,6 +1088,14 @@ public class jplSanPham extends javax.swing.JPanel {
         jLabel18.setText("GÓC RỘNG:");
 
         jLabel19.setText("TELE:");
+
+        txtCamChinh.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
+
+        txtCamPhu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
+
+        txtCamGocRong.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
+
+        txtCamTele.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
 
         jLabel1.setText("(MP)");
 
@@ -1138,6 +1179,9 @@ public class jplSanPham extends javax.swing.JPanel {
 
         jLabel22.setText("LOẠI MÀN HÌNH:");
 
+        txtKichThuoc.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
+
+        txtDoPG.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(47, 85, 212)));
         txtDoPG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtDoPGActionPerformed(evt);

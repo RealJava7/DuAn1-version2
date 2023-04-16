@@ -137,7 +137,7 @@ public class ThemPhieuGiamGia extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setText("Thông tin cơ bản");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -284,7 +284,7 @@ public class ThemPhieuGiamGia extends javax.swing.JFrame {
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnHuy, btnXacNhan});
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel3.setText("Tạo mã giảm giá mới");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -395,9 +395,7 @@ public class ThemPhieuGiamGia extends javax.swing.JFrame {
         dispose();
         jplGiamGia.loadTable(new PhieuGiamGiaServiceImpl().getall());
 
-
     }//GEN-LAST:event_btnXacNhanActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;
