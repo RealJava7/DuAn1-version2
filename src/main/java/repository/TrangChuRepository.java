@@ -77,17 +77,19 @@ public class TrangChuRepository {
 
     public List<DienThoaiBanChayViewModel> getTop5DienThoaiBanChay() {
         List<DienThoaiBanChayViewModel> dienThoaiBanChayViewModels = new ArrayList<>();
-
+        LocalDate today = LocalDate.now();
         try {
             Session session = HibernateUtil.getFACTORY().openSession();
             Query query = session.createQuery("""
-                                              select new viewmodel.DienThoaiBanChayViewModel(dt.tenDT, COUNT(IMEI.id))
-                                              FROM DienThoai dt
-                                              INNER JOIN dt.imeis IMEI
-                                              WHERE IMEI.trangThai = 1
+                                              Select new viewmodel.DienThoaiBanChayViewModel( dt.tenDT, COUNT(im.id)) From Imei im
+                                              INNER JOIN HoaDonChiTiet ct on im = ct.imei
+                                              INNER JOIN DienThoai dt on dt = im.dienThoai
+                                              INNER JOIN HoaDon hd on hd = ct.hoaDon
+                                              WHERE im.trangThai = 1 and CONVERT(DATE, hd.ngayThanhToan) = :today
                                               GROUP BY dt.tenDT
-                                              ORDER BY COUNT(IMEI.id) DESC
+                                              ORDER BY COUNT(im.id) DESC
                                                """);
+            query.setParameter("today", today);
             query.setMaxResults(5);
             dienThoaiBanChayViewModels = query.getResultList();
         } catch (HibernateException ex) {
