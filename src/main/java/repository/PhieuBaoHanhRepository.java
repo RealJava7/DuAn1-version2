@@ -119,8 +119,9 @@ public class PhieuBaoHanhRepository {
 
     public static PhieuBaoHanhResponse getPBHByID(int id) {
         PhieuBaoHanhResponse pbh = null;
+        Session session = HibernateUtil.getFACTORY().openSession();
         try {
-            Session session = HibernateUtil.getFACTORY().openSession();
+
             Query query = session.createQuery("""
                                   SELECT new viewmodel.PhieuBaoHanhResponse
                                    (pbh.id,
@@ -138,6 +139,7 @@ public class PhieuBaoHanhRepository {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            session.close();
             return pbh;
         }
     }
@@ -175,7 +177,9 @@ public class PhieuBaoHanhRepository {
             Session session = HibernateUtil.getFACTORY().openSession();
             PhieuBaoHanh pbh = session.get(PhieuBaoHanh.class, id);
             loaiBaoHanhs = pbh.getLoaiBaoHanhSet();
+            session.close();
             return loaiBaoHanhs;
+
         } catch (Exception e) {
             e.printStackTrace();
         }

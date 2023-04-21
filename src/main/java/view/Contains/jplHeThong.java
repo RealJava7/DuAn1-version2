@@ -83,7 +83,7 @@ public class jplHeThong extends javax.swing.JPanel {
 
         int month = jmonth.getMonth() + 1;
         int year = jyear.getYear();
-        setDataToSanPhamTKThang(pnlSPTKCot, month, year);
+        //setDataToSanPhamTKThang(pnlSPTKCot, month, year);
     }
 
     private void setMau(JTable tb) {

@@ -95,8 +95,8 @@ public class jplBaoHanh extends javax.swing.JPanel {
         System.setProperty("https.protocols", "TLSv1.2");
 
         // Cấu hình thông tin email server
-        String senderEmail = "hieupvph29564@fpt.edu.vn";
-        String senderPassword = "Phieu2002";
+        String senderEmail = "binhpvph29510@fpt.edu.vn";
+        String senderPassword = "@Binhdz2003";
         String emailSMTPserver = "smtp.gmail.com";
         String emailServerPort = "587";
 
@@ -153,7 +153,7 @@ public class jplBaoHanh extends javax.swing.JPanel {
         FileOutputStream outputStream;
         try {
             System.out.println("Creating Excel file...");
-            outputStream = new FileOutputStream("C:\\Users\\virus\\OneDrive\\Máy tính\\PhieuBaoHanh.xlsx");
+            outputStream = new FileOutputStream("C:\\Users\\DELL\\Desktop\\PhieuBaoHanh.xlsx");
             workbook.write(outputStream);
             outputStream.close();
             JOptionPane.showMessageDialog(this, "Excel file created successfully.");
@@ -544,8 +544,8 @@ public class jplBaoHanh extends javax.swing.JPanel {
         if (choice == 0) {
             exportExcel();
             try {
-                String path = "C:\\Users\\virus\\OneDrive\\Máy tính\\PhieuBaoHanh.xlsx";
-                sendEmailWithAttachment("binhpvph29510@fpt.edu.vn", "Báo cáo phiếu bảo hành", "Danh sách phiếu bảo hành", path);
+                String path = "C:\\Users\\DELL\\Desktop\\PhieuBaoHanh.xlsx";
+                sendEmailWithAttachment("2020phambinh@gmail.com", "Báo cáo phiếu bảo hành", "Danh sách phiếu bảo hành", path);
                 JOptionPane.showMessageDialog(this, "Gửi báo cáo thành công!");
             } catch (MessagingException ex) {
                 ex.printStackTrace();
@@ -655,9 +655,13 @@ public class jplBaoHanh extends javax.swing.JPanel {
 
     private void tbCTPBHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCTPBHMouseClicked
         // TODO add your handling code here:
-        int index = tbCTPBH.getSelectedRow();
-        int id = Integer.parseInt(tbCTPBH.getValueAt(index, 0).toString());
-        showDataLBH(id);
+        try {
+            int index = tbCTPBH.getSelectedRow();
+            int id = Integer.parseInt(tbCTPBH.getValueAt(index, 0).toString());
+            showDataLBH(id);
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_tbCTPBHMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

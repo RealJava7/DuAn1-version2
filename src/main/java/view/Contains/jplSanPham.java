@@ -1933,7 +1933,8 @@ public class jplSanPham extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchByTenCaretUpdate
 
     private void imageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageMouseClicked
-        String path = "C:/Users/T490/OneDrive - Hanoi University of Science and Technology/Documents/NetBeansProjects/Duan1-V2/DuAn1-version2/src/main/resources/phoneimage";
+//        String path = "C:/Users/T490/OneDrive - Hanoi University of Science and Technology/Documents/NetBeansProjects/Duan1-V2/DuAn1-version2/src/main/resources/phoneimage";
+        String path = getClass().getClassLoader().getResource("phoneimage").getPath();
         JFileChooser chooser = new JFileChooser(path);
         FileFilter filter = new FileNameExtensionFilter("Tệp JPG", "jpg");
         chooser.setFileFilter(filter);
